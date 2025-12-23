@@ -22,9 +22,9 @@ class UserController extends Controller
 
     public function RegisztracioBtn(Request $req){
         $req->validate([
-            'vez_nev'                   => 'required|max:30',
-            'ker_nev'                   => 'required|max:30',
-            'felhasznalonev'            => 'required|min:3|max:30|unique:users,felhasznalonev|regex:/^[a-zA-Z0-9._]+$/',
+            'vez_nev'               => 'required|max:30',
+            'ker_nev'               => 'required|max:30',
+            'felhasznalonev'        => 'required|min:3|max:30|unique:users,felhasznalonev|regex:/^[a-zA-Z0-9._]+$/',
             'email'                 => 'required|email|unique:users,email|email:rfc,dns',
             'telszam'               => 'required|min:11|max:13|unique:users,telszam',
             'password'              => ['required','confirmed', Password::min(8)
@@ -37,9 +37,9 @@ class UserController extends Controller
             'password_confirmation' => 'required'
         ],[
             '*.required'            => 'Kötelező kitölteni!',
-            'vez_nev.max'               => 'Maximum 30 karakter lehet!',
-            'ker_nev.max'               => 'Maximum 30 karakter lehet!',
-            'felhasznalonev.max'            => "Maximum 30 karakter lehet!",
+            'vez_nev.max'           => 'Maximum 30 karakter lehet!',
+            'ker_nev.max'           => 'Maximum 30 karakter lehet!',
+            'felhasznalonev.max'    => "Maximum 30 karakter lehet!",
             'felhasznalonev.unique' => "Ez a felhasználónév már létezik az adatbázisban.",
             "email.unique"          => "Ez az email cím már szerepel az adatbázisban.",
             'email.regex'           => "Az email címnek tartalmaznia kell",
@@ -64,7 +64,7 @@ class UserController extends Controller
         $data->felhasznalonev   = $req->felhasznalonev;
         $data->email            = $req->email;
         $data->telszam          = $req->telszam;
-        $data->password_hash    = Hash::make($req->password_hash);
+        $data->password    = $req->password;
 
         $data->Save();
         return redirect('/main')->with([
@@ -100,5 +100,5 @@ class UserController extends Controller
         }
     }
 }
-#wallettest@gmail.com
-#walletTeszt1*
+#walletmaster@gmail.com
+#Palmafa123
