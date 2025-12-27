@@ -18,9 +18,17 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a href="/belepes" class="btn btn-secondary">Bejelentkezés</a></li>
-                        <li class="nav-item ms-4 me-4"><a href="/regisztracio" class="btn btn-success bi bi-person">Regisztráció</a></li>
-                    </ul>
+                        @guest
+                            <li class="nav-item"><a href="/belepes" class="btn btn-secondary">Bejelentkezés</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/regisztracio" class="btn btn-success bi bi-person">Regisztráció</a></li>
+                        @else
+                            <li class="nav-item ms-4 me-4"><a href="/hozzaadas" class="btn btn-dark">Hozzáadás</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/celok" class="btn btn-dark">Céljaim</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/fiokom" class="btn btn-success">Profilom<i class="bi bi-person fs-4"></i></a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/kijelentkezes" class="btn btn-success bi bi-person">Kijelentkezés</a></li>
+
+                        @endguest
+                      </ul>
                 </div>
             </div>
         </nav>

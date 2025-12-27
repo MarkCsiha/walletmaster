@@ -99,6 +99,25 @@ class UserController extends Controller
             ]);
         }
     }
+
+     public function Fiokom() {
+        if (Auth::check()) {
+            return view('fiokom');
+        }
+        else {
+            return redirect("/belepes");
+        }
+    }
+
+    public function Kijelentkezes() {
+        Auth::logout();
+        return redirect('/')->with([
+            "siker"     => "Sikeres kijelentkezés!"
+        ]);
+    }
 }
+
+
+
 #walletmaster@gmail.com
 #Palmafa123
