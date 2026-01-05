@@ -14,8 +14,12 @@
 @section("content")
 <div class="container py-5">
     <h2 class="mb-4">Felhasználói beállítások</h2>
-    <form>
-        <div class="row mb-4">
+           @if ($errors->any())
+          
+           @endif
+    <form action="/fiokom" method="post">
+        @csrf
+        {{-- <div class="row mb-4">
             <div class="col-md-6">
                 <h4>Személyes adatok</h4>
                 <div class="mb-3">
@@ -80,22 +84,31 @@
             </div>
         </div> --}}
 
-        <hr class="w-50 mx-auto">
+        <hr class="w-50 mx-auto"> 
 
         <div class="row mb-4">
             <div class="col-md-6">
                 <h4>Jelszó megváltoztatása</h4>
                 <div class="mb-3">
-                    <label for="currentPassword" class="form-label">Jelenlegi jelszó</label>
-                    <input type="password" class="form-control" id="currentPassword">
+                    <label for="currentpassword" class="form-label">Jelenlegi jelszó</label>
+                    <input type="password" class="form-control @error('currentpassword') is-invalid @enderror" id="currentpassword" name="currentpassword">
+                    @error('currentpassword')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="newPassword" class="form-label">Új jelszó</label>
-                    <input type="password" class="form-control" id="newPassword">
+                    <label for="newpassword" class="form-label">Új jelszó</label>
+                    <input type="password" class="form-control @error('newpassword') is-invalid @enderror" id="newpassword" name="newpassword">
+                    @error('newpassword')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Új jelszó megerősítése</label>
-                    <input type="password" class="form-control" id="confirmPassword">
+                    <label for="password_confirmation" class="form-label">Új jelszó megerősítése</label>
+                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" id="password_confirmation">
+                    @error('password_confirmation')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             {{-- <div class="col-md-6">
@@ -115,8 +128,8 @@
             <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/kijelentkezes">Kijelentkezés</a></button>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button>
-            <button type="submit" class="btn btn-primary btn-lg">Mentés</button>
+            <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> 
+            <button type="submit" class="btn btn-primary btn-lg" name="mentes" id="mentes" value="mentes">Mentés</button>
         </div>
     </form>
 </div>

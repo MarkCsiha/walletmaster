@@ -3,7 +3,7 @@
 <main class="container">
     <div class="row justify-content-center">
         <div class="col-md-9">
-             @if (session('siker'))
+            @if (session('siker'))
                     <p class="text text-success text-center">{{session("siker")}}</p>
             @endif
             <h1 class="text-center py-3">Regisztráció</h1>
