@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+
 
 
 class UserController extends Controller
@@ -117,7 +119,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function Jelszomod() {
+    public function Mentes() {
         if (Auth::check()) {
             return view("fiokom");
         }
@@ -126,21 +128,41 @@ class UserController extends Controller
         }
     }
 
-    public function JelszomodBtn(Request $req) {
+    public function MentesBtn(Request $req) {
+        //dd($req->all());
+
         //Validáció nem teljesen jó
         //function név átírása
         $req->validate([
-            'currentpassword'               => 'required',
-            "newpassword"                   => ['required', Password::min(8)
-                                                ->letters()
-                                                ->numbers()
-                                                ->mixedCase()
-                                                ->symbols()
-                                                ->uncompromised()],
-                                            //Tesztjelszó: #Palmafa123
-            "password_confirmation"         => "required"
+            'firstName' => "max:30",
+            'lastName'  => "max:30",
+            'email'      => ["email",  Rule::unique('users', 'email')->ignore(Auth::id()),"email:rfc,dns"],
+            //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
+            'phone'               => [Rule::unique('users','telszam')->ignore(Auth::id()), 'regex:/^(?:\+36|06)(20|30|50|70)\d{3}\d{4}$/'],
+            'currentpassword'   =>  "confirmed",
+            "newpassword"                   => ["confirmed", Password::min(8)
+                                               ->letters()
+                                              ->numbers()
+                                             ->mixedCase()
+                                            ->symbols()
+                                            ->uncompromised()],
+                                    //Tesztjelszó: #Palmafa123
+             "password_confirmation"
         ], [
+            'firstName.max'             => 'Maximum 30 karakter lehet!',
+            'lastName.max'              => 'Maximum 30 karakter lehet!',
+            'username.max'              => "Maximum 30 karakter lehet!",
+            'username.unique'           => "Ez a felhasználónév foglalt.",
+            "email.unique"              => "Ez az email cím foglalt.",
+            'email.regex'               => "Az email címnek tartalmaznia kell",
+            'email.email'               => "Érvényes email címet adjon meg, mely megfelel az email cím formátumnak, például: kissbela@walletmaster.hu.",
+            '*.email'                   => 'Érvényes e-mail címet adjon meg!',
+            'phone.regex'               => 'A telefonszámnak meg kell felelnie a telefonszám formátumnak, például: +36701234567.',
+             //'telszam.min'           => "A telefonszámnak legalább 11 karakter hosszúnak kell lennie!",
+            // 'telszam.max'           => "A telefonszám maximum 13 karakter hosszú lehet!",
+            'phone.unique'              => "Ez a telefonszám foglalt.",
             '*.required'                    => "Kötelező kitölteni!",
+            //https://laravel.com/docs/12.x/validation -> sometimes
             "*.confirmed"                   => "Nem egyezik a jelszó!",
             "newpassword.min"               => "A jelszónak legalább 8 karakter hosszúnak kell lennie!",
             "newpassword.letters"           => "A jelszónak kell betűt tartalmaznia!",
@@ -150,6 +172,32 @@ class UserController extends Controller
             "newpassword.uncompromised"     => "Ez a jelszó már szerepelt korábbi adatvédelmi incidensekben, ezért nem biztonságos."
         ]);
 
+        $data = User::find(Auth::user()->id);
+        if ($req->has('firstName') && $req->firstName != $data->vez_nev) {
+            $data->vez_nev = $req->firstName;
+        }
+
+        if ($req->has('lastName') && $req->lastName != $data->ker_nev) {
+            $data->ker_nev = $req->lastName;
+        }
+        if ($req->has('username') && $req->username != $data->felhasznalonev) {
+            $data->felhasznalonev = $req->username;
+        }
+        if ($req->has('email') && $req->email != $data->email) {
+            $data->email = $req->email;
+        }
+        if ($req->has('phone') && $req->phone != $data->telszam) {
+            $data->telszam = $req->phone;
+        }
+
+        if (!$data->isDirty()) {
+        return redirect('/fiokom')->with('sikertelen', 'Nem történt változás.');
+}
+
+        $data->save();
+        return redirect('/fiokom')->with('siker', 'Sikeres adatmódosítás!');
+
+        //jelszó megegyezés nem megy, javítani kell
         if(Hash::check($req->currentpassword, Auth::user()->password)){
             if($req->currentpassword == $req->newpassword){
                 return redirect('/fiokom')->with(['sikertelen' => "Nem adhatja meg újra a korábbi jelszavát"]);
@@ -162,15 +210,15 @@ class UserController extends Controller
                 $data = User::find(Auth::user()->id);
                 $data->password = $req->newpassword;
                 $data->Save();
-                return redirect('/')->with(['siker' => "Sikeresen megváltoztatta a jelszavát"]);
+                return redirect('/fiokom')->with(['siker' => "Sikeresen megváltoztatta a jelszavát"]);
             }
         }
         else{
             return redirect('/fiokom')->with(['kudarc' => "Nem sikerült a jelszómódosítás"]);
         }
     }
-       
-    }
+    }  
+    
 
 #walletmaster@gmail.com
 #Palmafa123

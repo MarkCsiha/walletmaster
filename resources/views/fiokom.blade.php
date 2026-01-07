@@ -10,33 +10,41 @@
     </main>
 @endsection --}}
 
+
 @extends("layout")
 @section("content")
+
 <div class="container py-5">
     <h2 class="mb-4">Felhasználói beállítások</h2>
-           @if ($errors->any())
-          
-           @endif
+          @if ($errors->any())
+  <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
     <form action="/fiokom" method="post">
         @csrf
-        {{-- <div class="row mb-4">
+        <div class="row mb-4">
             <div class="col-md-6">
                 <h4>Személyes adatok</h4>
                 <div class="mb-3">
-                    <label for="fullName" class="form-label">Vezetéknév: </label>
-                    <input type="text" class="form-control" id="veznev" value="{{ Auth::user()->vez_nev }}">
+                    <label for="firstName" class="form-label">Vezetéknév: </label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" value="{{ Auth::user()->vez_nev }}">
                 </div>
                 <div class="mb-3">
-                    <label for="fullName" class="form-label">Keresztnév: </label>
-                    <input type="text" class="form-control" id="kernev" value="{{   Auth::user()->ker_nev }}">
+                    <label for="lastName" class="form-label">Keresztnév: </label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" value="{{   Auth::user()->ker_nev }}">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email cím </label>
-                    <input type="email" class="form-control" id="email" value="{{ Auth::user()->email }}">
+                    <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}">
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Telefonszám </label>
-                    <input type="tel" class="form-control" id="phone" value="{{ Auth::user()->telszam }}">
+                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ Auth::user()->telszam }}">
                 </div>
             </div>
             {{-- <div class="col-md-6">
@@ -94,7 +102,7 @@
                     <input type="password" class="form-control @error('currentpassword') is-invalid @enderror" id="currentpassword" name="currentpassword">
                     @error('currentpassword')
                         <p class="text-danger">{{ $message }}</p>
-                    @enderror
+                    @enderror 
                 </div>
                 <div class="mb-3">
                     <label for="newpassword" class="form-label">Új jelszó</label>
@@ -110,8 +118,8 @@
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
-            </div>
-            {{-- <div class="col-md-6">
+            </div> 
+             {{-- <div class="col-md-6">
                 <h4>Privacy Settings</h4>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="profileVisibilityCheck" checked>
@@ -121,8 +129,8 @@
                     <input type="checkbox" class="form-check-input" id="activityTrackingCheck" checked>
                     <label class="form-check-label" for="activityTrackingCheck">Allow activity tracking for personalized experience</label>
                 </div>
-            </div> --}}
-        </div>
+            </div> 
+        </div>  --}}
 
         <div class="d-flex justify-content-between align-items-center">
             <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/kijelentkezes">Kijelentkezés</a></button>
@@ -130,7 +138,7 @@
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> 
             <button type="submit" class="btn btn-primary btn-lg" name="mentes" id="mentes" value="mentes">Mentés</button>
-        </div>
+        </div> 
     </form>
 </div>
 @endsection
