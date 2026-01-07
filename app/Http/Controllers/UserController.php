@@ -13,23 +13,23 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function Regisztracio(){
+    public function Registration(){
         if(Auth::check()){
             return redirect("/main");
         }
         else{
-            return view("regisztracio");
+            return view("registration");
         }
     }
 
-    public function RegisztracioBtn(Request $req){
+    public function RegistrationBtn(Request $req){
         $req->validate([
-            'vez_nev'               => 'required|max:30',
-            'ker_nev'               => 'required|max:30',
-            'felhasznalonev'        => 'required|min:3|max:30|unique:users,felhasznalonev|regex:/^[a-zA-Z0-9._]+$/',
+            'firstName'               => 'required|max:30',
+            'lastName'               => 'required|max:30',
+            'username'        => 'required|min:3|max:30|unique:users,felhasznalonev|regex:/^[a-zA-Z0-9._]+$/',
             'email'                 => 'required|email|unique:users,email|email:rfc,dns',
             //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
-            'telszam'               => ['required', 'unique:users,telszam', 'regex:/^(?:\+36|06)(20|30|50|70)\d{3}\d{4}$/'],
+            'phone'               => ['required', 'unique:users,telszam', 'regex:/^(?:\+36|06)(20|30|50|70)\d{3}\d{4}$/'],
             'password'              => ['required','confirmed', Password::min(8)
                                         ->letters()
                                         ->numbers()
@@ -40,18 +40,18 @@ class UserController extends Controller
             'password_confirmation' => 'required'
         ],[
             '*.required'            => 'Kötelező kitölteni!',
-            'vez_nev.max'           => 'Maximum 30 karakter lehet!',
-            'ker_nev.max'           => 'Maximum 30 karakter lehet!',
-            'felhasznalonev.max'    => "Maximum 30 karakter lehet!",
-            'felhasznalonev.unique' => "Ez a felhasználónév foglalt.",
+            'firstName.max'           => 'Maximum 30 karakter lehet!',
+            'lastName.max'           => 'Maximum 30 karakter lehet!',
+            'username.max'    => "Maximum 30 karakter lehet!",
+            'username.unique' => "Ez a felhasználónév foglalt.",
             "email.unique"          => "Ez az email cím foglalt.",
             'email.regex'           => "Az email címnek tartalmaznia kell",
             'email.email'           => "Érvényes email címet adjon meg, mely megfelel az email cím formátumnak, például: kissbela@walletmaster.hu.",
             '*.email'               => 'Érvényes e-mail címet adjon meg!',
-            'telszam.regex'         => 'A telefonszámnak meg kell felelnie a telefonszám formátumnak, például: +36701234567.',
+            'phone.regex'         => 'A telefonszámnak meg kell felelnie a telefonszám formátumnak, például: +36701234567.',
             // 'telszam.min'           => "A telefonszámnak legalább 11 karakter hosszúnak kell lennie!",
             // 'telszam.max'           => "A telefonszám maximum 13 karakter hosszú lehet!",
-            'telszam.unique'        => "Ez a telefonszám foglalt.",
+            'phone.unique'        => "Ez a telefonszám foglalt.",
             '*.confirmed'           => 'A két jelszó nem egyezik meg!',
             'password.min'          => 'A jelszónak legalább 8 karakternek kell lennie!',
             'password.letters'      => 'A jelszónak betűt kell tartalmaznia!',
@@ -62,29 +62,29 @@ class UserController extends Controller
         ]);
 
         $data                   = new User;
-        $data->vez_nev          = $req->vez_nev;
-        $data->ker_nev          = $req->ker_nev;
-        $data->felhasznalonev   = $req->felhasznalonev;
+        $data->vez_nev          = $req->firstName;
+        $data->ker_nev          = $req->lastName;
+        $data->felhasznalonev   = $req->username;
         $data->email            = $req->email;
-        $data->telszam          = $req->telszam;
+        $data->telszam          = $req->phone;
         $data->password         = $req->password;
 
         $data->Save();
         return redirect('/main')->with([
-            'siker' => 'Sikeresen regisztráltál, üdvözlünk a WalletMaster oldalán '.$req->vez_nev.' '.$req->ker_nev.'!'
+            'success' => 'Sikeresen regisztráltál, üdvözlünk a WalletMaster oldalán '.$req->firstName.' '.$req->lastName.'!'
         ]);
     }
 
-    public function Belepes(){
+    public function Login(){
         if(Auth::check()){
             return redirect("/main");
         }
         else{
-            return view("belepes");
+            return view("login");
         }
     }
 
-    public function BelepesBtn(Request $req)
+    public function LoginBtn(Request $req)
     {
         $req->validate([
             "email"     => "required",
@@ -93,42 +93,42 @@ class UserController extends Controller
 
         if(Auth::attempt(['email' => $req->email, 'password' => $req->password])){
             return redirect("/main")->with([
-                "siker" => "Sikeresen belépett!"
+                "success" => "Sikeresen belépett!"
             ]);
         }
         else{
-            return redirect("/belepes")->with([
-                "kudarc"    => "Az email cím, jelszó páros nem egyezik, kérjük próbálja meg újra!"
+            return redirect("/login")->with([
+                "unsuccessful"    => "Az email cím, jelszó páros nem egyezik, kérjük próbálja meg újra!"
             ]);
         }
     }
 
-    public function Fiokom() {
+    public function Account() {
         if (Auth::check()) {
-            return view('fiokom');
+            return view('account');
         }
         else {
-            return redirect("/belepes");
+            return redirect("/login");
         }
     }
 
-    public function Kijelentkezes() {
+    public function Logout() {
         Auth::logout();
         return redirect('/')->with([
-            "siker"     => "Sikeres kijelentkezés!"
+            "success"     => "Sikeres kijelentkezés!"
         ]);
     }
 
-    public function Mentes() {
+    public function Save() {
         if (Auth::check()) {
-            return view("fiokom");
+            return view("account");
         }
         else {
-            return redirect("/belepes");
+            return redirect("/login");
         }
     }
 
-    public function MentesBtn(Request $req) {
+    public function SaveBtn(Request $req) {
         //dd($req->all());
 
         //Validáció nem teljesen jó
@@ -194,30 +194,30 @@ class UserController extends Controller
 
         //https://laravel.com/docs/12.x/eloquent#examining-attribute-changes
         if (!$data->isDirty()) {
-        return redirect('/fiokom')->with('sikertelen', 'Nem történt változás.');
+        return redirect('/account')->with('unsuccessful', 'Nem történt változás.');
 }
 
         $data->save();
-        return redirect('/fiokom')->with('siker', 'Sikeres adatmódosítás!');
+        return redirect('/account')->with('success', 'Sikeres adatmódosítás!');
 
         //jelszó megegyezés nem megy, javítani kell, pipa
         if(Hash::check($req->currentpassword, Auth::user()->password)){
             if($req->currentpassword == $req->newpassword){
-                return redirect('/fiokom')->with(['sikertelen' => "Nem adhatja meg újra a korábbi jelszavát"]);
+                return redirect('/account')->with(['unsuccessful' => "Nem adhatja meg újra a korábbi jelszavát"]);
             }
         
             else if($req->newpassword != $req->newpassword_confirmation) {
-                return redirect('/fiokom')->with(['sikertelen' => "A két jelszó nem egyezik!"]);
+                return redirect('/account')->with(['unsuccessful' => "A két jelszó nem egyezik!"]);
             }
             else{
                 $data = User::find(Auth::user()->id);
                 $data->password = $req->newpassword;
                 $data->Save();
-                return redirect('/fiokom')->with(['siker' => "Sikeresen megváltoztatta a jelszavát"]);
+                return redirect('/account')->with(['success' => "Sikeresen megváltoztatta a jelszavát"]);
             }
         }
         else{
-            return redirect('/fiokom')->with(['kudarc' => "Nem sikerült a jelszómódosítás"]);
+            return redirect('/account')->with(['unsuccessful' => "Nem sikerült a jelszómódosítás"]);
         }
     }
     }  

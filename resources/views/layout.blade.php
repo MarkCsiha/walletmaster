@@ -19,13 +19,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         @guest
-                            <li class="nav-item"><a href="/belepes" class="btn btn-secondary">Bejelentkezés</a></li>
+                            <li class="nav-item"><a href="/login" class="btn btn-secondary">Bejelentkezés</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/regisztracio" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
-                            <li class="nav-item ms-4 me-4"><a href="/hozzaadas" class="btn btn-dark">Hozzáadás</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/celok" class="btn btn-dark">Céljaim</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/fiokom" class="btn btn-success">Profilom<i class="bi bi-person fs-4"></i></a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/kijelentkezes" class="btn btn-success bi bi-person">Kijelentkezés</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/add" class="btn btn-dark">Hozzáadás</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark">Céljaim</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/account" class="btn btn-success">Profilom<i class="bi bi-person fs-4"></i></a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/logout" class="btn btn-success bi bi-person">Kijelentkezés</a></li>
 
                         @endguest
                       </ul>

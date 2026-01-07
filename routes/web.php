@@ -6,17 +6,17 @@ use App\Http\Controllers\WMController;
 
 Route::view('/', 'welcome');
 
-Route::get("/regisztracio", [UserController::class, "Regisztracio"]);
-Route::post("/regisztracio", [UserController::class, "RegisztracioBtn"]);
+Route::get("/registration", [UserController::class, "Registration"]);
+Route::post("/registration", [UserController::class, "RegistrationBtn"]);
 
-Route::get("/belepes", [UserController::class, "Belepes"]);
-Route::post("/belepes", [UserController::class, "BelepesBtn"]);
+Route::get("/login", [UserController::class, "Login"]);
+Route::post("/login", [UserController::class, "LoginBtn"]);
 
-Route::get("/fiokom", [UserController::class, "Fiokom"]);
+Route::get("/account", [UserController::class, "Account"]);
 
-Route::get("/kijelentkezes", [UserController::class, "Kijelentkezes"]);
+Route::get("/logout", [UserController::class, "Logout"]);
 
 Route::get("/main", [WMController::class, "Main"]);
 
-Route::get("/fiokom", [UserController::class, "Mentes"]);
-Route::post("/fiokom", [UserController::class, "MentesBtn"]);
+Route::get("/account", [UserController::class, "Save"]);
+Route::post("/account", [UserController::class, "SaveBtn"]);

@@ -37,11 +37,11 @@
                     <input type="text" class="form-control" id="lastName" name="lastName" value="{{   Auth::user()->ker_nev }}">
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email cím </label>
+                    <label for="email" class="form-label">Email cím: </label>
                     <input type="email" class="form-control" id="email" name="email" value="{{ old('email', Auth::user()->email) }}">
                 </div>
                 <div class="mb-3">
-                    <label for="phone" class="form-label">Telefonszám </label>
+                    <label for="phone" class="form-label">Telefonszám: </label>
                     <input type="tel" class="form-control" id="phone" name="phone" value="{{ Auth::user()->telszam }}">
                 </div>
             </div>
