@@ -136,10 +136,16 @@ class UserController extends Controller
         $req->validate([
             'firstName' => "max:30",
             'lastName'  => "max:30",
-            'email'      => ["email",  Rule::unique('users', 'email')->ignore(Auth::id()),"email:rfc,dns"],
+            //https://regex101.com/library/SxCdMO?orderBy=RELEVANCE&search=email+&filterFlavors=pcre2
+            //regex alkalmazását követően összeomlik a rendszer, nem frissül semmi!
+        'email'      => [   "email",
+                            // "email:rfc,dns",
+                            //Rule::unique('users', 'email')->ignore(Auth::id())/*,"email:rfc,dns"],*/
+                            "unique:users,email,".Auth::user()->id
+                        ],
             //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
-            'phone'               => [Rule::unique('users','telszam')->ignore(Auth::id()), 'regex:/^(?:\+36|06)(20|30|50|70)\d{3}\d{4}$/'],
-            'currentpassword'   =>  "confirmed",
+            'phone'               => [Rule::unique('users','telszam')->ignore(Auth::id())],
+            'currentpassword',
             "newpassword"                   => ["confirmed", Password::min(8)
                                                ->letters()
                                               ->numbers()
@@ -147,7 +153,7 @@ class UserController extends Controller
                                             ->symbols()
                                             ->uncompromised()],
                                     //Tesztjelszó: #Palmafa123
-             "password_confirmation"
+             "newpassword_confirmation"
         ], [
             'firstName.max'             => 'Maximum 30 karakter lehet!',
             'lastName.max'              => 'Maximum 30 karakter lehet!',
@@ -155,11 +161,7 @@ class UserController extends Controller
             'username.unique'           => "Ez a felhasználónév foglalt.",
             "email.unique"              => "Ez az email cím foglalt.",
             'email.regex'               => "Az email címnek tartalmaznia kell",
-            'email.email'               => "Érvényes email címet adjon meg, mely megfelel az email cím formátumnak, például: kissbela@walletmaster.hu.",
-            '*.email'                   => 'Érvényes e-mail címet adjon meg!',
             'phone.regex'               => 'A telefonszámnak meg kell felelnie a telefonszám formátumnak, például: +36701234567.',
-             //'telszam.min'           => "A telefonszámnak legalább 11 karakter hosszúnak kell lennie!",
-            // 'telszam.max'           => "A telefonszám maximum 13 karakter hosszú lehet!",
             'phone.unique'              => "Ez a telefonszám foglalt.",
             '*.required'                    => "Kötelező kitölteni!",
             //https://laravel.com/docs/12.x/validation -> sometimes
@@ -190,6 +192,7 @@ class UserController extends Controller
             $data->telszam = $req->phone;
         }
 
+        //https://laravel.com/docs/12.x/eloquent#examining-attribute-changes
         if (!$data->isDirty()) {
         return redirect('/fiokom')->with('sikertelen', 'Nem történt változás.');
 }
@@ -197,13 +200,13 @@ class UserController extends Controller
         $data->save();
         return redirect('/fiokom')->with('siker', 'Sikeres adatmódosítás!');
 
-        //jelszó megegyezés nem megy, javítani kell
+        //jelszó megegyezés nem megy, javítani kell, pipa
         if(Hash::check($req->currentpassword, Auth::user()->password)){
             if($req->currentpassword == $req->newpassword){
                 return redirect('/fiokom')->with(['sikertelen' => "Nem adhatja meg újra a korábbi jelszavát"]);
             }
         
-            else if($req->newpassword != $req->password_confirmation) {
+            else if($req->newpassword != $req->newpassword_confirmation) {
                 return redirect('/fiokom')->with(['sikertelen' => "A két jelszó nem egyezik!"]);
             }
             else{

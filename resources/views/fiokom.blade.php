@@ -16,13 +16,11 @@
 
 <div class="container py-5">
     <h2 class="mb-4">Felhasználói beállítások</h2>
-          @if ($errors->any())
-  <div class="alert alert-danger">
-    <ul>
-      @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
-    </ul>
+  <div class="container">
+    @if(session("siker"))
+        <p class="text-success text-center">{{ session('siker') }}</p>
+    @else
+        <p class="text-danger text-center">{{ session('sikertelen') }}</p>
   </div>
 @endif
     <form action="/fiokom" method="post">
@@ -40,7 +38,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email cím </label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}">
+                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email', Auth::user()->email) }}">
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Telefonszám </label>
@@ -54,9 +52,15 @@
                     <input class="form-control" type="file" id="profilePicture">
                 </div>
             </div> --}}
+             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> 
+            <button type="submit" class="btn btn-primary btn-lg" name="mentes" id="mentes" value="mentes">Mentés</button>
+        </div> 
         </div>
+    </form>
 
-
+    <form action="/fiokom" method="post">
+        @csrf
         {{-- <div class="row mb-4">
             <div class="col-md-6">
                 <h4>Email Preferences</h4>
@@ -113,8 +117,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="password_confirmation" class="form-label">Új jelszó megerősítése</label>
-                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" id="password_confirmation">
-                    @error('password_confirmation')
+                    <input type="password" class="form-control @error('newpassword_confirmation') is-invalid @enderror" name="newpassword_confirmation" id="newpassword_confirmation">
+                    @error('newpassword_confirmation')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
