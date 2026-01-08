@@ -17,3 +17,6 @@ Route::get("/fiokom", [UserController::class, "Fiokom"]);
 Route::get("/kijelentkezes", [UserController::class, "Kijelentkezes"]);
 
 Route::get("/main", [WMController::class, "Main"]);
+
+Route::get("/add", [WMController::class, "Add"]);
+Route::post("/add", [WMController::class, "AddBtn"]);

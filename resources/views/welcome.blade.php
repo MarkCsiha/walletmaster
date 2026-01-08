@@ -27,8 +27,7 @@
                         <div class="card bg-light border-0 h-100">
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-bullseye"></i></div>
-                                <h2 class="fs-4 fw-bold">Célok
-                                </h2>
+                                <h2 class="fs-4 fw-bold">Célok</h2>
                                 <p class="mb-0">El szeretne érni valamilyen célt? Gyermekének gyűjtene az ajándékára? Ez a funkció pontosan erre van, mely segít hatékonyabban spórolni.</p>
                             </div>
                         </div>

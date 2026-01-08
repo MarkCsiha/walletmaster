@@ -67,7 +67,7 @@ class UserController extends Controller
         $data->password    = $req->password;
 
         $data->Save();
-        return redirect('/main')->with([
+        return redirect('/bejelentkezes')->with([
             'siker' => 'Sikeresen regisztráltál, üdvözlünk a WalletMaster oldalán '.$req->ker_nev.' '.$req->vez_nev.'!'
         ]);
     }
@@ -119,5 +119,9 @@ class UserController extends Controller
 
 
 
-#walletmaster@gmail.com
-#Palmafa123
+#teszt@gmail.com
+#Teszter11*
+
+#scoobydoo@gmail.com
+#SkibidiGooner11*
+        

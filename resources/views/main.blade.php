@@ -3,11 +3,6 @@
     <main class="container pb-2">
         <div class="row mt-3">
             <div class="col r-3">
-                {{-- @if (session('siker'))
-                    <p class="text text-success text-center">{{session("siker")}}</p>
-                @endif
-                <h1 class="text-center py-3">Főoldal</h1> --}}
-
                 <table class="border border-striped" style="border-collapse: collapse; text-align: center; width: 100%;">
                     <tr>
                         <th>Hétfő</th>
@@ -34,22 +29,41 @@
                 <p>Diagrammok</p>
             </div>
         </div>
+        {{-- Ide jönnek a szűrések, pl: összeg, kiadás/bevétel kategoriák(bár arra lehet felesleges a digrammok miatt), helyek, esetleg a leírás szövegére like-al--}}
         <div class="mt-3">
             <table class="table table-bordered">
                 <tr>
-                    <th>Sorszam</th>
                     <th>Összeg</th>
                     <th>Honnan</th>
                     <th>Leíras</th>
                     <th>Dátum</th>
+                    <th>Típus</th>
+                    <th>Rendszeres</th>
+                    <th>Kategoria</th>
                 </tr>
-                @foreach ($result as $szamla)
+                @foreach ($result as $szamlak)
                     <tr>
-                        <td>{{$szamla->szamla_id}}</td>
-                        <td>{{$szamla->osszeg}}</td>
-                        <td>{{$szamla->honna}}</td>
-                        <td>{{$szamla->leiras}}</td>
-                        <td>{{$szamla->datum}}</td>
+                        {{-- <td>{{$szamlak->szamla_id}}</td> --}}
+                        <td>
+                            @if($szamlak->tipus == 0)
+                                - {{$szamlak->osszeg}}
+                            @else
+                                + {{$szamlak->osszeg}}
+                            @endif
+                        </td>
+                        <td>{{$szamlak->honnan}}</td>
+                        <td>{{$szamlak->leiras}}</td>
+                        <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td>
+                        <td>
+                            @if($szamlak->tipus == 0)
+                                Kiadás
+                            @else
+                                Bevétel
+                            @endif
+                        </td>
+                        <td>{{$szamlak->fix}}</td>
+                        <td>{{$szamlak->kategoria}}</td>
+                        {{-- egyhe zöld háttér ha bevétel, egyhe piros háttér ha kiadás --}}
                     </tr>
                 @endforeach
             </table>

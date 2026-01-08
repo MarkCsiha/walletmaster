@@ -22,10 +22,10 @@
                             <li class="nav-item"><a href="/belepes" class="btn btn-secondary">Bejelentkezés</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/regisztracio" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
-                            <li class="nav-item ms-4 me-4"><a href="/hozzaadas" class="btn btn-dark">Hozzáadás</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/celok" class="btn btn-dark">Céljaim</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/fiokom" class="btn btn-success">Profilom<i class="bi bi-person fs-4"></i></a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/kijelentkezes" class="btn btn-success bi bi-person">Kijelentkezés</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/celok" class="btn btn-dark bi bi-bullseye"> Céljaim</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/add" class="btn btn-dark">Hozzáadás</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/fiokom" class="btn btn-success bi bi-person fs-6">Profilom<i class=""></i></a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/kijelentkezes" class="btn btn-success bi bi-person fs-6">Kijelentkezés</a></li>
 
                         @endguest
                       </ul>
@@ -53,13 +53,10 @@
                     <div class="vr"></div>
                 </div>
                 <div class="row justify-content-center col-sm">
-                    <p><span class="bi bi-telephone"></span> <a class="link-light" href="tel:0666123456">06 70 628 9983</a><br> </p>
-                    <p><span class="bi bi-telephone"></span> <a class="link-light" href="tel:0666123456">06 70 536 0256</a><br> </p>
-                    <p><span class="bi bi-envelope"></span>  <a class="link-light" href="mailto:hivatal@pusztaszentmaria.hu">  smatelaszlo26@gmail.com</a><br> </p>
-                    <p><span class="bi bi-envelope"></span>  <a class="link-light" href="mailto:hivatal@pusztaszentmaria.hu">  csihamark46@gmail.com</a><br> </p>
-                    <p><span class="bi bi-instagram"></span> <a class="link-light" href="https://www.instagram.com/walletmaster01/"> mateszabo26</a><br> </p>
-                    <p><span class="bi bi-facebook"></span>  <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"> Szabó Máté</a><br> </p>
-                    <p><span class="bi bi-facebook"></span>  <a class="link-light" href="https://www.facebook.com/csiha.mark.7?locale=hu_HU"> Csiha Márk</a> </p>
+                    <p><span class="bi bi-telephone"></span> <a class="link-light" href="tel:06700216634"> 06 70 021 6634</a><br> </p>
+                    <p><span class="bi bi-envelope"></span>  <a class="link-light" href="mailto:walletmaster01@gmail.com"> walletmaster01@gmail.com</a><br> </p>
+                    <p><span class="bi bi-instagram"></span> <a class="link-light" href="https://www.instagram.com/walletmaster01/"> WalletMaster</a><br> </p>
+                    <p><span class="bi bi-facebook"></span>  <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"> WalletMaster</a><br> </p>
                 </div>
             </div>
         </div>
