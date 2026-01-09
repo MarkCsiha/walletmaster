@@ -23,7 +23,7 @@
         <p class="text-danger text-center">{{ session('sikertelen') }}</p>
   </div>
 @endif
-    <form action="/fiokom" method="post">
+    <form action="/account" method="post">
         @csrf
         <div class="row mb-4">
             <div class="col-md-6">
@@ -59,7 +59,7 @@
         </div>
     </form>
 
-    <form action="/fiokom" method="post">
+    <form action="/account" method="post">
         @csrf
         {{-- <div class="row mb-4">
             <div class="col-md-6">

@@ -22,7 +22,7 @@
                     <div class="row mt-2">
                         <div class="col-md-6">
                             <h2 class="text-center">Bar Charts</h2>
-                            <canvas id="barChart" data-labels="@json($labels)" data-data="@json($data)"  height="100"></canvas>
+                            <canvas id="barChart"  height="100"></canvas>
                         </div>
 
                         <div class="col-md-6">
@@ -39,6 +39,7 @@
 
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script>
         const labels = {!! json_encode($labels) !!};
         const data = {!! json_encode($data) !!};
@@ -61,20 +62,36 @@
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'top',
+                        //eltűnteti a címet
+                        //https://stackoverflow.com/questions/56846339/how-to-remove-title-color-box-in-chart-js
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            //https://www.geeksforgeeks.org/javascript/how-to-add-percentage-and-value-datalabels-in-pie-chart-in-chartjs/
+                            //százalékszámítás
+                            label: (context) => {
+                            const value = context.parsed;
+                            let percentage = (value / context.chart._metasets[context.datasetIndex].total * 100).toFixed(2) + "% |";
+                            return percentage + "\n" + value;
+                            }
                     }
-                },
+                }
+            }
+        },
+                plugins: [ChartDataLabels],
                 scales: type === 'pie' || type === 'doughnut' ? {} : {
                     y: {
                         beginAtZero: true
                     }
                 }
+                
             }
-        });
+        );
 
         new Chart(document.getElementById('barChart'), config('bar'));
         // new Chart(document.getElementById('lineChart'), config('line'));
-        // new Chart(document.getElementById('pieChart'), config('pie'));
+        new Chart(document.getElementById('pieChart'), config('pie'));
         // new Chart(document.getElementById('doughnutChart'), config('doughnut'));
     </script>
 @endsection

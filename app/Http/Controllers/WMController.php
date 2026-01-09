@@ -18,17 +18,7 @@ class WMController extends Controller
     }
 
     public function Charts() {
-           
-            // return view("main", [
-            //      "result" => szamla::all()
-                                        
-            //                 // ->join('kategoriak', 'szamla.kategoria_id', '=', 'kategoriak.id')
-            //                 // ->where('szamla.user_id', Auth::id())
-            //                 // ->selectRaw('kategoriak.kategoria_nev as label, SUM(szamla.osszeg) as total')
-            //                 // ->groupBy('kategoriak.kategoria_nev')
-            //                 // ->orderByDesc('total')
-            //                 // ->get()
-            // ]);
+           //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
               $userSpending = szamla::selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
                                             ->groupBy('category_name')
                                             ->orderBy('total')
@@ -37,8 +27,9 @@ class WMController extends Controller
 
             return view('main', [
                 //a pluck-ból megkapja a kulcsot és értéket
-                'labels' => $userSpending->keys(),
-                'data' => $userSpending->values(),
+                'labels'    => $userSpending->keys(),
+                'data'      => $userSpending->values(),
         ]);
     }
+    
 }
