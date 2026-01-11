@@ -3,9 +3,16 @@
     <main class="container pb-2">
 
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
-
-
-                <div class="container">
+            <div class="chartBtn">
+                <div class="chart_types">
+                    <button id="bar">Oszlopdiagram</button>
+                    <button id="doughnut">Tortadiagram</button>
+                </div>
+            </div>
+            <div class="chart">
+                <canvas id="myChart"></canvas>
+            </div>
+                {{-- <div class="container">
 
                     <div class="row mt-2">
                         <div class="col-md-6">
@@ -30,11 +37,17 @@
                             <canvas id="lineChart" height="100"></canvas>
                         </div>
                     </div>
-                    <form class="card-body" action="/main" method="post">
+                    {{-- <form class="card-body" action="/main" method="post">
                         @csrf
-                        <button class="btn btn-success" name="changeChart" type="submit">Kiadás - Bevétel összehasonlítás</button>
+                        <select name="chooseDataFilter" id="chooseDataFilter">
+                            <option value="incomeSpentDiff">Bevétel - kiadás</option>
+                            <option value="categoryFilter">Kategóriák szerinti lebontás</option>
+
+
+
+                        </select>
                     </form>
-                </div>
+                </div> --}}
 
 
             </main>

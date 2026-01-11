@@ -17,10 +17,10 @@
 <div class="container py-5">
     <h2 class="mb-4">Felhasználói beállítások</h2>
   <div class="container">
-    @if(session("siker"))
-        <p class="text-success text-center">{{ session('siker') }}</p>
+    @if(session("success"))
+        <p class="text-success text-center">{{ session('success') }}</p>
     @else
-        <p class="text-danger text-center">{{ session('sikertelen') }}</p>
+        <p class="text-danger text-center">{{ session('success') }}</p>
   </div>
 @endif
     <form action="/account" method="post">
@@ -53,9 +53,9 @@
                 </div>
             </div> --}}
              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> 
+            {{-- <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> --}}
             <button type="submit" class="btn btn-primary btn-lg" name="mentes" id="mentes" value="mentes">Mentés</button>
-        </div> 
+        </div>
         </div>
     </form>
 
@@ -96,7 +96,7 @@
             </div>
         </div> --}}
 
-        <hr class="w-50 mx-auto"> 
+        <hr class="w-50 mx-auto">
 
         <div class="row mb-4">
             <div class="col-md-6">
@@ -106,7 +106,7 @@
                     <input type="password" class="form-control @error('currentpassword') is-invalid @enderror" id="currentpassword" name="currentpassword">
                     @error('currentpassword')
                         <p class="text-danger">{{ $message }}</p>
-                    @enderror 
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="newpassword" class="form-label">Új jelszó</label>
@@ -114,15 +114,17 @@
                     @error('newpassword')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
+                    <i class="fa-solid fa-eye" id="show-password"></i>
                 </div>
                 <div class="mb-3">
-                    <label for="password_confirmation" class="form-label">Új jelszó megerősítése</label>
+                    <label for="newpassword_confirmation" class="form-label">Új jelszó megerősítése</label>
                     <input type="password" class="form-control @error('newpassword_confirmation') is-invalid @enderror" name="newpassword_confirmation" id="newpassword_confirmation">
                     @error('newpassword_confirmation')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
+                    <i class="bi bi-eye" id="show-password"></i>
                 </div>
-            </div> 
+            </div>
              {{-- <div class="col-md-6">
                 <h4>Privacy Settings</h4>
                 <div class="mb-3 form-check">
@@ -133,16 +135,16 @@
                     <input type="checkbox" class="form-check-input" id="activityTrackingCheck" checked>
                     <label class="form-check-label" for="activityTrackingCheck">Allow activity tracking for personalized experience</label>
                 </div>
-            </div> 
+            </div>
         </div>  --}}
 
         <div class="d-flex justify-content-between align-items-center">
             <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/kijelentkezes">Kijelentkezés</a></button>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> 
+            {{-- <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> --}}
             <button type="submit" class="btn btn-primary btn-lg" name="mentes" id="mentes" value="mentes">Mentés</button>
-        </div> 
+        </div>
     </form>
 </div>
 @endsection
