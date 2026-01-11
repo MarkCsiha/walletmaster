@@ -68,5 +68,7 @@ src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0">
             </div>
         </div>
     </footer>
+    <script src="{{ asset('js/charts.js') }}"></script>
+
     </body>
 </html>

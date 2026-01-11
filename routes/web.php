@@ -16,8 +16,8 @@ Route::get("/account", [UserController::class, "Account"]);
 
 Route::get("/logout", [UserController::class, "Logout"]);
 
-// Route::get("/main", [WMController::class, "Main"]);
 Route::get("/main", [WMController::class, "Charts"]);
+Route::get('/main', [WMController::class, "SpendingChart"]);
 
 Route::get("/account", [UserController::class, "Save"]);
 Route::post("/account", [UserController::class, "SaveBtn"]);
