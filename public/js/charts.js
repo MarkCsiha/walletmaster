@@ -1,4 +1,7 @@
+//nullá teszi az eddigi chartot -> szükséges az új chart rendereléséhez
 let chart=null;
+let delayed;
+
 const config = (type) => ({
         type: type,
         data: {
@@ -15,6 +18,25 @@ const config = (type) => ({
 
             },
         options: {
+            animation: {
+                onComplete: () => {
+                    //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
+
+                    if (type == "bar") {
+                        delayed = true;
+                        }
+                    },
+                delay: (context) => {
+        //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
+                    if (type == "bar") {
+                        let delay = 0;
+                        if (context.type === 'data' && context.mode === 'default') {
+                            delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                        }
+                        return delay;
+                    }
+                },
+    },
             responsive: true,
             plugins: {
                 legend: {
@@ -39,36 +61,36 @@ const config = (type) => ({
                     }
                 }
             }
+
                         //https://stackoverflow.com/questions/56846339/how-to-remove-title-color-box-in-chart-js
                                                     //https://www.geeksforgeeks.org/javascript/how-to-add-percentage-and-value-datalabels-in-pie-chart-in-chartjs/
                                                                             //eltűnteti a címet
                                                                                                         //százalékszámítás
         },
-
+            //megmondja hogy torta és kördiagram esetén nullán keződjön
             plugins: [ChartDataLabels],
             scales: type === 'pie' || type === 'doughnut' ? {} : {
                 y: {
                     beginAtZero: true
             },
         }
-
     });
+
+//az új chartot generálja le, és törli az előzőt, így van szabad hely a myChart változóban az új diagramnak
 function render(type) {
     const ctx = document.getElementById("myChart");
 
-  if (chart) chart.destroy();
-  chart = new Chart(ctx, config(type));
+    if (chart) {
+        chart.destroy()
+    };
+    chart = new Chart(ctx, config(type));
 }
 
-// ---- gomb események ----
+// gombra nyomást követően megjelenik az adott diagram
 document.getElementById("bar").addEventListener("click", function () {
-  // példa: kategóriánkénti bev/ki adatok
-
-
-  render("bar");
+    render("bar");
 });
 
 document.getElementById("doughnut").addEventListener("click", function () {
-
-  render("doughnut");
+    render("doughnut");
 });

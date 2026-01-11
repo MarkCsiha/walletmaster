@@ -9,6 +9,24 @@
                     <button id="doughnut">Tortadiagram</button>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <form action="/main" method="post">
+                        @csrf
+                        <button id="spentIncome" name="spentIncome">Költés - kiadás diagram</button>
+                    </form>
+                    <form action="/main" method="post">
+                        @csrf
+                        <button id="categories" name="categories">Kategóriák diagram</button>
+                    </form>
+                    <form action="/main" method="post">
+                        <select name="chartChange" id="chartChange">
+                            <option value="spentIncome">Költség - kiadás diagram</option>
+                            <option value="categories"></option>
+                        </select>
+                    </form>
+                </div>
+            </div>
             <div class="chart">
                 <canvas id="myChart"></canvas>
             </div>

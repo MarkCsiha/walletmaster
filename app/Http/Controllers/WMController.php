@@ -41,27 +41,26 @@ class WMController extends Controller
             }
     }
 
-    // public function SpendingChart() {
-    //     //amit akarok: kiveszem a költés és bevétel adatokat a
-    //     // $spent = szamla::where('user_id', Auth::id())
-    //     //                 ->where('tipus', 0)
-    //     //                 ->sum("osszeg");
-    //     // $income = szamla::where('user_id', Auth::id())
-    //     //                 ->where('tipus', 1)
-    //     //                 ->sum("osszeg");
-    //     // $labels = ["Kiadás", "Bevétel"];
-    //     // $data = [$spent, $income];
+    public function SpendingChart() {
+        $spent = szamla::where('user_id', Auth::id())
+                        ->where('tipus', 0)
+                        ->sum("osszeg");
+        $income = szamla::where('user_id', Auth::id())
+                        ->where('tipus', 1)
+                        ->sum("osszeg");
+        $labels = ["Kiadás", "Bevétel"];
+        $data = [$spent, $income];
 
-    //     //     //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
-    //     //     if (Auth::check()) {
-    //     //         return view('main', [
-    //     //         //a pluck-ból megkapja a kulcsot és értéket
-    //     //         'labels'    => $labels,
-    //     //         'data'      => $data,
-    //     //         ]);
-    //     //     }
-    //     //     else {
-    //     //         return redirect("login");
-    //     //     }
-    // }
+            //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
+            if (Auth::check()) {
+                return view('main', [
+                //a pluck-ból megkapja a kulcsot és értéket
+                'labels'    => $labels,
+                'data'      => $data,
+                ]);
+            }
+            else {
+                return redirect("login");
+            }
+    }
 }
