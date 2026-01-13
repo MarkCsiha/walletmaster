@@ -20,15 +20,14 @@ class WMController extends Controller
     public function Charts(Request $req) {
            //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
             $userSpending = szamla::where("user_id", Auth::id())
-            ->when($req->from, function($query) use ($req) {
-                return $query->whereDate('datum', '>=', $req->from);
-            })
-            ->when($req->to, function($query) use ($req) {
-                return $query->whereDate('datum', '<=', $req->to);
-            })
-            ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
+                                    ->when($req->from, function($query) use ($req) {
+                                        return $query->whereDate('datum', '>=', $req->from);
+                                    })
+                                    ->when($req->to, function($query) use ($req) {
+                                        return $query->whereDate('datum', '<=', $req->to);
+                                    })
+                                    ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
                                             //biztosan a felhasználó adatait adja meg
-
                                             ->where("tipus", 0)
                                             ->groupBy('category_name')
                                             ->orderBy('total')
@@ -36,6 +35,8 @@ class WMController extends Controller
                                             ->pluck('total', 'category_name');
 
             //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
+            $categories = szamla::where("user_id", Auth::id())
+                                ->selectRaw("kategoria_nev as category_name");
             if (Auth::check()) {
                 return view('main', [
                 //a pluck-ból megkapja a kulcsot és értéket

@@ -48,12 +48,12 @@ const config = (type) => {
           callbacks: {
             label: (context) => {
               if (type === "doughnut") {
-                                    //https://www.geeksforgeeks.org/javascript/how-to-add-percentage-and-value-datalabels-in-pie-chart-in-chartjs/
-                    //százalékszámítás
+                //https://www.geeksforgeeks.org/javascript/how-to-add-percentage-and-value-datalabels-in-pie-chart-in-chartjs/
+                //százalékszámítás
                 //frissített, verzióhoz helyes számítás
                 const value = context.parsed;
                 const total = context.chart._metasets?.[context.datasetIndex]?.total;
-                const pct = total ? ((value / total) * 100).toFixed(2) : "0.00";
+                let percentage = total ? ((value / total) * 100).toFixed(2) : "0.00";
                 return `${pct}% | ${value} Ft`;
               }
 

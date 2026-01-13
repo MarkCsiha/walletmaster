@@ -11,9 +11,9 @@
         <label>Kategória</label>
         <select name="category" class="form-control">
           <option value="">Összes</option>
-          @foreach ($userSpending as $cat)
-            <option value="{{ $cat }}" {{ ($selectedCategory ?? '') === $cat ? 'selected' : '' }}>
-              {{ $cat }}
+          @foreach ($labels as $label)
+            <option value="{{ $label }}" {{ ($selectedCategory ?? '') === $label ? 'selected' : '' }}>
+              {{ $label }}
             </option>
           @endforeach
         </select>
