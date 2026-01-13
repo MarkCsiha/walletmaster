@@ -25,15 +25,11 @@ class filters extends Component
      */
     public function render(): View|Closure|string
     {
-        $datas = szamla::orderBy("osszeg")->get()
+        $data = szamla::orderBy("osszeg")
         ->where('user_id', Auth::id())
+        ->get();
     // ha csak kiadás kell, pl. 0 = kiadás:
     // ->where('tipus', 0)
-        ->join('kategoriak', 'szamla.kategoriak_id', '=', 'kategoriak.id')
-        ->groupBy('kategoriak.id', 'kategoriak.kategoria_nev')
-        ->select('kategoriak.kategoria_nev', DB::raw('SUM(szamla.osszeg) as total'))
-        ->orderByDesc('total')
-        ->get();;
-        return view('components.filters', compact(var_name: 'kategoria_nev'));
+        return view('components.filters', compact(var_name: 'data'));
     }
 }

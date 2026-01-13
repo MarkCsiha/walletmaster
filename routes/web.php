@@ -16,9 +16,12 @@ Route::get("/account", [UserController::class, "Account"]);
 
 Route::get("/logout", [UserController::class, "Logout"]);
 
-Route::get("/main", [WMController::class, "Charts"]);
-Route::post('/main', [WMController::class, "SpendingChart"]);
+// Route::get("/main", [WMController::class, "Charts"]);
+// Route::post('/main', [WMController::class, "SpendingChart"]);
 Route::post('/main', [WMController::class, "Charts"]);
+Route::get('/main', action: [WMController::class, 'Charts']);          // kategóriás bontás
+Route::post('/main', [WMController::class, 'Charts'])->name('main.charts');
+
 
 Route::get("/account", [UserController::class, "Save"]);
 Route::post("/account", [UserController::class, "SaveBtn"]);

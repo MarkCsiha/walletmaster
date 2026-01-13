@@ -8,7 +8,7 @@
             @endif
             <h1 class="text-center py-3">Regisztráció</h1>
             <div class="card w-75 mx-auto mb-3">
-                <form class="card-body" action="/regisztracio" method="post">
+                <form class="card-body" action="/registration" method="post">
                     @csrf
                     <label class="form-label" for="firstName">Vezetéknév: </label>
                     <input type="text" class="form-control @error('firstName') is-invalid @enderror" name="firstName" value="{{ old("firstName") }}">

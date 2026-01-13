@@ -17,7 +17,6 @@
                         <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" id="password">
 
                         <button class="btn btn-primary mt-3" type="submit">Belépés</button>
-
                     </form>
                 </div>
             </div>

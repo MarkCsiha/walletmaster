@@ -23,7 +23,7 @@ src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         @guest
                             <li class="nav-item"><a href="/login" class="btn btn-secondary">Bejelentkezés</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/regisztracio" class="btn btn-success bi bi-person">Regisztráció</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/registration" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
                             <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/add" class="btn btn-dark">Hozzáadás</a></li>

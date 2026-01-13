@@ -3,12 +3,13 @@
         <div class="col-md-3">
             <label for="category">Kategória</label>
             <select name="category" id="category" class="form-control">
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @foreach ($data as $szamla)
+                    <option value="{{ $szamla->kategoria_nev }}">{{ $szamla->kategoria_nev }}</option>
                 @endforeach
             </select>
         </div>
         <div class="col-md-3">
+            <form action="filtersForm" method="POST" action="/main">
             <label for="From">Mettől</label>
             <input type="date" id="from" name="from" class="form-control">
         </div>
@@ -17,7 +18,8 @@
             <input type="date" id="to" name="to" class="form-control">
         </div>
         <div class="col-md-3">
-            <input type="button" class="btn btn-success" value="Filter" onclick="getData()">
+            <button type="submit">Szűrés</button>
         </div>
+    </form>
     </div>
 </div>
