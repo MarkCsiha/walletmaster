@@ -19,7 +19,7 @@ Route::get("/logout", [UserController::class, "Logout"]);
 // Route::get("/main", [WMController::class, "Charts"]);
 // Route::post('/main', [WMController::class, "SpendingChart"]);
 Route::post('/main', [WMController::class, "Charts"]);
-Route::get('/main', action: [WMController::class, 'Charts']);          // kategóriás bontás
+Route::get('/main', [WMController::class, 'Charts']);          
 Route::post('/main', [WMController::class, 'Charts'])->name('main.charts');
 
 

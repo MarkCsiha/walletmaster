@@ -34,7 +34,7 @@
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
 
-                    <label class="form-label mt-3" for="phone">Telefonszam:</label>
+                    <label class="form-label mt-3" for="phone">Telefonszám:</label>
                     <input class="form-control @error('phone') is-invalid @enderror" type="text" name="phone" id="phone" value="{{old('phone')}}">
                     @error('phone')
                         <p class="text-danger">{{ $message }}</p>
@@ -46,7 +46,7 @@
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
 
-                    <label class="form-label mt-3" for="password_confirmation">Jelszó mégegyszer:</label>
+                    <label class="form-label mt-3" for="password_confirmation">Jelszó újra:</label>
                     <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password" name="password_confirmation" id="password_confirmation">
                     @error('password_confirmation')
                         <p class="text-danger">{{ $message }}</p>

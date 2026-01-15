@@ -29,9 +29,9 @@ const config = (type) => {
             },
             delay: (context) => {
                 //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
-                 if (type == "bar") {
+                 if (type === "bar") {
                         let delay = 0;
-                        if (context.type === 'data' && context.mode === 'default') {
+                        if (context.type === 'data' && context.mode === 'default' && !delayed) {
                             delay = context.dataIndex * 300 + context.datasetIndex * 100;
                         }
                         return delay;
@@ -53,12 +53,12 @@ const config = (type) => {
                 //frissített, verzióhoz helyes számítás
                 const value = context.parsed;
                 const total = context.chart._metasets?.[context.datasetIndex]?.total;
+                //képlet
                 let percentage = total ? ((value / total) * 100).toFixed(2) : "0.00";
-                return `${pct}% | ${value} Ft`;
+                return `${percentage}% | ${value} Ft`;
               }
 
               if (type === "bar") {
-                // NE a teljes `data` tömböt add vissza, hanem az aktuális értéket
                 return `${context.parsed.y} Ft`;
               }
 
@@ -69,12 +69,10 @@ const config = (type) => {
       },
 
     //megmondja hogy torta és kördiagram esetén nullán keződjön
-
       scales: (type === "pie" || type === "doughnut") ? {} : {
         y: { beginAtZero: true }
       }
     },
-
     plugins: [ChartDataLabels]
   };
 }

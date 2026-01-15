@@ -147,12 +147,12 @@ class UserController extends Controller
             'phone'               => [Rule::unique('users','telszam')->ignore(Auth::id())],
             'currentpassword',
             "newpassword"                   => ["confirmed", Password::min(8)
-                                               ->letters()
-                                              ->numbers()
-                                             ->mixedCase()
-                                            ->symbols()
-                                            ->uncompromised()],
-                                    //Tesztjelszó: #Palmafa123
+                                                ->letters()
+                                                ->numbers()
+                                                ->mixedCase()
+                                                ->symbols()
+                                                ->uncompromised()],
+                                                //Tesztjelszó: #Palmafa123
              "newpassword_confirmation"
         ], [
             'firstName.max'             => 'Maximum 30 karakter lehet!',
@@ -174,7 +174,7 @@ class UserController extends Controller
             "newpassword.uncompromised"     => "Ez a jelszó már szerepelt korábbi adatvédelmi incidensekben, ezért nem biztonságos."
         ]);
 
-        $data = User::find(Auth::user()->id);
+        $data = User::find(id: Auth::user()->id);
         if ($req->has('firstName') && $req->firstName != $data->vez_nev) {
             $data->vez_nev = $req->firstName;
         }
@@ -193,6 +193,7 @@ class UserController extends Controller
         }
 
         //https://laravel.com/docs/12.x/eloquent#examining-attribute-changes
+        //megnézi hogy történt-e változás a data változóban
         if (!$data->isDirty()) {
         return redirect('/account')->with('unsuccessful', 'Nem történt változás.');
 }
@@ -205,7 +206,7 @@ class UserController extends Controller
             if($req->currentpassword == $req->newpassword){
                 return redirect('/account')->with(['unsuccessful' => "Nem adhatja meg újra a korábbi jelszavát"]);
             }
-        
+
             else if($req->newpassword != $req->newpassword_confirmation) {
                 return redirect('/account')->with(['unsuccessful' => "A két jelszó nem egyezik!"]);
             }
@@ -220,8 +221,8 @@ class UserController extends Controller
             return redirect('/account')->with(['unsuccessful' => "Nem sikerült a jelszómódosítás"]);
         }
     }
-    }  
-    
+    }
+
 
 #walletmaster@gmail.com
 #Palmafa123

@@ -1,9 +1,8 @@
 @extends('layout')
-
 @section('content')
-<main class="container pb-2">
 
-  <form id="filtersForm" method="POST" action="{{ url('/main') }}">
+<main class="container pb-2">
+  <form id="filtersForm" method="POST" action="/main">
     @csrf
 
     <div class="row">
@@ -34,22 +33,31 @@
       </div>
     </div>
   </form>
-
+  <div class="col-md-3">
+    <form action="main.charts" method="POST" id="categoryChart">
+        @csrf
+        <button type="submit">Kategóriák</button>
+    </form>
+  </div>
+    <div class="col-md-3">
+        <form action="main.spentincome" method="POST" id="spentIncome">
+            @csrf
+            <button type="submit">Költség - kiadás</button>
+        </form>
+  </div>
   <div class="row mt-4">
     <div class="col-md-6">
       <h4 class="text-center">Oszlopdiagram</h4>
       <canvas id="myChart"></canvas>
     </div>
   </div>
-
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
-  const labels = @json($labels ?? []);
-  const data   = @json($data ?? []);
-
+    const labels = {!! json_encode($labels) !!};
+    const data = {!! json_encode($data) !!};
 </script>
 @endsection
