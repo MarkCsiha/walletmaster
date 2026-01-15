@@ -8,6 +8,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Auth\Events\Registered;
 
 
 
@@ -70,6 +71,9 @@ class UserController extends Controller
         $data->password         = $req->password;
 
         $data->Save();
+        //mivel manuális, egyéni regisztrációs felület van, ezért ezt be kell importálni.
+        event(new Registered($data));
+
         return redirect('/main')->with([
             'success' => 'Sikeresen regisztráltál, üdvözlünk a WalletMaster oldalán '.$req->firstName.' '.$req->lastName.'!'
         ]);

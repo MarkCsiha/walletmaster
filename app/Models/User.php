@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Events\Registered;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     const CREATED_AT = 'regisztralt';
     const UPDATED_AT = 'utoljara_modositott';
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,6 +49,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     protected $table = "users";
     protected $primaryKey = "id";
 }
