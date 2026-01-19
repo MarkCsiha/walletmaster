@@ -16,13 +16,9 @@
                     <p>Kérjük, hagyja jóvá a regisztrációt az e-mail címére kapott linkre kattintva!</p>
                     <p>Ha nem kapta meg a hitelesítő levelet: </p>
                     {{-- Ha az újraküldés linkre kattint a felhasználó akkor új emailt kap --}}
-                    <form class="d-inline" method="POST" action="{{ route('verification.send') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Kattintson ide az új link kéréséhez!</button>.
-                    </form>
                     <div class="col-md-3">
                             <p>Rossz email címet adott meg?</p>
-                            <form class="d-inline" method="POST" action="{{ route('verification.send') }}">
+                            <form class="d-inline" method="POST" action="/auth/verify">
                                 @csrf
                                 <input type="hidden" name="action" value="update_email">
 
@@ -34,6 +30,11 @@
                                 <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Email cím változtatása</button>.
                             </form>
                         </div>
+                    <form class="d-inline" method="POST" action="{{ route('verification.send') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Kattintson ide az új link kéréséhez!</button>.
+                    </form>
+
                 </div>
             </div>
         </div>

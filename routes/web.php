@@ -37,7 +37,6 @@ Route::get('/auth/verify', function () {
 })->middleware('auth')->name('verification.notice');
 
 //nem megy, Ati papa segít majd
-Route::post('/auth/verify/{id}/{hash}', [UserController::class, 'EmailChanged']);
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
 
@@ -50,3 +49,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('message', 'Hitelesítő kód elküldve!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+//Új email cím bekérése esetén automatikusan küld egy új megerősítő emailt. Ez akkor jó, ha a felhasználó rosszul írta be az email címét.
+Route::post('/auth/verify', [UserController::class, 'EmailChanged'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+

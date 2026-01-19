@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Auth\Events\Registered;
-
-
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 class UserController extends Controller
 {
@@ -223,12 +222,34 @@ class UserController extends Controller
                 $data = User::find(Auth::user()->id);
                 $data->password = $req->newpassword;
                 $data->Save();
-                return redirect('/account')->with(['success' => "Sikeresen megváltoztatta a jelszavát"]);
+                return redirect(to: '/account')->with(['success' => "Sikeresen megváltoztatta a jelszavát"]);
             }
         }
         else{
             return redirect('/account')->with(['unsuccessful' => "Nem sikerült a jelszómódosítás"]);
         }
+    }
+
+    //ez a függvény akkor lesz meghívva, ha regisztráció érvényesítésnél a felhasználó új email címet ír be.
+    public function EmailChanged(Request $req) {
+        $req->validate([
+            "email" =>  ["email",
+                            // "email:rfc,dns",
+                            //Rule::unique('users', 'email')->ignore(Auth::id())/*,"email:rfc,dns"],*/
+                            "unique:users,email,".Auth::user()->id
+                        ],
+        ],[
+            "email.unique"              => "Ez az email cím foglalt.",
+            'email.regex'               => "Az email címnek tartalmaznia kell",
+        ]);
+        //megkeresi azt a felhasználót azonosító alapján, akinek egyezik az azonosítója a keresett azonosítóval
+        $data = User::find(Auth::user()->id);
+        $data->email = $req->email;
+        $data->Save();
+        //kiküldi újra a regisztrációt megerősítő linket
+        $data->sendEmailVerificationNotification();
+        
+        return redirect('/auth/verify')->with('success', 'Sikeres adatmódosítás!');
     }
     }
 
