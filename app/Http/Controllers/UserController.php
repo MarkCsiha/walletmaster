@@ -142,11 +142,16 @@ class UserController extends Controller
             'lastName'  => "max:30",
             //https://regex101.com/library/SxCdMO?orderBy=RELEVANCE&search=email+&filterFlavors=pcre2
             //regex alkalmazását követően összeomlik a rendszer, nem frissül semmi!
-        'email'      => [   "email",
+           'email'      => ["email",
                             // "email:rfc,dns",
                             //Rule::unique('users', 'email')->ignore(Auth::id())/*,"email:rfc,dns"],*/
                             "unique:users,email,".Auth::user()->id
                         ],
+            'username'        => ['required',
+                                    'min:3',
+                                    'max:30',
+                                    Rule::unique('users','felhasznalonev')->ignore(Auth::id()),
+                                    'regex:/^[a-zA-Z0-9._]+$/'],
             //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
             'phone'               => [Rule::unique('users','telszam')->ignore(Auth::id())],
             'currentpassword',

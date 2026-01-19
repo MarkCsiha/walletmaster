@@ -31,15 +31,32 @@
                 <div class="mb-3">
                     <label for="firstName" class="form-label">Vezetéknév: </label>
                     <input type="text" class="form-control" id="firstName" name="firstName" value="{{ Auth::user()->vez_nev }}">
+                    @error('firstName')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="lastName" class="form-label">Keresztnév: </label>
                     <input type="text" class="form-control" id="lastName" name="lastName" value="{{   Auth::user()->ker_nev }}">
+                    @error('lastName')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email cím: </label>
                     <input type="email" class="form-control" id="email" name="email" value="{{ old('email', Auth::user()->email) }}">
+                    @error('email')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
+                  <div class="mb-3">
+                    <label for="username" class="form-label">Felhasználónév: </label>
+                    <input type="text" class="form-control" id="username" name="username" value="{{   Auth::user()->felhasznalonev }}">
+                    @error('username')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="mb-3">
                     <label for="phone" class="form-label">Telefonszám: </label>
                     <input type="tel" class="form-control" id="phone" name="phone" value="{{ Auth::user()->telszam }}">

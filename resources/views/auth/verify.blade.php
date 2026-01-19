@@ -20,6 +20,20 @@
                         @csrf
                         <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Kattintson ide az új link kéréséhez!</button>.
                     </form>
+                    <div class="col-md-3">
+                            <p>Rossz email címet adott meg?</p>
+                            <form class="d-inline" method="POST" action="{{ route('verification.send') }}">
+                                @csrf
+                                <input type="hidden" name="action" value="update_email">
+
+                                <label class="form-label mt-3" for="email">Új email cím:</label>
+                                <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" id="email" value="{{old('email')}}">
+                                @error('email')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Email cím változtatása</button>.
+                            </form>
+                        </div>
                 </div>
             </div>
         </div>
