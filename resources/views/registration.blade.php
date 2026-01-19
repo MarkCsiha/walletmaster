@@ -6,6 +6,7 @@
             @if (session('success'))
                     <p class="text text-success text-center">{{session("success")}}</p>
             @endif
+        </div>
             <h1 class="text-center py-3">Regisztráció</h1>
             <div class="card w-75 mx-auto mb-3">
                 <form class="card-body" action="/registration" method="post">

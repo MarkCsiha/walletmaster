@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
     ];
-    
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,6 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function casts(): array
     {
         return [
+            //ezzel kapja meg az email hitelesítés oszlop típusát
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

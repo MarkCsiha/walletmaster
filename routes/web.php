@@ -39,7 +39,7 @@ Route::get('/auth/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
 
-    return redirect('/main');
+    return redirect('/main')->with(['success' => "Sikeres email cím megerősítés!"]);
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {

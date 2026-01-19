@@ -2,6 +2,11 @@
 @section('content')
 
 <main class="container pb-2">
+      <div class="col-md-9">
+            @if (session('success'))
+                    <p class="text text-success text-center">{{session("success")}}</p>
+            @endif
+        </div>
   <form id="filtersForm" method="POST" action="/main">
     @csrf
 
