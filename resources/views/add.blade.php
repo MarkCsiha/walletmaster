@@ -26,9 +26,7 @@
 
                             <div class="my-4">
                                 <p><label class="for-label mb-1" for="leiras">Leírás:</label></p>
-                                <textarea name="leiras" id="lairas" cols="135" rows="10" placeholder="Miket vett?" >
-
-                                </textarea>
+                                <textarea class="form-control" name="leiras" id="lairas" cols="10" rows="10" placeholder="Miket vett?" ></textarea>
                             </div>
                             @error('leiras')
                                 <p class="text-danger">{{$message}}</p>
@@ -68,8 +66,6 @@
                                     <option value="0">Válasszon típust először</option>
                                 </select>
                             </div>
-
-
 
                             <button class="btn btn-dark mt-4" type="submit">Elküld</button>
                         </form>

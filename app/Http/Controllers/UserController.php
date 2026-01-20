@@ -64,7 +64,7 @@ class UserController extends Controller
         $data->felhasznalonev   = $req->felhasznalonev;
         $data->email            = $req->email;
         $data->telszam          = $req->telszam;
-        $data->password    = $req->password;
+        $data->password         = $req->password;
 
         $data->Save();
         return redirect('/bejelentkezes')->with([
@@ -124,4 +124,3 @@ class UserController extends Controller
 
 #scoobydoo@gmail.com
 #SkibidiGooner11*
-        

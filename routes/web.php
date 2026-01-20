@@ -16,7 +16,10 @@ Route::get("/fiokom", [UserController::class, "Fiokom"]);
 
 Route::get("/kijelentkezes", [UserController::class, "Kijelentkezes"]);
 
-Route::get("/main", [WMController::class, "Main"]);
+Route::get("/main", [WMController::class, "Main"])->name('naptar');
+
+Route::get("/goals", [WMController::class, "Goals"]);
+Route::post("/goals", [WMController::class, "GoalsBtn"]);
 
 Route::get("/add", [WMController::class, "Add"]);
 Route::post("/add", [WMController::class, "AddBtn"]);

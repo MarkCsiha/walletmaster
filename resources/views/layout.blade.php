@@ -10,6 +10,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
         <link rel="stylesheet" href="{{asset('css/layout.css')}}">
+        @stack("mainstyle-css")
+        @stack("goals-css")
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -22,8 +24,10 @@
                             <li class="nav-item"><a href="/belepes" class="btn btn-secondary">Bejelentkezés</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/regisztracio" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
-                            <li class="nav-item ms-4 me-4"><a href="/celok" class="btn btn-dark bi bi-bullseye"> Céljaim</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark bi bi-bullseye">Céljaim</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/add" class="btn btn-dark">Hozzáadás</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/fiokom" class="btn btn-success bi bi-person fs-6">Profilom<i class=""></i></a></li>
                             <li class="nav-item ms-4 me-4"><a href="/kijelentkezes" class="btn btn-success bi bi-person fs-6">Kijelentkezés</a></li>
 
@@ -53,10 +57,10 @@
                     <div class="vr"></div>
                 </div>
                 <div class="row justify-content-center col-sm">
-                    <p><span class="bi bi-telephone"></span> <a class="link-light" href="tel:06700216634"> 06 70 021 6634</a><br> </p>
-                    <p><span class="bi bi-envelope"></span>  <a class="link-light" href="mailto:walletmaster01@gmail.com"> walletmaster01@gmail.com</a><br> </p>
-                    <p><span class="bi bi-instagram"></span> <a class="link-light" href="https://www.instagram.com/walletmaster01/"> WalletMaster</a><br> </p>
-                    <p><span class="bi bi-facebook"></span>  <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"> WalletMaster</a><br> </p>
+                    <p><span class="bi bi-telephone"></span> <a class="link-light" href="tel:06700216634"> 06 70 021 6634</a></p>
+                    <p><span class="bi bi-envelope"></span>  <a class="link-light" href="mailto:walletmaster01@gmail.com"> walletmaster01@gmail.com</a></p>
+                    <p><span class="bi bi-instagram"></span> <a class="link-light" href="https://www.instagram.com/walletmaster01/"> WalletMaster</a></p>
+                    <p><span class="bi bi-facebook"></span>  <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"> WalletMaster</a></p>
                 </div>
             </div>
         </div>
