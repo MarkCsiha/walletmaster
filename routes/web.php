@@ -16,7 +16,7 @@ Route::get("/login", [UserController::class, "Login"])->name('login');
 Route::post("/login", [UserController::class, "LoginBtn"]);
 
 //ha nem megy az email módosítás akkor rakd vissza a middleware auth verifiedot!
-Route::get("/account", [UserController::class, "Account"]);
+Route::get("/account", [UserController::class, "Account"])->middleware(["auth", "verified"]);
 
 Route::get("/logout", [UserController::class, "Logout"]);
 
