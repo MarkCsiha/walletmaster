@@ -18,6 +18,10 @@
 
                         <button class="btn btn-primary mt-3" type="submit">Belépés</button>
                     </form>
+                    <form class="card-body" action="/forgot-password" method="post">
+                    @csrf
+                        <button class="btn btn-primary mt-3" type="submit">Elfelejtette jelszavát?</button>
+                    </form>
                 </div>
             </div>
         </div>
