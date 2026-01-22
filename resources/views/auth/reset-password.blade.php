@@ -1,12 +1,11 @@
-{{-- resources/views/auth/reset-password.blade.php --}}
 
 <form method="POST" action="{{ route('password.update') }}">
     @csrf
 
-    {{-- nagyon fontos --}}
     <input type="hidden" name="token" value="{{ $token }}">
 
     <div>
+{{--Email bekérés nélkül meg kéne oldani--}}
         <label for="email">Email</label>
         <input id="email"
                type="email"

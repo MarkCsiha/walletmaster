@@ -16,26 +16,6 @@ use Illuminate\Support\Facades\Auth;
 class ResetPasswordController extends Controller
 {
     public function PasswordReset(Request $req) {
-        $req->validate([
-        'token' => 'required',
-        'email' => 'required|email',
-        'password' => 'required|min:8|confirmed',
-    ]);
-
-    $status = Password::reset(
-        $req->only('email', 'password', 'password_confirmation', 'token'),
-        function (User $user, string $password) {
-            $user->forceFill([
-                'password' => Hash::make($password)
-            ]);
-
-            $user->save();
-
-            event(new PasswordReset($user));
-        }
-    );
-    return $status === Password::PasswordReset
-        ? redirect()->route('login')->with('status', __($status))
-        : back()->withErrors(['email' => [__($status)]]);
+      
     }
 }

@@ -1,0 +1,55 @@
+[33m501953a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mPassword-reset[m[33m, [m[1;31morigin/Email_verification[m[33m, [m[1;32mEmail_verification[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33ma340c46[m[33m ([m[1;31morigin/Password-reset[m[33m)[m HEAD@{1}: commit: Elfelejtett jelszó rész működik, alap, működő szerkezet megvan, testreszabás, kommentelés, rendezés folyamatban
+[33m501953a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mPassword-reset[m[33m, [m[1;31morigin/Email_verification[m[33m, [m[1;32mEmail_verification[m[33m)[m HEAD@{2}: checkout: moving from Email_verification to Password-reset
+[33m501953a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mPassword-reset[m[33m, [m[1;31morigin/Email_verification[m[33m, [m[1;32mEmail_verification[m[33m)[m HEAD@{3}: checkout: moving from Email_verification to Email_verification
+[33m501953a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mPassword-reset[m[33m, [m[1;31morigin/Email_verification[m[33m, [m[1;32mEmail_verification[m[33m)[m HEAD@{4}: commit: Email hitelesítés kész
+[33mee06c96[m HEAD@{5}: commit: Új email címre igényelt regisztráció funkció kész
+[33m863f345[m HEAD@{6}: commit: Adatmódosítás oldal javítása, bugfixing
+[33m5515b3e[m HEAD@{7}: commit: Kis módosítások az email megerősítésen
+[33m8e5d081[m HEAD@{8}: commit: Email hitelesítés
+[33m17b8a32[m HEAD@{9}: commit: Email hitelesítés stílus testreszabása - folyamatban.
+[33mc1c9225[m HEAD@{10}: commit: Email hitelesítés backend sikeres
+[33mb1778d1[m[33m ([m[1;31morigin/Diagram-new[m[33m, [m[1;32mDiagram-new[m[33m)[m HEAD@{11}: checkout: moving from Diagram-new to Email_verification
+[33mb1778d1[m[33m ([m[1;31morigin/Diagram-new[m[33m, [m[1;32mDiagram-new[m[33m)[m HEAD@{12}: commit: Utolsó mentés email hitelesítés előtt
+[33m93b66be[m HEAD@{13}: commit: Kategória kiírása
+[33m911c430[m HEAD@{14}: commit: Dátumra szűrés megoldva, diagram JS kis apróságok javítása
+[33m12a7c29[m HEAD@{15}: commit: Diagram választási funkciók bűvülése
+[33m9016e1f[m[33m ([m[1;31morigin/bejelentkezes-urlap[m[33m, [m[1;32mbejelentkezes-urlap[m[33m)[m HEAD@{16}: checkout: moving from bejelentkezes-urlap to Diagram-new
+[33m9016e1f[m[33m ([m[1;31morigin/bejelentkezes-urlap[m[33m, [m[1;32mbejelentkezes-urlap[m[33m)[m HEAD@{17}: checkout: moving from diagram to bejelentkezes-urlap
+[33m046601a[m[33m ([m[1;31morigin/diagram[m[33m, [m[1;32mdiagram[m[33m)[m HEAD@{18}: checkout: moving from bejelentkezes-urlap to diagram
+[33m9016e1f[m[33m ([m[1;31morigin/bejelentkezes-urlap[m[33m, [m[1;32mbejelentkezes-urlap[m[33m)[m HEAD@{19}: commit: Diagram váltás gomb kész, funkció továbbfejlesztése következik
+[33me8430e3[m HEAD@{20}: commit: Diagram optimalizálás
+[33me64d185[m HEAD@{21}: commit: Bejelentkezve státusz ellenőrzés
+[33m0e06a66[m HEAD@{22}: commit: Diagram kész
+[33mb86899d[m HEAD@{23}: checkout: moving from diagram to bejelentkezes-urlap
+[33m046601a[m[33m ([m[1;31morigin/diagram[m[33m, [m[1;32mdiagram[m[33m)[m HEAD@{24}: reset: moving to HEAD
+[33m046601a[m[33m ([m[1;31morigin/diagram[m[33m, [m[1;32mdiagram[m[33m)[m HEAD@{25}: checkout: moving from bejelentkezes-urlap to diagram
+[33mb86899d[m HEAD@{26}: commit: Mentés új próba előtt
+[33m046601a[m[33m ([m[1;31morigin/diagram[m[33m, [m[1;32mdiagram[m[33m)[m HEAD@{27}: reset: moving to origin/bejelentkezes-urlap
+[33m046601a[m[33m ([m[1;31morigin/diagram[m[33m, [m[1;32mdiagram[m[33m)[m HEAD@{28}: checkout: moving from bejelentkezes-urlap to bejelentkezes-urlap
+[33m046601a[m[33m ([m[1;31morigin/diagram[m[33m, [m[1;32mdiagram[m[33m)[m HEAD@{29}: checkout: moving from diagram to bejelentkezes-urlap
+[33m046601a[m[33m ([m[1;31morigin/diagram[m[33m, [m[1;32mdiagram[m[33m)[m HEAD@{30}: reset: moving to bejelentkezes-urlap
+[33m899a47c[m HEAD@{31}: checkout: moving from bejelentkezes-urlap to diagram
+[33m046601a[m[33m ([m[1;31morigin/diagram[m[33m, [m[1;32mdiagram[m[33m)[m HEAD@{32}: checkout: moving from diagram to bejelentkezes-urlap
+[33m899a47c[m HEAD@{33}: checkout: moving from bejelentkezes-urlap to diagram
+[33m046601a[m[33m ([m[1;31morigin/diagram[m[33m, [m[1;32mdiagram[m[33m)[m HEAD@{34}: commit: Új funkció megkezdése
+[33ma878b9f[m HEAD@{35}: commit: Profilmódosítás siker
+[33mf4e7e99[m HEAD@{36}: commit: Fiókom oldal fejlesztése
+[33m899a47c[m HEAD@{37}: rebase (finish): returning to refs/heads/bejelentkezes-urlap
+[33m899a47c[m HEAD@{38}: rebase (continue): Jelszó módosítás javítás
+[33mced4a95[m HEAD@{39}: pull --rebase origin bejelentkezes-urlap (start): checkout ced4a95ca8848d3c7214a7bdb90fec70106b2f13
+[33meffd0ad[m HEAD@{40}: commit: Jelszó módosítás javítás
+[33m70d2d06[m HEAD@{41}: commit: Profilom
+[33m3a9541b[m HEAD@{42}: commit: Fiókbeállítások oldal
+[33m563847d[m HEAD@{43}: reset: moving to origin/bejelentkezes-urlap
+[33m7356bf3[m[33m ([m[1;32mbackup-bejelentkezes-urlap[m[33m)[m HEAD@{44}: checkout: moving from bejelentkezes-urlap to bejelentkezes-urlap
+[33m7356bf3[m[33m ([m[1;32mbackup-bejelentkezes-urlap[m[33m)[m HEAD@{45}: merge origin/dizájn: Merge made by the 'ort' strategy.
+[33mfd8c946[m HEAD@{46}: checkout: moving from bejelentkezes-urlap to bejelentkezes-urlap
+[33mfd8c946[m HEAD@{47}: reset: moving to HEAD
+[33mfd8c946[m HEAD@{48}: commit: Belépés backend és űrlap kész
+[33m83af1a8[m HEAD@{49}: commit: Regisztrációs backend és alap űrlap kész.
+[33m58f6ec9[m HEAD@{50}: commit: Bejelentkezési űrlap alap funkciók
+[33m15d3770[m[33m ([m[1;32mmain[m[33m)[m HEAD@{51}: checkout: moving from main to bejelentkezes-urlap
+[33m15d3770[m[33m ([m[1;32mmain[m[33m)[m HEAD@{52}: commit: Űrlap kész
+[33m6d810a1[m HEAD@{53}: Branch: renamed refs/heads/master to refs/heads/main
+[33m6d810a1[m HEAD@{55}: commit (initial): Kezdő commit
