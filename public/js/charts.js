@@ -1,7 +1,7 @@
 //nullá teszi az eddigi chartot -> szükséges az új chart rendereléséhez
 let chart = null;
 let delayed = false;
-
+let currentType = "bar";
 const config = (type) => {
     return {
         type: type,
@@ -89,7 +89,15 @@ function render(type) {
   chart = new Chart(ctx, config(type));
 }
 
-//enélkül nem fog elindulni
-document.addEventListener("DOMContentLoaded", () => {
-  render("bar");
+    //enélkül nem fog elindulni
+    document.addEventListener("DOMContentLoaded", () => {
+    render(currentType);
+
+    document.getElementById("btnToggle").addEventListener("click", () => {
+        currentType = (currentType === "bar") ? "doughnut" : "bar";
+        render(currentType);
+    });
 });
+
+
+

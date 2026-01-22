@@ -65,3 +65,8 @@ Route::get('/reset-password/{token}', function (string $token) {
 
 //frissíti a jelszót
 Route::post('/reset-password', [ResetPasswordController::class, "PasswordReset"])->middleware('guest')->name('password.update');
+
+Route::get("/main", [WMController::class, "Main"])->name('naptar');
+
+Route::get("/add", [WMController::class, "Add"]);
+Route::post("/add", [WMController::class, "AddBtn"]);
