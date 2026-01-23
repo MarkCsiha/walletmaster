@@ -48,14 +48,18 @@ function fillCategories(type, selectedValue = null) {
 document.addEventListener("DOMContentLoaded", () => {
   const tipus = document.getElementById("tipus");
   const oldTipus = tipus.dataset.old;
+
   const kategoria = document.getElementById("kategoria");
   const oldKat = kategoria.dataset.old;
+  const suggestedKat = kategoria.dataset.suggested;
 
-  // első betöltés (pl. validáció után old() miatt)
-  fillCategories(oldTipus, oldKat);
+  // ha van old kategoria, az nyer, különben a suggested
+  const initialKat = (oldKat && oldKat !== "0") ? oldKat : (suggestedKat || null);
 
-  // változáskor újratölt
+  fillCategories(oldTipus, initialKat);
+
   tipus.addEventListener("change", (e) => {
     fillCategories(e.target.value, null);
   });
 });
+

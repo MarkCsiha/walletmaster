@@ -21,10 +21,10 @@ Route::get("/logout", [UserController::class, "Logout"]);
 
 // Route::get("/main", [WMController::class, "Charts"]);
 // Route::post('/main', [WMController::class, "SpendingChart"]);
-Route::post('/main', [WMController::class, "Charts"]);
-Route::get('/main', [WMController::class, 'Charts'])->middleware(["auth", "verified"]);
-Route::post('/main', [WMController::class, 'Charts'])->name('main.charts');
-
+Route::post('/main', [WMController::class, "Main"]);
+Route::get('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"]);
+Route::post('/main', [WMController::class, 'Main'])->name('main.charts');
+Route::get('/main/{p}', [WMController::class, "Main"]);
 
 //Route::get("/account", [UserController::class, "Save"])->middleware(["auth", "verified"]);
 Route::post("/account", [UserController::class, "SaveBtn"]);
@@ -70,3 +70,4 @@ Route::get("/main", [WMController::class, "Main"])->name('naptar');
 
 Route::get("/add", [WMController::class, "Add"]);
 Route::post("/add", [WMController::class, "AddBtn"]);
+

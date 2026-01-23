@@ -26,7 +26,7 @@
 
                             <div class="my-4">
                                 <p><label class="for-label mb-1" for="leiras">Leírás:</label></p>
-                                <textarea class="form-control" name="leiras" id="lairas" cols="10" rows="10" placeholder="Miket vett?" ></textarea>
+                                <textarea class="form-control" name="leiras" id="leiras" cols="10" rows="10" placeholder="Miket vett?" ></textarea>
                             </div>
                             @error('leiras')
                                 <p class="text-danger">{{$message}}</p>
@@ -60,9 +60,14 @@
                                 </select>
                             </div>
 
+                            @if(session('suggested_category'))
+                            <div class="alert alert-info mt-3">
+                                Javasolt kategória: <b>{{ session('suggested_category') }}</b>
+                            </div>
+                            @endif
                             <div class="mt-2">
                                 <label class="form-label mb-2" for="kategoria">Kategória</label>
-                                <select class="form-select" name="kategoria" id="kategoria" data-old="{{ old('kategoria') }}">
+                                <select class="form-select" name="kategoria" id="kategoria" data-old="{{ old('kategoria') }}"         data-suggested="{{ session('suggested_category') }}">>
                                     <option value="0">Válasszon típust először</option>
                                 </select>
                             </div>

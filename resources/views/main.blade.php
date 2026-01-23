@@ -10,7 +10,7 @@
                     <p class="text text-success text-center">{{session("success")}}</p>
             @endif
         </div>
-  <form id="filtersForm" method="POST" action="/main">
+  <form id="filtersForm" method="GET" action="/main">
     @csrf
 
     <div class="row">
@@ -28,12 +28,12 @@
 
       <div class="col-md-3">
         <label>Mettől</label>
-        <input type="date" name="from" class="form-control" value="{{ $from ?? '' }}">
+        <input type="date" name="from" class="form-control" value="{{ request('from') }}">
       </div>
 
       <div class="col-md-3">
         <label>Meddig</label>
-        <input type="date" name="to" class="form-control" value="{{ $to ?? '' }}">
+        <input type="date" name="to" class="form-control" value="{{ request('to') }}">
       </div>
 
       <div class="col-md-3 d-flex align-items-end">
@@ -42,9 +42,19 @@
     </div>
   </form>
   <div class="col-md-3">
-    <form action="main.charts" method="POST" id="categoryChart">
+    <form action="main" method="POST" id="monthlyChart">
         @csrf
-        <button type="submit">Kategóriák</button>
+        <input type="hidden" name="view" value="monthly">
+        <button type="submit" >Havi költségek</button>
+
+         <label for="year">Év kiválasztása</label>
+    <select name="year" id="year" class="form-control" onchange="this.form.submit()">
+        @foreach($years as $y)
+            <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
+                {{ $y }}
+            </option>
+        @endforeach
+    </select>
     </form>
   </div>
     <div class="col-md-3">
@@ -64,7 +74,6 @@
   </div>
    <div class="row mt-3">
             <div class="col r-3" id="outerpanel">
-
                 <div class="card" id="kartya">
                     <div class="card-body">
                         {{-- ÉV + HÓNAP --}}
@@ -125,8 +134,8 @@
                         <tr>
                             <th>Összeg</th>
                             <th>Honnan</th>
-                            <th>Leíras</th>
-                            <th>Kategoria</th>
+                            <th>Leírás</th>
+                            <th>Kategória</th>
                             <th>Rendszeres</th>
                             <th>Dátum</th>
                         </tr>
@@ -164,7 +173,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
-    const labels = {!! json_encode($labels) !!};
-    const data = {!! json_encode($data) !!};
+    let labels = {!! json_encode($labels ?? []) !!};
+    let data   = {!! json_encode($data ?? []) !!};
+
+    @if(!empty($monthly))
+        labels = @json($monthly->keys()->values());
+        data   = @json($monthly->values());
+    @endif
 </script>
 @endsection
