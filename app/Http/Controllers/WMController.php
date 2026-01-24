@@ -13,6 +13,7 @@ use Carbon\Carbon;
 
 class WMController extends Controller
 {
+    //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
      public function Main(Request $req){
         $asd = Auth::id();
 
@@ -57,12 +58,27 @@ class WMController extends Controller
             $year = (int) $req->input('year', now()->year);
 
 if ($req->input('view') === 'monthly') {
-    $monthly = szamla::selectRaw("MONTH(datum) as month, SUM(osszeg) as monthly_total")
+    //CASE: azért kell, hogy az oszlopok címei 1, 2, stb. helyett a hónapok nevei legyenek pl. Január
+    $monthly = szamla::selectRaw("MONTH(datum) as month_number,CASE MONTH(datum)
+            WHEN 1 THEN 'Január'
+            WHEN 2 THEN 'Február'
+            WHEN 3 THEN 'Március'
+            WHEN 4 THEN 'Április'
+            WHEN 5 THEN 'Május'
+            WHEN 6 THEN 'Június'
+            WHEN 7 THEN 'Július'
+            WHEN 8 THEN 'Augusztus'
+            WHEN 9 THEN 'Szeptember'
+            WHEN 10 THEN 'Október'
+            WHEN 11 THEN 'November'
+            WHEN 12 THEN 'December'
+        END as month_name,
+        SUM(osszeg) as monthly_total")
         ->where('user_id', Auth::id())
         ->whereYear('datum', $year) // <-- EZ A FIX
-        ->groupBy('month')
-        ->orderBy('month')
-        ->pluck('monthly_total', 'month');
+        ->groupBy(['month_number', 'month_name'])
+        ->orderBy('month_number')
+        ->pluck('monthly_total', 'month_name');
 }
 
              $years = szamla::where('user_id', Auth::id())
@@ -73,7 +89,7 @@ if ($req->input('view') === 'monthly') {
             //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
             $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
-            $months = ["nullindex", "Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"];
+            // $months = ["nullindex", "Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"];
 
             if (Auth::check()) {
                 return view('main', [
@@ -82,6 +98,9 @@ if ($req->input('view') === 'monthly') {
                 'labels'         => $userSpending->keys(),
                 'data'           => $userSpending->values(),
                 'categories'    => $categories,
+                //a pluck-ból megkapja a kulcsot és az értéket
+                'monthlyLabel'  => $monthly->keys(),
+                'monthlyData'   => $monthly->values(),
                 'monthly'       => $monthly,
                 'years'         => $years,
                 'year'          => $year,
@@ -90,7 +109,6 @@ if ($req->input('view') === 'monthly') {
                 "days"       => $days,
                 "prevYm"     => $prevYm,
                 "nextYm"     => $nextYm,
-
                 ]);
             }
             else {

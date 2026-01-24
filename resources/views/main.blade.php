@@ -177,7 +177,7 @@
     let data   = {!! json_encode($data ?? []) !!};
 
     @if(!empty($monthly))
-        labels = @json($monthly->keys()->values());
+        labels = @json($monthly->keys());
         data   = @json($monthly->values());
     @endif
 </script>
