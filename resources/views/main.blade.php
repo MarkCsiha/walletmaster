@@ -44,17 +44,24 @@
   <div class="col-md-3">
     <form action="main" method="POST" id="monthlyChart">
         @csrf
-        <input type="hidden" name="view" value="monthly">
-        <button type="submit" >Havi költségek</button>
-
-         <label for="year">Év kiválasztása</label>
-    <select name="year" id="year" class="form-control" onchange="this.form.submit()">
-        @foreach($years as $y)
-            <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
-                {{ $y }}
-            </option>
-        @endforeach
+        <label for="chartDataType">Költségvetési diagram típusa</label>
+        <select name="chartDataType" id="chartDataType" class="form-control" onchange="this.form.submit()">
+            {{-- request: olyan mint az old value, megtartja az oldal frissítése után azt az inputot, amit a felhasználó választott --}}
+            <option value="categoryChart" {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>Kategóriák szerinti bontás</option>
+            <option value="monthlyChart" {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>Havi kiadás diagram</option>
+        </select>
+        {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
+        @if (request('chartDataType') == 'monthlyChart')
+            <label for="year">Év kiválasztása</label>
+            <select name="year" id="year" class="form-control" onchange="this.form.submit()">
+                @foreach($years as $y)
+                    <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
+                        {{ $y }}
+                    </option>
+                @endforeach
+        @endif
     </select>
+    
     </form>
   </div>
     <div class="col-md-3">
@@ -177,7 +184,7 @@
     let data   = {!! json_encode($data ?? []) !!};
 
     @if(!empty($monthly))
-        labels = @json($monthly->keys());
+        labels = @json($monthly->keys()->values());
         data   = @json($monthly->values());
     @endif
 </script>

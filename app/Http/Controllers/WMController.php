@@ -15,12 +15,12 @@ class WMController extends Controller
 {
     //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
      public function Main(Request $req){
-        $asd = Auth::id();
+        $user = Auth::id();
 
         // --- a te meglévő listád (marad) ---
-        $result = szamla::where("user_id", $asd)
+        $result = szamla::where("user_id", $user)
             ->orderBy("datum", "desc")
-        ->paginate(10);
+            ->paginate(10);
 
         // --- NAPTÁR: hónap kiválasztás query param alapján ---
         $ym = $req->query('ym', now()->format('Y-m')); // pl. 2026-01
@@ -55,65 +55,83 @@ class WMController extends Controller
                                             ->orderBy('total')
                                             //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
                                             ->pluck('total', 'category_name');
-            $year = (int) $req->input('year', now()->year);
+        $year = (int) $req->input('year', now()->year);
 
-if ($req->input('view') === 'monthly') {
-    //CASE: azért kell, hogy az oszlopok címei 1, 2, stb. helyett a hónapok nevei legyenek pl. Január
-    $monthly = szamla::selectRaw("MONTH(datum) as month_number,CASE MONTH(datum)
-            WHEN 1 THEN 'Január'
-            WHEN 2 THEN 'Február'
-            WHEN 3 THEN 'Március'
-            WHEN 4 THEN 'Április'
-            WHEN 5 THEN 'Május'
-            WHEN 6 THEN 'Június'
-            WHEN 7 THEN 'Július'
-            WHEN 8 THEN 'Augusztus'
-            WHEN 9 THEN 'Szeptember'
-            WHEN 10 THEN 'Október'
-            WHEN 11 THEN 'November'
-            WHEN 12 THEN 'December'
-        END as month_name,
-        SUM(osszeg) as monthly_total")
-        ->where('user_id', Auth::id())
-        ->whereYear('datum', $year) // <-- EZ A FIX
-        ->groupBy(['month_number', 'month_name'])
-        ->orderBy('month_number')
-        ->pluck('monthly_total', 'month_name');
-}
+        if ($req->input('chartDataType') === 'categoryChart') {
+              $userSpending = szamla::where("user_id", Auth::id())
+                                    ->when($req->from, function($query) use ($req) {
+                                        return $query->whereDate('datum', '>=', $req->from);
+                                    })
+                                    ->when($req->to, function($query) use ($req) {
+                                        return $query->whereDate('datum', '<=', $req->to);
+                                    })
+                                    ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
+                                            //biztosan a felhasználó adatait adja meg
+                                            ->where("tipus", 0)
+                                            ->groupBy('category_name')
+                                            ->orderBy('total')
+                                            //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
+                                            ->pluck('total', 'category_name');
+        }
+        //ha a felhasználó havi költségbontást kér
+        if ($req->input('chartDataType') === 'monthlyChart') {
+            //CASE: azért kell, hogy az oszlopok címei 1, 2, stb. helyett a hónapok nevei legyenek pl. Január
+            $monthly = szamla::selectRaw("MONTH(datum) as month_number,CASE MONTH(datum)
+                                            WHEN 1 THEN 'Január'
+                                            WHEN 2 THEN 'Február'
+                                            WHEN 3 THEN 'Március'
+                                            WHEN 4 THEN 'Április'
+                                            WHEN 5 THEN 'Május'
+                                            WHEN 6 THEN 'Június'
+                                            WHEN 7 THEN 'Július'
+                                            WHEN 8 THEN 'Augusztus'
+                                            WHEN 9 THEN 'Szeptember'
+                                            WHEN 10 THEN 'Október'
+                                            WHEN 11 THEN 'November'
+                                            WHEN 12 THEN 'December'
+                                            END as month_name,
+                                            SUM(osszeg) as monthly_total")
+                                ->where('user_id', Auth::id())
+                                ->whereYear('datum', $year) // <-- EZ A FIX
+                                ->groupBy(['month_number', 'month_name'])
+                                ->orderBy('month_number')
+                                ->pluck('monthly_total', 'month_name');
+        }
 
-             $years = szamla::where('user_id', Auth::id())
+        //kiválasztja az éveket az adatbázisból
+        $years = szamla::where('user_id', Auth::id())
                             ->selectRaw('YEAR(datum) as year')
                             ->distinct()
                             ->orderBy('year', 'desc')
                             ->pluck('year');
-            //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
-            $categories = szamla::where("user_id", Auth::id())
+        //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
+        $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
-            // $months = ["nullindex", "Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"];
+        // $months = ["nullindex", "Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"];
 
-            if (Auth::check()) {
-                return view('main', [
+        if (Auth::check()) {
+            return view('main', [
                 //a pluck-ból megkapja a kulcsot és értéket
-                'userSpending' => $userSpending,
-                'labels'         => $userSpending->keys(),
-                'data'           => $userSpending->values(),
-                'categories'    => $categories,
+                'userSpending'      => $userSpending,
+                'labels'            => $userSpending->keys(),
+                'data'              => $userSpending->values(),
+                'categories'        => $categories,
                 //a pluck-ból megkapja a kulcsot és az értéket
-                'monthlyLabel'  => $monthly->keys(),
-                'monthlyData'   => $monthly->values(),
-                'monthly'       => $monthly,
-                'years'         => $years,
-                'year'          => $year,
-                "result"     => $result,
-                "monthStart" => $monthStart,
-                "days"       => $days,
-                "prevYm"     => $prevYm,
-                "nextYm"     => $nextYm,
-                ]);
-            }
-            else {
-                return redirect("login");
-            }
+                //'monthlyLabel'      => $monthly->keys(),
+                //'monthlyData'       => $monthly->values(),
+                'monthly'           => $monthly,
+                'years'             => $years,
+                'year'              => $year,
+                "result"            => $result,
+                "monthStart"        => $monthStart,
+                "days"              => $days,
+                "prevYm"            => $prevYm,
+                "nextYm"            => $nextYm,
+            ]);
+        }
+        else {
+            return redirect("login");
+        }
     }
 
     // public function Main(){
@@ -136,7 +154,7 @@ if ($req->input('view') === 'monthly') {
             'Közlekedés' => ['shell', 'omv', 'mol', 'bkk', 'orlen', 'máv', 'uber', 'parkolás'],
             'Előfizetés' => ['netflix', 'spotify', 'youtube', 'disney+', 'hbo', 'google one', 'icloud'],
             'Számla' => ['vodafone', 'yettel', 'telekom', 'digi', 'eon', 'mvm', 'elmű', 'internet', 'tv']
-            ];
+        ];
         $req->validate([
             "osszeg"        =>  "required|numeric",
             "honnan"        =>  "required",
@@ -155,6 +173,7 @@ if ($req->input('view') === 'monthly') {
         $desc = mb_strtolower
         ($req->leiras ?? '') . ' ' . ($req->leiras ?? '');
 
+        //kategória ajánlás
         $suggested = null;
         foreach ($rules as $category => $keywords) {
             foreach($keywords as $kw) {
@@ -166,12 +185,12 @@ if ($req->input('view') === 'monthly') {
         }
 
         $data = new szamla;
-        $data->user_id = Auth::user()->id;
-        $data->osszeg =  $req->osszeg;
-        $data->honnan = $req->honnan;
-        $data->leiras = $req->leiras;
-        $data->datum = $req->datum;
-        $data->fix = $req->fix;
+        $data->user_id  = Auth::user()->id;
+        $data->osszeg   =  $req->osszeg;
+        $data->honnan   = $req->honnan;
+        $data->leiras   = $req->leiras;
+        $data->datum    = $req->datum;
+        $data->fix      = $req->fix;
         #1 = bevétel
         #0 = kiadás
         if($req->tipus == "bevetel"){
