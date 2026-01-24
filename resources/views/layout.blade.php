@@ -12,6 +12,11 @@
         <link rel="stylesheet" href="{{asset('css/layout.css')}}">
         @stack("mainstyle-css")
         @stack("goals-css")
+        @stack("add-css")
+        @stack("regisztracio-css")
+        @stack("belepes-css")
+        @stack("layout-css")
+        @stack("account-css")
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -26,10 +31,8 @@
                         @else
                             <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark bi bi-bullseye">Céljaim</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/add" class="btn btn-dark">Hozzáadás</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/fiokom" class="btn btn-success bi bi-person fs-6">Profilom<i class=""></i></a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/kijelentkezes" class="btn btn-success bi bi-person fs-6">Kijelentkezés</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/fiokom" class="btn btn-dark "><span class="bi bi-person"></span></a></li>
 
                         @endguest
                       </ul>

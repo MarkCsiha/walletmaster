@@ -14,18 +14,16 @@ class WMController extends Controller
     public function Main(Request $request){
         $asd = Auth::id();
 
-        // --- a te meglévő listád (marad) ---
-        $result = szamla::where("user_id", $asd)
-            ->orderBy("datum", "desc")
-        ->paginate(10);
+        #a te meglévő listád (marad)
+        $result = szamla::where("user_id", $asd)->orderBy("datum", "desc")->paginate(10);
 
-        // --- NAPTÁR: hónap kiválasztás query param alapján ---
-        $ym = $request->query('ym', now()->format('Y-m')); // pl. 2026-01
+        #NAPTÁR: hónap kiválasztás query param alapján
+        $ym = $request->query('ym', now()->format('Y-m'));
 
         $monthStart = Carbon::createFromFormat('Y-m', $ym)->startOfMonth();
         $monthEnd   = $monthStart->copy()->endOfMonth();
 
-        // Naptár rács: hétfővel induljon, vasárnappal zárjon
+        #Naptár rács: hétfővel induljon, vasárnappal zárjon
         $gridStart = $monthStart->copy()->startOfWeek(Carbon::MONDAY);
         $gridEnd   = $monthEnd->copy()->endOfWeek(Carbon::SUNDAY);
 
@@ -45,15 +43,6 @@ class WMController extends Controller
             "nextYm"     => $nextYm,
         ]);
     }
-
-    // public function Main(){
-    //     $asd = Auth::id();
-    //     return view("main", [
-    //         "result" => szamla::where("user_id", $asd)->orderBy("datum", "desc")->paginate(10)
-
-
-    //     ]);
-    // }
 
     public function Add(){
         return view("add", [
@@ -130,27 +119,29 @@ class WMController extends Controller
 
     public function GoalsBtn(Request $req){
         $req->validate([
-            "nev"               =>  "required|unique:celok,cel_nev,except,id|max:150",
-            "cel_osszeg"        =>  "required|min:5000",
-            "osszeg"            =>  "required|min:5000",
+            "nev"               =>  "required|unique:celok,cel_nev|max:150",
+            "cel_osszeg"        =>  "required",
+            "osszeg"            =>  "required",
             "hatarido"          =>  "required|date|date_format:Y-m-d",
         ], [
             "*.required"                =>  "Kérem töltse ki a mezőt!",
-            "*.min"                     =>  "A minimum megadható összeg: 5000!",
-            "nev.unique"                =>  "Már létezik ilyen nevű célja", //"Már létezik ". nev ." nevű célja!",
-            "hatarido.date"             =>  "Valós dátumot adjon meg",
-            "hatarido.date_format"      =>  "A dátum helyes formátuma éééé-hh-nn",
+            // "*.min"                     =>  "A minimum megadható összeg: 5000!",
+            "nev.unique"                =>  "Már létezik ilyen nevű célja!", //"Már létezik ". nev ." nevű célja!",
+            "hatarido.date"             =>  "Valós dátumot adjon meg!",
+            "hatarido.date_format"      =>  "A dátum helyes formátuma éééé-hh-nn!",
         ]);
 
         $data = new celok;
         $data->user_id = Auth::user()->id;
-        $data->nev = $req->nev;
+        $data->cel_nev = $req->nev;
         $data->cel_osszeg = $req->cel_osszeg;
-        $data->osszeg = $req->osszeg;
+        $data->budzse = $req->osszeg;
         $data->hatarido = $req->hatarido;
         $data->letrehozas_datum = now()->format('Y-m-d');
         $data->modositas_datum = now()->format('Y-m-d');
 
         $data->Save();
+
+        return redirect("/goals");
     }
 }

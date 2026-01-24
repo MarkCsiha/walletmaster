@@ -47,7 +47,7 @@
                                             $inMonth = $day->month === $monthStart->month;
                                         @endphp
 
-                                        <td style="height: 60px; vertical-align: top;" class="{{ $inMonth ? '' : 'text-danger' }}">
+                                        <td style="height: 60px; vertical-align: top;" class="{{ $inMonth ? '' : 'text-danger' }}">{{-- napok style legyen tomato --}}
                                             <div style="font-weight: 700;">
                                                 {{ $day->day }}
                                             </div>
@@ -80,15 +80,17 @@
                             <th>Kategoria</th>
                             <th>Rendszeres</th>
                             <th>Dátum</th>
+                            <th>Módosítás</th>
+                            <th>Törlés</th>
                         </tr>
 
                         @foreach ($result as $szamlak)
                             <tr>
                                 <td>
                                     @if($szamlak->tipus == 0)
-                                        <span class="text-danger">- {{$szamlak->osszeg}} Ft</span>
+                                        <span id="minus">- {{$szamlak->osszeg}} Ft</span>
                                     @else
-                                        <span class="text-success">+ {{$szamlak->osszeg}} Ft</span>
+                                        <span id="plus">+ {{$szamlak->osszeg}} Ft</span>
                                     @endif
                                 </td>
                                 <td>{{$szamlak->honnan}}</td>
@@ -96,6 +98,8 @@
                                 <td>{{$szamlak->kategoria}}</td>
                                 <td>{{$szamlak->fix}}</td>
                                 <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td>
+                                <td>MÓDOSÍTÁS</td>
+                                <td>TÖRLÉS</td>
 
                             </tr>
                         @endforeach
@@ -104,7 +108,7 @@
                     <div class="d-flex justify-content-center">
                         {{$result->links('pagination::bootstrap-4')}}
                     </div>
-
+                    <div id="addbtn"><a href="/add" class="btn btn-dark">Hozzáadás</a></div>
                 </div>
             </div>
 

@@ -65,3 +65,22 @@ th, td{
 h2{
     color: white;
 }
+
+#plus{
+    color: greenyellow;
+}
+
+#minus{
+    color: tomato;
+}
+
+#addbtn{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#addbtn a{
+    width: 150px;
+}
