@@ -92,10 +92,35 @@ class WMController extends Controller
                                             END as month_name,
                                             SUM(osszeg) as monthly_total")
                                 ->where('user_id', Auth::id())
-                                ->whereYear('datum', $year) // <-- EZ A FIX
+                                ->whereYear('datum', $year)
                                 ->groupBy(['month_number', 'month_name'])
                                 ->orderBy('month_number')
                                 ->pluck('monthly_total', 'month_name');
+        }
+
+        $spentIncome = null;
+
+        if ($req->input('chartDataType') === 'spentIncomeChart') {
+            $spentIncome = szamla::selectRaw("SUM(osszeg) as osszeg, MONTH(datum) as month_number, CASE MONTH(datum)
+                                                WHEN 1 THEN 'Január'
+                                                WHEN 2 THEN 'Február'
+                                                WHEN 3 THEN 'Március'
+                                                WHEN 4 THEN 'Április'
+                                                WHEN 5 THEN 'Május'
+                                                WHEN 6 THEN 'Június'
+                                                WHEN 7 THEN 'Július'
+                                                WHEN 8 THEN 'Augusztus'
+                                                WHEN 9 THEN 'Szeptember'
+                                                WHEN 10 THEN 'Október'
+                                                WHEN 11 THEN 'November'
+                                                WHEN 12 THEN 'December'
+                                                END as month_name,
+                                                SUM(osszeg) as monthly_total")
+                                    ->where('user_id', Auth::id())
+                                    ->whereYear('datum', $year)
+                                    ->groupBy(['osszeg', 'month_name', 'month_number'])
+                                    ->orderBy('month_number')
+                                    ->pluck('osszeg', 'month_name');
         }
 
         //kiválasztja az éveket az adatbázisból
@@ -107,7 +132,6 @@ class WMController extends Controller
         //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
         $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
-        // $months = ["nullindex", "Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"];
 
         if (Auth::check()) {
             return view('main', [
@@ -122,6 +146,7 @@ class WMController extends Controller
                 'monthly'           => $monthly,
                 'years'             => $years,
                 'year'              => $year,
+                'spentIncome'       => $spentIncome,
                 "result"            => $result,
                 "monthStart"        => $monthStart,
                 "days"              => $days,

@@ -12,6 +12,9 @@
 
 
 @extends("layout")
+@push("account-css")
+    <link rel="stylesheet" href="{{asset('css/account.css')}}">
+@endpush
 @section("content")
 
 <div class="container py-5">

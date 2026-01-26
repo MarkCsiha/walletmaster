@@ -1,4 +1,7 @@
 @extends("layout")
+@push("layout-css")
+    <link rel="stylesheet" href="{{asset('css/welcome.css')}}">
+@endpush
 @section("content")
 <header class="py-5">
             <div class="container px-lg-5">

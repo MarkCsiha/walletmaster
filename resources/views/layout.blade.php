@@ -11,6 +11,12 @@
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
         <link rel="stylesheet" href="{{asset('css/layout.css')}}">
         @stack("mainstyle-css")
+        @stack("goals-css")
+        @stack("add-css")
+        @stack("regisztracio-css")
+        @stack("belepes-css")
+        @stack("layout-css")
+        @stack("account-css")
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
     </head>
@@ -68,6 +74,7 @@
         </div>
     </footer>
     <script src="{{ asset('js/charts.js') }}"></script>
+    <script src="{{ asset("js/charts-spentincome.js") }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     </body>
 </html>

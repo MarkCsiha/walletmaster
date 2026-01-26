@@ -49,6 +49,7 @@
             {{-- request: olyan mint az old value, megtartja az oldal frissítése után azt az inputot, amit a felhasználó választott --}}
             <option value="categoryChart" {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>Kategóriák szerinti bontás</option>
             <option value="monthlyChart" {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>Havi kiadás diagram</option>
+            <option value="spentIncomeChart" {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>Költség - Bevétel differencia</option>
         </select>
         {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
         @if (request('chartDataType') == 'monthlyChart')
@@ -61,17 +62,15 @@
                 @endforeach
         @endif
     </select>
-    
+
     </form>
   </div>
-    <div class="col-md-3">
-        <form action="main.spentincome" method="POST" id="spentIncome">
-            @csrf
-            <button type="submit">Költség - kiadás</button>
-        </form>
-  </div>
   <div class="col-md-3">
-    <button type="button" id="btnToggle">Váltás (bar ↔ doughnut)</button>
+    <select name="chartType" id="chartType" class="form-control" onchange="this.form.submit()">
+        <option value="bar"      {{ request('chartType','bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram</option>
+        <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
+        <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
+    </select>
   </div>
   <div class="row mt-4">
     <div class="col-md-6">

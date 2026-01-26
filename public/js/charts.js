@@ -23,13 +23,13 @@ const config = (type) => {
             //animáció forrás: https://www.chartjs.org/docs/latest/samples/animations/delay.html
             onComplete: () => {
             //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
-                if (type === "bar") {
+                if (type == "bar") {
                     delayed = true;
                 }
             },
             delay: (context) => {
                 //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
-                 if (type === "bar") {
+                 if (type == "bar") {
                         let delay = 0;
                         if (context.type === 'data' && context.mode === 'default' && !delayed) {
                             delay = context.dataIndex * 300 + context.datasetIndex * 100;
@@ -91,13 +91,83 @@ function render(type) {
 
     //enélkül nem fog elindulni
     document.addEventListener("DOMContentLoaded", () => {
+    // induláskor a select aktuális értékével rajzol
+    const select = document.getElementById("chartType");
+    currentType = select.value;
     render(currentType);
 
-    document.getElementById("btnToggle").addEventListener("click", () => {
-        currentType = (currentType === "bar") ? "doughnut" : "bar";
+    // váltáskor újrarajzol
+    select.addEventListener("change", (e) => {
+        currentType = e.target.value;
         render(currentType);
     });
 });
 
 
+const configSpentIncome = {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+        label: 'Kiadás - Bevétel',
+        data: income_total,
+        backgroundColor: [
+            '#FF6384', '#36A2EB'
+        ],
+        borderWidth: 1
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    // Elements options apply to all of the options unless overridden in a dataset
+    // In this case, we are setting the border of each horizontal bar to be 2px wide
+    elements: {
+      bar: {
+        borderWidth: 2,
+      }
+    },
+    responsive: true,
+     animation: {
+            //animáció forrás: https://www.chartjs.org/docs/latest/samples/animations/delay.html
+            onComplete: () => {
+            //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
+                    delayed = true;
+            },
+            delay: (context) => {
+                //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
+                        let delay = 0;
+                        if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                            delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                        }
+                        return delay;
+        }
+    },
+    plugins: {
+      legend: {
+        position: 'right',
+      },
+      title: {
+        display: true,
+        text: 'Kiadás - Bevétel'
+      }
+    },
+    plugins: [ChartDataLabels]
 
+  },
+}
+
+
+function renderSpentIncome() {
+  const ctx = document.getElementById("spentIncomeChart");
+
+  if (spentChart) spentChart.destroy();
+
+  spentChart = new Chart(ctx, spentConfig());
+  labels = newLabels;
+  data   = newData;
+
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderSpentIncome();
+});

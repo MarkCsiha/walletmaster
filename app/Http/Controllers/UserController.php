@@ -222,7 +222,8 @@ class UserController extends Controller
                 $data = User::find(Auth::user()->id);
                 $data->password = $req->newpassword;
                 $data->Save();
-                return redirect(to: '/account')->with(['success' => "Sikeresen megváltoztatta a jelszavát"]);
+                Auth::logout();
+                return redirect(to: '/main')->with(['success' => "Sikeresen megváltoztatta a jelszavát"]);
             }
         }
         else{
@@ -248,7 +249,7 @@ class UserController extends Controller
         $data->Save();
         //kiküldi újra a regisztrációt megerősítő linket
         $data->sendEmailVerificationNotification();
-        
+
         return redirect('/auth/verify')->with('success', 'Sikeres adatmódosítás!');
     }
     }

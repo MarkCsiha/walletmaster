@@ -1,4 +1,7 @@
 @extends('layout')
+@push("add-css")
+    <link rel="stylesheet" href="{{asset("css/add.css")}}">
+@endpush
 @section('content')
 <main class="container py-4 px-5">
     <section>
