@@ -76,5 +76,6 @@
     <script src="{{ asset('js/charts.js') }}"></script>
     <script src="{{ asset("js/charts-spentincome.js") }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="{{ asset('js/autologout.js') }}"></script>
     </body>
 </html>

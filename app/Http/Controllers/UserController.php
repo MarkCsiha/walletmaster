@@ -117,6 +117,8 @@ class UserController extends Controller
 
     public function Logout() {
         Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
         return redirect('/')->with([
             "success"     => "Sikeres kijelentkezés!"
         ]);

@@ -10,6 +10,9 @@
                     <p class="text text-success text-center">{{session("success")}}</p>
             @endif
         </div>
+        {{-- <div class="col-md-9">
+            <p class="text text-center">A költése {{ $percentage }}%-al nagyobb, mint az előző havi.</p>
+        </div> --}}
   <form id="filtersForm" method="GET" action="/main">
     @csrf
 
@@ -47,8 +50,8 @@
         <label for="chartDataType">Költségvetési diagram típusa</label>
         <select name="chartDataType" id="chartDataType" class="form-control" onchange="this.form.submit()">
             {{-- request: olyan mint az old value, megtartja az oldal frissítése után azt az inputot, amit a felhasználó választott --}}
-            <option value="categoryChart" {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>Kategóriák szerinti bontás</option>
-            <option value="monthlyChart" {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>Havi kiadás diagram</option>
+            <option value="categoryChart"    {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>Kategóriák szerinti bontás</option>
+            <option value="monthlyChart"     {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>Havi kiadás diagram</option>
             <option value="spentIncomeChart" {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>Költség - Bevétel differencia</option>
         </select>
         {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
@@ -70,6 +73,9 @@
         <option value="bar"      {{ request('chartType','bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram</option>
         <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
         <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
+        @if (request('chartDataType') == 'monthlyChart')
+            <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
+        @endif
     </select>
   </div>
   <div class="row mt-4">
