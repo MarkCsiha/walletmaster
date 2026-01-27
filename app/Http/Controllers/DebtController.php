@@ -13,9 +13,12 @@ class DebtController extends Controller
     public function DebtShow() {
         $allDebt = tartozasok::where('user_id', Auth::id())
                             ->get();
-
+        $username = User::join('tartozasok', 'tartozasok.partner_user_id', '=', 'users.id')
+                            ->where('tartozasok.user_id', Auth::id())
+                            ->value('users.felhasznalonev');
         return view("debt", [
-            "allDebt"   => $allDebt
+            "allDebt"   => $allDebt,
+            "username"  => $username
         ]);
     }
 

@@ -12,33 +12,47 @@
                         <tr>
                             <th>Összeg: </th>
                             <th>Személy: </th>
-                            <th>Leírás:</th>
+                            <th>Felhasználónév: </th>
+                            <th>Leírás: </th>
                             <th>Típus: </th>
-                            <th>Dátum</th>
+                            <th>Dátum: </th>
+                            <th>Státusz: </th>
                         </tr>
 
-                        @foreach ($allDebt as $szamlak)
+                        @foreach ($allDebt as $debt)
                             <tr>
                                 <td>
-                                    @if($szamlak->tipus == 0)
-                                        <span class="text-danger">- {{$szamlak->osszeg}} Ft</span>
+                                    @if($debt->tipus == 0)
+                                        <span class="text-danger">- {{$debt->osszeg}} Ft</span>
                                     @else
-                                        <span class="text-success">+ {{$szamlak->osszeg}} Ft</span>
+                                        <span class="text-success">+ {{$debt->osszeg}} Ft</span>
                                     @endif
                                 </td>
-                                <td>{{$szamlak->honnan}}</td>
-                                <td>{{$szamlak->leiras}}</td>
-                                <td>{{$szamlak->kategoria}}</td>
-                                <td>{{$szamlak->fix}}</td>
-                                <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td>
+                                <td>{{ $debt->partner_nev }}</td>
+                                {{-- kiírja a felhasználónevet, de csak ha nem üres, lehet kell majd bele más td is null esetén --}}
+                                    @if(!empty($username))
+                                        <td>{{ $username }}</td>
+                                    @endif
+                                <td>{{ $debt->leiras }}</td>
+                                <td>
+                                    @if($debt->tipus == 0)
+                                        <span class="text-danger">Tartozás</span>
+                                    @else
+                                        <span class="text-success">Másik fél</span>
+                                    @endif
+                                </td>
+                                <td>{{ $debt->datum }}</td>
+                                <td>{{ $debt->status }}</td>
+                                {{-- <td>{{$szamlak->fix}}</td>
+                                <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td> --}}
 
                             </tr>
                         @endforeach
                     </table>
 
-                    <div class="d-flex justify-content-center">
+                    {{-- <div class="d-flex justify-content-center">
                         {{$result->links('pagination::bootstrap-4')}}
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
