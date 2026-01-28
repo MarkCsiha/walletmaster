@@ -66,7 +66,7 @@ class DebtController extends Controller
         if ($partnerId) {
             $mirror = new tartozasok;
             $mirror->user_id = $partnerId;
-            $mirror->partner_nev = trim(($myView->vez_nev) . ' ' . ($myView->ker_nev));
+            $mirror->partner_nev = trim((Auth::User()->vez_nev ?? '') . ' ' . (Auth::User()->ker_nev ?? ''));
             $mirror->partner_user_id = Auth::id();
             $mirror->osszeg = $req->debtAmount;
             $mirror->leiras = $req->description;
