@@ -11,15 +11,20 @@ use Illuminate\Support\Facades\Auth;
 class DebtController extends Controller
 {
     public function DebtShow() {
-        $allDebt = tartozasok::where('user_id', Auth::id())
-                            ->get();
-        $username = User::join('tartozasok', 'tartozasok.partner_user_id', '=', 'users.id')
-                            ->where('tartozasok.user_id', Auth::id())
-                            ->value('users.felhasznalonev');
+        $allDebt = tartozasok::query()
+                                ->where('tartozasok.user_id', Auth::id())
+                                ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
+                                ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
+                                ->get();
+
+        $kinek = User::select('users.felhasznalonev as partner_username')
+                        ->join('tartozasok', 'users.id', '=', 'tartozasok.partner_user_id')
+                        ->where("users.id", "partner_user_id")
+                        ->get();
         return view("debt", [
             "allDebt"   => $allDebt,
-            "username"  => $username
-        ]);
+            "kinek"     => $kinek
+            ]);
     }
 
     public function DebtAdd(Request $req) {
@@ -41,22 +46,41 @@ class DebtController extends Controller
 
             $partnerId = $partner->id;
         }
-        $data = new tartozasok;
-        $data->user_id = Auth::id();
-        $data->partner_nev = $req->name;
-        $data->partner_user_id = $partnerId;
+        $myView = new tartozasok;
+        $myView->user_id = Auth::id();
+        $myView->partner_nev = $req->name;
+        $myView->partner_user_id = $partnerId;
         //0 ha nekünk, 1 ha mi neki
         if ($req->debtToFrom == "debtTo") {
-            $data->tipus = 1;
+            $myView->tipus = 1;
         }
         else {
-            $data->tipus = 0;
+            $myView->tipus = 0;
         }
-        $data->osszeg = $req->debtAmount;
-        $data->leiras = $req->description;
-        $data->datum = $req->debtDate;
+        $myView->osszeg = $req->debtAmount;
+        $myView->leiras = $req->description;
+        $myView->datum = $req->debtDate;
 
-        $data->Save();
-        return view("debt")->with(["success" => "Sikeresm mentés!"]);
+        $myView->save();
+
+        if ($partnerId) {
+            $mirror = new tartozasok;
+            $mirror->user_id = $partnerId;
+            $mirror->partner_nev = trim(($myView->vez_nev) . ' ' . ($myView->ker_nev));
+            $mirror->partner_user_id = Auth::id();
+            $mirror->osszeg = $req->debtAmount;
+            $mirror->leiras = $req->description;
+            $mirror->datum = $req->debtDate;
+            if ($myView->tipus == 1) {
+                $mirror->tipus = 0;
+            }
+            else {
+                $mirror->tipus = 1;
+            }
+            $mirror->save();
+
+        }
+return redirect()->route('debt.show')->with('success', 'Sikeres mentés!');
+
     }
 }

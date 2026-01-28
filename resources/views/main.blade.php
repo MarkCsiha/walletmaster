@@ -81,7 +81,7 @@
   <div class="row mt-4">
     <div class="col-md-6">
       <h4 class="text-center">Oszlopdiagram</h4>
-      <canvas id="myChart"></canvas>
+      <canvas id="myChart" style="background-color: white; padding: 5px;"></canvas>
     </div>
   </div>
    <div class="row mt-3">
