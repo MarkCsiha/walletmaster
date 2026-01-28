@@ -17,22 +17,17 @@ class DebtController extends Controller
                                 ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
                                 ->get();
 
-        $kinek = User::select('users.felhasznalonev as partner_username')
-                        ->join('tartozasok', 'users.id', '=', 'tartozasok.partner_user_id')
-                        ->where("users.id", "partner_user_id")
-                        ->get();
         return view("debt", [
             "allDebt"   => $allDebt,
-            "kinek"     => $kinek
             ]);
     }
 
     public function DebtAdd(Request $req) {
         $req->validate([
-            "debtDate" => "date_format:Y-m-d|before:today"
+            "debtDate"          => "date_format:Y-m-d|before:today"
         ],
         [
-            'debtDate.before' => "Nem adhat meg jövőbeli dátumot!"
+            'debtDate.before'   => "Nem adhat meg jövőbeli dátumot!"
         ]);
 
         $partnerId = null;
@@ -46,9 +41,10 @@ class DebtController extends Controller
 
             $partnerId = $partner->id;
         }
-        $myView = new tartozasok;
-        $myView->user_id = Auth::id();
-        $myView->partner_nev = $req->name;
+        //"én nézetem": az a user, aki felvitte a tartozást az adabázisba, annak így fog megjelenni
+        $myView                  = new tartozasok;
+        $myView->user_id         = Auth::id();
+        $myView->partner_nev     = $req->name;
         $myView->partner_user_id = $partnerId;
         //0 ha nekünk, 1 ha mi neki
         if ($req->debtToFrom == "debtTo") {
@@ -59,18 +55,20 @@ class DebtController extends Controller
         }
         $myView->osszeg = $req->debtAmount;
         $myView->leiras = $req->description;
-        $myView->datum = $req->debtDate;
+        $myView->datum  = $req->debtDate;
 
         $myView->save();
 
+        //ha van partner, azaz felhasználónév, akkor el kell menteni a másik félnek is az adatokat. Ez a tükrözött nézet, neki fordítva lesz elmentve
         if ($partnerId) {
-            $mirror = new tartozasok;
-            $mirror->user_id = $partnerId;
-            $mirror->partner_nev = trim((Auth::User()->vez_nev ?? '') . ' ' . (Auth::User()->ker_nev ?? ''));
+            $mirror                  = new tartozasok;
+            $mirror->user_id         = $partnerId;
+            //trimmeljük, hogy a Laravel elfogadja a vez_nev + ker_nev párosítást, amelyet a users táblából kap
+            $mirror->partner_nev     = trim((Auth::User()->vez_nev ?? '') . ' ' . (Auth::User()->ker_nev ?? ''));
             $mirror->partner_user_id = Auth::id();
-            $mirror->osszeg = $req->debtAmount;
-            $mirror->leiras = $req->description;
-            $mirror->datum = $req->debtDate;
+            $mirror->osszeg          = $req->debtAmount;
+            $mirror->leiras          = $req->description;
+            $mirror->datum           = $req->debtDate;
             if ($myView->tipus == 1) {
                 $mirror->tipus = 0;
             }
@@ -80,7 +78,6 @@ class DebtController extends Controller
             $mirror->save();
 
         }
-return redirect()->route('debt.show')->with('success', 'Sikeres mentés!');
-
+        return redirect()->route('debt.show')->with(['success' => 'Sikeres mentés!']);
     }
 }
