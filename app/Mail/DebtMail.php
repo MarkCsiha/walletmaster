@@ -9,17 +9,22 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
+use App\Models\tartozasok;
+
 
 class DebtMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    //https://laravel.com/docs/12.x/mail
+     public tartozasok $tartozas;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(tartozasok $tartozas)
     {
-        //
+        $this->tartozas = $tartozas;
     }
 
     /**
@@ -40,6 +45,9 @@ class DebtMail extends Mailable
     {
         return new Content(
             markdown: 'mail.debt-mail',
+            with: [
+                "tartozas"  => $this->tartozas
+            ]
         );
     }
 

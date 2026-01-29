@@ -252,7 +252,7 @@ class UserController extends Controller
         //kiküldi újra a regisztrációt megerősítő linket
         $data->sendEmailVerificationNotification();
 
-        return redirect('/auth/verify')->with('success', 'Sikeres adatmódosítás!');
+        return redirect('/auth/verify')->with(['success' =>'Sikeres adatmódosítás!']);
     }
     }
 

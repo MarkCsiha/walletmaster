@@ -8,6 +8,7 @@ use App\Models\tartozasok;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\DebtMail;
+use Illuminate\Queue\RedisQueue;
 use Illuminate\Support\Facades\Mail;
 
 class DebtController extends Controller
@@ -26,7 +27,7 @@ class DebtController extends Controller
 
     public function DebtAdd(Request $req) {
         $req->validate([
-            "debtDate"          => "date_format:Y-m-d|before:today"
+            "debtDate"          => "date_format:Y-m-d|before_or_equal:today"
         ],
         [
             'debtDate.before'   => "Nem adhat meg jövőbeli dátumot!"
@@ -78,12 +79,27 @@ class DebtController extends Controller
                 $mirror->tipus = 1;
             }
             $mirror->save();
-            //https://laravel.com/docs/12.x/mail
+            //email-t küld a usernek, aki felé a tartozási kérelem ment
             Mail::to($partner->email)->send(new DebtMail($mirror));
 
 
         }
         return redirect()->route('debt.show')->with('success', 'Sikeres mentés!');
 
+    }
+
+    public function ShowDebtDetails($id) {
+        $id = tartozasok::find($id);
+        return view('debt-accept', [
+            "id"    => $id
+        ]);
+    }
+
+    public function AcceptDebt(Request $req, $id) {
+        $debt = tartozasok::findOrFail($id);
+        $debt->statusz = "elfogadva";
+        $debt->save();
+
+        return view('welcome')->with(["success" => "Sikeresen elfogadta a tartozási kérelmet!"]);
     }
 }
