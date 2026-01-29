@@ -8,5 +8,5 @@ class celok extends Model
 {
     protected $table = "celok";
     public $timestamps = false;
-    protected $primarykey = "cel_id";
+    protected $primaryKey = "cel_id";
 }

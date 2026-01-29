@@ -1,16 +1,9 @@
-{{-- @extends('layout')
-@section('content')
-    <main class="container pb-2">
-        <h1 class="text-center py-3">Fiókbeállítások</h1>
-            <h2 class="text-center py-3">{{ Auth::user()->vez_nev.' '.Auth::user()->ker_nev }} </h2>
-
-            <p class="text-center">
-                <a href="/kijelentkezes" class="text-decoration-none">Kijelentkezés</a>
-            </p>
-    </main>
-@endsection --}}
-
 @extends("layout")
+
+@push("account-css")
+    <link rel="stylesheet" href="{{asset('css/account.css')}}">
+@endpush
+
 @section("content")
 <div class="container py-5">
     <h2 class="mb-4">Felhasználói beállítások</h2>
@@ -20,96 +13,44 @@
                 <h4>Személyes adatok</h4>
                 <div class="mb-3">
                     <label for="fullName" class="form-label">Vezetéknév: </label>
-                    <input type="text" class="form-control" id="veznev" value="{{ Auth::user()->vez_nev }}">
+                    <input type="text" class="form-control rounded-pill" id="veznev" value="{{ Auth::user()->vez_nev }}">
                 </div>
                 <div class="mb-3">
                     <label for="fullName" class="form-label">Keresztnév: </label>
-                    <input type="text" class="form-control" id="kernev" value="{{   Auth::user()->ker_nev }}">
+                    <input type="text" class="form-control rounded-pill" id="kernev" value="{{   Auth::user()->ker_nev }}">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email cím </label>
-                    <input type="email" class="form-control" id="email" value="{{ Auth::user()->email }}">
+                    <input type="email" class="form-control rounded-pill" id="email" value="{{ Auth::user()->email }}">
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Telefonszám </label>
-                    <input type="tel" class="form-control" id="phone" value="{{ Auth::user()->telszam }}">
+                    <input type="tel" class="form-control rounded-pill" id="phone" value="{{ Auth::user()->telszam }}">
                 </div>
             </div>
-            {{-- <div class="col-md-6">
-                <h4>Profile Picture</h4>
-                <div class="mb-3">
-                    <img src="/api/placeholder/150/150" alt="Profile Picture" class="img-thumbnail mb-2">
-                    <input class="form-control" type="file" id="profilePicture">
-                </div>
-            </div> --}}
         </div>
 
+        <details>
+            <summary><h4> Jelszó megváltoztatása </h4></summary>
+            <div class="row mb-4">
+                <div class="col-md-6">
 
-        {{-- <div class="row mb-4">
-            <div class="col-md-6">
-                <h4>Email Preferences</h4>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="newsletterCheck" checked>
-                    <label class="form-check-label" for="newsletterCheck">Receive newsletter</label>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="promotionsCheck"> --}}
-                    {{-- <label class="form-check-label" for="promotionsCheck">Receive promotional emails</label>
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">Jelenlegi jelszó</label>
+                        <input type="password" class="form-control rounded-pill" id="currentPassword">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Új jelszó</label>
+                        <input type="password" class="form-control rounded-pill" id="newPassword">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Új jelszó megerősítése</label>
+                        <input type="password" class="form-control rounded-pill" id="confirmPassword">
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h4>Account Settings</h4>
-                <div class="mb-3">
-                    <label for="language" class="form-label">Preferred Language</label>
-                    <select class="form-select" id="language">
-                            <option value="en">English</option>
-                            <option value="es">Español</option>
-                            <option value="fr">Français</option>
-                            <option value="de">Deutsch</option>
-                        </select>
-                </div>
-                <div class="mb-3">
-                    <label for="timezone" class="form-label">Time Zone</label>
-                    <select class="form-select" id="timezone">
-                            <option value="UTC-8">Pacific Time (PT)</option>
-                            <option value="UTC-5">Eastern Time (ET)</option>
-                            <option value="UTC+0">Coordinated Universal Time (UTC)</option>
-                            <option value="UTC+1">Central European Time (CET)</option>
-                        </select>
-                </div>
-            </div>
-        </div> --}}
+        </details>
 
-        <hr class="w-50 mx-auto">
-
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <h4>Jelszó megváltoztatása</h4>
-                <div class="mb-3">
-                    <label for="currentPassword" class="form-label">Jelenlegi jelszó</label>
-                    <input type="password" class="form-control" id="currentPassword">
-                </div>
-                <div class="mb-3">
-                    <label for="newPassword" class="form-label">Új jelszó</label>
-                    <input type="password" class="form-control" id="newPassword">
-                </div>
-                <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Új jelszó megerősítése</label>
-                    <input type="password" class="form-control" id="confirmPassword">
-                </div>
-            </div>
-            {{-- <div class="col-md-6">
-                <h4>Privacy Settings</h4>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="profileVisibilityCheck" checked>
-                    <label class="form-check-label" for="profileVisibilityCheck">Make profile visible to others</label>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="activityTrackingCheck" checked>
-                    <label class="form-check-label" for="activityTrackingCheck">Allow activity tracking for personalized experience</label>
-                </div>
-            </div> --}}
-        </div>
 
         <div class="d-flex justify-content-between align-items-center">
             <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/kijelentkezes">Kijelentkezés</a></button>

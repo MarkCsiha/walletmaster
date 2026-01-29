@@ -1,8 +1,13 @@
 @extends('layout')
+
+@push("add-css")
+    <link rel="stylesheet" href="{{asset("css/add.css")}}">
+@endpush
+
 @section('content')
 <main class="container py-4 px-5">
     <section>
-        <h1>Kiadás/bevétel hozzáadása</h1>
+        <h1>Kiadás/Bevétel hozzáadása</h1>
         @if(session('msg'))
             <p class="text-success">{{session('msg')}}</p>
         @endif
@@ -13,13 +18,13 @@
                         <form action="/add" method="post">
                         @csrf
                             <label class="for-label" for="osszeg">Összeg:</label>
-                            <input class="form-control" type="number" name="osszeg" id="osszeg" value="{{old('osszeg')}}">
+                            <input class="form-control rounded-pill" type="number" name="osszeg" id="osszeg" value="{{old('osszeg')}}">
                             @error('osszeg')
                                 <p class="text-danger">{{$message}}</p>
                             @enderror
 
                             <label class="form-label mt-4" for="honnan">Hely:</label>
-                            <input class="form-control" type="text" name="honnan" id="honnan" value="{{old('honnan')}}">
+                            <input class="form-control rounded-pill" type="text" name="honnan" id="honnan" value="{{old('honnan')}}">
                             @error('honnan')
                                 <p class="text-danger">{{$message}}</p>
                             @enderror
@@ -34,7 +39,7 @@
 
                             <div class="my-4">
                                 <label class="form-label" for="datum">Dátum: </label>
-                                <input class="form-control" type="date" name="datum" id="datum" placeholder="éééé.hh.nn">
+                                <input class="form-control rounded-pill" type="date" name="datum" id="datum" placeholder="éééé.hh.nn">
                             </div>
                             @error('datum')
                                 <p class="text-danger">{{$message}}</p>
@@ -42,7 +47,7 @@
 
                             <div class="my-2">
                                 <label class="form-check-label" for="fix">Ez egy fix kiadás?</label>
-                                <select class="form-select" name="fix" id="fix">
+                                <select class="form-select  rounded-pill" name="fix" id="fix">
                                     <option value="0">---</option>
                                     <option value="eves">Éves</option>
                                     <option value="feleves">Féléves</option>
@@ -53,7 +58,7 @@
 
                             <div class="mt-4">
                                 <label class="for-label mb-2" for="tipus">Bevétel vagy kiadás?</label>
-                                <select class="form-select" name="tipus" id="tipus" data-old="{{ old('tipus') }}">
+                                <select class="form-select rounded-pill" name="tipus" id="tipus" data-old="{{ old('tipus') }}">
                                     <option value="0">---</option>
                                     <option value="kiadas"  {{ old('tipus')=='kiadas' ? 'selected' : '' }}>Kiadás</option>
                                     <option value="bevetel" {{ old('tipus')=='bevetel' ? 'selected' : '' }}>Bevétel</option>
@@ -62,7 +67,7 @@
 
                             <div class="mt-2">
                                 <label class="form-label mb-2" for="kategoria">Kategória</label>
-                                <select class="form-select" name="kategoria" id="kategoria" data-old="{{ old('kategoria') }}">
+                                <select class="form-select rounded-pill" name="kategoria" id="kategoria" data-old="{{ old('kategoria') }}">
                                     <option value="0">Válasszon típust először</option>
                                 </select>
                             </div>

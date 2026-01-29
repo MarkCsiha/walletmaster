@@ -14,16 +14,16 @@
                         {{-- ÉV + HÓNAP --}}
                         <div class="text-center mb-2">
                             <h2 class="m-0">{{ $monthStart->year }}</h2>
-                            <h4 class="text-muted mt-1">{{ $monthStart->translatedFormat('F') }}</h4>
+                            <h4>{{ $monthStart->translatedFormat('F') }}</h4>
                         </div>
 
                         {{-- HÓNAP VÁLTÁS --}}
                         <div class="d-flex justify-content-between mb-2">
-                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('naptar', ['ym' => $prevYm]) }}">
+                            <a class="btn btn-outline-secondary btn-sm text-white" href="{{ route('naptar', ['ym' => $prevYm]) }}">
                                 Előző
                             </a>
 
-                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('naptar', ['ym' => $nextYm]) }}">
+                            <a class="btn btn-outline-secondary btn-sm  text-white" href="{{ route('naptar', ['ym' => $nextYm]) }}">
                                 Következő
                             </a>
                         </div>
@@ -47,7 +47,7 @@
                                             $inMonth = $day->month === $monthStart->month;
                                         @endphp
 
-                                        <td style="height: 60px; vertical-align: top;" class="{{ $inMonth ? '' : 'text-danger' }}">
+                                        <td style="height: 60px; vertical-align: top;" class="{{ $inMonth ? '' : 'text-danger' }}">{{-- napok style legyen tomato --}}
                                             <div style="font-weight: 700;">
                                                 {{ $day->day }}
                                             </div>
@@ -80,15 +80,17 @@
                             <th>Kategoria</th>
                             <th>Rendszeres</th>
                             <th>Dátum</th>
+                            <th>Módosítás</th>
+                            <th>Törlés</th>
                         </tr>
 
                         @foreach ($result as $szamlak)
                             <tr>
                                 <td>
                                     @if($szamlak->tipus == 0)
-                                        <span class="text-danger">- {{$szamlak->osszeg}} Ft</span>
+                                        <span id="minus">- {{$szamlak->osszeg}} Ft</span>
                                     @else
-                                        <span class="text-success">+ {{$szamlak->osszeg}} Ft</span>
+                                        <span id="plus">+ {{$szamlak->osszeg}} Ft</span>
                                     @endif
                                 </td>
                                 <td>{{$szamlak->honnan}}</td>
@@ -96,7 +98,8 @@
                                 <td>{{$szamlak->kategoria}}</td>
                                 <td>{{$szamlak->fix}}</td>
                                 <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td>
-
+                                <td class="text-center"> <a href="/mainmod/{{$szamlak->szamla_id}}"> <i class="bi bi-pencil-fill text-warning"></i> </a> </td>
+                                <td class="text-center"> <a href="/mainexit/{{$szamlak->szamla_id}}"> <i class="bi bi-trash-fill text-danger"></i> </a> </td>
                             </tr>
                         @endforeach
                     </table>
@@ -104,10 +107,13 @@
                     <div class="d-flex justify-content-center">
                         {{$result->links('pagination::bootstrap-4')}}
                     </div>
-
+                    <div id="addbtn"><a href="/add" class="btn btn-dark">Hozzáadás</a></div>
                 </div>
             </div>
 
         </div>
     </main>
 @endsection
+
+
+{{-- Fix hozzáadásnál hozzáadjuk a hónapot, ha a hónap % 12 > 0-nál akkor a maradékot veszi és a lista[maradek+1] hónaphoz lesz beállítva majd és hoozáadva, nem előre hanem ha a datetime.Now() eléri azt az értéket --}}

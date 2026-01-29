@@ -62,6 +62,25 @@ th, td{
     white-space: nowrap;        /*Mi a fasz */
 }
 
-h2{
+h2, h4{
     color: white;
+}
+
+#plus{
+    color: greenyellow;
+}
+
+#minus{
+    color: tomato;
+}
+
+#addbtn{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#addbtn a{
+    width: 150px;
 }
