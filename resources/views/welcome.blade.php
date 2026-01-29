@@ -1,0 +1,59 @@
+@extends("layout")
+
+@push("layout-css")
+    <link rel="stylesheet" href="{{asset('css/welcome.css')}}">
+@endpush
+
+@section("content")
+<header class="py-5">
+    <div class="container px-lg-5">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="display-5 fw-bold">WalletMaster</h1>
+                <p class="fs-4">A WalletMaster egy pénzügyi és könyvelő alkalmazás, mely segít Önnek megfelelően vezetni kiadásait és bevételeit,  valamint pénzügyi célokat is megadhat.</p>
+                <p class="fs-4">Emellett valutaváltás is lehetséges!</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="pt-4">
+    <div class="container px-lg-5">
+        <div class="row gx-lg-5">
+            <div class="col-lg-6 col-xxl-4 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="icon feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">
+                            <i class="bi bi-diagram-2"></i>
+                        </div>
+                        <h2 class="fs-4 fw-bold">Költségvetési diagram</h2>
+                        <p class="mb-0">Nem tudja mennyit költött élelmiszerre, vagy elektronikai cikkekre? Vagy mennyivel költött többet mint az előző hónapban?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xxl-4 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">
+                            <i class="bi bi-bullseye"></i>
+                        </div>
+                        <h2 class="fs-4 fw-bold">Célok</h2>
+                        <p class="mb-0">El szeretne érni valamilyen célt? Gyermekének gyűjtene az ajándékára? Ez a funkció pontosan erre van, mely segít hatékonyabban spórolni.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xxl-4 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">
+                            <i class="bi bi-cash"></i>
+                        </div>
+                        <h2 class="fs-4 fw-bold">Valutaváltó</h2>
+                        <p class="mb-0">Nézze meg, aktuálisan mennyit ér a pénze más országok pénznemében és fordítva!</p> <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection

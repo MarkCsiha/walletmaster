@@ -1,0 +1,14 @@
+body{
+    background: linear-gradient(135deg,
+    #2b1055 0%,
+    #4b1f7a 35%,
+    #6a2bbd 70%,
+    #a855f7 100%
+  );
+  background-attachment: fixed;
+
+}
+
+h2, h3, h4, label{
+    color: white;
+}
