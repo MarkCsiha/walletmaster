@@ -79,8 +79,8 @@ Route::get("/main", [WMController::class, "Main"])->name('naptar');
 Route::get("/add", [WMController::class, "Add"]);
 Route::post("/add", [WMController::class, "AddBtn"]);
 
-Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->name('debts.decision');
+Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->name('debts.decision')->middleware(["auth", "verified"]);
 
-Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->name('debts.accept');;
+Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->name('debts.accept');
 
 Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->middleware("auth");
