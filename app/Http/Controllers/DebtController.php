@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\tartozasok;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\DebtMail;
+use Illuminate\Support\Facades\Mail;
 
 class DebtController extends Controller
 {
@@ -63,7 +65,7 @@ class DebtController extends Controller
         if ($partnerId) {
             $mirror                  = new tartozasok;
             $mirror->user_id         = $partnerId;
-            //trimmeljük, hogy a Laravel elfogadja a vez_nev + ker_nev párosítást, amelyet a users táblából kap
+            //trimmeljük, hogy a Laravel elfogadja partner névként a User tábla két külön elemét
             $mirror->partner_nev     = trim((Auth::User()->vez_nev ?? '') . ' ' . (Auth::User()->ker_nev ?? ''));
             $mirror->partner_user_id = Auth::id();
             $mirror->osszeg          = $req->debtAmount;
@@ -76,8 +78,12 @@ class DebtController extends Controller
                 $mirror->tipus = 1;
             }
             $mirror->save();
+            //https://laravel.com/docs/12.x/mail
+            Mail::to($partner->email)->send(new DebtMail($mirror));
+
 
         }
-        return redirect()->route('debt.show')->with(['success' => 'Sikeres mentés!']);
+        return redirect()->route('debt.show')->with('success', 'Sikeres mentés!');
+
     }
 }

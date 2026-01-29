@@ -5,8 +5,10 @@ use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WMController;
+use App\Http\Controllers\SSEController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+
 
 Route::view('/', 'welcome');
 
@@ -77,3 +79,4 @@ Route::get("/main", [WMController::class, "Main"])->name('naptar');
 Route::get("/add", [WMController::class, "Add"]);
 Route::post("/add", [WMController::class, "AddBtn"]);
 
+Route::get('/sse', [SSEController::class, 'stream'])->middleware(["auth", "verified"]);
