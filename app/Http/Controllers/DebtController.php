@@ -102,4 +102,12 @@ class DebtController extends Controller
 
         return view('welcome')->with(["success" => "Sikeresen elfogadta a tartozási kérelmet!"]);
     }
+
+    public function RejectDebt(Request $req, $id) {
+        $debt = tartozasok::findOrFail($id);
+        $debt->statusz = "elfogadva";
+        $debt->save();
+
+        return view('welcome')->with(["success" => "Sikeresen elfogadta a tartozási kérelmet!"]);
+    }
 }
