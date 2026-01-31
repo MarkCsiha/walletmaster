@@ -89,9 +89,17 @@ class DebtController extends Controller
     }
 
     public function ShowDebtDetails($id) {
-        $id = tartozasok::find($id);
+        $debt = tartozasok::find($id);
+        $userDebt = tartozasok::query()
+                                ->where('tartozasok.tartozasok_id', '=', $id)
+                                ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
+                                ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
+                                ->first();
+
         return view('debt-accept', [
-            "id"    => $id
+            "id"        => $id,
+            "debt"  => $debt,
+            "userDebt"  => $userDebt
         ]);
     }
 
@@ -103,7 +111,7 @@ class DebtController extends Controller
         return view('welcome')->with(["success" => "Sikeresen elfogadta a tartozási kérelmet!"]);
     }
 
-    public function RejectDebt(Request $req, $id) {
+    public function RejectDebt($id) {
         $debt = tartozasok::findOrFail($id);
         $debt->statusz = "elutasítva";
         $debt->save();

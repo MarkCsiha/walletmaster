@@ -42,7 +42,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $debt->datum }}</td>
-                                <td>{{ $debt->status }}</td>
+                                <td>{{ $debt->statusz }}</td>
                                 {{-- <td>{{$szamlak->fix}}</td>
                                 <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td> --}}
 
