@@ -206,7 +206,7 @@ class UserController extends Controller
         //megnézi hogy történt-e változás a data változóban
         if (!$data->isDirty()) {
         return redirect('/account')->with('unsuccessful', 'Nem történt változás.');
-}
+        }
 
         $data->save();
         return redirect('/account')->with('success', 'Sikeres adatmódosítás!');

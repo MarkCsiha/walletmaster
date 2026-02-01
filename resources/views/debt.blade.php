@@ -82,3 +82,4 @@
         <button type="submit">Tartozás felvitele</button>
     </form>
 </main>
+@endsection

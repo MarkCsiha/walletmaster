@@ -108,7 +108,23 @@ class DebtController extends Controller
         $debt->statusz = "elfogadva";
         $debt->save();
 
-        return view('welcome')->with(["success" => "Sikeresen elfogadta a tartozási kérelmet!"]);
+        if ($debt->partner_user_id) {
+            $originalDebt = tartozasok::where([
+                'user_id'         => $debt->partner_user_id,
+                'partner_user_id' => $debt->user_id,
+                'datum'           => $debt->datum,
+                'osszeg'          => $debt->osszeg,
+                'leiras'          => $debt->leiras
+        ])->first();
+
+        if ($originalDebt) {
+            $originalDebt->statusz = "elfogadva";
+            $originalDebt->save();
+        }
+    }
+
+
+        return redirect()->route('debt.show')->with('success', 'Elfogadva!');
     }
 
     public function RejectDebt($id) {
@@ -116,6 +132,20 @@ class DebtController extends Controller
         $debt->statusz = "elutasítva";
         $debt->save();
 
-        return view('welcome')->with(["success" => "Sikeresen visszautasította a tartozási kérelmet!"]);
-    }
+        if ($debt->partner_user_id) {
+            $originalDebt = tartozasok::where([
+                'user_id'         => $debt->partner_user_id,
+                'partner_user_id' => $debt->user_id,
+                'datum'           => $debt->datum,
+                'osszeg'          => $debt->osszeg,
+                'leiras'          => $debt->leiras
+        ])->first();
+
+        if ($originalDebt) {
+            $originalDebt->statusz = "elutasítva";
+            $originalDebt->save();
+            }
+        }
+
+        return redirect()->route('debt.show')->with('success', 'Visszautasítva!');    }
 }
