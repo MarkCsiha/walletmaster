@@ -10,6 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 use App\Models\tartozasok;
+use Illuminate\Mail\Mailables\Attachment;
 
 
 class DebtMail extends Mailable
@@ -58,6 +59,8 @@ class DebtMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return [
+            Attachment::fromPath(public_path('img/logo.png'))
+        ];
     }
 }

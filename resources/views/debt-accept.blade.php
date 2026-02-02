@@ -2,10 +2,14 @@
 @section("content")
 <main class="container pb-2">
     <div class="card">
+        <div class="col-md-9">
+            @if (session('success'))
+                    <p class="text text-success text-center">{{session("success")}}</p>
+            @else
+                <p class="text text-danger text-center">{{ session("unsuccessful") }}</p>
+            @endif
+        </div>
         <div class="card-body">
-            <p>
-
-            </p>
             <table class="table table bordered">
                 <tr>
                     <th>Összeg: </th>

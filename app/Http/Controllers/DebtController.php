@@ -139,9 +139,9 @@ class DebtController extends Controller
                 'leiras'          => $debt->leiras
         ])->first();
 
-        if ($originalDebt) {
-            $originalDebt->statusz = "elutasítva";
-            $originalDebt->save();
+            if ($originalDebt) {
+                $originalDebt->statusz = "elutasítva";
+                $originalDebt->save();
             }
         }
 

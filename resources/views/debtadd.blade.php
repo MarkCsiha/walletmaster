@@ -2,7 +2,14 @@
 @section("content")
 
 <main class="container pb-2">
- <form id="debtForm" method="POST" action="/debtadd">
+    <div class="col-md-9">
+            @if (session('success'))
+                    <p class="text text-success text-center">{{session("success")}}</p>
+            @else
+                <p class="text text-danger text-center">{{ session("unsuccessful") }}</p>
+            @endif
+        </div>
+        <form id="debtForm" method="POST" action="/debtadd">
         @csrf
         <label class="form-label mt-3" for="debtToFrom">Ki tartozik:</label>
         <select name="debtToFrom" id="debtToFrom">

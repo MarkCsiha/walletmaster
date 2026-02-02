@@ -23,7 +23,7 @@
     @if(session("success"))
         <p class="text-success text-center">{{ session('success') }}</p>
     @else
-        <p class="text-danger text-center">{{ session('success') }}</p>
+        <p class="text-danger text-center">{{ session('unsuccessful') }}</p>
   </div>
 @endif
     <form action="/account" method="post">
@@ -122,14 +122,14 @@
             <div class="col-md-6">
                 <h4>Jelszó megváltoztatása</h4>
                 <div class="mb-3">
-                    <label for="currentpassword" class="form-label">Jelenlegi jelszó</label>
+                    <label for="currentpassword" class="form-label">Jelenlegi jelszó: </label>
                     <input type="password" class="form-control @error('currentpassword') is-invalid @enderror" id="currentpassword" name="currentpassword">
                     @error('currentpassword')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="newpassword" class="form-label">Új jelszó</label>
+                    <label for="newpassword" class="form-label">Új jelszó: </label>
                     <input type="password" class="form-control @error('newpassword') is-invalid @enderror" id="newpassword" name="newpassword">
                     @error('newpassword')
                         <p class="text-danger">{{ $message }}</p>
@@ -137,7 +137,7 @@
                     <i class="fa-solid fa-eye" id="show-password"></i>
                 </div>
                 <div class="mb-3">
-                    <label for="newpassword_confirmation" class="form-label">Új jelszó megerősítése</label>
+                    <label for="newpassword_confirmation" class="form-label">Új jelszó megerősítése: </label>
                     <input type="password" class="form-control @error('newpassword_confirmation') is-invalid @enderror" name="newpassword_confirmation" id="newpassword_confirmation">
                     @error('newpassword_confirmation')
                         <p class="text-danger">{{ $message }}</p>
@@ -158,13 +158,17 @@
             </div>
         </div>  --}}
 
-        <div class="d-flex justify-content-between align-items-center">
-            <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/kijelentkezes">Kijelentkezés</a></button>
-        </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             {{-- <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> --}}
             <button type="submit" class="btn btn-primary btn-lg" name="mentes" id="mentes" value="mentes">Mentés</button>
         </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/kijelentkezes">Kijelentkezés</a></button>
+        </div>
     </form>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            {{-- <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> --}}
+        <button type="submit" class="btn btn-primary btn-lg" name="accountDelete" id="accountDelete" value="accountDelete">Felhasználó fiók törlése</button>
+    </div>
 </div>
 @endsection

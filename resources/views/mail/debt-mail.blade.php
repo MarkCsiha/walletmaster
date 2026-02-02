@@ -1,13 +1,13 @@
 <x-mail::message>
-# Introduction
+Tisztelt felhasználónk!
 
-The body of your message.
+Önnek tartozási kérelmet nyújtottak be, melyet az alábbi linken tud elfogadni, vagy visszautasítani.
 
 {{-- https://laravel.com/docs/12.x/urls --}}
 <x-mail::button :url="URL::signedRoute('debts.decision', ['id' => $tartozas->tartozasok_id])">
     Tartozás megnyitása
 </x-mail::button>
 
-Thanks,<br>
-{{ config('app.name') }}
+Üdvölettel,<br>
+{{ config('app.name') }} csapata
 </x-mail::message>

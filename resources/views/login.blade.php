@@ -10,6 +10,7 @@
                 @if(session('unsuccessful'))
                     <p class="text-danger text-center">{{session('unsuccessful')}}</p>
                 @endif
+            </div>
                 <h1 class="text-center py-3">Belépés</h1>
                 <div class="card w-75 mx-auto">
                     <form class="card-body" action="/login" method="post">
@@ -24,7 +25,6 @@
                     </form>
                     <a href="forgot-password">Elfelejtette jelszavát?</a>
                 </div>
-            </div>
         </div>
     </main>
 @endsection

@@ -193,7 +193,7 @@ class WMController extends Controller
             "osszeg.numeric"        =>  "Az összeget számmal adja meg!",
             "datum.date"            =>  "Létező dátumot adjon meg!",
             "datum.date_format"     =>  "A dátum helyes formátuma éééé-hh-nn",
-            "datum.before_or_equal" =>  "Nem adjon meg jövőbeli dátumot!"
+            "datum.before_or_equal" =>  "Ne adjon meg jövőbeli dátumot!"
         ]);
         $desc = mb_strtolower
         ($req->leiras ?? '') . ' ' . ($req->leiras ?? '');
@@ -228,7 +228,7 @@ class WMController extends Controller
 
         $data->Save();
 
-        return redirect('/main')->with('success','Sikeres mentés!');
+        return redirect('/main')->with(["success"  => "Sikeres mentés!"]);
     }
     public function Index(Request $request)
     {

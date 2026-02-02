@@ -95,23 +95,6 @@ const config = (type) => {
                     }
         }
     },
-     elements: {
-      arc: {
-        backgroundColor: function(context) {
-          let c = colors[context.dataIndex];
-          if (!c) {
-            return;
-          }
-          if (context.active) {
-            c = helpers.getHoverColor(c);
-          }
-          const mid = helpers.color(c).desaturate(0.2).darken(0.2).rgbString();
-          const start = helpers.color(c).lighten(0.2).rotate(270).rgbString();
-          const end = helpers.color(c).lighten(0.1).rgbString();
-          return createRadialGradient3(context, start, mid, end);
-        },
-      }
-    },
     plugins: {
         legend: {
         //eltűnteti a címet
@@ -121,7 +104,7 @@ const config = (type) => {
         tooltip: {
           callbacks: {
             label: (context) => {
-              if (type === "doughnut") {
+              if (type === "doughnut" || type === "pie") {
                 //https://www.geeksforgeeks.org/javascript/how-to-add-percentage-and-value-datalabels-in-pie-chart-in-chartjs/
                 //százalékszámítás
                 //frissített, verzióhoz helyes számítás

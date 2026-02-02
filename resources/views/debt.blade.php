@@ -6,6 +6,13 @@
         {{-- error --}}
     </div>
      <div class="card">
+        <div class="col-md-9">
+            @if (session('success'))
+                    <p class="text text-success text-center">{{session("success")}}</p>
+            @else
+                <p class="text text-danger text-center">{{ session("unsuccessful") }}</p>
+            @endif
+        </div>
                 <div class="card-body">
 
                     <table class="table table bordered">
@@ -48,7 +55,9 @@
                                 <form action="{{ route('debts.done', ['id' => $debt->tartozasok_id]) }}" method="POST" id="debtDone">
                                     @csrf
                                     <td>
-                                        <button type="submit" class="btn btn-success">Tartozás pipa</button>
+                                        @if($debt->statusz != "rendezve")
+                                            <button type="submit" class="btn btn-success">Tartozás pipa</button>
+                                        @endif
                                     </td>
                                 </form>
                             </tr>
