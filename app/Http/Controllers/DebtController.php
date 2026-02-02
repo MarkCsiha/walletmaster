@@ -122,7 +122,7 @@ class DebtController extends Controller
             $originalDebt->save();
         }
     }
-        return redirect()->route('debt.show')->with('success', 'Elfogadva!');
+        return redirect()->route('debt.show')->with(['success' => 'Elfogadva!']);
     }
 
     public function RejectDebt($id) {
@@ -145,5 +145,14 @@ class DebtController extends Controller
             }
         }
 
-        return redirect()->route('debt.show')->with('success', 'Visszautasítva!');    }
+        return redirect()->route('debt.show')->with(['success' => 'Visszautasítva!']);
+    }
+
+    public function DebtDone($id) {
+        $debt = tartozasok::findOrFail($id);
+        $debt->statusz = "rendezve";
+        $debt->save();
+
+        return redirect('/debt')->with(["success"   => "Sikeres teljesítés!"]);
+    }
 }

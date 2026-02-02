@@ -45,7 +45,12 @@
                                 <td>{{ $debt->statusz }}</td>
                                 {{-- <td>{{$szamlak->fix}}</td>
                                 <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td> --}}
-
+                                <form action="{{ route('debts.done', ['id' => $debt->tartozasok_id]) }}" method="POST" id="debtDone">
+                                    @csrf
+                                    <td>
+                                        <button type="submit" class="btn btn-success">Tartozás pipa</button>
+                                    </td>
+                                </form>
                             </tr>
                         @endforeach
                     </table>

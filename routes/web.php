@@ -85,3 +85,5 @@ Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->
 Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->name('debts.accept');
 
 Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->name("debts.reject");
+
+Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts.done");
