@@ -22,7 +22,7 @@
                         @foreach ($allDebt as $debt)
                             <tr>
                                 <td>
-                                    @if($debt->tipus == 0)
+                                    @if($debt->tipus == 1)
                                         <span class="text-danger">- {{$debt->osszeg}} Ft</span>
                                     @else
                                         <span class="text-success">+ {{$debt->osszeg}} Ft</span>
@@ -31,11 +31,11 @@
 
                                 <td>{{ $debt->partner_nev }}</td>
                                 {{-- kiírja a felhasználónevet, de csak ha nem üres, lehet kell majd bele más td is null esetén --}}
-                                    <td>{{ $debt->partner_username ?? '' }}</td>
+                                <td>{{ $debt->partner_username ?? '' }}</td>
 
                                 <td>{{ $debt->leiras }}</td>
                                 <td>
-                                    @if($debt->tipus == 0)
+                                    @if($debt->tipus == 1)
                                         <span class="text-danger">Tartozás</span>
                                     @else
                                         <span class="text-success">Másik fél</span>

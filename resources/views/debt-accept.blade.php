@@ -26,7 +26,7 @@
                             @endif
                         </td>
                         <td>{{ $userDebt->partner_nev }}</td>
-                        <td>{{ $userDebt->felhasznalonev }}</td>
+                        <td>{{ $userDebt->partner_username }}</td>
                         <td>{{ $userDebt->leiras }}</td>
                     <td>
                         @if($userDebt->tipus == 0)

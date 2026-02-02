@@ -98,12 +98,12 @@ class DebtController extends Controller
 
         return view('debt-accept', [
             "id"        => $id,
-            "debt"  => $debt,
+            "debt"      => $debt,
             "userDebt"  => $userDebt
         ]);
     }
 
-    public function AcceptDebt(Request $req, $id) {
+    public function AcceptDebt($id) {
         $debt = tartozasok::findOrFail($id);
         $debt->statusz = "elfogadva";
         $debt->save();
@@ -122,8 +122,6 @@ class DebtController extends Controller
             $originalDebt->save();
         }
     }
-
-
         return redirect()->route('debt.show')->with('success', 'Elfogadva!');
     }
 
