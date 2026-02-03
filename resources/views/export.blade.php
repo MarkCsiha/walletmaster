@@ -17,7 +17,7 @@
             <td>{{ $row->leiras }}</td>
             <td>{{ $row->kategoria_nev }}</td>
             <td>
-                @if($row->rendszeres == 0)
+                @if($row->fix == 0)
                     nem
                 @else
                     {{ $row->fix }}
