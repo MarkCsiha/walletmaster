@@ -15,7 +15,7 @@
                     <div class="card-body">
                         <form action="/add" method="post">
                         @csrf
-                            <label class="for-label" for="osszeg">Összeg:</label>
+                            <label class="form-label" for="osszeg">Összeg:</label>
                             <input class="form-control" type="number" name="osszeg" id="osszeg" value="{{old('osszeg')}}">
                             @error('osszeg')
                                 <p class="text-danger">{{$message}}</p>

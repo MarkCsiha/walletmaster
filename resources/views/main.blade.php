@@ -21,7 +21,7 @@
         <label>Kategória</label>
         <select name="category" class="form-control">
           <option value="">Összes</option>
-          @foreach ($labels as $label)
+          @foreach (($labels ?? []) as $label)
             <option value="{{ $label }}" {{ ($selectedCategory ?? '') === $label ? 'selected' : '' }}>
               {{ $label }}
             </option>
@@ -84,6 +84,7 @@
       <canvas id="myChart" style="background-color: white; padding: 5px;"></canvas>
     </div>
   </div>
+ 
    <div class="row mt-3">
             <div class="col r-3" id="outerpanel">
                 <div class="card" id="kartya">
@@ -185,6 +186,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
+    //a ??-el lehet üres is, azaz ha más formot küldünk, akkor nem fog összeomlani hogy nem kapta meg
     let labels = {!! json_encode($labels ?? []) !!};
     let data   = {!! json_encode($data ?? []) !!};
 

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SpendingExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\szamla;
 use App\Models\kategoriak;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -306,5 +308,9 @@ class WMController extends Controller
         //     else {
         //         return redirect("login");
         //     }
+    }
+
+    public function ExportExcel() {
+        return Excel::download(new SpendingExport(), "koltsegvetesi_adat_".Carbon::today().".xlsx");
     }
 }
