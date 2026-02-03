@@ -25,7 +25,7 @@ class SpendingExport implements FromView, ShouldAutoSize
     }
 
     public function view(): View {
-        return view("spending", [
+        return view("export", [
             "spending"  => $this->spending
         ]);
     }

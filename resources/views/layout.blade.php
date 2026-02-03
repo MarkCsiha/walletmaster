@@ -36,10 +36,6 @@
                             <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark">Céljaim</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/account" class="btn btn-success">Profilom<i class="bi bi-person fs-4"></i></a></li>
                             <li class="nav-item ms-4 me-4"><a href="/logout" class="btn btn-success bi bi-person">Kijelentkezés</a></li>
-                             <form action=" {{ route("spending.download-excel") }}" method="post" target="_blank">
-    @csrf
-    <button type="submit">Exportálás</button>
-  </form>
                         @endguest
                       </ul>
                 </div>

@@ -311,6 +311,7 @@ class WMController extends Controller
     }
 
     public function ExportExcel() {
-        return Excel::download(new SpendingExport(), "koltsegvetesi_adat_".Carbon::today().".xlsx");
+        //https://brainlet.medium.com/format-dates-with-carbon-in-laravel-583656a77940
+        return Excel::download(new SpendingExport(), "koltsegvetesi_adat_".Carbon::today()->toDateString().".xlsx");
     }
 }

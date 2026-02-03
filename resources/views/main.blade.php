@@ -84,7 +84,8 @@
       <canvas id="myChart" style="background-color: white; padding: 5px;"></canvas>
     </div>
   </div>
- 
+
+    <button><a href="/export">Exportálás</a></button>
    <div class="row mt-3">
             <div class="col r-3" id="outerpanel">
                 <div class="card" id="kartya">

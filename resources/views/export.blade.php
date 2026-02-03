@@ -23,7 +23,7 @@
                     {{ $row->fix }}
                 @endif
             </td>
-            <td>{{ $row->datum }}</td>
+            <td>{{ date_format(date_create($row->datum), "Y. m. d")}}</td>
         </tr>
     @endforeach
     </tbody>

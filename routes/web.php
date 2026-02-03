@@ -88,4 +88,4 @@ Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->name("
 
 Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts.done");
 
-Route::get('/spending', [WMController::class, "ExportExcel"])->name("spending.download-excel");
+Route::get('/export', [WMController::class, "ExportExcel"])->name("export.download-excel");
