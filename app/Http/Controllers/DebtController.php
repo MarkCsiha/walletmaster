@@ -39,7 +39,7 @@ class DebtController extends Controller
             $partner = User::where('felhasznalonev', $req->input('username'))->first();
 
             if (!$partner) {
-                return view("debt")->with(["unsuccessful" => "Nincs ilyen nevű felhasználó!"]);
+                return redirect()->route('debt.show')->with('unsuccessful', 'Nincs ilyen nevű felhasználó!');
             }
 
             $partnerId = $partner->id;

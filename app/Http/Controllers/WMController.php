@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
 
-
 class WMController extends Controller
 {
     //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
@@ -312,6 +311,8 @@ class WMController extends Controller
 
     public function ExportExcel() {
         //https://brainlet.medium.com/format-dates-with-carbon-in-laravel-583656a77940
-        return Excel::download(new SpendingExport(), "koltsegvetesi_adat_".Carbon::today()->toDateString().".xlsx");
+        return Excel::download(new SpendingExport(), "koltsegvetesi_adat_".Carbon::today()->toDateString().".xlsx", null,[
+            "include_charts" => true,
+        ]);
     }
 }

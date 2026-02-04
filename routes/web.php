@@ -82,10 +82,14 @@ Route::post("/add", [WMController::class, "AddBtn"]);
 //Tartozások email kiküldése
 Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->name('debts.decision');
 
+//tartozás elfogadása
 Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->name('debts.accept');
 
+//tartozás visszautasítása
 Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->name("debts.reject");
 
+//rendezve gomb a tartozásoknál
 Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts.done");
 
+//exportálás
 Route::get('/export', [WMController::class, "ExportExcel"])->name("export.download-excel");
