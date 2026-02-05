@@ -1,12 +1,12 @@
 <table>
     <thead>
     <tr>
-        <th style="font-weight:bolder; text-align: center;">Összeg</th>
-        <th style="font-weight:bolder; text-align: center;">Honnan</th>
-        <th style="font-weight:bolder; text-align: center;">Leírás</th>
-        <th style="font-weight:bolder; text-align: center;">Kategória</th>
-        <th style="font-weight:bolder; text-align: center;">Rendszeres</th>
-        <th style="font-weight:bolder; text-align: center;">Dátum</th>
+        <th style="font-weight:bolder; text-align: center;">osszeg</th>
+        <th style="font-weight:bolder; text-align: center;">honnan</th>
+        <th style="font-weight:bolder; text-align: center;">leiras</th>
+        <th style="font-weight:bolder; text-align: center;">kategoria_nev</th>
+        <th style="font-weight:bolder; text-align: center;">fix</th>
+        <th style="font-weight:bolder; text-align: center;">datum</th>
     </tr>
     </thead>
     <tbody>

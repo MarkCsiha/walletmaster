@@ -10,7 +10,7 @@ use App\Models\kategoriak;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
-
+use App\Imports\SzamlaImport;
 
 class WMController extends Controller
 {
@@ -314,5 +314,18 @@ class WMController extends Controller
         return Excel::download(new SpendingExport(), "koltsegvetesi_adat_".Carbon::today()->toDateString().".xlsx", null,[
             "include_charts" => true,
         ]);
+    }
+
+    public function ImportExcel(Request $req) {
+        $req->validate([
+            "file"      => "required|file"
+        ],[
+
+        ]);
+        Excel::import(new SzamlaImport(), $req->file('file'));
+
+        return redirect('/add')->with(["success" => "Sikeres fájlfeltöltés!"]);
+
+
     }
 }

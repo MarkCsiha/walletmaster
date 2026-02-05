@@ -13,6 +13,12 @@
             <div class="col-md">
                 <div class="card">
                     <div class="card-body">
+
+                    <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="file" class="form-control" accept=".csv,.xlsx" required>
+                        <button type="submit" class="btn btn-primary mt-2">Adatok importálása</button>
+                    </form>
                         <form action="/add" method="post">
                         @csrf
                             <label class="form-label" for="osszeg">Összeg:</label>

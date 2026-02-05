@@ -93,3 +93,5 @@ Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts
 
 //exportálás
 Route::get('/export', [WMController::class, "ExportExcel"])->name("export.download-excel");
+
+Route::post("/import", [WMController::class, "ImportExcel"])->name("import");
