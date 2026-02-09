@@ -15,9 +15,9 @@ class SzamlaImport implements ToModel, WithHeadingRow
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    
     public function model(array $row)
     {
+        //átkonvertáljuk az adatbázisnak megfelelő formátumra a kapott Excel dátumot
         $datum = Carbon::createFromFormat('Y. m. d', trim($row['datum']))->format('Y-m-d');
         return new szamla([
             'user_id'       => Auth::id(),

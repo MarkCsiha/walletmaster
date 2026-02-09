@@ -53,6 +53,7 @@
             <option value="categoryChart"    {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>Kategóriák szerinti bontás</option>
             <option value="monthlyChart"     {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>Havi kiadás diagram</option>
             <option value="spentIncomeChart" {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>Költség - Bevétel differencia</option>
+            <option value="budgetComparisonChart" {{ request('chartDataType') == 'budgetComparisonChart' ? 'selected' : '' }}>Összehasonlítás</option>
         </select>
         {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
         @if (request('chartDataType') == 'monthlyChart')
@@ -81,7 +82,7 @@
   <div class="row mt-4">
     <div class="col-md-6">
       <h4 class="text-center">Oszlopdiagram</h4>
-      <canvas id="myChart" style="background-color: white; padding: 5px;"></canvas>
+      <canvas id="myChart" style="background-color: black; padding: 5px;"></canvas>
     </div>
   </div>
 
@@ -195,5 +196,13 @@
         labels = @json($monthly->keys()->values());
         data   = @json($monthly->values());
     @endif
+
+    @if(!empty($budgetComparison))
+        labels   = @json($budgetComparison->keys());
+        userData = @json($data);
+        compData = @json($budgetComparison->values());
+    @endif
+
+    const isComparison = {!! json_encode(!empty($budgetComparison)) !!};
 </script>
 @endsection

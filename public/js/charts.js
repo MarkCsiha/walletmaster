@@ -58,13 +58,21 @@ const config = (type) => {
         type: type,
         data: {
         labels: labels,
-        datasets: [{
-            label: 'Költségek',
+        //ha az isComparison igaz (azaz ha az a select option van kiválasztva), akkor a címek 'Te' és 'Átlag'-ok lesznek, az adatok pedig a userData és a compData
+        datasets: isComparison ? [
+            {
+                label: "Te", data: userData
+            },
+            {
+                label: "Átlag", data: compData
+            }
+        ] : [{
+            label: "Költségek",
             data: data,
             backgroundColor:
             [
-                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                        '#FF9F40', '#66BB6A', '#EF5350'
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                '#FF9F40', '#66BB6A', '#EF5350'
             ],
             //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
             //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
@@ -74,7 +82,14 @@ const config = (type) => {
     }]
     },
     options: {
-
+        scales: (type === "pie" || type === "doughnut") ? {} : {
+            x: {
+                stacked: isComparison
+            },
+            y: {
+                stacked: isComparison, beginAtZero: true
+            }
+      },
         responsive: true,
         animation: {
             //animáció forrás: https://www.chartjs.org/docs/latest/samples/animations/delay.html
@@ -158,73 +173,4 @@ function render(type) {
         currentType = e.target.value;
         render(currentType);
     });
-});
-
-
-const configSpentIncome = {
-  type: 'bar',
-  data: {
-    labels: labels,
-    datasets: [{
-        label: 'Kiadás - Bevétel',
-        data: income_total,
-        backgroundColor: [
-            '#FF6384', '#36A2EB'
-        ],
-        borderWidth: 1
-    }]
-  },
-  options: {
-    indexAxis: 'y',
-    // Elements options apply to all of the options unless overridden in a dataset
-    // In this case, we are setting the border of each horizontal bar to be 2px wide
-    elements: {
-      bar: {
-        borderWidth: 2,
-      }
-    },
-    responsive: true,
-     animation: {
-            //animáció forrás: https://www.chartjs.org/docs/latest/samples/animations/delay.html
-            onComplete: () => {
-            //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
-                    delayed = true;
-            },
-            delay: (context) => {
-                //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
-                        let delay = 0;
-                        if (context.type === 'data' && context.mode === 'default' && !delayed) {
-                            delay = context.dataIndex * 300 + context.datasetIndex * 100;
-                        }
-                        return delay;
-        }
-    },
-    plugins: {
-      legend: {
-        position: 'right',
-      },
-      title: {
-        display: true,
-        text: 'Kiadás - Bevétel'
-      }
-    },
-    plugins: [ChartDataLabels]
-
-  },
-}
-
-
-function renderSpentIncome() {
-  const ctx = document.getElementById("spentIncomeChart");
-
-  if (spentChart) spentChart.destroy();
-
-  spentChart = new Chart(ctx, spentConfig());
-  labels = newLabels;
-  data   = newData;
-
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderSpentIncome();
 });

@@ -130,7 +130,18 @@ class WMController extends Controller
                             ->distinct()
                             ->orderBy('year', 'desc')
                             ->pluck('year');
+        $budgetComparison = null;
         //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
+       if ($req->input('chartDataType') === "budgetComparisonChart") {
+           $budgetComparison = szamla::query()
+                            ->selectRaw('kategoria_nev as category_name, SUM(osszeg) as total')
+                            ->where('user_id', '!=', Auth::id())
+                            ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
+                            ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
+                            ->where('tipus', 0)
+                            ->groupBy('kategoria_nev')
+                            ->pluck('total', 'category_name');
+        }
         $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
 
@@ -153,6 +164,9 @@ class WMController extends Controller
                 "days"              => $days,
                 "prevYm"            => $prevYm,
                 "nextYm"            => $nextYm,
+                "budgetComparison"  => $budgetComparison,
+                // 'compLabels'        => $budgetComparison->keys(),
+                // "compData"          => $budgetComparison->values(),
             ]);
         }
         else {
@@ -320,12 +334,12 @@ class WMController extends Controller
         $req->validate([
             "file"      => "required|file"
         ],[
-
+            "file.required" => "Töltse fel a fájlt!",
+            "file.file"     => "Fájlot adjon meg!"
         ]);
         Excel::import(new SzamlaImport(), $req->file('file'));
 
         return redirect('/add')->with(["success" => "Sikeres fájlfeltöltés!"]);
-
 
     }
 }

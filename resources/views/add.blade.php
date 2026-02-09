@@ -34,7 +34,7 @@
                             @enderror
 
                             <div class="my-4">
-                                <p><label class="for-label mb-1" for="leiras">Leírás:</label></p>
+                                <label class="for-label mb-1" for="leiras">Leírás:</label>
                                 <textarea class="form-control" name="leiras" id="leiras" cols="10" rows="10" placeholder="Miket vett?" ></textarea>
                             </div>
                             @error('leiras')
