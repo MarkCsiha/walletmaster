@@ -133,14 +133,18 @@ class WMController extends Controller
         $budgetComparison = null;
         //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
        if ($req->input('chartDataType') === "budgetComparisonChart") {
-           $budgetComparison = szamla::query()
-                            ->selectRaw('kategoria_nev as category_name, SUM(osszeg) as total')
-                            ->where('user_id', '!=', Auth::id())
-                            ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
-                            ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
-                            ->where('tipus', 0)
-                            ->groupBy('kategoria_nev')
-                            ->pluck('total', 'category_name');
+        //    $budgetComparison = szamla::query()
+        //                     ->selectRaw('kategoria_nev as category_name, SUM(osszeg) as total')
+        //                     ->where('user_id', '!=', Auth::id())
+        //                     ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
+        //                     ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
+        //                     ->where('tipus', 0)
+        //                     ->groupBy('kategoria_nev')
+        //                     ->pluck('total', 'category_name');
+            $budgetComparison = szamla::selectRaw("AVG(osszeg) as average, kategoria_nev as category_name")
+                                        ->where("tipus", 0)
+                                        ->groupBy("category_name")
+                                        ->pluck("average", "category_name");
         }
         $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
