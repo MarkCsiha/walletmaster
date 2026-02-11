@@ -166,7 +166,7 @@
                                 </td>
                                 <td>{{$szamlak->honnan}}</td>
                                 <td>{{$szamlak->leiras}}</td>
-                                <td>{{$szamlak->kategoria}}</td>
+                                <td>{{$szamlak->kategoria_nev}}</td>
                                 <td>{{$szamlak->fix}}</td>
                                 <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td>
 
@@ -198,8 +198,8 @@
     @endif
 
     @if(!empty($budgetComparison))
-        labels   = @json($budgetComparison->keys());
-        userData = @json($data);
+        labels = @json($userExpenses->keys()->values());
+        userData = @json($userExpenses->values());
         compData = @json($budgetComparison->values());
     @endif
 

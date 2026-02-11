@@ -61,10 +61,10 @@ const config = (type) => {
         //ha az isComparison igaz (azaz ha az a select option van kiválasztva), akkor a címek 'Te' és 'Átlag'-ok lesznek, az adatok pedig a userData és a compData
         datasets: isComparison ? [
             {
-                label: "Te", data: userData
+                label: "Átlag", data: userData
             },
             {
-                label: "Átlag", data: compData
+                label: "Ön", data: compData
             }
         ] : [{
             label: "Költségek",

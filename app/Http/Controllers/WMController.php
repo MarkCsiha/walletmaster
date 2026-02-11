@@ -131,8 +131,9 @@ class WMController extends Controller
                             ->orderBy('year', 'desc')
                             ->pluck('year');
         $budgetComparison = null;
+        $userExpenses = null;
         //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
-       if ($req->input('chartDataType') === "budgetComparisonChart") {
+        if ($req->input('chartDataType') === "budgetComparisonChart") {
         //    $budgetComparison = szamla::query()
         //                     ->selectRaw('kategoria_nev as category_name, SUM(osszeg) as total')
         //                     ->where('user_id', '!=', Auth::id())
@@ -142,9 +143,22 @@ class WMController extends Controller
         //                     ->groupBy('kategoria_nev')
         //                     ->pluck('total', 'category_name');
             $budgetComparison = szamla::selectRaw("AVG(osszeg) as average, kategoria_nev as category_name")
+                                        ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
+                                        ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
                                         ->where("tipus", 0)
-                                        ->groupBy("category_name")
+                                        ->where("user_id", "!=", Auth::id())
+                                        ->groupBy("kategoria_nev")
+                                        ->orderBy('kategoria_nev')
                                         ->pluck("average", "category_name");
+            $userExpenses = szamla::selectRaw('kategoria_nev as category_name, AVG(osszeg) as average')
+                                    ->where("user_id", Auth::id())
+                                    ->where('tipus', 0)
+                                    ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
+                                    ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
+                                    ->selectRaw('kategoria_nev as category_name, AVG(osszeg) as average')
+                                    ->groupBy('kategoria_nev')
+                                    ->orderBy('kategoria_nev')
+                                    ->pluck('average', 'category_name');
         }
         $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
@@ -169,6 +183,7 @@ class WMController extends Controller
                 "prevYm"            => $prevYm,
                 "nextYm"            => $nextYm,
                 "budgetComparison"  => $budgetComparison,
+                "userExpenses"      => $userExpenses,
                 // 'compLabels'        => $budgetComparison->keys(),
                 // "compData"          => $budgetComparison->values(),
             ]);
