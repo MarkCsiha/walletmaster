@@ -50,12 +50,12 @@ class WMController extends Controller
                                         return $query->whereDate('datum', '<=', $req->to);
                                     })
                                     ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
-                                            //biztosan a felhasználó adatait adja meg
-                                            ->where("tipus", 0)
-                                            ->groupBy('category_name')
-                                            ->orderBy('total')
-                                            //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
-                                            ->pluck('total', 'category_name');
+                                    //biztosan a felhasználó adatait adja meg
+                                    ->where("tipus", 0)
+                                    ->groupBy('category_name')
+                                    ->orderBy('total')
+                                    //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
+                                    ->pluck('total', 'category_name');
         $year = (int) $req->input('year', now()->year);
 
         if ($req->input('chartDataType') === 'categoryChart') {
@@ -68,11 +68,11 @@ class WMController extends Controller
                                     })
                                     ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
                                             //biztosan a felhasználó adatait adja meg
-                                            ->where("tipus", 0)
-                                            ->groupBy('category_name')
-                                            ->orderBy('total')
+                                    ->where("tipus", 0)
+                                    ->groupBy('category_name')
+                                    ->orderBy('total')
                                             //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
-                                            ->pluck('total', 'category_name');
+                                    ->pluck('total', 'category_name');
         }
         //ha a felhasználó havi költségbontást kér
         if ($req->input('chartDataType') === 'monthlyChart') {
@@ -99,10 +99,10 @@ class WMController extends Controller
                                 ->pluck('monthly_total', 'month_name');
         }
 
-        $spentIncome = null;
-
+        $spent = null;
+        $income = null;
         if ($req->input('chartDataType') === 'spentIncomeChart') {
-            $spentIncome = szamla::selectRaw("SUM(osszeg) as osszeg, MONTH(datum) as month_number, CASE MONTH(datum)
+            $spent = szamla::selectRaw("SUM(osszeg) as osszeg, tipus, MONTH(datum) as month_number, CASE MONTH(datum)
                                                 WHEN 1 THEN 'Január'
                                                 WHEN 2 THEN 'Február'
                                                 WHEN 3 THEN 'Március'
@@ -118,8 +118,30 @@ class WMController extends Controller
                                                 END as month_name,
                                                 SUM(osszeg) as monthly_total")
                                     ->where('user_id', Auth::id())
+                                    ->where("tipus", 0)
                                     ->whereYear('datum', $year)
-                                    ->groupBy(['osszeg', 'month_name', 'month_number'])
+                                    ->groupBy(['tipus', 'month_name', 'month_number'])
+                                    ->orderBy('month_number')
+                                    ->pluck('osszeg', 'month_name');
+            $income = szamla::selectRaw("SUM(osszeg) as osszeg, tipus, MONTH(datum) as month_number, CASE MONTH(datum)
+                                                WHEN 1 THEN 'Január'
+                                                WHEN 2 THEN 'Február'
+                                                WHEN 3 THEN 'Március'
+                                                WHEN 4 THEN 'Április'
+                                                WHEN 5 THEN 'Május'
+                                                WHEN 6 THEN 'Június'
+                                                WHEN 7 THEN 'Július'
+                                                WHEN 8 THEN 'Augusztus'
+                                                WHEN 9 THEN 'Szeptember'
+                                                WHEN 10 THEN 'Október'
+                                                WHEN 11 THEN 'November'
+                                                WHEN 12 THEN 'December'
+                                                END as month_name,
+                                                SUM(osszeg) as monthly_total")
+                                    ->where('user_id', Auth::id())
+                                    ->where("tipus", 1)
+                                    ->whereYear('datum', $year)
+                                    ->groupBy(['tipus', 'month_name', 'month_number'])
                                     ->orderBy('month_number')
                                     ->pluck('osszeg', 'month_name');
         }
@@ -142,7 +164,7 @@ class WMController extends Controller
         //                     ->where('tipus', 0)
         //                     ->groupBy('kategoria_nev')
         //                     ->pluck('total', 'category_name');
-            $budgetComparison = szamla::selectRaw("AVG(osszeg) as average, kategoria_nev as category_name")
+            $budgetComparison = szamla::selectRaw("ROUND(AVG(osszeg)) as average, kategoria_nev as category_name")
                                         ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
                                         ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
                                         ->where("tipus", 0)
@@ -150,7 +172,7 @@ class WMController extends Controller
                                         ->groupBy("kategoria_nev")
                                         ->orderBy('kategoria_nev')
                                         ->pluck("average", "category_name");
-            $userExpenses = szamla::selectRaw('kategoria_nev as category_name, AVG(osszeg) as average')
+            $userExpenses = szamla::selectRaw('kategoria_nev as category_name, ROUND(AVG(osszeg)) as average')
                                     ->where("user_id", Auth::id())
                                     ->where('tipus', 0)
                                     ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
@@ -176,7 +198,8 @@ class WMController extends Controller
                 'monthly'           => $monthly,
                 'years'             => $years,
                 'year'              => $year,
-                'spentIncome'       => $spentIncome,
+                'spent'       => $spent,
+                'income'        => $income,
                 "result"            => $result,
                 "monthStart"        => $monthStart,
                 "days"              => $days,

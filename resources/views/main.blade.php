@@ -72,17 +72,17 @@
   <div class="col-md-3">
     <select name="chartType" id="chartType" class="form-control" onchange="this.form.submit()">
         <option value="bar"      {{ request('chartType','bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram</option>
-        <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
-        <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
-        @if (request('chartDataType') == 'monthlyChart')
-            <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
-        @endif
+            <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
+            <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
+            @if (request('chartDataType') == 'monthlyChart')
+                <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
+            @endif
     </select>
   </div>
   <div class="row mt-4">
     <div class="col-md-6">
       <h4 class="text-center">Oszlopdiagram</h4>
-      <canvas id="myChart" style="background-color: black; padding: 5px;"></canvas>
+      <canvas id="myChart" style=" padding: 5px;"></canvas>
     </div>
   </div>
 
@@ -186,8 +186,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
 
 <script>
+    const autocolors = window['chartjs-plugin-autocolors'];
     //a ??-el lehet üres is, azaz ha más formot küldünk, akkor nem fog összeomlani hogy nem kapta meg
     let labels = {!! json_encode($labels ?? []) !!};
     let data   = {!! json_encode($data ?? []) !!};
@@ -197,12 +199,18 @@
         data   = @json($monthly->values());
     @endif
 
+    @if(!empty($spent))
+        labels = @json($spent->keys()->values());
+        spent = @json($spent->values());
+        income = @json($income->values());
+    @endif
     @if(!empty($budgetComparison))
         labels = @json($userExpenses->keys()->values());
         userData = @json($userExpenses->values());
         compData = @json($budgetComparison->values());
     @endif
 
+    const isSpentIncome = {{ !! json_encode(!empty($spent)) }};
     const isComparison = {!! json_encode(!empty($budgetComparison)) !!};
 </script>
 @endsection

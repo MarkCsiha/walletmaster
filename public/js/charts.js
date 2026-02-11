@@ -61,10 +61,21 @@ const config = (type) => {
         //ha az isComparison igaz (azaz ha az a select option van kiválasztva), akkor a címek 'Te' és 'Átlag'-ok lesznek, az adatok pedig a userData és a compData
         datasets: isComparison ? [
             {
-                label: "Átlag", data: userData
+                data: userData,
+                label: "Ön"
             },
             {
-                label: "Ön", data: compData
+                data: compData,
+                label: "Átlag"
+            }
+        ] : isSpentIncome ? [
+            {
+                data: spent,
+                label: "Költség"
+            },
+            {
+                data: income,
+                label: "Bevétel"
             }
         ] : [{
             label: "Költségek",
@@ -74,6 +85,7 @@ const config = (type) => {
                 '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
                 '#FF9F40', '#66BB6A', '#EF5350'
             ],
+
             //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
             //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
             hoverBorderColor: 'white',
@@ -82,12 +94,17 @@ const config = (type) => {
     }]
     },
     options: {
+        //rakd majd egybe a kettő scales-t + színek változtatása
         scales: (type === "pie" || type === "doughnut") ? {} : {
             x: {
-                stacked: isComparison
+                stacked: isComparison || isSpentIncome,
+                ticks: {
+                    color: "#ffffff"
+                }
             },
             y: {
-                stacked: isComparison, beginAtZero: true
+                stacked: isComparison || isSpentIncome,
+                beginAtZero: true
             }
       },
         responsive: true,
@@ -111,10 +128,14 @@ const config = (type) => {
         }
     },
     plugins: {
+        datalabels: {
+            display: false
+        },
         legend: {
         //eltűnteti a címet
         //https://stackoverflow.com/questions/56846339/how-to-remove-title-color-box-in-chart-js
-        display: type !== "bar"
+            display: type !== "bar",
+            display: isComparison ? true : isSpentIncome ? true : false,
         },
         tooltip: {
           callbacks: {
@@ -142,7 +163,9 @@ const config = (type) => {
 
     //megmondja hogy torta és kördiagram esetén nullán keződjön
       scales: (type === "pie" || type === "doughnut") ? {} : {
-        y: { beginAtZero: true }
+        y: {
+            beginAtZero: true,
+         }
       }
     },
     plugins: [ChartDataLabels]
@@ -174,3 +197,4 @@ function render(type) {
         render(currentType);
     });
 });
+
