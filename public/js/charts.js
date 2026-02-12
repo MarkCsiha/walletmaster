@@ -77,7 +77,21 @@ const config = (type) => {
                 data: income,
                 label: "Bevétel"
             }
-        ] : [{
+        ] : isMonthly ? [{
+            label: "Költségek",
+            data: data,
+            backgroundColor:
+            [
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                '#FF9F40', '#66BB6A', '#EF5350'
+            ],
+
+            //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
+            //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
+            hoverBorderColor: 'white',
+            //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
+            borderWidth: 2
+        }] : [{
             label: "Költségek",
             data: data,
             backgroundColor:
@@ -96,17 +110,15 @@ const config = (type) => {
     options: {
         //rakd majd egybe a kettő scales-t + színek változtatása
         scales: (type === "pie" || type === "doughnut") ? {} : {
-            x: {
-                stacked: isComparison || isSpentIncome,
-                ticks: {
-                    color: "#ffffff"
-                }
-            },
-            y: {
-                stacked: isComparison || isSpentIncome,
-                beginAtZero: true
-            }
+      x: {
+        stacked: isComparison || isSpentIncome,
+        ticks: { color: "#ffffff" }
       },
+      y: {
+        stacked: isComparison || isSpentIncome,
+        beginAtZero: true
+      }
+    },
         responsive: true,
         animation: {
             //animáció forrás: https://www.chartjs.org/docs/latest/samples/animations/delay.html

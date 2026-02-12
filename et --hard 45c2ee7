@@ -1,0 +1,20 @@
+[33m701dcc0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mCsiha[m[33m)[m HEAD@{Wed Feb 11 20:19:19 2026}: revert: Revert "Költség - bevétel differencia diagram kész"
+[33m45c2ee7[m[33m ([m[1;31morigin/Csiha[m[33m)[m HEAD@{Wed Feb 11 20:19:08 2026}: reset: moving to HEAD
+[33m45c2ee7[m[33m ([m[1;31morigin/Csiha[m[33m)[m HEAD@{Wed Feb 11 19:12:37 2026}: commit: Költség - bevétel differencia diagram kész
+[33m72d8a1c[m HEAD@{Wed Feb 11 12:18:30 2026}: commit: Összehasonlítás diagram működik
+[33me28c76b[m HEAD@{Mon Feb 9 20:18:37 2026}: commit: Összehasonlítás lekérdezés megjavítva
+[33m979f0fe[m HEAD@{Mon Feb 9 20:02:03 2026}: commit: Költség összehasonlítás chart majdnem kész
+[33mb32fe20[m HEAD@{Thu Feb 5 11:21:12 2026}: commit: Exportálás kész
+[33m70d76c9[m HEAD@{Wed Feb 4 11:22:51 2026}: commit: Exportálás kész
+[33mc7d5777[m HEAD@{Tue Feb 3 20:31:29 2026}: commit: Exportálás kész
+[33mf8b5abb[m HEAD@{Tue Feb 3 20:27:36 2026}: commit: Kis javítások az exportáláson
+[33m7cf51a0[m HEAD@{Tue Feb 3 19:46:23 2026}: commit: Exportálás nagyrésze kész
+[33mef8e1c2[m HEAD@{Mon Feb 2 20:31:31 2026}: commit: Kisebb javítások
+[33md01ce04[m HEAD@{Mon Feb 2 12:53:22 2026}: commit: Tartozás rendezés funkció kész
+[33mf3f4684[m HEAD@{Mon Feb 2 12:08:25 2026}: commit: Tartozások bugfixing kész
+[33m233336f[m HEAD@{Sun Feb 1 11:45:24 2026}: commit: Mindkét félre való tartozás mentés kész
+[33m8c4e268[m HEAD@{Sat Jan 31 21:32:45 2026}: commit: Adatkiírás tartozás elfogadás oldalon kész
+[33md69532a[m HEAD@{Thu Jan 29 20:54:55 2026}: commit: web.php konfliktus megoldódott
+[33mf11d671[m HEAD@{Thu Jan 29 20:52:00 2026}: pull --rebase (finish): returning to refs/heads/Csiha
+[33mf11d671[m HEAD@{Thu Jan 29 20:52:00 2026}: pull --rebase (pick): Kisebb módosítások
+[33m8a489fe[m HEAD@{Thu Jan 29 20:52:00 2026}: pull --rebase (pick): Email változtatás sikeres

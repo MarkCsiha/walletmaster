@@ -189,11 +189,14 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
 
 <script>
-    const autocolors = window['chartjs-plugin-autocolors'];
     //a ??-el lehet üres is, azaz ha más formot küldünk, akkor nem fog összeomlani hogy nem kapta meg
     let labels = {!! json_encode($labels ?? []) !!};
     let data   = {!! json_encode($data ?? []) !!};
 
+    let spent = [];
+    let income = [];
+    let userData = [];
+    let compData = [];
     @if(!empty($monthly))
         labels = @json($monthly->keys()->values());
         data   = @json($monthly->values());
@@ -210,7 +213,9 @@
         compData = @json($budgetComparison->values());
     @endif
 
-    const isSpentIncome = {{ !! json_encode(!empty($spent)) }};
-    const isComparison = {!! json_encode(!empty($budgetComparison)) !!};
+    const isMonthly     = @json(!empty($monthly));
+const isSpentIncome = @json(!empty($spent));
+const isComparison  = @json(!empty($budgetComparison));
+
 </script>
 @endsection
