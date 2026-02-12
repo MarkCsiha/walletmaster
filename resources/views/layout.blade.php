@@ -23,7 +23,11 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <div class="container px-lg-5">
-                <a class="navbar-brand" href="/">WalletMaster</a>
+                @if(Auth::check())
+                    <a class="navbar-brand" href="/main">WalletMaster</a>
+                @else
+                    <a class="navbar-brand" href="/">WalletMaster</a>
+                @endif
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -34,6 +38,7 @@
                             <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/add" class="btn btn-dark">Hozzáadás</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark">Céljaim</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/debt" class="btn btn-dark">Tartozások</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/account" class="btn btn-success">Profilom<i class="bi bi-person fs-4"></i></a></li>
                             <li class="nav-item ms-4 me-4"><a href="/logout" class="btn btn-success bi bi-person">Kijelentkezés</a></li>
                         @endguest

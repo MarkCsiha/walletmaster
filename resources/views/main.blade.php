@@ -56,7 +56,7 @@
             <option value="budgetComparisonChart" {{ request('chartDataType') == 'budgetComparisonChart' ? 'selected' : '' }}>Összehasonlítás</option>
         </select>
         {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
-        @if (request('chartDataType') == 'monthlyChart')
+        @if (request('chartDataType') == 'monthlyChart' || request('chartDataType') == 'spentIncomeChart')
             <label for="year">Év kiválasztása</label>
             <select name="year" id="year" class="form-control" onchange="this.form.submit()">
                 @foreach($years as $y)
@@ -70,19 +70,20 @@
     </form>
   </div>
   <div class="col-md-3">
+    <label for="chartType">Diagram típusa</label>
     <select name="chartType" id="chartType" class="form-control" onchange="this.form.submit()">
         <option value="bar"      {{ request('chartType','bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram</option>
             <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
             <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
-            @if (request('chartDataType') == 'monthlyChart')
+            {{-- @if (request('chartDataType') == 'monthlyChart') --}}
                 <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
-            @endif
+            {{-- @endif --}}
     </select>
   </div>
   <div class="row mt-4">
     <div class="col-md-6">
       <h4 class="text-center">Oszlopdiagram</h4>
-      <canvas id="myChart" style=" padding: 5px;"></canvas>
+      <canvas id="myChart" style="padding: 5px;"></canvas>
     </div>
   </div>
 
@@ -214,8 +215,8 @@
     @endif
 
     const isMonthly     = @json(!empty($monthly));
-const isSpentIncome = @json(!empty($spent));
-const isComparison  = @json(!empty($budgetComparison));
+    const isSpentIncome = @json(!empty($spent));
+    const isComparison  = @json(!empty($budgetComparison));
 
 </script>
 @endsection

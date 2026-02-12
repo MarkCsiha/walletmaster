@@ -62,20 +62,20 @@ const config = (type) => {
         datasets: isComparison ? [
             {
                 data: userData,
-                label: "Ön"
+                label: "Ön",
             },
             {
                 data: compData,
-                label: "Átlag"
+                label: "Átlag",
             }
         ] : isSpentIncome ? [
             {
                 data: spent,
-                label: "Költség"
+                label: "Költség",
             },
             {
                 data: income,
-                label: "Bevétel"
+                label: "Bevétel",
             }
         ] : isMonthly ? [{
             label: "Költségek",
@@ -85,12 +85,6 @@ const config = (type) => {
                 '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
                 '#FF9F40', '#66BB6A', '#EF5350'
             ],
-
-            //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
-            //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
-            hoverBorderColor: 'white',
-            //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
-            borderWidth: 2
         }] : [{
             label: "Költségek",
             data: data,
@@ -102,21 +96,29 @@ const config = (type) => {
 
             //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
             //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
-            hoverBorderColor: 'white',
-            //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
-            borderWidth: 2
+            // hoverBorderColor: 'white',
+            // //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
+            // borderWidth: 2
     }]
     },
     options: {
+        //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
+        //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
+        hoverBorderColor: 'white',
+        //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
+        borderWidth: 2,
         //rakd majd egybe a kettő scales-t + színek változtatása
         scales: (type === "pie" || type === "doughnut") ? {} : {
-      x: {
+     x: {
         stacked: isComparison || isSpentIncome,
         ticks: { color: "#ffffff" }
       },
       y: {
         stacked: isComparison || isSpentIncome,
-        beginAtZero: true
+        beginAtZero: isComparison ? true : false,
+        ticks: {
+            color: "#ffffff"
+        }
       }
     },
         responsive: true,
@@ -148,6 +150,9 @@ const config = (type) => {
         //https://stackoverflow.com/questions/56846339/how-to-remove-title-color-box-in-chart-js
             display: type !== "bar",
             display: isComparison ? true : isSpentIncome ? true : false,
+            labels: {
+                color: "white"
+            }
         },
         tooltip: {
           callbacks: {
@@ -174,10 +179,23 @@ const config = (type) => {
       },
 
     //megmondja hogy torta és kördiagram esetén nullán keződjön
-      scales: (type === "pie" || type === "doughnut") ? {} : {
+    scales: (type === "pie" || type === "doughnut") ? {} : {
         y: {
             beginAtZero: true,
-         }
+            //https://www.geeksforgeeks.org/javascript/how-to-change-grid-line-color-chartjs/
+            // grid: {
+            //     color: "rgba(192, 192, 192, 0.7)"
+            // },
+            ticks: {
+
+                color: "#ffffff"
+            }
+        },
+        x: {
+            ticks : {
+                color: "#ffffff"
+            }
+        }
       }
     },
     plugins: [ChartDataLabels]
@@ -185,7 +203,6 @@ const config = (type) => {
 }
 
 //az új chartot generálja le, és törli az előzőt, így van szabad hely a myChart változóban az új diagramnak
-
 function render(type) {
   //kérdéses, ha nem működik írd át a nevet canvas-ra!
   const ctx = document.getElementById("myChart");
