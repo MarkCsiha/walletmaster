@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Str;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 class UserController extends Controller
@@ -90,11 +91,20 @@ class UserController extends Controller
     public function LoginBtn(Request $req)
     {
         $req->validate([
-            "email"     => "required",
+            "loginData" => "required",
             "password"  => "required"
+        ], [
+            "loginData.required"    => "Adja meg az e-mail címét vagy felhasználónevét!",
+            "password.required"     => "Adja meg jelszavát!"
         ]);
 
-        if(Auth::attempt(['email' => $req->email, 'password' => $req->password])){
+        if (Str::contains($req->loginData, '@')) {
+            $credentials = 'email';
+        }
+        else {
+            $credentials = 'felhasznalonev';
+        }
+        if(Auth::attempt([$credentials => $req->loginData, 'password' => $req->password])){
             return redirect("/main")->with([
                 "success" => "Sikeresen belépett!"
             ]);
