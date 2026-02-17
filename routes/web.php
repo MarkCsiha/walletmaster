@@ -5,9 +5,11 @@ use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WMController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\SSEController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Laravel\Socialite\Socialite;
 
 
 Route::view('/', 'welcome');
@@ -95,3 +97,7 @@ Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts
 Route::get('/export', [WMController::class, "ExportExcel"])->name("export.download-excel");
 
 Route::post("/import", [WMController::class, "ImportExcel"])->name("import");
+
+Route::get('auth/google', [GoogleController::class, "RedirectGoogle"])->name('redirect.google');
+
+Route::get('auth/google/callback', [GoogleController::class, "GoogleCallback"])->name('callback.google');

@@ -115,7 +115,7 @@ const config = (type) => {
       },
       y: {
         stacked: isComparison || isSpentIncome,
-        beginAtZero: isComparison ? true : false,
+        beginAtZero: isSpentIncome ? false : true,
         ticks: {
             color: "#ffffff"
         }
@@ -149,7 +149,7 @@ const config = (type) => {
         //eltűnteti a címet
         //https://stackoverflow.com/questions/56846339/how-to-remove-title-color-box-in-chart-js
             display: type !== "bar",
-            display: isComparison ? true : isSpentIncome ? true : false,
+            display: isComparison ? true : false,
             labels: {
                 color: "white"
             }
@@ -181,7 +181,7 @@ const config = (type) => {
     //megmondja hogy torta és kördiagram esetén nullán keződjön
     scales: (type === "pie" || type === "doughnut") ? {} : {
         y: {
-            beginAtZero: true,
+            beginAtZero: isSpentIncome ? true : false,
             //https://www.geeksforgeeks.org/javascript/how-to-change-grid-line-color-chartjs/
             // grid: {
             //     color: "rgba(192, 192, 192, 0.7)"

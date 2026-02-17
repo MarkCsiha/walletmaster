@@ -217,6 +217,5 @@
     const isMonthly     = @json(!empty($monthly));
     const isSpentIncome = @json(!empty($spent));
     const isComparison  = @json(!empty($budgetComparison));
-
 </script>
 @endsection

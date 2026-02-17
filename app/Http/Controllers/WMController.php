@@ -177,7 +177,6 @@ class WMController extends Controller
                                     ->where('tipus', 0)
                                     ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
                                     ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
-                                    ->selectRaw('kategoria_nev as category_name, AVG(osszeg) as average')
                                     ->groupBy('kategoria_nev')
                                     ->orderBy('kategoria_nev')
                                     ->pluck('average', 'category_name');
