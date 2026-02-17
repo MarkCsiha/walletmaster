@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 
 class GoogleController extends Controller
 {
+    //https://www.youtube.com/watch?v=rsxKmrtlPtc&t=665s
+    //https://laravel.com/docs/12.x/socialite
     public function RedirectGoogle(Request $req) {
         return Socialite::driver('google')->redirect();
 

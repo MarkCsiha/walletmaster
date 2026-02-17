@@ -18,15 +18,11 @@
 
     <div class="row">
       <div class="col-md-3">
-        <label>Kategória</label>
-        <select name="category" class="form-control">
-          <option value="">Összes</option>
-          @foreach (($labels ?? []) as $label)
-            <option value="{{ $label }}" {{ ($selectedCategory ?? '') === $label ? 'selected' : '' }}>
-              {{ $label }}
-            </option>
-          @endforeach
-        </select>
+        <form action="main" method="POST" id="budgetLimitForm">
+            @csrf
+            <label>Költési cél megadása</label>
+            <input type="number" name="budgetLimit" id="budgetLimit" onchange="this.form.submit()">
+        </form>
       </div>
 
       <div class="col-md-3">
