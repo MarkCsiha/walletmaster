@@ -10,6 +10,7 @@
                     <p class="text text-success text-center">{{session("success")}}</p>
             @endif
         </div>
+        
         {{-- <div class="col-md-9">
             <p class="text text-center">A költése {{ $percentage }}%-al nagyobb, mint az előző havi.</p>
         </div> --}}
