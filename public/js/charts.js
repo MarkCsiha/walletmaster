@@ -115,7 +115,7 @@ const config = (type) => {
       },
       y: {
         stacked: isComparison || isSpentIncome,
-        beginAtZero: isSpentIncome ? false : true,
+        beginAtZero: true,
         ticks: {
             color: "#ffffff"
         }
@@ -181,7 +181,7 @@ const config = (type) => {
     //megmondja hogy torta és kördiagram esetén nullán keződjön
     scales: (type === "pie" || type === "doughnut") ? {} : {
         y: {
-            beginAtZero: isSpentIncome ? true : false,
+            beginAtZero: true,
             //https://www.geeksforgeeks.org/javascript/how-to-change-grid-line-color-chartjs/
             // grid: {
             //     color: "rgba(192, 192, 192, 0.7)"

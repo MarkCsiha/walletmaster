@@ -186,25 +186,32 @@ class WMController extends Controller
                                 ->selectRaw("kategoria_nev as category_name");
 
         $budgetGoal = null;
-        $checkIfUserExists = koltseglimit::where("user_id", Auth::id())
-                                        ->first();
         //https://laracasts.com/discuss/channels/laravel/getting-the-first-and-last-date-of-the-current-month-and-past-2-months
         $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
         $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
 
-        if (!$checkIfUserExists) {
-            $budgetGoal = new koltseglimit;
-            $budgetGoal->user_id = Auth::id();
-            $budgetGoal->osszeg = $req->input('budgetLimit');
-            $budgetGoal->tipus = 0;
-            $budgetGoal->start_datum = $first_day_of_the_current_month;
-            $budgetGoal->vege_datum = $last_day_of_the_current_month;
+        $checkIfUserExists = koltseglimit::where("user_id", Auth::id())
+                                        ->whereDate('start_datum', $first_day_of_the_current_month)
+                                        ->whereDate('vege_datum', $last_day_of_the_current_month)
+                                        ->where('tipus', 0)
+                                        ->first();
 
-            $budgetGoal->save();
-        }
+        if ($req->filled('budgetLimit')) {
+            if (!$checkIfUserExists) {
+                 $budgetGoal = new koltseglimit;
+                $budgetGoal->user_id = Auth::id();
+                $budgetGoal->osszeg = $req->input('budgetLimit');
+                $budgetGoal->tipus = 0;
+                $budgetGoal->start_datum = $first_day_of_the_current_month;
+                $budgetGoal->vege_datum = $last_day_of_the_current_month;
+
+                $budgetGoal->save();
+            }
+
         else {
             $checkIfUserExists->osszeg = $req->input('budgetLimit');
             $checkIfUserExists->save();
+        }
         }
 
         if (Auth::check()) {
@@ -275,30 +282,6 @@ class WMController extends Controller
             "datum.before_or_equal" =>  "Ne adjon meg jövőbeli dátumot!"
         ]);
 
-        $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
-        $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
-
-        $sumSpending = szamla::where("user_id", Auth::id())
-                            ->where("tipus", 0)
-                            ->whereBetween('datum', [$first_day_of_the_current_month, $last_day_of_the_current_month])
-                            ->sum("osszeg");
-       $limitSelect = koltseglimit::where("user_id", Auth::id())
-                                ->whereDate('start_datum', $first_day_of_the_current_month)
-                                ->whereDate('vege_datum', $last_day_of_the_current_month)
-                                ->where('tipus', 0)
-                                ->value("osszeg");
-    $limitSelect = (int) ($limitSelect ?? 0);
-    $limitMessage = null;
-    $comparison = $sumSpending - $limitSelect;
-
-    if ($limitSelect == 0) {
-        $limitMessage = "Nincs megadva költség limit erre a hónapra.";
-    } elseif ($comparison > 0) {
-        $limitMessage = "Túllépte az e havi megadott költség limitet ".$comparison." Ft-tal!";
-    } else {
-        $limitMessage = "Még ".abs($comparison)." Ft-tal a megadott e havi limit alatt van.";
-    }
-
         $data = new szamla;
         $data->user_id  = Auth::user()->id;
         $data->osszeg   =  $req->osszeg;
@@ -317,7 +300,29 @@ class WMController extends Controller
         $data->kategoria_nev = $suggested ?? $req->kategoria;
 
         $data->Save();
+  $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
+        $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
 
+        $sumSpending = szamla::where("user_id", Auth::id())
+                            ->where("tipus", 0)
+                            ->whereBetween('datum', [$first_day_of_the_current_month, $last_day_of_the_current_month])
+                            ->sum("osszeg");
+        $limitSelect = koltseglimit::where("user_id", Auth::id())
+                                ->whereDate('start_datum', $first_day_of_the_current_month)
+                                ->whereDate('vege_datum', $last_day_of_the_current_month)
+                                ->where('tipus', 0)
+                                ->value("osszeg");
+        $limitSelect = (int) ($limitSelect ?? 0);
+        $limitMessage = null;
+        $comparison = $sumSpending - $limitSelect;
+
+        if ($limitSelect == 0) {
+            $limitMessage = "Nincs megadva költség limit erre a hónapra.";
+        } elseif ($comparison > 0) {
+            $limitMessage = "Túllépte az e havi megadott költség limitet ".$comparison." Ft-tal!";
+        } else {
+            $limitMessage = "Még ".abs($comparison)." Ft-tal a megadott e havi limit alatt van.";
+        }
         return redirect('/main')->with(["success"  => "Sikeres mentés! ".$limitMessage.""]);
     }
     public function Index(Request $request)
