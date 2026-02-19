@@ -46,9 +46,6 @@
 //   return createRadialGradient3(ctx, start, mid, end);
 // }
 
-
-
-
 //nullá teszi az eddigi chartot -> szükséges az új chart rendereléséhez
 let chart = null;
 let delayed = false;
@@ -148,8 +145,8 @@ const config = (type) => {
         legend: {
         //eltűnteti a címet
         //https://stackoverflow.com/questions/56846339/how-to-remove-title-color-box-in-chart-js
-            display: type !== "bar",
-            display: isComparison ? true : false,
+            // display: type !== "bar",
+            display: isComparison || type == "pie" || type == "doughnut" ? true : false,
             labels: {
                 color: "white"
             }
@@ -187,7 +184,6 @@ const config = (type) => {
             //     color: "rgba(192, 192, 192, 0.7)"
             // },
             ticks: {
-
                 color: "#ffffff"
             }
         },

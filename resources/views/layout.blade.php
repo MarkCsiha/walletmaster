@@ -17,6 +17,7 @@
         @stack("belepes-css")
         @stack("layout-css")
         @stack("account-css")
+        @stack("loading-css")
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
         @livewireStyles
@@ -85,6 +86,7 @@
     <script src="{{ asset('js/charts.js') }}"></script>
     <script src="{{ asset("js/charts-spentincome.js") }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{{ asset('js/autologout.js') }}"></script>
     </body>
 </html>

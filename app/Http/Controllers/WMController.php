@@ -198,7 +198,7 @@ class WMController extends Controller
 
         if ($req->filled('budgetLimit')) {
             if (!$checkIfUserExists) {
-                 $budgetGoal = new koltseglimit;
+                $budgetGoal = new koltseglimit;
                 $budgetGoal->user_id = Auth::id();
                 $budgetGoal->osszeg = $req->input('budgetLimit');
                 $budgetGoal->tipus = 0;
@@ -300,7 +300,8 @@ class WMController extends Controller
         $data->kategoria_nev = $suggested ?? $req->kategoria;
 
         $data->Save();
-  $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
+
+        $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
         $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
 
         $sumSpending = szamla::where("user_id", Auth::id())
@@ -308,10 +309,10 @@ class WMController extends Controller
                             ->whereBetween('datum', [$first_day_of_the_current_month, $last_day_of_the_current_month])
                             ->sum("osszeg");
         $limitSelect = koltseglimit::where("user_id", Auth::id())
-                                ->whereDate('start_datum', $first_day_of_the_current_month)
-                                ->whereDate('vege_datum', $last_day_of_the_current_month)
-                                ->where('tipus', 0)
-                                ->value("osszeg");
+                                    ->whereDate('start_datum', $first_day_of_the_current_month)
+                                    ->whereDate('vege_datum', $last_day_of_the_current_month)
+                                    ->where('tipus', 0)
+                                    ->value("osszeg");
         $limitSelect = (int) ($limitSelect ?? 0);
         $limitMessage = null;
         $comparison = $sumSpending - $limitSelect;
