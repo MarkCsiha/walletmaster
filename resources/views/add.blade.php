@@ -84,4 +84,4 @@
     </section>
 </main>
 @endsection
-<script src="{{asset('js/add.js')}}"></script>
+<script src="{{ asset('js/add.js')}}"></script>

@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\szamla;
 use App\Models\celok;
+use App\Models\fix;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
-
 
 class WMController extends Controller
 {
@@ -19,8 +18,103 @@ class WMController extends Controller
 
         // --- a te meglévő listád (marad) ---
         $result = szamla::where("user_id", $user)
+            ->whereMonth('datum', now()->month)
+            ->whereYear('datum', now()->year)
             ->orderBy("datum", "desc")
             ->paginate(10);
+            //now()->format('m')
+
+        //Ha nem szerepel még az előfizetés a hónapban akkor hozzáadja
+        //Először meg kell nézni, hogy benne van e a táblázatban
+        //Ha nincs és a dátum megegyezik a fizetve +1hónap/+6hónap/+1év felvesszük
+
+        //Ötlet:
+        //sql lekérdezés ha a month(fix.fizetve) + 1  == dateTime.now() then mentes a listába
+        //és frissítjük a fix.fizetbe oszlopot, hogy a következő hónapban menjen
+
+        #fix.szamla_id = szamla.szamla_id
+
+        $havi = szamla::select('szamla.user_id', 'szamla.szamla_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
+                    ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+                    ->where("fix.tipus", "havi")
+                    ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 MONTH) = CURDATE()')
+                    ->first();
+        $feleves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
+                    ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+                    ->where("fix.tipus", "feleves")
+                    ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 6 MONTH) = CURDATE()')
+                    ->first();
+        $eves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
+                    ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+                    ->where("fix.tipus", "eves")
+                    ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 YEAR) = CURDATE()')
+                    ->first();
+
+        //dd($havi);
+        #Fix mentést még módosítani kell
+        if($havi != null)
+        {
+            $data = new szamla;
+            $data->user_id      = Auth::user()->id;
+            $data->osszeg       = $havi->osszeg;
+            $data->honnan       = $havi->honnan;
+            $data->leiras       = $havi->leiras;
+            $data->datum        = now()->format('Y-m-d');;
+            $data->fix          = $havi->fix;
+            $data->tipus        = $havi->tipus;
+            $data->kategoria_nev = $havi->kategoria_nev;
+            $data->Save();
+
+            $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
+            if($kfix){
+                $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+                $kfix->Save();
+            }
+
+
+        }
+        if($feleves != null)
+        {
+            $data = new szamla;
+            $data->user_id      = Auth::user()->id;
+            $data->osszeg       = $havi->osszeg;
+            $data->honnan       = $havi->honnan;
+            $data->leiras       = $havi->leiras;
+            $data->datum        = now()->format('Y-m-d');;
+            $data->fix          = $havi->fix;
+            $data->tipus        = $havi->tipus;
+            $data->kategoria_nev = $havi->kategoria_nev;
+            $data->Save();
+
+            $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
+            if($kfix){
+                $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+                $kfix->Save();
+            }
+
+        }
+        if($eves != null)
+        {
+            $data = new szamla;
+            $data->user_id      = Auth::user()->id;
+            $data->osszeg       = $havi->osszeg;
+            $data->honnan       = $havi->honnan;
+            $data->leiras       = $havi->leiras;
+            $data->datum        = now()->format('Y-m-d');;
+            $data->fix          = $havi->fix;
+            $data->tipus        = $havi->tipus;
+            $data->kategoria_nev = $havi->kategoria_nev;
+            $data->Save();
+
+            $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
+            if($kfix){
+                $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+                $kfix->Save();
+            }
+
+        }
+
+        //SELECT szamla.user_id, szamla.osszeg, szamla.honnan, szamla.leiras, szamla.datum, szamla.fix, szamla.tipus, szamla.kategoria_nev FROM `fix` JOIN szamla on szamla.szamla_id = fix.szamla_id where date_add(fix.fizetve, interval + 1 month) = CURDATE();
 
         // --- NAPTÁR: hónap kiválasztás query param alapján ---
         $ym = $req->query('ym', now()->format('Y-m')); // pl. 2026-01
@@ -41,6 +135,8 @@ class WMController extends Controller
         $nextYm = $monthStart->copy()->addMonth()->format('Y-m');
         $monthly = null;
 
+
+        //chart
         $userSpending = szamla::where("user_id", Auth::id())
                                     ->when($req->from, function($query) use ($req) {
                                         return $query->whereDate('datum', '>=', $req->from);
@@ -181,13 +277,35 @@ class WMController extends Controller
             "datum.date_format"     =>  "A dátum helyes formátuma éééé-hh-nn",
             "datum.before_or_equal" =>  "Nem adjon meg jövőbeli dátumot!"
         ]);
-        $data = szamla::find($req->id);
-        $data->user_id = Auth::user()->id;
+        $data = szamla::find($req->szamla_id);
         $data->osszeg =  $req->osszeg;
         $data->honnan = $req->honnan;
         $data->leiras = $req->leiras;
         $data->datum = $req->datum;
         $data->fix = $req->fix;
+
+        if($req->fix != "nem")
+        {
+            $kfix = fix::where("szamla_id", $data->szamla_id)->first();
+            //A first() azért kell hogy a a where-ből megkapott lekérdezés értékét megkapjam
+            //Ha van olyan visszakapom a sort tehát an érték
+            //Ha nincs olyan null-t kapok és az else ág fut le
+            if($kfix){
+                $kfix->tipus = $req->fix;
+                $kfix->osszeg = $req->osszeg;
+                $kfix->Save();
+            }
+
+            else{
+                $kfix = new fix;
+                $kfix->szamla_id = $data->szamla_id;
+                $kfix->tipus = $req->fix;
+                $kfix->osszeg = $req->osszeg;
+                $kfix->letrehozas = $req->datum;
+                $kfix->fizetve = $req->datum;
+                $kfix->Save();
+            }
+        }
         #1 = bevétel
         #0 = kiadás
         if($req->tipus == "bevetel"){
@@ -196,7 +314,7 @@ class WMController extends Controller
         else{
             $data->tipus = 0;
         }
-        $data->kategoria = $req->kategoria;
+        $data->kategoria_nev = $req->kategoria;
 
         $data->Save();
 
@@ -215,12 +333,6 @@ class WMController extends Controller
     }
 
     public function AddBtn(Request $req){
-        $rules = [
-            'Élelmiszer' => ['aldi', 'lidl', 'tesco', 'spar', 'cba', 'auchan', 'penny', 'interspar'],
-            'Közlekedés' => ['shell', 'omv', 'mol', 'bkk', 'orlen', 'máv', 'uber', 'parkolás'],
-            'Előfizetés' => ['netflix', 'spotify', 'youtube', 'disney+', 'hbo', 'google one', 'icloud'],
-            'Számla' => ['vodafone', 'yettel', 'telekom', 'digi', 'eon', 'mvm', 'elmű', 'internet', 'tv']
-        ];
         $req->validate([
             "osszeg"        =>  "required|numeric",
             "honnan"        =>  "required",
@@ -236,23 +348,10 @@ class WMController extends Controller
             "datum.date_format"     =>  "A dátum helyes formátuma éééé-hh-nn",
             "datum.before_or_equal" =>  "Nem adjon meg jövőbeli dátumot!"
         ]);
-        $desc = mb_strtolower
-        ($req->leiras ?? '') . ' ' . ($req->leiras ?? '');
-
-        //kategória ajánlás
-        $suggested = null;
-        foreach ($rules as $category => $keywords) {
-            foreach($keywords as $kw) {
-                if (str_contains($desc, $kw)) {
-                    $suggested = $category;
-                    break 2;
-                }
-            }
-        }
 
         $data = new szamla;
         $data->user_id  = Auth::user()->id;
-        $data->osszeg   =  $req->osszeg;
+        $data->osszeg   = $req->osszeg;
         $data->honnan   = $req->honnan;
         $data->leiras   = $req->leiras;
         $data->datum    = $req->datum;
@@ -265,9 +364,20 @@ class WMController extends Controller
         else{
             $data->tipus = 0;
         }
-        $data->kategoria_nev = $suggested ?? $req->kategoria;
+        $data->kategoria_nev = $req->kategoria;
 
         $data->Save();
+
+        if($req->fix != "nem")
+        {
+            $kfix = new fix;
+            $kfix->szamla_id = $data->szamla_id;
+            $kfix->tipus = $req->fix;
+            $kfix->osszeg = $req->osszeg;
+            $kfix->letrehozas = $req->datum;
+            $kfix->fizetve = $req->datum;
+            $kfix->Save();
+        }
 
         return redirect('/main')->with('success','Sikeres mentés!');
     }
@@ -292,63 +402,6 @@ class WMController extends Controller
         return view('naptar', compact('monthStart', 'days', 'prevYm', 'nextYm'));
 
     }
-
-    public function Charts(Request $req) {
-           //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
-            // $userSpending = szamla::where("user_id", Auth::id())
-            //                         ->when($req->from, function($query) use ($req) {
-            //                             return $query->whereDate('datum', '>=', $req->from);
-            //                         })
-            //                         ->when($req->to, function($query) use ($req) {
-            //                             return $query->whereDate('datum', '<=', $req->to);
-            //                         })
-            //                         ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
-            //                                 //biztosan a felhasználó adatait adja meg
-            //                                 ->where("tipus", 0)
-            //                                 ->groupBy('category_name')
-            //                                 ->orderBy('total')
-            //                                 //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
-            //                                 ->pluck('total', 'category_name');
-
-            // //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
-            // $categories = szamla::where("user_id", Auth::id())
-            //                     ->selectRaw("kategoria_nev as category_name");
-            // if (Auth::check()) {
-            //     return view('main', [
-            //     //a pluck-ból megkapja a kulcsot és értéket
-            //     'userSpending' => $userSpending,
-            //     'labels'    => $userSpending->keys(),
-            //     'data'      => $userSpending->values(),
-            //     ]);
-            // }
-            // else {
-            //     return redirect("login");
-            // }
-    }
-
-    public function SpendingChart() {
-        // $spent = szamla::where('user_id', Auth::id())
-        //                 ->where('tipus', 0)
-        //                 ->sum("osszeg");
-        // $income = szamla::where('user_id', Auth::id())
-        //                 ->where('tipus', 1)
-        //                 ->sum("osszeg");
-        // $labels = ["Kiadás", "Bevétel"];
-        // $data = [$spent, $income];
-
-        //     //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
-        //     if (Auth::check()) {
-        //         return view('main', [
-        //         //a pluck-ból megkapja a kulcsot és értéket
-        //         'labels'    => $labels,
-        //         'data'      => $data,
-        //         ]);
-        //     }
-        //     else {
-        //         return redirect("login");
-        //     }
-    }
-
 
     public function Goals(){
         $asd = Auth::id();

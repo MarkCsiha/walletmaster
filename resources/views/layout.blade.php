@@ -17,30 +17,22 @@
         @stack("belepes-css")
         @stack("layout-css")
         @stack("account-css")
+        @stack("verify-css")
+        @stack("debt-css")
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
     </head>
     <body>
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-            {{-- <div class="sidenav">
-                @guest
-                    <li class="nav-item"><a href="/belepes" class="btn btn-secondary">Bejelentkezés</a></li>
-                    <li class="nav-item ms-4 me-4"><a href="/regisztracio" class="btn btn-success bi bi-person">Regisztráció</a></li>
-                @else
-                    <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>
-                    <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark bi bi-bullseye"> Céljaim</a></li>
-                    <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
-                    <li class="nav-item ms-4 me-4"><a href="/fiokom" class="btn btn-dark "><span class="bi bi-person"></span></a></li>
-                @endguest
-            </div> --}}
-
-
-        <div class="container px-lg-5">
+            <div class="container px-lg-5">
                 <a class="navbar-brand" href="/">WalletMaster</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         @guest
-                            <li class="nav-item"><a href="/belepes" class="btn btn-secondary">Bejelentkezés</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/regisztracio" class="btn btn-success bi bi-person">Regisztráció</a></li>
+                            <li class="nav-item"><a href="/login" class="btn btn-secondary">Bejelentkezés</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/registration" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
                             <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/debt" class="btn btn-dark">Tartozások</a></li>
@@ -48,10 +40,11 @@
                             <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/account" class="btn btn-dark"><span class="bi bi-person"></span></a></li>
                         @endguest
-                      </ul>
+                    </ul>
                 </div>
             </div>
         </nav>
+
 
         @yield("content")
 
@@ -73,13 +66,18 @@
                     <div class="vr"></div>
                 </div>
                 <div class="row justify-content-center col-sm">
-                    <p><span class="bi bi-telephone"></span> <a class="link-light" href="tel:06700216634"> 06 70 021 6634</a></p>
-                    <p><span class="bi bi-envelope"></span>  <a class="link-light" href="mailto:walletmaster01@gmail.com"> walletmaster01@gmail.com</a></p>
-                    <p><span class="bi bi-instagram"></span> <a class="link-light" href="https://www.instagram.com/walletmaster01/"> WalletMaster</a></p>
-                    <p><span class="bi bi-facebook"></span>  <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"> WalletMaster</a></p>
+                    <span class="bi bi-telephone"> <a class="link-light" href="tel:06700216634"> 06 70 021 6634</a></span>
+                    <span class="bi bi-envelope"> <a class="link-light" href="mailto:walletmaster01@gmail.com"> walletmaster01@gmail.com</a></span>
+                    <span class="bi bi-instagram"> <a class="link-light" href="https://www.instagram.com/walletmaster01/"> WalletMaster</a></span>
+                    <span class="bi bi-facebook"> <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"> WalletMaster</a></span>
                 </div>
             </div>
         </div>
     </footer>
     </body>
+
+    <script src="{{ asset('js/charts.js') }}"></script>
+    <script src="{{ asset("js/charts-spentincome.js") }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="{{ asset('js/autologout.js') }}"></script>
 </html>

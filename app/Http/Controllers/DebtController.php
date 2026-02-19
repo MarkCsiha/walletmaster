@@ -46,6 +46,7 @@ class DebtController extends Controller
         $myView->user_id         = Auth::id();
         $myView->partner_nev     = $req->name;
         $myView->partner_user_id = $partnerId;
+
         //0 ha nekünk, 1 ha mi neki
         if ($req->debtToFrom == "debtTo") {
             $myView->tipus = 1;
@@ -53,6 +54,7 @@ class DebtController extends Controller
         else {
             $myView->tipus = 0;
         }
+        
         $myView->osszeg = $req->debtAmount;
         $myView->leiras = $req->description;
         $myView->datum  = $req->debtDate;

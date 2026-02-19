@@ -7,11 +7,11 @@
 @section('content')
 
     <main class="container pb-2">
-        <div class="col-md-9">
+        {{-- <div class="col-md-9">
             @if (session('success'))
                 <p class="text text-success text-center">{{session("success")}}</p>
             @endif
-        </div>
+        </div> --}}
         <div class="row mt-3">
             <div class="col r-3" id="outerpanel">
 
@@ -19,7 +19,7 @@
                     <div class="card-body">
                         {{-- ÉV + HÓNAP --}}
                         <div class="text-center mb-2">
-                            <h2 class="m-0">{{ $monthStart->year }}</h2>
+                            <h2 class="m-0" id="cm">{{ $monthStart->year }}</h2>
                             <h4>{{ $monthStart->translatedFormat('F') }}</h4>
                         </div>
 
@@ -37,13 +37,13 @@
                         {{-- NAPTÁR --}}
                         <table class="border border-striped" id="calendar">
                             <tr id="calendar_th">
-                                <th>Hétfő</th>
-                                <th>Kedd</th>
-                                <th>Szerda</th>
-                                <th>Csütörtök</th>
-                                <th>Péntek</th>
-                                <th>Szombat</th>
-                                <th>Vasárnap</th>
+                                <th>H</th>
+                                <th>K</th>
+                                <th>Sz</th>
+                                <th>Cs</th>
+                                <th>P</th>
+                                <th>Sz</th>
+                                <th>V</th>
                             </tr>
 
                             @foreach(array_chunk($days, 7) as $week)
@@ -53,11 +53,22 @@
                                             $inMonth = $day->month === $monthStart->month;
                                         @endphp
 
-                                        <td style="height: 60px; vertical-align: top;" class="{{ $inMonth ? '' : 'text-danger' }}">{{-- napok style legyen tomato --}}
-                                            <div style="font-weight: 700;">
-                                                {{ $day->day }}
-                                            </div>
-                                        </td>
+                                        @if($inMonth)
+                                        {
+                                            <td style="height: 60px; vertical-align: top;">
+                                                <div style="font-weight: 700;">
+                                                    {{ $day->day }}
+                                                </div>
+                                            </td>
+                                        }
+                                        @else{
+                                            <td style="height: 60px; vertical-align: top; color:tomato;" >
+                                                <div style="font-weight: 700;">
+                                                    {{ $day->day }}
+                                                </div>
+                                            </td>
+                                        }
+                                        @endif
                                     @endforeach
                                 </tr>
                             @endforeach
@@ -68,7 +79,7 @@
             </div>
 
             {{-- Ez a diagram oszlopa --}}
-            <div class="col r-3">
+            <div class="col r-3 ">
                 <form action="main" method="POST" id="monthlyChart">
                 @csrf
                     <label for="chartDataType">Költségvetési diagram típusa</label>
@@ -93,19 +104,19 @@
 
 
                 {{-- Oszlop kategória --}}
-                    <select name="chartType" id="chartType" class="form-control" onchange="this.form.submit()">
-                        <option value="bar"      {{ request('chartType','bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram</option>
-                        <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
-                        <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
-                        @if (request('chartDataType') == 'monthlyChart')
-                            <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
-                        @endif
-                    </select>
+                <select name="chartType" id="chartType" class="form-control mt-3" onchange="this.form.submit()">
+                    <option value="bar"      {{ request('chartType','bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram</option>
+                    <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
+                    <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
+                    @if (request('chartDataType') == 'monthlyChart')
+                        <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
+                    @endif
+                </select>
 
                 {{-- Oszlop --}}
-                <div>
+                <div {{--class="h-75"--}}>
                     <h4 class="text-center">Oszlopdiagram</h4>
-                    <canvas id="myChart" style="background-color: white; padding: 5px;"></canvas>
+                    <canvas id="myChart" style="background-color: white; padding: 5px; width:100%; height:100%"></canvas>
                 </div>
 
             </div>
@@ -168,14 +179,14 @@
                             <tr>
                                 <td>
                                     @if($szamlak->tipus == 0)
-                                        <span id="minus">- {{$szamlak->osszeg}} Ft</span>
+                                        <span class="minus">- {{$szamlak->osszeg}} Ft</span>
                                     @else
-                                        <span id="plus">+ {{$szamlak->osszeg}} Ft</span>
+                                        <span class="plus">+ {{$szamlak->osszeg}} Ft</span>
                                     @endif
                                 </td>
                                 <td>{{$szamlak->honnan}}</td>
                                 <td>{{$szamlak->leiras}}</td>
-                                <td>{{$szamlak->kategoria}}</td>
+                                <td>{{$szamlak->kategoria_nev}}</td>
                                 <td>{{$szamlak->fix}}</td>
                                 <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td>
                                 <td class="text-center"> <a href="/mainmod/{{$szamlak->szamla_id}}"> <i class="bi bi-pencil-fill text-warning"></i> </a> </td>
@@ -201,9 +212,17 @@
     let labels = {!! json_encode($labels ?? []) !!};
     let data   = {!! json_encode($data ?? []) !!};
 
+    let cm = document.getElementById("cm")
+
     @if(!empty($monthly))
         labels = @json($monthly->keys()->values());
         data   = @json($monthly->values());
     @endif
 </script>
 @endsection
+
+
+
+{{-- Reszponzív tábla div table reszponzív text, az oszlop diagram select option-nel
+    regisztrációnál sugó szöveg, error szöveg legyen tomato
+--}}

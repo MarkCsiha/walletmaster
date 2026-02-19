@@ -18,7 +18,7 @@ class UserController extends Controller
             return redirect("/main");
         }
         else{
-            return view("registration");
+            return view("/registration");
         }
     }
 
@@ -36,7 +36,7 @@ class UserController extends Controller
                                         ->mixedCase()
                                         ->symbols()
                                         ->uncompromised()],
-                                        // Tesztjelszó: #Palmafa123
+
             'password_confirmation' => 'required'
         ],[
             '*.required'            => 'Kötelező kitölteni!',
@@ -257,8 +257,11 @@ class UserController extends Controller
 }
 
 
-#teszt@gmail.com
+#matejosz27@gmail.com
 #Teszter11*
+
+#matejosz28@gmail.com
+#sZmateka28*
 
 #scoobydoo@gmail.com
 #SkibidiGooner11*

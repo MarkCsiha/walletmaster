@@ -1,20 +1,33 @@
-body {
+/* body {
   font-family: "Lato", sans-serif;
-}
+} */
 
-.sidenav {
+.side-nav {
   height: 100%;
-  width: 200px;
+  width: 250px;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: black;
+  background-color: rgb(32, 30, 30);
   overflow-x: hidden;
-  padding-top: 20px;
+  padding: 20px 30px;
 }
 
-a{
+.logo{
+    display: block;
+    margin-bottom: 130px;
+}
+
+.logo img{
+    width: 150px;
+}
+
+ul{
+    justify-content: center;
+}
+
+/* a{
     text-decoration: none;
 }
 
@@ -31,7 +44,7 @@ a{
 }
 
 .main {
-  margin-left: 200px; /* Same as the width of the sidenav */
+  margin-left: 200px;
 }
 
 @media screen and (max-height: 450px) {
@@ -40,4 +53,4 @@ a{
 }
 
 
-
+ */

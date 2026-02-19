@@ -1,4 +1,9 @@
 @extends('layout')
+
+@push("verify-css")
+    <link rel="stylesheet" href="{{asset("css/verify.css")}}">
+@endpush
+
 @section('content')
 {{-- https://github.com/ERaufi/LaravelProjects/blob/main/routes/web.php --}}
 <div class="container">
@@ -34,7 +39,9 @@
                         @csrf
                         <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Kattintson ide az új link kéréséhez!</button>.
                     </form>
-
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/logout">Kijelentkezés</a></button>
+                    </div>
                 </div>
             </div>
         </div>
