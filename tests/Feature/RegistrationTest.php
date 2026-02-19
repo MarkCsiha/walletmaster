@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as MiddlewareVerifyCsrfToken;
 
@@ -26,11 +27,11 @@ class RegistrationTest extends TestCase
     public function test_user_registration_datavalid(): void {
         $this->withoutMiddleware();
         $response = $this->post('/registration', [
-            "vez_nev" => "Teszt",
-            "ker_nev" => "Elo",
-            "felhasznalonev" =>"Tesztelo2026",
-            "telszam" => "06703246587",
-            "email" => "tesztf27@gmail.com"
+            "firstName" => "Teszt",
+            "lastName" => "Elo",
+            "username" =>"Tesztelo2026",
+            "phone" => "06703246587",
+            "email" => "tesztf27@gmail.com",
         ]);
 
         $response->assertStatus(302);
@@ -40,7 +41,7 @@ class RegistrationTest extends TestCase
             "ker_nev" => "Elo",
             "felhasznalonev" =>"Tesztelo2026",
             "telszam" => "06703246587",
-            "email" => "tesztf27@gmail.com"
+            "email" => "tesztf27@gmail.com",
         ]);
     }
 
@@ -54,21 +55,13 @@ class RegistrationTest extends TestCase
     public function test_user_login_datavalid(): void {
         $this->withoutMiddleware();
         $response = $this->post('/login', [
-            "vez_nev" => "Teszt",
-            "ker_nev" => "Elo",
-            "felhasznalonev" =>"Tesztelo2026",
-            "telszam" => "06703246587",
-            "email" => "tesztf27@gmail.com"
+            "username" =>"Tesztelo2026",
         ]);
 
         $response->assertStatus(302);
 
         $this->assertDatabaseHas('users', [
-            "vez_nev" => "Teszt",
-            "ker_nev" => "Elo",
-            "felhasznalonev" =>"Tesztelo2026",
-            "telszam" => "06703246587",
-            "email" => "tesztf27@gmail.com"
+            "felhasznalonev" =>"Tesztelo2026"
         ]);
     }
 
