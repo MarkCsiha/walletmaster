@@ -39,7 +39,7 @@ class DebtController extends Controller
             $partner = User::where('felhasznalonev', $req->input('username'))->first();
 
             if (!$partner) {
-                return redirect()->route('debt.show')->with('unsuccessful', 'Nincs ilyen nevű felhasználó!');
+                return redirect()->route('debt.show')->with('unsuccessful', 'Az adatbázisban nem szerepel ilyen nevű felhasználó!');
             }
 
             $partnerId = $partner->id;
@@ -122,7 +122,7 @@ class DebtController extends Controller
             $originalDebt->save();
         }
     }
-        return redirect()->route('debt.show')->with(['success' => 'Elfogadva!']);
+        return redirect()->route('debt.show')->with(['success' => 'Sikeresen elfogadta a tartozást!']);
     }
 
     public function RejectDebt($id) {
@@ -145,7 +145,7 @@ class DebtController extends Controller
             }
         }
 
-        return redirect()->route('debt.show')->with(['success' => 'Visszautasítva!']);
+        return redirect()->route('debt.show')->with(['success' => 'Visszautasította a tartozást!']);
     }
 
     public function DebtDone($id) {
@@ -153,6 +153,6 @@ class DebtController extends Controller
         $debt->statusz = "rendezve";
         $debt->save();
 
-        return redirect('/debt')->with(["success"   => "Sikeres teljesítés!"]);
+        return redirect('/debt')->with(["success"   => "Sikeres tartozásteljesítés!"]);
     }
 }

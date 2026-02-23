@@ -1,4 +1,7 @@
 @extends("layout")
+@push("debt-css")
+    <link rel="stylesheet" href="{{asset('css/debt.css')}}">
+@endpush
 @section("content")
 
 <main class="container pb-2">

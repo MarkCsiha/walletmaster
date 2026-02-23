@@ -1,7 +1,9 @@
 @extends('layout')
+
 @push("regisztracio-css")
     <link rel="stylesheet" href="{{asset("css/regisztracio.css")}}">
 @endpush
+
 @section('content')
 <main class="container">
     <div class="row justify-content-center">

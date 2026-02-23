@@ -8,10 +8,13 @@ use Illuminate\Http\Request;
 use App\Models\szamla;
 use App\Models\kategoriak;
 use App\Models\koltseglimit;
+use App\Models\celok;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\fix;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\SzamlaImport;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class WMController extends Controller
 {
@@ -21,8 +24,103 @@ class WMController extends Controller
 
         // --- a te meglévő listád (marad) ---
         $result = szamla::where("user_id", $user)
+            ->whereMonth('datum', now()->month)
+            ->whereYear('datum', now()->year)
             ->orderBy("datum", "desc")
             ->paginate(10);
+            //now()->format('m')
+
+        //Ha nem szerepel még az előfizetés a hónapban akkor hozzáadja
+        //Először meg kell nézni, hogy benne van e a táblázatban
+        //Ha nincs és a dátum megegyezik a fizetve +1hónap/+6hónap/+1év felvesszük
+
+        //Ötlet:
+        //sql lekérdezés ha a month(fix.fizetve) + 1  == dateTime.now() then mentes a listába
+        //és frissítjük a fix.fizetbe oszlopot, hogy a következő hónapban menjen
+
+        #fix.szamla_id = szamla.szamla_id
+
+        // $havi = szamla::select('szamla.user_id', 'szamla.szamla_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
+        //             ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+        //             ->where("fix.tipus", "havi")
+        //             ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 MONTH) = CURDATE()')
+        //             ->first();
+        // $feleves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
+        //             ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+        //             ->where("fix.tipus", "feleves")
+        //             ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 6 MONTH) = CURDATE()')
+        //             ->first();
+        // $eves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
+        //             ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+        //             ->where("fix.tipus", "eves")
+        //             ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 YEAR) = CURDATE()')
+        //             ->first();
+
+        // //dd($havi);
+        // #Fix mentést még módosítani kell
+        // if($havi != null)
+        // {
+        //     $data = new szamla;
+        //     $data->user_id      = Auth::user()->id;
+        //     $data->osszeg       = $havi->osszeg;
+        //     $data->honnan       = $havi->honnan;
+        //     $data->leiras       = $havi->leiras;
+        //     $data->datum        = now()->format('Y-m-d');;
+        //     $data->fix          = $havi->fix;
+        //     $data->tipus        = $havi->tipus;
+        //     $data->kategoria_nev = $havi->kategoria_nev;
+        //     $data->Save();
+
+        //     $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
+        //     if($kfix){
+        //         $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+        //         $kfix->Save();
+        //     }
+
+
+        // }
+        // if($feleves != null)
+        // {
+        //     $data = new szamla;
+        //     $data->user_id      = Auth::user()->id;
+        //     $data->osszeg       = $havi->osszeg;
+        //     $data->honnan       = $havi->honnan;
+        //     $data->leiras       = $havi->leiras;
+        //     $data->datum        = now()->format('Y-m-d');;
+        //     $data->fix          = $havi->fix;
+        //     $data->tipus        = $havi->tipus;
+        //     $data->kategoria_nev = $havi->kategoria_nev;
+        //     $data->Save();
+
+        //     $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
+        //     if($kfix){
+        //         $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+        //         $kfix->Save();
+        //     }
+
+        // }
+        // if($eves != null)
+        // {
+        //     $data = new szamla;
+        //     $data->user_id      = Auth::user()->id;
+        //     $data->osszeg       = $havi->osszeg;
+        //     $data->honnan       = $havi->honnan;
+        //     $data->leiras       = $havi->leiras;
+        //     $data->datum        = now()->format('Y-m-d');;
+        //     $data->fix          = $havi->fix;
+        //     $data->tipus        = $havi->tipus;
+        //     $data->kategoria_nev = $havi->kategoria_nev;
+        //     $data->Save();
+
+        //     $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
+        //     if($kfix){
+        //         $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+        //         $kfix->Save();
+        //     }
+
+        // }
+
+        //SELECT szamla.user_id, szamla.osszeg, szamla.honnan, szamla.leiras, szamla.datum, szamla.fix, szamla.tipus, szamla.kategoria_nev FROM `fix` JOIN szamla on szamla.szamla_id = fix.szamla_id where date_add(fix.fizetve, interval + 1 month) = CURDATE();
 
         // --- NAPTÁR: hónap kiválasztás query param alapján ---
         $ym = $req->query('ym', now()->format('Y-m')); // pl. 2026-01
@@ -245,14 +343,77 @@ class WMController extends Controller
         }
     }
 
-    // public function Main(){
-    //     $asd = Auth::id();
-    //     return view("main", [
-    //         "result" => szamla::where("user_id", $asd)->orderBy("datum", "desc")->paginate(10)
+    public function MainMod($szamla_id){
+        return view("mainmod", [
+            "result" => szamla::find($szamla_id)
+        ]);
+    }
 
+    public function MainModBtn(Request $req){
+       $req->validate([
+            "osszeg"        =>  "required|numeric",
+            "honnan"        =>  "required",
+            "leiras"        =>  "max:200",
+            "datum"         =>  "required|date|date_format:Y-m-d|before_or_equal:today",
+            "fix"           =>  "required",
+            "tipus"         =>  "required",
+        ], [
+            "*.required"            =>  "Töltse ki a mezőt!",
+            "honnan.max"            =>  "Maximum 255 karakter adhat meg!",
+            "osszeg.numeric"        =>  "Az összeget számmal adja meg!",
+            "datum.date"            =>  "Létező dátumot adjon meg!",
+            "datum.date_format"     =>  "A dátum helyes formátuma éééé-hh-nn",
+            "datum.before_or_equal" =>  "Nem adjon meg jövőbeli dátumot!"
+        ]);
+        $data = szamla::find($req->szamla_id);
+        $data->osszeg =  $req->osszeg;
+        $data->honnan = $req->honnan;
+        $data->leiras = $req->leiras;
+        $data->datum = $req->datum;
+        $data->fix = $req->fix;
 
-    //     ]);
-    // }
+        if($req->fix != "nem")
+        {
+            $kfix = fix::where("szamla_id", $data->szamla_id)->first();
+            //A first() azért kell hogy a a where-ből megkapott lekérdezés értékét megkapjam
+            //Ha van olyan visszakapom a sort tehát an érték
+            //Ha nincs olyan null-t kapok és az else ág fut le
+            if($kfix){
+                $kfix->tipus = $req->fix;
+                $kfix->osszeg = $req->osszeg;
+                $kfix->Save();
+            }
+
+            else{
+                $kfix = new fix;
+                $kfix->szamla_id = $data->szamla_id;
+                $kfix->tipus = $req->fix;
+                $kfix->osszeg = $req->osszeg;
+                $kfix->letrehozas = $req->datum;
+                $kfix->fizetve = $req->datum;
+                $kfix->Save();
+            }
+        }
+        #1 = bevétel
+        #0 = kiadás
+        if($req->tipus == "bevetel"){
+            $data->tipus = 1;
+        }
+        else{
+            $data->tipus = 0;
+        }
+        $data->kategoria_nev = $req->kategoria;
+
+        $data->Save();
+
+        return redirect("/main");
+    }
+
+    public function MainDelete($szamla_id){
+        $data = szamla::find($szamla_id);
+        $data->Delete();
+        return redirect("/main");
+    }
 
     public function Add(){
         return view("add", [
@@ -260,12 +421,6 @@ class WMController extends Controller
     }
 
     public function AddBtn(Request $req){
-        $rules = [
-            'Élelmiszer' => ['aldi', 'lidl', 'tesco', 'spar', 'cba', 'auchan', 'penny', 'interspar'],
-            'Közlekedés' => ['shell', 'omv', 'mol', 'bkk', 'orlen', 'máv', 'uber', 'parkolás'],
-            'Előfizetés' => ['netflix', 'spotify', 'youtube', 'disney+', 'hbo', 'google one', 'icloud'],
-            'Számla' => ['vodafone', 'yettel', 'telekom', 'digi', 'eon', 'mvm', 'elmű', 'internet', 'tv']
-        ];
         $req->validate([
             "osszeg"        =>  "required|numeric",
             "honnan"        =>  "required",
@@ -422,5 +577,89 @@ class WMController extends Controller
 
         return redirect('/add')->with(["success" => "Sikeres fájlfeltöltés!"]);
 
+    }
+    public function Goals(){
+        $user = Auth::id();
+        $result = celok::where("user_id", $user)->orderBy("statusz")->get();
+        return view("goals", [
+            "result" => $result,
+        ]);
+    }
+
+    public function GoalsBtn(Request $req){
+        $req->validate([
+            "nev"               =>  "required|unique:celok,cel_nev|max:150",
+            "cel_osszeg"        =>  "required",
+            "osszeg"            =>  "required",
+            "hatarido"          =>  "required|date|date_format:Y-m-d",
+        ], [
+            "*.required"                =>  "Kérem töltse ki a mezőt!",
+            // "*.min"                     =>  "A minimum megadható összeg: 5000!",
+            "nev.unique"                =>  "Már létezik ilyen nevű célja!", //"Már létezik ". nev ." nevű célja!",
+            "hatarido.date"             =>  "Valós dátumot adjon meg!",
+            "hatarido.date_format"      =>  "A dátum helyes formátuma éééé-hh-nn!",
+        ]);
+
+        $data = new celok;
+        $data->user_id = Auth::user()->id;
+        $data->cel_nev = $req->nev;
+        $data->cel_osszeg = $req->cel_osszeg;
+        $data->budzse = $req->osszeg;
+        $data->hatarido = $req->hatarido;
+        $data->letrehozas_datum = now()->format('Y-m-d');
+        $data->modositas_datum = now()->format('Y-m-d');
+
+        $data->Save();
+
+        return redirect("/goals")->with(["success" => "Sikeres célhozzáadás!"]);
+    }
+
+    public function GoalsMod($cel_id){
+        $result = celok::find($cel_id);
+        return view("goalsmod", [
+            "result" => $result
+        ]);
+    }
+
+    public function GoalsModBtn(Request $req){
+        $req->validate([
+            "nev"               =>  "required|max:150",
+            "cel_osszeg"        =>  "required",
+            "osszeg"            =>  "required",
+            "hatarido"          =>  "required|date|date_format:Y-m-d",
+            "statusz"           =>  "required|in:aktív,teljesítve,törölve"
+        ], [
+            "*.required"                =>  "Kérem töltse ki a mezőt!",
+            // "*.min"                     =>  "A minimum megadható összeg: 5000!",
+            "nev.unique"                =>  "Már létezik ilyen nevű célja!", //"Már létezik ". nev ." nevű célja!",
+            "hatarido.date"             =>  "Valós dátumot adjon meg!",
+            "hatarido.date_format"      =>  "A dátum helyes formátuma éééé-hh-nn!",
+            "statusz.in"                =>  "A cél státusza 'aktív', 'teljesítve', vagy 'törölve' lehet!"
+        ]);
+
+        $data = celok::find($req->cel_id);
+        $data->user_id = Auth::user()->id;
+        $data->cel_nev = $req->nev;
+        $data->cel_osszeg = $req->cel_osszeg;
+        $data->budzse = $req->osszeg;
+        $data->hatarido = $req->hatarido;
+        $data->modositas_datum = now()->format('Y-m-d');
+        if($req->cel_osszeg <= $req->budzse){
+            $data->statusz = "kész";
+        }
+        else{
+            $data->statusz = $req->statusz;
+        }
+
+
+        $data->Save();
+
+        return redirect("/goals")->with(["success" => "Sikeres célmódosítás!"]);
+    }
+
+    public function GoalsDelete($cel_id){
+        $data = celok::find($cel_id);
+        $data->Delete();
+        return redirect("/goals");
     }
 }

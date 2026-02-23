@@ -7,7 +7,7 @@
     @if(session("success"))
         <p class="text-success text-center">{{ session('success') }}</p>
     @else
-        <p class="text-danger text-center">{{ session('success') }}</p>
+        <p class="text-danger text-center">{{ session('unsuccessful') }}</p>
   </div>
 @endif
     <form action="/forgot-password" method="post">

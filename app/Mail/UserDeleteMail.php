@@ -8,24 +8,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Address;
-use App\Models\tartozasok;
-use Illuminate\Mail\Mailables\Attachment;
+use App\Models\User;
 
-
-class DebtMail extends Mailable
+class UserDeleteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    //https://laravel.com/docs/12.x/mail
-     public tartozasok $tartozas;
-
+    public User $user;
     /**
      * Create a new message instance.
      */
-    public function __construct(tartozasok $tartozas)
+    public function __construct(User $user)
     {
-        $this->tartozas = $tartozas;
+        $this->user = $user;
     }
 
     /**
@@ -34,7 +29,7 @@ class DebtMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Új tartozási kérelem',
+            subject: 'Felhasználói fiók törlés',
         );
     }
 
@@ -44,9 +39,9 @@ class DebtMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.debt-mail',
+            markdown: 'mail.userdelete-mail',
             with: [
-                "tartozas"  => $this->tartozas
+                "user"  => $this->user
             ]
         );
     }
@@ -58,8 +53,6 @@ class DebtMail extends Mailable
      */
     public function attachments(): array
     {
-        return [
-            Attachment::fromPath(public_path('img/logo.png'))
-        ];
+        return [];
     }
 }

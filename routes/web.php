@@ -27,10 +27,14 @@ Route::get("/logout", [UserController::class, "Logout"]);
 
 // Route::get("/main", [WMController::class, "Charts"]);
 // Route::post('/main', [WMController::class, "SpendingChart"]);
-Route::post('/main', [WMController::class, "Main"]);
+Route::post('/main', [WMController::class, "Main"])->middleware(["auth", "verified"]);
 Route::get('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"]);
-Route::post('/main', [WMController::class, 'Main'])->name('main.charts');
-Route::get('/main/{p}', [WMController::class, "Main"]);
+Route::post('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"])->name('main.charts'); //name('naptar');
+Route::get("/main", [WMController::class, "Main"])->middleware(["auth", "verified"])->name('naptar');
+
+Route::get('/mainmod/{szamla_id}', [WMController::class, 'MainMod']);
+Route::post('/mainmod/{szamla_id}', [WMController::class, 'MainModBtn']);
+Route::get('/mainexit/{szamla_id}', [WMController::class, 'MainDelete']);
 
 //Route::get("/account", [UserController::class, "Save"])->middleware(["auth", "verified"]);
 Route::post("/account", [UserController::class, "SaveBtn"]);
@@ -77,6 +81,12 @@ Route::post('/debt', [DebtController::class, 'DebtAdd'])->middleware(["auth", "v
 
 
 Route::get("/main", [WMController::class, "Main"])->name('naptar');
+Route::get("/goals", [WMController::class, "Goals"]);
+Route::post("/goals", [WMController::class, "GoalsBtn"]);
+
+Route::get('/goalsmod/{cel_id}', [WMController::class, 'GoalsMod']);
+Route::post('/goalsmod/{cel_id}', [WMController::class, 'GoalsModBtn']);
+Route::get('/goalsexit/{cel_id}', [WMController::class, 'GoalsDelete']);
 
 Route::get("/add", [WMController::class, "Add"]);
 Route::post("/add", [WMController::class, "AddBtn"]);
@@ -101,3 +111,7 @@ Route::post("/import", [WMController::class, "ImportExcel"])->name("import");
 Route::get('auth/google', [GoogleController::class, "RedirectGoogle"])->name('redirect.google');
 
 Route::get('auth/google/callback', [GoogleController::class, "GoogleCallback"])->name('callback.google');
+
+Route::delete('/user/{id}', [UserController::class, 'AccountDelete'])
+    ->name('user.destroy')
+    ->middleware(['auth']);

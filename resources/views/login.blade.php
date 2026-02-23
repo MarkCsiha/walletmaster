@@ -1,8 +1,9 @@
 @extends('layout')
 
-@push("account-css")
-    <link rel="stylesheet" href="{{asset('css/account.css')}}">
+@push("belepes-css")
+    <link rel="stylesheet" href="{{asset('css/belepes.css')}}">
 @endpush
+
 @section('content')
     <main class="container pb-2">
         <div class="row justify-content-center">

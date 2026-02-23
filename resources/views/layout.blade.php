@@ -21,6 +21,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
         @livewireStyles
+        @include('sweetalert::alert')
 
     </head>
     <body>
@@ -38,14 +39,13 @@
                             <li class="nav-item"><a href="/login" class="btn btn-secondary">Bejelentkezés</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/registration" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
+                            <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/debt" class="btn btn-dark bi bi-coin">Tartozások</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark bi bi-bullseye"> Céljaim</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/add" class="btn btn-dark">Hozzáadás</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark">Céljaim</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/debt" class="btn btn-dark">Tartozások</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/account" class="btn btn-success">Profilom<i class="bi bi-person fs-4"></i></a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/logout" class="btn btn-success bi bi-person">Kijelentkezés</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/account" class="btn btn-dark"><span class="bi bi-person"></span></a></li>
                         @endguest
-                      </ul>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -70,13 +70,10 @@
                     <div class="vr"></div>
                 </div>
                 <div class="row justify-content-center col-sm">
-                    <p><span class="bi bi-telephone"></span> <a class="link-light" href="tel:0666123456">06 70 628 9983</a><br> </p>
-                    <p><span class="bi bi-telephone"></span> <a class="link-light" href="tel:0666123456">06 70 536 0256</a><br> </p>
-                    <p><span class="bi bi-envelope"></span>  <a class="link-light" href="mailto:hivatal@pusztaszentmaria.hu">  smatelaszlo26@gmail.com</a><br> </p>
-                    <p><span class="bi bi-envelope"></span>  <a class="link-light" href="mailto:hivatal@pusztaszentmaria.hu">  csihamark46@gmail.com</a><br> </p>
-                    <p><span class="bi bi-instagram"></span> <a class="link-light" href="https://www.instagram.com/walletmaster01/"> mateszabo26</a><br> </p>
-                    <p><span class="bi bi-facebook"></span>  <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"> Szabó Máté</a><br> </p>
-                    <p><span class="bi bi-facebook"></span>  <a class="link-light" href="https://www.facebook.com/csiha.mark.7?locale=hu_HU"> Csiha Márk</a> </p>
+                    <span class="bi bi-telephone"> <a class="link-light" href="tel:06700216634"> 06 70 021 6634</a></span>
+                    <span class="bi bi-envelope"> <a class="link-light" href="mailto:walletmaster01@gmail.com"> walletmaster01@gmail.com</a></span>
+                    <span class="bi bi-instagram"> <a class="link-light" href="https://www.instagram.com/walletmaster01/"> WalletMaster</a></span>
+                    <span class="bi bi-facebook"> <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"> WalletMaster</a></span>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <?php
-
+use app\Providers\AlertProvider;
 return [
 
     /*
@@ -27,6 +27,13 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+
+//     'providers' => [
+//     /*
+//     * Package Service Providers...
+//     */
+//     AlertProvider::class,
+// ],
 
     /*
     |--------------------------------------------------------------------------

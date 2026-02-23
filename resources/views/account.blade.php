@@ -163,12 +163,21 @@
             <button type="submit" class="btn btn-primary btn-lg" name="mentes" id="mentes" value="mentes">Mentés</button>
         </div>
         <div class="d-flex justify-content-between align-items-center">
-            <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/kijelentkezes">Kijelentkezés</a></button>
+            <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/logout">Kijelentkezés</a></button>
         </div>
     </form>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    {{-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             {{-- <button type="button" class="btn btn-secondary btn-lg">Visszavonás</button> --}}
-        <button type="submit" class="btn btn-primary btn-lg" name="accountDelete" id="accountDelete" value="accountDelete">Felhasználó fiók törlése</button>
-    </div>
+        {{-- <form action="{{ route('delete.account') }}" method="post">
+            {{-- <button type="submit" class="btn btn-primary btn-lg" name="accountDelete" id="accountDelete" value="accountDelete">Felhasználó fiók törlése</button>
+        </form> --}}
+    {{-- </div> --}}
+    {{--  https://laracasts.com/discuss/channels/laravel/laravel-confirm-delete-in-an-alert-in-my-view --}}
+    <form action="{{ route('user.destroy',Auth::id()) }}" method="POST" >
+        @csrf
+        @method('DELETE')
+
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Biztosan törli felhasználói fiókját?')">Törlés</button>
+    </form>
 </div>
 @endsection
