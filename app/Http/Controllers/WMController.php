@@ -13,26 +13,10 @@ use Carbon\Carbon;
 class WMController extends Controller
 {
     //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
-     public function Main(Request $req){
+    public function Main(Request $req){
         $user = Auth::id();
 
-        // --- a te meglévő listád (marad) ---
-        $result = szamla::where("user_id", $user)
-            ->whereMonth('datum', now()->month)
-            ->whereYear('datum', now()->year)
-            ->orderBy("datum", "desc")
-            ->paginate(10);
-            //now()->format('m')
 
-        //Ha nem szerepel még az előfizetés a hónapban akkor hozzáadja
-        //Először meg kell nézni, hogy benne van e a táblázatban
-        //Ha nincs és a dátum megegyezik a fizetve +1hónap/+6hónap/+1év felvesszük
-
-        //Ötlet:
-        //sql lekérdezés ha a month(fix.fizetve) + 1  == dateTime.now() then mentes a listába
-        //és frissítjük a fix.fizetbe oszlopot, hogy a következő hónapban menjen
-
-        #fix.szamla_id = szamla.szamla_id
 
         $havi = szamla::select('szamla.user_id', 'szamla.szamla_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
                     ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
@@ -50,8 +34,6 @@ class WMController extends Controller
                     ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 YEAR) = CURDATE()')
                     ->first();
 
-        //dd($havi);
-        #Fix mentést még módosítani kell
         if($havi != null)
         {
             $data = new szamla;
@@ -80,7 +62,7 @@ class WMController extends Controller
             $data->osszeg       = $havi->osszeg;
             $data->honnan       = $havi->honnan;
             $data->leiras       = $havi->leiras;
-            $data->datum        = now()->format('Y-m-d');;
+            $data->datum        = now()->format('Y-m-d');
             $data->fix          = $havi->fix;
             $data->tipus        = $havi->tipus;
             $data->kategoria_nev = $havi->kategoria_nev;
@@ -88,7 +70,7 @@ class WMController extends Controller
 
             $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
             if($kfix){
-                $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+                $kfix->fizetve = now()->format('Y-m-d');
                 $kfix->Save();
             }
 
@@ -108,7 +90,7 @@ class WMController extends Controller
 
             $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
             if($kfix){
-                $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+                $kfix->fizetve = now()->format('Y-m-d');
                 $kfix->Save();
             }
 
@@ -135,6 +117,19 @@ class WMController extends Controller
         $nextYm = $monthStart->copy()->addMonth()->format('Y-m');
         $monthly = null;
 
+        $dailySums = szamla::where('user_id', $user)
+                    ->whereBetween('datum', [
+                        $monthStart->toDateString(),
+                        $monthEnd->toDateString()
+                    ])
+                    ->selectRaw("
+                        DATE(datum) as nap,
+                        SUM(CASE WHEN tipus = 0 THEN osszeg ELSE 0 END) as spent,
+                        SUM(CASE WHEN tipus = 1 THEN osszeg ELSE 0 END) as gain
+                    ")
+                    ->groupBy('nap')
+                    ->get()
+                    ->keyBy('nap');
 
         //chart
         $userSpending = szamla::where("user_id", Auth::id())
@@ -229,16 +224,18 @@ class WMController extends Controller
         $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
 
+        $result = szamla::where("user_id", $user)
+            ->whereYear('datum', $monthStart->year)
+            ->whereMonth('datum', $monthStart->month)
+            ->orderBy("datum", "desc")
+            ->paginate(10);
+
         if (Auth::check()) {
             return view('main', [
-                //a pluck-ból megkapja a kulcsot és értéket
                 'userSpending'      => $userSpending,
                 'labels'            => $userSpending->keys(),
                 'data'              => $userSpending->values(),
                 'categories'        => $categories,
-                //a pluck-ból megkapja a kulcsot és az értéket
-                //'monthlyLabel'      => $monthly->keys(),
-                //'monthlyData'       => $monthly->values(),
                 'monthly'           => $monthly,
                 'years'             => $years,
                 'year'              => $year,
@@ -248,6 +245,7 @@ class WMController extends Controller
                 "days"              => $days,
                 "prevYm"            => $prevYm,
                 "nextYm"            => $nextYm,
+                "dailySums"         => $dailySums
             ]);
         }
         else {

@@ -23,13 +23,13 @@
                             <label class="for-label" for="osszeg">Összeg:</label>
                             <input class="form-control rounded-pill" type="number" name="osszeg" id="osszeg" value="{{$result->osszeg}}">
                             @error('osszeg')
-                                <p class="text-danger">{{$message}}</p>
+                                <p style="color: tomato" class="text-danger">{{$message}}</p>
                             @enderror
 
                             <label class="form-label mt-4" for="honnan">Hely:</label>
                             <input class="form-control rounded-pill" type="text" name="honnan" id="honnan" value="{{$result->honnan}}">
                             @error('honnan')
-                                <p class="text-danger">{{$message}}</p>
+                                <p style="color: tomato" class="text-danger">{{$message}}</p>
                             @enderror
 
                             <div class="my-4">
@@ -37,7 +37,7 @@
                                 <textarea class="form-control" name="leiras" id="lairas" cols="10" rows="10">{{$result->leiras}}</textarea>
                             </div>
                             @error('leiras')
-                                <p class="text-danger">{{$message}}</p>
+                                <p style="color: tomato" class="text-danger">{{$message}}</p>
                             @enderror
 
                             <div class="my-4">
@@ -45,7 +45,7 @@
                                 <input class="form-control rounded-pill" type="date" name="datum" id="datum" value="{{substr($result->datum, 0, 10) }}">
                             </div>
                             @error('datum')
-                                <p class="text-danger">{{$message}}</p>
+                                <p style="color: tomato" class="text-danger">{{$message}}</p>
                             @enderror
 
                             {{-- Megnézni hogyan lehet a kiválasztottat hozzáadni --}}

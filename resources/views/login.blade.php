@@ -16,10 +16,10 @@
                     <form class="card-body" action="/login" method="post">
                     @csrf
                         <label class="form-label mt-3" for="email">E-mail:</label>
-                        <input class="form-control rounded-pill" @error('email') is-invalid @enderror" type="text" name="email" id="email">
+                        <input class="form-control rounded-pill" @error('email') is-invalid @enderror type="text" name="email" id="email">
 
                         <label class="form-label mt-3" for="password">Jelszó:</label>
-                        <input class="form-control rounded-pill" @error('password') is-invalid @enderror" type="password" name="password" id="password">
+                        <input class="form-control rounded-pill" @error('password') is-invalid @enderror type="password" name="password" id="password">
 
                         <button class="btn btn-primary mt-3" type="submit">Belépés</button>
 

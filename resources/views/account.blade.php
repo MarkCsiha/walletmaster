@@ -25,28 +25,28 @@
                             <label for="firstName" class="form-label">Vezetéknév: </label>
                             <input type="text" class="form-control" id="firstName" name="firstName" value="{{ Auth::user()->vez_nev }}">
                             @error('firstName')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: tomato"  class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="lastName" class="form-label">Keresztnév: </label>
                             <input type="text" class="form-control" id="lastName" name="lastName" value="{{   Auth::user()->ker_nev }}">
                             @error('lastName')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: tomato"  class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email cím: </label>
                             <input type="email" class="form-control" id="email" name="email" value="{{ old('email', Auth::user()->email) }}">
                             @error('email')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: tomato"  class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">Felhasználónév: </label>
                             <input type="text" class="form-control" id="username" name="username" value="{{   Auth::user()->felhasznalonev }}">
                             @error('username')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: tomato" class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -115,14 +115,14 @@
                             <label for="currentpassword" class="form-label">Jelenlegi jelszó</label>
                             <input type="password" class="form-control @error('currentpassword') is-invalid @enderror" id="currentpassword" name="currentpassword">
                             @error('currentpassword')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: tomato" class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="newpassword" class="form-label">Új jelszó</label>
                             <input type="password" class="form-control @error('newpassword') is-invalid @enderror" id="newpassword" name="newpassword">
                             @error('newpassword')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: tomato" class="text-danger">{{ $message }}</p>
                             @enderror
                             <i class="fa-solid fa-eye" id="show-password"></i>
                         </div>
@@ -130,7 +130,7 @@
                             <label for="newpassword_confirmation" class="form-label">Új jelszó megerősítése</label>
                             <input type="password" class="form-control @error('newpassword_confirmation') is-invalid @enderror" name="newpassword_confirmation" id="newpassword_confirmation">
                             @error('newpassword_confirmation')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: tomato" class="text-danger">{{ $message }}</p>
                             @enderror
                             <i class="bi bi-eye" id="show-password"></i>
                         </div>

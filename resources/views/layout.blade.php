@@ -68,8 +68,8 @@
                 <div class="row justify-content-center col-sm">
                     <span class="bi bi-telephone"> <a class="link-light" href="tel:06700216634"> 06 70 021 6634</a></span>
                     <span class="bi bi-envelope"> <a class="link-light" href="mailto:walletmaster01@gmail.com"> walletmaster01@gmail.com</a></span>
-                    <span class="bi bi-instagram"> <a class="link-light" href="https://www.instagram.com/walletmaster01/"> WalletMaster</a></span>
-                    <span class="bi bi-facebook"> <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"> WalletMaster</a></span>
+                    <span class="bi bi-instagram"> <a class="link-light" href="https://www.instagram.com/walletmaster01/" target="_blank"> WalletMaster</a></span>
+                    <span class="bi bi-facebook"> <a class="link-light" href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU" target="_blank"> WalletMaster</a></span>
                 </div>
             </div>
         </div>

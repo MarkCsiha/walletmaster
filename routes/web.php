@@ -25,7 +25,7 @@ Route::get("/logout", [UserController::class, "Logout"]);
 // Route::post('/main', [WMController::class, "SpendingChart"]);
 Route::post('/main', [WMController::class, "Main"]);
 Route::get('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"]);
-Route::post('/main', [WMController::class, 'Main'])->name('main.charts'); //name('naptar');
+Route::post('/main', [WMController::class, 'Main'])->name('main.charts');
 Route::get("/main", [WMController::class, "Main"])->name('naptar');
 
 Route::get('/mainmod/{szamla_id}', [WMController::class, 'MainMod']);
