@@ -31,6 +31,8 @@ Route::post('/main', [WMController::class, "Main"])->middleware(["auth", "verifi
 Route::get('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"]);
 Route::post('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"])->name('main.charts'); //name('naptar');
 Route::get("/main", [WMController::class, "Main"])->middleware(["auth", "verified"])->name('naptar');
+Route::post('/main', [WMController::class, 'Main'])->name('main.charts');
+Route::get("/main", [WMController::class, "Main"])->name('naptar');
 
 Route::get('/mainmod/{szamla_id}', [WMController::class, 'MainMod']);
 Route::post('/mainmod/{szamla_id}', [WMController::class, 'MainModBtn']);

@@ -19,106 +19,86 @@ use RealRashid\SweetAlert\Facades\Alert;
 class WMController extends Controller
 {
     //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
-     public function Main(Request $req){
+    public function Main(Request $req){
         $user = Auth::id();
 
-        // --- a te meglévő listád (marad) ---
-        $result = szamla::where("user_id", $user)
-            ->whereMonth('datum', now()->month)
-            ->whereYear('datum', now()->year)
-            ->orderBy("datum", "desc")
-            ->paginate(10);
-            //now()->format('m')
-
-        //Ha nem szerepel még az előfizetés a hónapban akkor hozzáadja
-        //Először meg kell nézni, hogy benne van e a táblázatban
-        //Ha nincs és a dátum megegyezik a fizetve +1hónap/+6hónap/+1év felvesszük
-
-        //Ötlet:
-        //sql lekérdezés ha a month(fix.fizetve) + 1  == dateTime.now() then mentes a listába
-        //és frissítjük a fix.fizetbe oszlopot, hogy a következő hónapban menjen
-
-        #fix.szamla_id = szamla.szamla_id
-
-        // $havi = szamla::select('szamla.user_id', 'szamla.szamla_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
-        //             ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
-        //             ->where("fix.tipus", "havi")
-        //             ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 MONTH) = CURDATE()')
-        //             ->first();
-        // $feleves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
-        //             ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
-        //             ->where("fix.tipus", "feleves")
-        //             ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 6 MONTH) = CURDATE()')
-        //             ->first();
-        // $eves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
-        //             ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
-        //             ->where("fix.tipus", "eves")
-        //             ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 YEAR) = CURDATE()')
-        //             ->first();
-
-        // //dd($havi);
-        // #Fix mentést még módosítani kell
-        // if($havi != null)
-        // {
-        //     $data = new szamla;
-        //     $data->user_id      = Auth::user()->id;
-        //     $data->osszeg       = $havi->osszeg;
-        //     $data->honnan       = $havi->honnan;
-        //     $data->leiras       = $havi->leiras;
-        //     $data->datum        = now()->format('Y-m-d');;
-        //     $data->fix          = $havi->fix;
-        //     $data->tipus        = $havi->tipus;
-        //     $data->kategoria_nev = $havi->kategoria_nev;
-        //     $data->Save();
-
-        //     $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
-        //     if($kfix){
-        //         $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
-        //         $kfix->Save();
-        //     }
 
 
-        // }
-        // if($feleves != null)
-        // {
-        //     $data = new szamla;
-        //     $data->user_id      = Auth::user()->id;
-        //     $data->osszeg       = $havi->osszeg;
-        //     $data->honnan       = $havi->honnan;
-        //     $data->leiras       = $havi->leiras;
-        //     $data->datum        = now()->format('Y-m-d');;
-        //     $data->fix          = $havi->fix;
-        //     $data->tipus        = $havi->tipus;
-        //     $data->kategoria_nev = $havi->kategoria_nev;
-        //     $data->Save();
+        $havi = szamla::select('szamla.user_id', 'szamla.szamla_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
+                    ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+                    ->where("fix.tipus", "havi")
+                    ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 MONTH) = CURDATE()')
+                    ->first();
+        $feleves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
+                    ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+                    ->where("fix.tipus", "feleves")
+                    ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 6 MONTH) = CURDATE()')
+                    ->first();
+        $eves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
+                    ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+                    ->where("fix.tipus", "eves")
+                    ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 YEAR) = CURDATE()')
+                    ->first();
 
-        //     $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
-        //     if($kfix){
-        //         $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
-        //         $kfix->Save();
-        //     }
+        if($havi != null)
+        {
+            $data = new szamla;
+            $data->user_id      = Auth::user()->id;
+            $data->osszeg       = $havi->osszeg;
+            $data->honnan       = $havi->honnan;
+            $data->leiras       = $havi->leiras;
+            $data->datum        = now()->format('Y-m-d');;
+            $data->fix          = $havi->fix;
+            $data->tipus        = $havi->tipus;
+            $data->kategoria_nev = $havi->kategoria_nev;
+            $data->Save();
 
-        // }
-        // if($eves != null)
-        // {
-        //     $data = new szamla;
-        //     $data->user_id      = Auth::user()->id;
-        //     $data->osszeg       = $havi->osszeg;
-        //     $data->honnan       = $havi->honnan;
-        //     $data->leiras       = $havi->leiras;
-        //     $data->datum        = now()->format('Y-m-d');;
-        //     $data->fix          = $havi->fix;
-        //     $data->tipus        = $havi->tipus;
-        //     $data->kategoria_nev = $havi->kategoria_nev;
-        //     $data->Save();
+            $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
+            if($kfix){
+                $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+                $kfix->Save();
+            }
+        }
 
-        //     $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
-        //     if($kfix){
-        //         $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
-        //         $kfix->Save();
-        //     }
+        if($feleves != null)
+        {
+            $data = new szamla;
+            $data->user_id      = Auth::user()->id;
+            $data->osszeg       = $havi->osszeg;
+            $data->honnan       = $havi->honnan;
+            $data->leiras       = $havi->leiras;
+            $data->datum        = now()->format('Y-m-d');
+            $data->fix          = $havi->fix;
+            $data->tipus        = $havi->tipus;
+            $data->kategoria_nev = $havi->kategoria_nev;
+            $data->Save();
 
-        // }
+            $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
+            if($kfix){
+                $kfix->fizetve = now()->format('Y-m-d');
+                $kfix->Save();
+            }
+
+        }
+        if($eves != null)
+        {
+            $data = new szamla;
+            $data->user_id      = Auth::user()->id;
+            $data->osszeg       = $havi->osszeg;
+            $data->honnan       = $havi->honnan;
+            $data->leiras       = $havi->leiras;
+            $data->datum        = now()->format('Y-m-d');;
+            $data->fix          = $havi->fix;
+            $data->tipus        = $havi->tipus;
+            $data->kategoria_nev = $havi->kategoria_nev;
+            $data->Save();
+
+            $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
+            if($kfix){
+                $kfix->fizetve = now()->format('Y-m-d');
+                $kfix->Save();
+            }
+        }
 
         //SELECT szamla.user_id, szamla.osszeg, szamla.honnan, szamla.leiras, szamla.datum, szamla.fix, szamla.tipus, szamla.kategoria_nev FROM `fix` JOIN szamla on szamla.szamla_id = fix.szamla_id where date_add(fix.fizetve, interval + 1 month) = CURDATE();
 
@@ -141,6 +121,21 @@ class WMController extends Controller
         $nextYm = $monthStart->copy()->addMonth()->format('Y-m');
         $monthly = null;
 
+        $dailySums = szamla::where('user_id', $user)
+                    ->whereBetween('datum', [
+                        $monthStart->toDateString(),
+                        $monthEnd->toDateString()
+                    ])
+                    ->selectRaw("
+                        DATE(datum) as nap,
+                        SUM(CASE WHEN tipus = 0 THEN osszeg ELSE 0 END) as spent,
+                        SUM(CASE WHEN tipus = 1 THEN osszeg ELSE 0 END) as gain
+                    ")
+                    ->groupBy('nap')
+                    ->get()
+                    ->keyBy('nap');
+
+        //chart
         $userSpending = szamla::where("user_id", Auth::id())
                                     ->when($req->from, function($query) use ($req) {
                                         return $query->whereDate('datum', '>=', $req->from);
@@ -311,17 +306,18 @@ class WMController extends Controller
             $checkIfUserExists->save();
         }
         }
+        $result = szamla::where("user_id", $user)
+            ->whereYear('datum', $monthStart->year)
+            ->whereMonth('datum', $monthStart->month)
+            ->orderBy("datum", "desc")
+            ->paginate(10);
 
         if (Auth::check()) {
             return view('main', [
-                //a pluck-ból megkapja a kulcsot és értéket
                 'userSpending'      => $userSpending,
                 'labels'            => $userSpending->keys(),
                 'data'              => $userSpending->values(),
                 'categories'        => $categories,
-                //a pluck-ból megkapja a kulcsot és az értéket
-                //'monthlyLabel'      => $monthly->keys(),
-                //'monthlyData'       => $monthly->values(),
                 'monthly'           => $monthly,
                 'years'             => $years,
                 'year'              => $year,
@@ -336,12 +332,14 @@ class WMController extends Controller
                 "userExpenses"      => $userExpenses,
                 // 'compLabels'        => $budgetComparison->keys(),
                 // "compData"          => $budgetComparison->values(),
+                "dailySums"         => $dailySums
             ]);
         }
         else {
             return redirect("login");
         }
     }
+
 
     public function MainMod($szamla_id){
         return view("mainmod", [
@@ -663,3 +661,4 @@ class WMController extends Controller
         return redirect("/goals");
     }
 }
+
