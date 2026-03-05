@@ -1,7 +1,7 @@
 @extends('layout')
 
 @push('mainstyle-css')
-    <link rel="stylesheet" href="{{asset('css/main.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 @endpush
 
 @section('content')
@@ -51,11 +51,13 @@
 
                         {{-- HÓNAP VÁLTÁS --}}
                         <div class="d-flex justify-content-between mb-2">
-                            <a class="btn btn-outline-secondary btn-sm text-white" href="{{ route('naptar', ['ym' => $prevYm]) }}">
+                            <a class="btn btn-outline-secondary btn-sm text-white"
+                                href="{{ route('naptar', ['ym' => $prevYm]) }}">
                                 Előző
                             </a>
 
-                            <a class="btn btn-outline-secondary btn-sm  text-white" href="{{ route('naptar', ['ym' => $nextYm]) }}">
+                            <a class="btn btn-outline-secondary btn-sm  text-white"
+                                href="{{ route('naptar', ['ym' => $nextYm]) }}">
                                 Következő
                             </a>
                         </div>
@@ -71,43 +73,48 @@
                                 <th>Sz</th>
                                 <th>V</th>
                             </tr>
-
-                            @foreach(array_chunk($days, 7) as $week)
+                            @foreach (array_chunk($days, 7) as $week)
                                 <tr>
-                                    @foreach($week as $day)
+                                    @foreach ($week as $day)
                                         @php
+                                            $date = $day->toDateString();
                                             $inMonth = $day->month === $monthStart->month;
+
+                                            $spentaday = $dailySums[$date]->spent ?? 0;
+                                            $gainaday = $dailySums[$date]->gain ?? 0;
+
+                                            $hasTxn = $spentaday > 0 || $gainaday > 0;
                                         @endphp
 
-                                        @if($inMonth)
-                                        {
-                                            <td style="height: 60px; vertical-align: top;">
-                                                <div style="font-weight: 700;">
+                                        <td style="height:60px; vertical-align:top;">
+                                            @if (!$inMonth)
+                                                <div style="font-weight:700; color:tomato;">
                                                     {{ $day->day }}
                                                 </div>
-                                            </td>
-                                        }
-                                        @else{
-                                            <td style="height: 60px; vertical-align: top; color:tomato;" >
-                                                <div style="font-weight: 700;">
-                                                    {{ $day->day }}
-                                                </div>
-                                            </td>
-                                        }
-                                        @endif
+                                            @else
+                                                @if ($inMonth and $hasTxn)
+                                                    <div style="font-weight:700;" title="+{{ $gainaday }} | -{{ $spentaday }}">
+                                                        {{ $day->day }}
+                                                    </div>
+                                                @else
+                                                    <div style="font-weight:700;">
+                                                        {{ $day->day }}
+                                                    </div>
+                                                @endif
+                                            @endif
+                                        </td>
                                     @endforeach
                                 </tr>
                             @endforeach
                         </table>
                     </div>
                 </div>
-
             </div>
 
             {{-- Ez a diagram oszlopa --}}
             <div class="col r-3 ">
                 <form action="main" method="POST" id="monthlyChart">
-                @csrf
+                    @csrf
                     <label for="chartDataType">Költségvetési diagram típusa</label>
                     <select name="chartDataType" id="chartDataType" class="form-control" onchange="this.form.submit()">
                         {{-- request: olyan mint az old value, megtartja az oldal frissítése után azt az inputot, amit a felhasználó választott --}}
@@ -120,7 +127,7 @@
                     @if (request('chartDataType') == 'monthlyChart')
                         <label for="year">Év kiválasztása</label>
                         <select name="year" id="year" class="form-control" onchange="this.form.submit()">
-                            @foreach($years as $y)
+                            @foreach ($years as $y)
                                 <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
                                     {{ $y }}
                                 </option>
@@ -139,89 +146,94 @@
                 </select>
 
                 {{-- Oszlop --}}
-                <div {{--class="h-75"--}}>
+                <div {{-- class="h-75" --}}>
                     <h4 class="text-center">Oszlopdiagram</h4>
                     <canvas id="myChart"></canvas>
                 </div>
 
             </div>
-            {{--Diagram vége --}}
+            {{-- Diagram vége --}}
 
 
-        {{-- Sor lezárás --}}
+            {{-- Sor lezárás --}}
         </div>
         <form action="/export" id="export" method="GET">
             <button type="submit">Exportálás</button>
         </form>
         <form id="filtersForm" method="GET" action="/main">
-                @csrf
+            @csrf
 
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label>Kategória</label>
-                            <select name="category" class="form-control">
-                                <option value="">Összes</option>
-                                @foreach ($labels as $label)
-                                    <option value="{{ $label }}" {{ ($selectedCategory ?? '') === $label ? 'selected' : '' }}>
-                                        {{ $label }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+            {{-- <div class="row">
+                <div class="col-md-3">
+                    <label>Kategória</label>
+                    <select name="category" class="form-control">
+                        <option value="">Összes</option>
+                        @foreach ($labels as $label)
+                            <option value="{{ $label }}"
+                                {{ ($selectedCategory ?? '') === $label ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div> --}}
 
-                        <div class="col-md-3">
-                            <label>Mettől</label>
-                            <input type="date" name="from" class="form-control" value="{{ request('from') }}">
-                        </div>
+                <div class="col-md-3">
+                    <label>Mettől</label>
+                    <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+                </div>
 
-                        <div class="col-md-3">
-                            <label>Meddig</label>
-                            <input type="date" name="to" class="form-control" value="{{ request('to') }}">
-                        </div>
+                <div class="col-md-3">
+                    <label>Meddig</label>
+                    <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+                </div>
 
-                        <div class="col-md-3 d-flex align-items-end">
-                            <button class="btn btn-primary w-100" type="submit">Szűrés</button>
-                        </div>
-                    </div>
-                </form>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" type="submit">Szűrés</button>
+                </div>
+            </div>
+        </form>
 
-                <div class="mt-3">
+        <div class="mt-3">
 
             <div class="card">
                 <div class="card-body">
-
-                    <table class="table table bordered">
-                        <tr>
-                            <th>Összeg</th>
-                            <th>Honnan</th>
-                            <th>Leírás</th>
-                            <th>Kategória</th>
-                            <th>Rendszeres</th>
-                            <th>Dátum</th>
-                        </tr>
-
-                        @foreach ($result as $szamlak)
+                    <div class="table-responsive">
+                        <table class="table table bordered">
                             <tr>
-                                <td>
-                                    @if($szamlak->tipus == 0)
-                                        <span class="minus">- {{$szamlak->osszeg}} Ft</span>
-                                    @else
-                                        <span class="plus">+ {{$szamlak->osszeg}} Ft</span>
-                                    @endif
-                                </td>
-                                <td>{{$szamlak->honnan}}</td>
-                                <td>{{$szamlak->leiras}}</td>
-                                <td>{{$szamlak->kategoria_nev}}</td>
-                                <td>{{$szamlak->fix}}</td>
-                                <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td>
-                                <td class="text-center"> <a href="/mainmod/{{$szamlak->szamla_id}}"> <i class="bi bi-pencil-fill text-warning"></i> </a> </td>
-                                <td class="text-center"> <button class="deleteSpending" data-programid="{{ $szamlak->szamla_id }}"><a href="/mainexit/{{$szamlak->szamla_id}}"> <i class="bi bi-trash-fill text-danger"></i> </a> </button></td>
+                                <th>Összeg</th>
+                                <th>Honnan</th>
+                                <th>Leíras</th>
+                                <th>Kategoria</th>
+                                <th>Rendszeres</th>
+                                <th>Dátum</th>
+                                <th>Módosítás</th>
+                                <th>Törlés</th>
                             </tr>
-                        @endforeach
-                    </table>
 
+                            @foreach ($result as $szamlak)
+                                <tr>
+                                    <td>
+                                        @if ($szamlak->tipus == 0)
+                                            <span class="minus">- {{ $szamlak->osszeg }} Ft</span>
+                                        @else
+                                            <span class="plus">+ {{ $szamlak->osszeg }} Ft</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $szamlak->honnan }}</td>
+                                    <td>{{ $szamlak->leiras }}</td>
+                                    <td>{{ $szamlak->kategoria_nev }}</td>
+                                    <td>{{ $szamlak->fix }}</td>
+                                    <td>{{ date_format(date_create($szamlak->datum), 'Y. m. d') }}</td>
+                                    <td class="text-center"> <a href="/mainmod/{{ $szamlak->szamla_id }}"> <i
+                                                class="bi bi-pencil-fill text-warning"></i> </a> </td>
+                                    <td class="text-center"> <a href="/mainexit/{{ $szamlak->szamla_id }}"> <i
+                                                class="bi bi-trash-fill text-danger"></i> </a> </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                     <div class="d-flex justify-content-center">
-                        {{$result->links('pagination::bootstrap-4')}}
+                        {{ $result->links('pagination::bootstrap-4') }}
                     </div>
                     <div id="addbtn"><a href="/add" class="btn btn-dark">Hozzáadás</a></div>
                 </div>

@@ -24,6 +24,7 @@ class SzamlaImport implements ToModel, WithHeadingRow
             'osszeg'        => $row['osszeg'],
             'honnan'        => $row['honnan'] ?? null,
             'leiras'        => $row['leiras'] ?? null,
+            'tipus'         => $row['tipus'],
             'fix'           => $row["fix"],
             'kategoria_nev' => $row['kategoria_nev'] ?? null,
             'datum'         => $datum,

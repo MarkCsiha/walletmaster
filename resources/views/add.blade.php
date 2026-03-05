@@ -24,13 +24,13 @@
                             <label class="form-label" for="osszeg">Összeg:</label>
                             <input class="form-control" type="number" name="osszeg" id="osszeg" value="{{old('osszeg')}}">
                             @error('osszeg')
-                                <p class="text-danger">{{$message}}</p>
+                                <p style="color: tomato" class="text-danger">{{$message}}</p>
                             @enderror
 
                             <label class="form-label mt-4" for="honnan">Hely:</label>
                             <input class="form-control" type="text" name="honnan" id="honnan" value="{{old('honnan')}}">
                             @error('honnan')
-                                <p class="text-danger">{{$message}}</p>
+                                <p style="color: tomato" class="text-danger">{{$message}}</p>
                             @enderror
 
                             <div class="my-4">
@@ -38,7 +38,7 @@
                                 <textarea class="form-control" name="leiras" id="leiras" cols="10" rows="10" placeholder="Miket vett?" ></textarea>
                             </div>
                             @error('leiras')
-                                <p class="text-danger">{{$message}}</p>
+                                <p style="color: tomato" class="text-danger">{{$message}}</p>
                             @enderror
 
                             <div class="my-4">
@@ -46,7 +46,7 @@
                                 <input class="form-control" type="date" name="datum" id="datum" placeholder="éééé.hh.nn">
                             </div>
                             @error('datum')
-                                <p class="text-danger">{{$message}}</p>
+                                <p style="color: tomato" class="text-danger">{{$message}}</p>
                             @enderror
 
                             <div class="my-2">

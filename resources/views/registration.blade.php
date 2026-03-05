@@ -46,8 +46,16 @@
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
 
-                    <label class="form-label mt-3" for="password">Jelszó:</label>
-                    <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" id="password">
+                    <label class="form-label mt-3" for="password" {{--id="password"--}}>Jelszó:</label>
+                    <input onkeyup="check()" class="form-control rounded-pill @error('password') is-invalid @enderror" type="password" name="password" id="password">
+                    <ul >
+                        <li id="length">A jelszónak legalább 8 karakternek kell lennie!</li>
+                        <li id="alph">A jelszónak betűt kell tartalmaznia!</li>
+                        <li id="num">A jelszónak legalább egy számot kell tartalmaznia!</li>
+                        <li id="lucase">A jelszónak kis- és nagybetűt is kell tartalmaznia!</li>
+                        <li id="spec">A jelszónak legalább egy speciális karaktert kell tartalmaznia!</li>
+
+                    </ul>
                     @error('password')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
@@ -64,5 +72,10 @@
             </div>
         </div>
     </div>
+    <script src="{{asset("js/registration.js")}}"></script>
 </main>
 @endsection
+
+{{--
+    regisztrációnál sugó szöveg,
+--}}
