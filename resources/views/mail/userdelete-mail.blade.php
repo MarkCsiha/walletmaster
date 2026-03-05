@@ -861,7 +861,7 @@
                             <tr style="vertical-align: top; padding: 0;" align="left">
                               <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; padding: 0; margin: 0; font-size: 16px;" align="left">
                                 <center style="width: 100%; min-width: 605px;">
-                                  <h3 align="center" class=" float-center" style="color: #382c14; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; font-weight: 600; line-height: 1.3; word-wrap: normal; font-size: 28px;">Safe travels.</h3>
+                                  <h3 align="center" class=" float-center" style="color: #382c14; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; font-weight: 600; line-height: 1.3; word-wrap: normal; font-size: 28px;">WalletMaster fióktörlés</h3>
                                 </center>
                               </th>
                             </tr>
@@ -889,7 +889,7 @@
                             <tr style="vertical-align: top; padding: 0;" align="left">
                               <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; padding: 0; margin: 0; font-size: 16px;" align="left">
                                 <center style="width: 100%; min-width: 496.666666667px;">
-                                  <p class="body-text large float-center" align="center" style="color: #666666; margin: 0 0 8px; padding: 0; font-family: Helvetica, Arial, sans-serif; font-weight: 100; line-height: 24px; font-size: 21px; letter-spacing: 0.65px;">We hope you’ll explore the world with us again soon.</p>
+                                  <p class="body-text large float-center" align="center" style="color: #666666; margin: 0 0 8px; padding: 0; font-family: Helvetica, Arial, sans-serif; font-weight: 100; line-height: 24px; font-size: 21px; letter-spacing: 0.65px;">Értesítjük Önt, hogy a felhasználói fiókját sikeresen törölte.</p>
                                 </center>
                               </th>
                             </tr>
@@ -924,7 +924,9 @@
                             <tr style="vertical-align: top; padding: 0;" align="left">
                               <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; padding: 0; margin: 0; font-size: 16px;" align="left">
                                 <center style="width: 100%; min-width: 496.666666667px;">
-                                  <p class="body-text float-center" align="center" style="color: #666666; font-family: Helvetica, Arial, sans-serif; font-weight: 100; line-height: 24px; padding: 0; margin: 0 0 8px; font-size: 17px;">Still want a touch of wonder? Just not every day? Click below to sign up for our weekly newsletter.</p>
+                                  <p class="body-text float-center" align="center" style="color: #666666; font-family: Helvetica, Arial, sans-serif; font-weight: 100; line-height: 24px; padding: 0; margin: 0 0 8px; font-size: 17px;">Köszönjük, hogy igénybevette weboldalunkat, reméljük viszont látjuk Önt!</p>
+                                   <p class="body-text float-center" align="center" style="color: #666666; font-family: Helvetica, Arial, sans-serif; font-weight: 100; line-height: 24px; padding: 0; margin: 0 0 8px; font-size: 17px;">Ha vissza szeretné vonni fiókjának törlését, az alábbi gombra kattintson!</p>
+                                   <p class="body-text float-center" align="center" style="color: #666666; font-family: Helvetica, Arial, sans-serif; font-weight: 300; line-height: 24px; padding: 0; margin: 0 0 8px; font-size: 13px;">Felhívjuk figyelmét, hogy csak 30 napig érvényes a helyreállító link.</p>
                                 </center>
                                 <table class=" spacer " style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                                   <tbody>
@@ -942,7 +944,10 @@
                                         <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                                           <tr style="vertical-align: top; padding: 0;" align="left">
                                             <td style="word-wrap: break-word; margin: 0; padding: 8px 10px; border: 0px solid #bd8049; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; color: #fefefe; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 12px; word-break: keep-all; -ms-hyphens: none;"
-                                              align="left" bgcolor="#bd8049" valign="top"><a href="#" style="color: #fefefe; margin: 0; padding: 8px 10px; border: 0 solid #bd8049; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-align: left; line-height: 1.3; text-decoration: none; font-size: 12px; display: inline-block; border-radius: 3px; letter-spacing: 0.08em;">SUBSCRIBE TO WEEKLY</a></td>
+                                              align="left" bgcolor="#bd8049" valign="top"><x-mail::button :url="URL::signedRoute('userremoval.cancel', ['id' => $user->id], now()->addDays(30))">
+                                                Fiók helyreállítása
+</x-mail::button>
+</td>
                                           </tr>
                                         </table>
                                       </td>
@@ -972,43 +977,6 @@
                       </tr>
                     </tbody>
                   </table>
-
-                  <table class=" row" style="border-spacing: 0; padding: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table;">
-                    <tbody>
-                      <tr style="vertical-align: top; padding: 0;" align="left">
-                        <th class="large-offset-2 small-24 large-20 columns first" style="width: 526.666666667px; margin: 0 auto; padding: 0 7.5px 0px 69.1666666667px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px;"
-                          align="left">
-                          <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                            <tr style="vertical-align: top; padding: 0;" align="left">
-                              <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; padding: 0; margin: 0; font-size: 16px;" align="left">
-                                <p class="text-center body-text" style="color: #666666; font-family: Helvetica, Arial, sans-serif; font-weight: 100; line-height: 24px; padding: 0; margin: 0 0 8px; font-size: 17px;" align="center">Didn't mean to unsubscribe? Click below to resubscribe to our daily dispatches.</p>
-                                <table class=" spacer " style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                  <tbody>
-                                    <tr style="vertical-align: top; padding: 0;" align="left">
-                                      <td height="26px" style="font-size: 26px; margin: 0; padding: 0; line-height: 26px; word-wrap: break-word; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; word-break: keep-all; -ms-hyphens: none;"
-                                        align="left" valign="top"> </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <center style="width: 100%; min-width: 496.666666667px;">
-                                  <table class="small secondary button float-center" align="center" style="border-spacing: 0; margin: 0 0 16px; padding: 0; border-collapse: collapse; vertical-align: top; text-align: center; float: none; width: auto;">
-                                    <tr style="vertical-align: top; padding: 0;" align="left">
-                                      <td style="word-wrap: break-word; margin: 0; padding: 0; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; word-break: keep-all; -ms-hyphens: none;"
-                                        align="left" valign="top">
-                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                          <tr style="vertical-align: top; padding: 0;" align="left">
-                                            <td style="word-wrap: break-word; margin: 0; padding: 8px 10px; border: 0px solid #777777; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; color: #fefefe; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 12px; word-break: keep-all; -ms-hyphens: none;"
-                                              align="left" bgcolor="#777777" valign="top"><a href="#" style="color: #fefefe; margin: 0; padding: 8px 10px; border: 0 solid #777777; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-align: left; line-height: 1.3; text-decoration: none; font-size: 12px; display: inline-block; border-radius: 3px; letter-spacing: 0.08em;">RESUBSCRIBE</a></td>
-                                          </tr>
-                                        </table>
-                                      </td>
-                                    </tr>
-                                  </table>
-                                </center>
-                              </th>
-                            </tr>
-                          </table>
-                        </th>
                         <th class=" small-12 large-2 columns last" style="width: 39.1666666667px; margin: 0 auto; padding: 0 15px 0px 7.5px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px;" align="left">
                           <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                             <tr style="vertical-align: top; padding: 0;" align="left">
@@ -1093,7 +1061,7 @@
                           <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                             <tr style="vertical-align: top; padding: 0;" align="left">
                               <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; padding: 0; margin: 0; font-size: 16px;" align="left">
-                                <a href="https://www.instagram.com/atlasobscura/" style="color: #382c14; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none;">
+                                <a href="https://www.instagram.com/walletmaster01/" style="color: #382c14; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none;">
                                   <center style="width: 100%; min-width: 36.25px;">
                                     <img width="20" height="20" style="max-width: 20px; margin: 0 auto; border: none; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; clear: both; display: block; text-align: center;" src="https://s3.amazonaws.com/atlas-dev/misc/app-images/icons/insta_logo.png"
                                       alt="" align="center" class=" float-center">
@@ -1104,20 +1072,8 @@
                           </table>
                         </th>
 
-                        <th class=" small-3 large-3 columns" style="width: 81.25px; margin: 0 auto; padding: 0 0 0px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px;" align="left">
-                          <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                            <tr style="vertical-align: top; padding: 0;" align="left">
-                              <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; padding: 0; margin: 0; font-size: 16px;" align="left">
-                                <a href="https://www.youtube.com/user/atlasobscura" style="color: #382c14; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none;">
-                                  <center style="width: 100%; min-width: 36.25px;">
-                                    <img width="28.3" height="20" style="max-width: 29px; margin: 0 auto; border: none; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; clear: both; display: block; text-align: center;" class="last  float-center" src="https://s3.amazonaws.com/atlas-dev/misc/app-images/icons/youtube_logo.png"
-                                      alt="" align="center">
-                                  </center>
-                                </a>
-                              </th>
-                            </tr>
-                          </table>
-                        </th>
+
+
                         <th class=" small-6 large-6 columns last" style="width: 170px; margin: 0 auto; padding: 0 0 0px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px;" align="left">
                           <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                             <tr style="vertical-align: top; padding: 0;" align="left">
@@ -1145,7 +1101,7 @@
                           <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                             <tr style="vertical-align: top; padding: 0;" align="left">
                               <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; padding: 0; margin: 0; font-size: 16px;" align="left">
-                                <p class="text-center fine-print" style="color: #666666; font-family: Helvetica, Arial, sans-serif; font-weight: 100; line-height: 19px; padding: 0; margin: 0 0 8px; font-size: 13px;" align="center">61 Greenpoint Ave #622, Brooklyn, NY 11222</p>
+                                <p class="text-center fine-print" style="color: #666666; font-family: Helvetica, Arial, sans-serif; font-weight: 100; line-height: 19px; padding: 0; margin: 0 0 8px; font-size: 13px;" align="center">A WalletMaster csapata</p>
                               </th>
                             </tr>
                           </table>

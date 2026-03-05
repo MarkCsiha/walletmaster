@@ -37,6 +37,7 @@
         </div> --}}
     {{-- </div>
 </div> --}}
+{{-- <input type="number" name="budgetLimit" id="budgetLimit" onsubmit="this.form.submit()"> --}}
         <div class="row mt-3">
             <div class="col r-3" id="outerpanel">
 
@@ -149,7 +150,9 @@
 
         {{-- Sor lezárás --}}
         </div>
-
+        <form action="/export" id="export" method="GET">
+            <button type="submit">Exportálás</button>
+        </form>
         <form id="filtersForm" method="GET" action="/main">
                 @csrf
 

@@ -30,7 +30,7 @@ class UserController extends Controller
             'firstName'             => 'required|max:30',
             'lastName'              => 'required|max:30',
             'username'              => 'required|min:3|max:30|unique:users,felhasznalonev|regex:/^[a-zA-Z0-9._]+$/',
-            'email'                 => 'required|email|unique:users,email|email:rfc,dns',
+            'email'                 => 'required|email|unique:users,email',
             //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
             'phone'                 => ['required', 'unique:users,telszam', 'regex:/^(?:\+36|06)(20|30|50|70)\d{3}\d{4}$/'],
             'password'              => ['required','confirmed', Password::min(8)
@@ -106,6 +106,7 @@ class UserController extends Controller
         else {
             $credentials = 'felhasznalonev';
         }
+
         if(Auth::attempt([$credentials => $req->loginData, 'password' => $req->password, 'torles_ido' => null])){
             return redirect("/main")->with([
                 "success" => "Sikeresen belépett!"
@@ -113,7 +114,7 @@ class UserController extends Controller
         }
         else{
             return redirect("/login")->with([
-                "unsuccessful"    => "Az email cím, jelszó páros nem egyezik, kérjük próbálja meg újra!"
+                "unsuccessful"    => "Az email cím, jelszó páros nem egyezik, vagy a felhasználói fiók törlésre került, kérjük próbálja meg újra!"
             ]);
         }
     }
@@ -284,6 +285,14 @@ class UserController extends Controller
         request()->session()->regenerateToken();
 
         return redirect('/')->with(["success" => "Sikeres fióktörlés."]);
+    }
+
+    public function UserRemovalCancel($id) {
+        $user = User::findOrFail($id);
+        $user->torles_ido = null;
+        $user->save();
+
+        return redirect("/login")->with(["success" => "Sikeresen visszavonta fiókjának törlését!"]);
     }
 }
 

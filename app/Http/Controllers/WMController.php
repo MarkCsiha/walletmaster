@@ -571,7 +571,7 @@ class WMController extends Controller
             "file"      => "required|file"
         ],[
             "file.required" => "Töltse fel a fájlt!",
-            "file.file"     => "Fájlot adjon meg!"
+            "file.file"     => "Fájlt adjon meg!"
         ]);
         Excel::import(new SzamlaImport(), $req->file('file'));
 

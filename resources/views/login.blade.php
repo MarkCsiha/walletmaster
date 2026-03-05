@@ -26,9 +26,9 @@
                     </form>
                     <a href="forgot-password">Elfelejtette jelszavát?</a>
                 </div>
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
                     <button><a href="{{ route('redirect.google') }}">Bejelentkezés Google-el</a></button>
-                </div>
+                </div> --}}
         </div>
     </main>
 @endsection

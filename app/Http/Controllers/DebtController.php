@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Mail;
 class DebtController extends Controller
 {
     public function DebtShow() {
-        $allDebt = tartozasok::query()
-                                ->where('tartozasok.user_id', Auth::id())
+        //javítsd
+        $allDebt = tartozasok::where('tartozasok.user_id', Auth::id())
                                 ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
                                 ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
                                 ->get();
@@ -90,8 +90,7 @@ class DebtController extends Controller
 
     public function ShowDebtDetails($id) {
         $debt = tartozasok::find($id);
-        $userDebt = tartozasok::query()
-                                ->where('tartozasok.tartozasok_id', '=', $id)
+        $userDebt = tartozasok::where('tartozasok.tartozasok_id', '=', $id)
                                 ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
                                 ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
                                 ->first();

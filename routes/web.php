@@ -17,7 +17,7 @@ Route::view('/', 'welcome');
 Route::get("/registration", [UserController::class, "Registration"]);
 Route::post("/registration", [UserController::class, "RegistrationBtn"]);
 
-Route::get("/login", [UserController::class, "Login"])->name('login');
+Route::get("/login", [UserController::class, "Login"]);
 Route::post("/login", [UserController::class, "LoginBtn"]);
 
 //ha nem megy az email módosítás akkor rakd vissza a middleware auth verifiedot!
@@ -29,15 +29,15 @@ Route::get("/logout", [UserController::class, "Logout"]);
 // Route::post('/main', [WMController::class, "SpendingChart"]);
 Route::post('/main', [WMController::class, "Main"])->middleware(["auth", "verified"]);
 Route::get('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"]);
-Route::post('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"])->name('main.charts'); //name('naptar');
-Route::get("/main", [WMController::class, "Main"])->middleware(["auth", "verified"])->name('naptar');
+// Route::post('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"])->name('main.charts'); //name('naptar');
+// Route::get("/main", [WMController::class, "Main"])->middleware(["auth", "verified"])->name('naptar');
 
-Route::get('/mainmod/{szamla_id}', [WMController::class, 'MainMod']);
-Route::post('/mainmod/{szamla_id}', [WMController::class, 'MainModBtn']);
-Route::get('/mainexit/{szamla_id}', [WMController::class, 'MainDelete']);
+Route::get('/mainmod/{szamla_id}', [WMController::class, 'MainMod'])->middleware(["auth", "verified"]);
+Route::post('/mainmod/{szamla_id}', [WMController::class, 'MainModBtn'])->middleware(["auth", "verified"]);
+Route::get('/mainexit/{szamla_id}', [WMController::class, 'MainDelete'])->middleware(["auth", "verified"]);
 
 //Route::get("/account", [UserController::class, "Save"])->middleware(["auth", "verified"]);
-Route::post("/account", [UserController::class, "SaveBtn"]);
+Route::post("/account", [UserController::class, "SaveBtn"])->middleware(["auth", "verified"]);
 
 //https://laravel.com/docs/12.x/verification
 //átirányít a hitelesítés oldalra regisztráció után
@@ -76,37 +76,37 @@ Route::get('/reset-password/{token}', function (string $token) {
 //frissíti a jelszót
 Route::post('/reset-password', [ResetPasswordController::class, "PasswordReset"])->middleware('guest')->name('password.update');
 
-Route::get('/debt', [DebtController::class, 'DebtShow'])->name('debt.show')->middleware(["auth", "verified"]);
+Route::get('/debt', [DebtController::class, 'DebtShow'])->middleware(["auth", "verified"]);
 Route::post('/debt', [DebtController::class, 'DebtAdd'])->middleware(["auth", "verified"]);
 
 
-Route::get("/main", [WMController::class, "Main"])->name('naptar');
-Route::get("/goals", [WMController::class, "Goals"]);
-Route::post("/goals", [WMController::class, "GoalsBtn"]);
+Route::get("/main", [WMController::class, "Main"])->name('naptar')->middleware(["auth", "verified"]);
+Route::get("/goals", [WMController::class, "Goals"])->middleware(["auth", "verified"]);
+Route::post("/goals", [WMController::class, "GoalsBtn"])->middleware(["auth", "verified"]);
 
-Route::get('/goalsmod/{cel_id}', [WMController::class, 'GoalsMod']);
-Route::post('/goalsmod/{cel_id}', [WMController::class, 'GoalsModBtn']);
-Route::get('/goalsexit/{cel_id}', [WMController::class, 'GoalsDelete']);
+Route::get('/goalsmod/{cel_id}', [WMController::class, 'GoalsMod'])->middleware(["auth", "verified"]);
+Route::post('/goalsmod/{cel_id}', [WMController::class, 'GoalsModBtn'])->middleware(["auth", "verified"]);
+Route::get('/goalsexit/{cel_id}', [WMController::class, 'GoalsDelete'])->middleware(["auth", "verified"]);
 
-Route::get("/add", [WMController::class, "Add"]);
-Route::post("/add", [WMController::class, "AddBtn"]);
+Route::get("/add", [WMController::class, "Add"])->middleware(["auth", "verified"]);
+Route::post("/add", [WMController::class, "AddBtn"])->middleware(["auth", "verified"]);
 
 //Tartozások email kiküldése
-Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->name('debts.decision');
+Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->name('debts.decision')->middleware(["auth", "verified"]);
 
 //tartozás elfogadása
-Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->name('debts.accept');
+Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->name('debts.accept')->middleware(["auth", "verified"]);
 
 //tartozás visszautasítása
-Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->name("debts.reject");
+Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->name("debts.reject")->middleware(["auth", "verified"]);
 
 //rendezve gomb a tartozásoknál
-Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts.done");
+Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts.done")->middleware(["auth", "verified"]);
 
 //exportálás
-Route::get('/export', [WMController::class, "ExportExcel"])->name("export.download-excel");
+Route::get('/export', [WMController::class, "ExportExcel"])->middleware(["auth", "verified"]);
 
-Route::post("/import", [WMController::class, "ImportExcel"])->name("import");
+Route::post("/import", [WMController::class, "ImportExcel"])->name("import")->middleware(["auth", "verified"]);
 
 Route::get('auth/google', [GoogleController::class, "RedirectGoogle"])->name('redirect.google');
 
@@ -114,4 +114,7 @@ Route::get('auth/google/callback', [GoogleController::class, "GoogleCallback"])-
 
 Route::delete('/user/{id}', [UserController::class, 'AccountDelete'])
     ->name('user.destroy')
-    ->middleware(['auth']);
+    ->middleware(['auth', 'verified']);
+
+Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"])->name("userremoval.cancel")->middleware(["auth", "verified"]);
+// Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"]);
