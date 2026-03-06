@@ -6,8 +6,8 @@
 <main class="container py-4 px-5">
     <section>
         <h1>Kiadás/bevétel hozzáadása</h1>
-        @if(session('msg'))
-            <p class="text-success">{{session('msg')}}</p>
+        @if(session('success'))
+            <p class="text-success">{{session('success')}}</p>
         @endif
         <div class="row">
             <div class="col-md">

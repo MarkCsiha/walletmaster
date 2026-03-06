@@ -27,6 +27,7 @@
                             <th>Típus: </th>
                             <th>Dátum: </th>
                             <th>Státusz: </th>
+                            <th>Teljesítve? </th>
                         </tr>
 
                         @foreach ($allDebt as $debt)
@@ -59,7 +60,7 @@
                                     @csrf
                                     <td>
                                         @if($debt->statusz != "rendezve")
-                                            <button type="submit" class="btn btn-success">Tartozás pipa</button>
+                                            <button type="submit" class="btn shadow-none"><i class="bi bi-check-circle text-success"></i></button>
                                         @endif
                                     </td>
                                 </form>

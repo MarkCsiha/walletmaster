@@ -9,6 +9,7 @@ use App\Models\szamla;
 use App\Models\kategoriak;
 use App\Models\koltseglimit;
 use App\Models\celok;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\fix;
@@ -160,6 +161,8 @@ class WMController extends Controller
                                     ->when($req->to, function($query) use ($req) {
                                         return $query->whereDate('datum', '<=', $req->to);
                                     })
+                                    // ->whereYear('datum', $monthStart->year)
+                                    // ->whereMonth('datum', $monthStart->month)
                                     ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
                                             //biztosan a felhasználó adatait adja meg
                                     ->where("tipus", 0)
@@ -324,11 +327,12 @@ class WMController extends Controller
                 "userExpenses"      => $userExpenses,
                 // 'compLabels'        => $budgetComparison->keys(),
                 // "compData"          => $budgetComparison->values(),
-                "dailySums"         => $dailySums
+                "dailySums"         => $dailySums,
+                "budgetGoal"        => $budgetGoal
             ]);
         }
         else {
-            return redirect("login");
+            return redirect("/login");
         }
 
 }

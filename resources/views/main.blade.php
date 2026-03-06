@@ -7,12 +7,12 @@
 @section('content')
 
     <main class="container pb-2">
-        {{-- <div class="col-md-9">
+        <div class="col-md-9">
             @if (session('success'))
                 <p class="text text-success text-center">{{session("success")}}</p>
             @endif
 
-        </div> --}}
+        </div>
         {{-- <div id="applicantDeleteModal" class="modal modal-danger fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" style="width:55%;">
         <div class="modal-content">
@@ -37,7 +37,10 @@
         </div> --}}
     {{-- </div>
 </div> --}}
-{{-- <input type="number" name="budgetLimit" id="budgetLimit" onsubmit="this.form.submit()"> --}}
+    <form action="main" method="POST" id="budgetLimit">
+        @csrf
+        <input type="number" name="budgetLimit" id="budgetLimit" onsubmit="this.form.submit()">
+    </form>
         <div class="row mt-3">
             <div class="col r-3" id="outerpanel">
 
