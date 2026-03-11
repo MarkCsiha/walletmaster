@@ -12,3 +12,8 @@ body{
 h2, h3, h4, label{
     color: white;
 }
+
+button a {
+    color: white;
+    text-decoration: none;
+}

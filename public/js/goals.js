@@ -1,20 +1,15 @@
+const cont = document.getElementById("cont");
+const centerPanel = document.getElementById("centerPanel");
 
+window.onload = function(){
+    change("goals")
+}
+function change(inf){
+    if (inf === "goals") {
+        cont.innerHTML = document.getElementById("goalsBody").innerHTML;
+    } else if (inf === "add") {
+        cont.innerHTML = document.getElementById("addBody").innerHTML;
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const panel = document.getElementById('centerPanel');
-  const inner = document.getElementById('centerPanelInner');
-
-  function openFrom(sourceId){
-    const src = document.getElementById(sourceId);
-    inner.innerHTML = src ? src.innerHTML : '';
-    panel.classList.remove('d-none');
-  }
-
-  document.querySelectorAll('.goal-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.getAttribute('data-target');
-      openFrom(target);
-    });
-  });
-
-});
+    centerPanel.classList.remove("d-none");
+}

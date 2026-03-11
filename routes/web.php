@@ -84,3 +84,49 @@ Route::post("/add", [WMController::class, "AddBtn"]);
 
 Route::get('/debt', [DebtController::class, 'DebtShow'])->name('debt.show')->middleware(["auth", "verified"]);
 Route::post('/debt', [DebtController::class, 'DebtAdd'])->middleware(["auth", "verified"]);
+<<<<<<< Updated upstream
+=======
+
+
+Route::get("/main", [WMController::class, "Main"])->name('naptar')->middleware(["auth", "verified"]);
+Route::get("/goals", [WMController::class, "Goals"])->middleware(["auth", "verified"]);
+Route::post("/goals", [WMController::class, "GoalsBtn"])->middleware(["auth", "verified"]);
+
+Route::get('/goalsmod/{cel_id}', [WMController::class, 'GoalsMod'])->middleware(["auth", "verified"]);
+Route::post('/goalsmod/{cel_id}', [WMController::class, 'GoalsModBtn'])->middleware(["auth", "verified"]);
+Route::get('/goalsexit/{cel_id}', [WMController::class, 'GoalsDelete'])->middleware(["auth", "verified"]);
+
+Route::get("/add", [WMController::class, "Add"])->middleware(["auth", "verified"]);
+Route::post("/add", [WMController::class, "AddBtn"])->middleware(["auth", "verified"]);
+
+//Tartozások email kiküldése
+Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->name('debts.decision')->middleware(["auth", "verified"]);
+
+//tartozás elfogadása
+Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->name('debts.accept')->middleware(["auth", "verified"]);
+
+//tartozás visszautasítása
+Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->name("debts.reject")->middleware(["auth", "verified"]);
+
+//rendezve gomb a tartozásoknál
+Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts.done")->middleware(["auth", "verified"]);
+
+//exportálás
+Route::get('/export', [WMController::class, "ExportExcel"])->middleware(["auth", "verified"]);
+
+//Szures
+Route::get('/main/szures', [WMController::class, "ExportExcel"])->middleware(["auth", "verified"]);
+
+Route::post("/import", [WMController::class, "Szures"]);
+
+Route::get('auth/google', [GoogleController::class, "RedirectGoogle"])->name('redirect.google');
+
+Route::get('auth/google/callback', [GoogleController::class, "GoogleCallback"])->name('callback.google');
+
+Route::delete('/user/{id}', [UserController::class, 'AccountDelete'])
+    ->name('user.destroy')
+    ->middleware(['auth', 'verified']);
+
+Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"])->name("userremoval.cancel")->middleware(["auth", "verified"]);
+// Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"]);
+>>>>>>> Stashed changes

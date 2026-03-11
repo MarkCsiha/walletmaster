@@ -224,6 +224,37 @@ class WMController extends Controller
         $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
 
+<<<<<<< Updated upstream
+=======
+        $budgetGoal = null;
+        //https://laracasts.com/discuss/channels/laravel/getting-the-first-and-last-date-of-the-current-month-and-past-2-months
+        $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
+        $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
+
+        $checkIfUserExists = koltseglimit::where("user_id", Auth::id())
+                                        ->whereDate('start_datum', $first_day_of_the_current_month)
+                                        ->whereDate('vege_datum', $last_day_of_the_current_month)
+                                        ->where('tipus', 0)
+                                        ->first();
+                                        
+        if ($req->filled('budgetLimit')) {
+            if (!$checkIfUserExists) {
+                $budgetGoal = new koltseglimit;
+                $budgetGoal->user_id = Auth::id();
+                $budgetGoal->osszeg = $req->input('budgetLimit');
+                $budgetGoal->tipus = 0;
+                $budgetGoal->start_datum = $first_day_of_the_current_month;
+                $budgetGoal->vege_datum = $last_day_of_the_current_month;
+
+                $budgetGoal->save();
+            }
+
+        else {
+            $checkIfUserExists->osszeg = $req->input('budgetLimit');
+            $checkIfUserExists->save();
+        }
+        }
+>>>>>>> Stashed changes
         $result = szamla::where("user_id", $user)
             ->whereYear('datum', $monthStart->year)
             ->whereMonth('datum', $monthStart->month)

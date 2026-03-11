@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-<main class="container pb-2">
+<main class="container pb-5">
     <h1 class="bi bi-bullseye p-3"> Céljaim</h1>
 
     <div class="container">
@@ -13,13 +13,13 @@
 
             <div class="row align-items-start">
                 <div class="col-sm">
-                    <button type="button" class="goal-tab" data-target="goalsBody">
+                    <button type="button" class="goal-tab" onclick="change('goals')">
                         Célok
                     </button>
 
-                    <div id="goalsBody" class="dbody-source d-none">
+                    <div id="goalsBody" class="d-none">
                         @foreach ($result as $cel)
-                            <div class="card w-75" id="goalcard">
+                            <div class="card mb-3" id="goalcard">
                                 <div class="card-body">
 
                                     <div class="row">
@@ -63,11 +63,11 @@
                 </div>
 
                 <div class="col-sm text-end">
-                    <button type="button" class="goal-tab" data-target="addBody">
+                    <button type="button" class="goal-tab" onclick="change('add')">
                         Hozzáadás
                     </button>
 
-                    <div id="addBody" class="dbody-source d-none">
+                    <div id="addBody" class="d-none">
                         <div class="card">
                             <div class="card-body">
                                 <form action="/goals" method="post">
@@ -105,12 +105,12 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-12">
-                    <div id="centerPanel" class="center-panel d-none">
-                        <div id="centerPanelInner" class="mt-3">
+            <div class="row mt-4 justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div id="centerPanel" class="d-none">
+                        <div id="centerPanelInner">
                             <div class="card">
-                                <div class="card-body"></div>
+                                <div class="card-body" id="cont"></div>
                             </div>
                         </div>
                     </div>
@@ -122,11 +122,3 @@
 
 <script src="{{asset('js/goals.js')}}"></script>
 @endsection
-
-
-{{--A módosítás gombra kattintva a megjeleneik egy új oldal ami a hozzáadáshoz hasonlít.
-    Azzal bővül ki, hogy a statuszt lehet majd módosítani.
-    Olyankor mentés után visszadob a goals-ra és módosítja az adatokat a módosítás dátuma megvátozik a mostani időre
-    A csikot meg kell még csinálni.
-
---}}

@@ -13,6 +13,15 @@
             <div class="col-md">
                 <div class="card">
                     <div class="card-body">
+<<<<<<< Updated upstream
+=======
+
+                    <form action="/import" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="file" class="form-control" accept=".csv,.xlsx" required>
+                        <button type="submit" class="btn btn-primary mt-2">Adatok importálása</button>
+                    </form>
+>>>>>>> Stashed changes
                         <form action="/add" method="post">
                         @csrf
                             <label class="for-label" for="osszeg">Összeg:</label>

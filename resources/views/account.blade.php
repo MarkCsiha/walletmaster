@@ -1,16 +1,3 @@
-{{-- @extends('layout')
-@section('content')
-    <main class="container pb-2">
-        <h1 class="text-center py-3">Fiókbeállítások</h1>
-            <h2 class="text-center py-3">{{ Auth::user()->vez_nev.' '.Auth::user()->ker_nev }} </h2>
-
-            <p class="text-center">
-                <a href="/kijelentkezes" class="text-decoration-none">Kijelentkezés</a>
-            </p>
-    </main>
-@endsection --}}
-
-
 @extends('layout')
 @push('account-css')
     <link rel="stylesheet" href="{{ asset('css/account.css') }}">
