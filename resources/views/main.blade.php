@@ -7,14 +7,6 @@
 @section('content')
 
     <main class="container pb-2">
-<<<<<<< Updated upstream
-        {{-- <div class="col-md-9">
-            @if (session('success'))
-                <p class="text text-success text-center">{{session("success")}}</p>
-            @endif
-        </div> --}}
-=======
->>>>>>> Stashed changes
         <div class="row mt-3">
             <div class="col r-3" id="outerpanel">
 
@@ -103,12 +95,9 @@
                         <option value="spentIncomeChart"
                             {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>Költség - Bevétel
                             differencia</option>
-<<<<<<< Updated upstream
-=======
                         <option value="budgetComparisonChart"
                             {{ request('chartDataType') == 'budgetComparisonChart' ? 'selected' : '' }}>Összehasonlítás
                         </option>
->>>>>>> Stashed changes
                     </select>
                     {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
                     @if (request('chartDataType') == 'monthlyChart')
@@ -131,14 +120,7 @@
                     <option value="pie" {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
                     <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram
                     </option>
-<<<<<<< Updated upstream
-                    @if (request('chartDataType') == 'monthlyChart')
-                        <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram
-                        </option>
-                    @endif
-=======
                     <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
->>>>>>> Stashed changes
                 </select>
 
                 {{-- Oszlop --}}
@@ -155,40 +137,22 @@
         </div>
 
         <form id="filtersForm" method="GET" action="/main">
-            @csrf
-<<<<<<< Updated upstream
-
             <div class="row">
-                <div class="col-md-3">
-                    <label>Kategória</label>
-                    <select name="category" class="form-control">
-                        <option value="">Összes</option>
-                        @foreach ($labels as $label)
-                            <option value="{{ $label }}"
-                                {{ ($selectedCategory ?? '') === $label ? 'selected' : '' }}>
-                                {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
 
-=======
-            <div class="row">
->>>>>>> Stashed changes
                 <div class="col-md-3">
                     <label>Mettől</label>
-                    <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+                    <input type="number" name="from" min="1" max="31" class="form-control" value="{{ request('from', 1) }}">
                 </div>
 
                 <div class="col-md-3">
                     <label>Meddig</label>
-                    <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+                    <input type="number" name="to" min="1" max="31" class="form-control" value="{{ request('to', 31) }}">
                 </div>
 
                 <div class="col-md-3">
                     <label>Kategória</label>
-                    <input type="text" name="categories" class="form-control" placeholder="pl.: Élelmiszer"
-                        value="{{ ucfirst(request('categorie')) }}">
+                    <input type="text" name="category" class="form-control" placeholder="pl.: Élelmiszer"
+                        value="{{ ucfirst(request('category')) }}">
                 </div>
 
                 <div class="col-md-3 d-flex align-items-end">
@@ -263,19 +227,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-<<<<<<< Updated upstream
-
-    <script>
-        let labels = {!! json_encode($labels ?? []) !!};
-        let data = {!! json_encode($data ?? []) !!};
-
-        let cm = document.getElementById("cm")
-
-        @if (!empty($monthly))
-            labels = @json($monthly->keys()->values());
-            data = @json($monthly->values());
-        @endif
-=======
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
 
     <script>
@@ -312,6 +263,5 @@
         //     $('#question').append(programID+' ?');
         //     $('#applicantDeleteModal').modal('show');
         // });
->>>>>>> Stashed changes
     </script>
 @endsection

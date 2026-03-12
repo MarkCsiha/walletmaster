@@ -84,8 +84,6 @@ Route::post("/add", [WMController::class, "AddBtn"]);
 
 Route::get('/debt', [DebtController::class, 'DebtShow'])->name('debt.show')->middleware(["auth", "verified"]);
 Route::post('/debt', [DebtController::class, 'DebtAdd'])->middleware(["auth", "verified"]);
-<<<<<<< Updated upstream
-=======
 
 
 Route::get("/main", [WMController::class, "Main"])->name('naptar')->middleware(["auth", "verified"]);
@@ -114,10 +112,7 @@ Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts
 //exportálás
 Route::get('/export', [WMController::class, "ExportExcel"])->middleware(["auth", "verified"]);
 
-//Szures
-Route::get('/main/szures', [WMController::class, "ExportExcel"])->middleware(["auth", "verified"]);
-
-Route::post("/import", [WMController::class, "Szures"]);
+Route::post("/import", [WMController::class, "Import"]);
 
 Route::get('auth/google', [GoogleController::class, "RedirectGoogle"])->name('redirect.google');
 
@@ -129,4 +124,3 @@ Route::delete('/user/{id}', [UserController::class, 'AccountDelete'])
 
 Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"])->name("userremoval.cancel")->middleware(["auth", "verified"]);
 // Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"]);
->>>>>>> Stashed changes

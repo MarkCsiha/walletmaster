@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\szamla;
 use App\Models\celok;
 use App\Models\fix;
+use App\Models\koltseglimit;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -224,8 +225,6 @@ class WMController extends Controller
         $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
 
-<<<<<<< Updated upstream
-=======
         $budgetGoal = null;
         //https://laracasts.com/discuss/channels/laravel/getting-the-first-and-last-date-of-the-current-month-and-past-2-months
         $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
@@ -236,7 +235,7 @@ class WMController extends Controller
                                         ->whereDate('vege_datum', $last_day_of_the_current_month)
                                         ->where('tipus', 0)
                                         ->first();
-                                        
+
         if ($req->filled('budgetLimit')) {
             if (!$checkIfUserExists) {
                 $budgetGoal = new koltseglimit;
@@ -254,10 +253,16 @@ class WMController extends Controller
             $checkIfUserExists->save();
         }
         }
->>>>>>> Stashed changes
+
+        $from = request('from');
+        $to = request('to');
+        $category = "<>null";
+
         $result = szamla::where("user_id", $user)
             ->whereYear('datum', $monthStart->year)
             ->whereMonth('datum', $monthStart->month)
+            ->whereDay('datum', '>=', (int) request('from', 1))
+            ->whereDay('datum', '<=', (int) request('to', 31))
             ->orderBy("datum", "desc")
             ->paginate(10);
 
