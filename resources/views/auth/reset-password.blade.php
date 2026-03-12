@@ -6,13 +6,14 @@
 
     <div>
 {{--Email bekérés nélkül meg kéne oldani--}}
-        <label for="email">Email</label>
+        <label for="email" hidden>Email</label>
         <input id="email"
                type="email"
                name="email"
                value="{{ old('email', $email ?? request('email')) }}"
                required
-               autofocus>
+               autofocus
+               hidden>
         @error('email') <div>{{ $message }}</div> @enderror
     </div>
 
