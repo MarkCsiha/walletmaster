@@ -224,7 +224,7 @@
 														<tr>
 															<td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:10px;">
 																<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:30px;line-height:1.2;text-align:center;mso-line-height-alt:36px;">
-																	<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word; color: #2b303a;"><strong>Üdvözöljük {{ $user->vez_nev }} {{ $user->ker_nev }}!</strong></span></p>
+																	<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word; color: #2b303a;"><strong>Tisztelt felhasználónk!</strong></span></p>
 																</div>
 															</td>
 														</tr>
@@ -234,7 +234,7 @@
 															<td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:10px;">
 																<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:15px;line-height:1.5;text-align:center;mso-line-height-alt:23px;">
 																	<p style="margin: 0;">&nbsp;</p>
-																	<p style="margin: 0;">Örülünk, hogy csatlakozott hozzánk! A fiókja aktiválásához kérjük erősítse meg az email címét az alábbi gombra kattintva.</p>
+																	<p style="margin: 0;">Önnek tartozási kérelmet írtak fel, melyet az alábbi gombra kattintva tud megtekinteni.</p>
 																	<p style="margin: 0;">&nbsp;</p>
 																</div>
 															</td>
@@ -250,7 +250,7 @@
 <v:textbox inset="0px,0px,0px,0px">
 <center dir="false" style="color:#ffffff;font-family:sans-serif;font-size:16px">
 <![endif]-->
-<a href="{{ $url }}" target="_blank"><span class="button" style="background-color: #1aa19c; border-bottom: 0px solid transparent; border-left: 0px solid transparent; border-radius: 60px; border-right: 0px solid transparent; border-top: 0px solid transparent; color: #ffffff; display: inline-block; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; font-weight: undefined; mso-border-alt: none; text-align: center; width: auto; word-break: keep-all; letter-spacing: normal;"><span class="btn-pad" style="word-break: break-word; padding-left: 30px; padding-right: 30px; padding-top: 15px; padding-bottom: 15px; display: block;"><span style="margin: 0; word-break: break-word; line-height: 32px;"><strong>Email cím megerősítése</strong></span></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
+<a href="{{ URL::signedRoute('debts.decision',  ['id' => $tartozas->tartozasok_id]) }}" target="_blank"><span class="button" style="background-color: #1aa19c; border-bottom: 0px solid transparent; border-left: 0px solid transparent; border-radius: 60px; border-right: 0px solid transparent; border-top: 0px solid transparent; color: #ffffff; display: inline-block; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; font-weight: undefined; mso-border-alt: none; text-align: center; width: auto; word-break: keep-all; letter-spacing: normal;"><span class="btn-pad" style="word-break: break-word; padding-left: 30px; padding-right: 30px; padding-top: 15px; padding-bottom: 15px; display: block;"><span style="margin: 0; word-break: break-word; line-height: 32px;"><strong>Tartozási kérelem megtekintése</strong></span></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
 															</td>
 														</tr>
 													</table>
@@ -347,7 +347,7 @@
 															</td>
 														</tr>
 													</table>
-													<table class="paragraph_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+													{{-- <table class="paragraph_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
 														<tr>
 															<td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:15px;">
 																<div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:12px;line-height:1.5;text-align:left;mso-line-height-alt:18px;">
@@ -357,7 +357,7 @@
 																</div>
 															</td>
 														</tr>
-													</table>
+													</table> --}}
 													<table class="divider_block block-4" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 														<tr>
 															<td class="pad" style="padding-bottom:10px;padding-left:40px;padding-right:40px;padding-top:25px;">

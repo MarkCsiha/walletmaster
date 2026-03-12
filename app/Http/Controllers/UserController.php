@@ -79,7 +79,7 @@ class UserController extends Controller
         event(new Registered($data));
 
         return redirect('/auth/verify')->with([
-            'success' => 'Sikeresen regisztrál, üdvözöljük a WalletMaster oldalán '.$req->firstName.' '.$req->lastName.'!'
+            'success' => 'Sikeresen regisztrált, üdvözöljük a WalletMaster oldalán '.$req->firstName.' '.$req->lastName.'!'
         ]);
     }
 

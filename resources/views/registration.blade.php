@@ -69,6 +69,10 @@
                     <button class="btn btn-primary mt-3" type="submit">Regisztrál</button>
                     <p class="mt-2"><a href="/login">Van már fiókja?</a></p>
                 </form>
+
+                 <div class="col-md-3">
+                    <button><a href="{{ route('redirect.google') }}">Regisztráció Google fiókkal</a></button>
+                </div>
             </div>
         </div>
     </div>

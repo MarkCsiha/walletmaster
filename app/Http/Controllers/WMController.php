@@ -399,18 +399,32 @@ class WMController extends Controller
 
         $data->Save();
 
-        return redirect("/main");
+        if (Auth::check()) {
+            return redirect("/main")->with(["success" => "Sikeres módosítás!"]);
+        }
+
     }
 
     public function MainDelete($szamla_id){
         $data = szamla::find($szamla_id);
         $data->Delete();
-        return redirect("/main");
+        if (Auth::check()) {
+            return redirect("/main")->with(["unsuccessful" => "Sikeresen törölte a költséget!"]);
+        }
+        else {
+            return view("login");
+        }
+
     }
 
     public function Add(){
-        return view("add", [
-        ]);
+        if (Auth::check()) {
+              return view("add", [
+            ]);
+        }
+        else {
+            return redirect("/login");
+        }
     }
 
     public function AddBtn(Request $req){
@@ -492,8 +506,12 @@ class WMController extends Controller
         $prevYm = $monthStart->copy()->subMonth()->format('Y-m');
         $nextYm = $monthStart->copy()->addMonth()->format('Y-m');
 
-        return view('naptar', compact('monthStart', 'days', 'prevYm', 'nextYm'));
-
+        if (Auth::check()) {
+            return view('naptar', data: compact('monthStart', 'days', 'prevYm', 'nextYm'));
+        }
+        else {
+            return redirect("/login");
+        }
     }
 
     public function Charts(Request $req) {
