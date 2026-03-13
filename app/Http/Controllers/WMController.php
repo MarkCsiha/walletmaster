@@ -254,17 +254,28 @@ class WMController extends Controller
         }
         }
 
-        $from = request('from');
-        $to = request('to');
-        $category = "<>null";
-
-        $result = szamla::where("user_id", $user)
+        $category = request('category');
+        if($category == null)
+        {
+            $result = szamla::where("user_id", $user)
             ->whereYear('datum', $monthStart->year)
             ->whereMonth('datum', $monthStart->month)
             ->whereDay('datum', '>=', (int) request('from', 1))
             ->whereDay('datum', '<=', (int) request('to', 31))
             ->orderBy("datum", "desc")
             ->paginate(10);
+        }
+        else{
+            $result = szamla::where("user_id", $user)
+            ->whereYear('datum', $monthStart->year)
+            ->whereMonth('datum', $monthStart->month)
+            ->whereDay('datum', '>=', (int) request('from', 1))
+            ->whereDay('datum', '<=', (int) request('to', 31))
+            ->where('kategoria_nev', $category)
+            ->orderBy("datum", "desc")
+            ->paginate(10);
+        }
+
 
         if (Auth::check()) {
             return view('main', [
