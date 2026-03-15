@@ -75,7 +75,10 @@
                                 </select>
                             </div>
 
-                            <button class="btn btn-dark mt-4" type="submit">Elküld</button>
+                            <div class="btn">
+                                <button class="btn btn-dark mt-4" type="submit">Elküld</button>
+                            </div>
+
                         </form>
                     </div>
                 </div>

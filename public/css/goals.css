@@ -75,15 +75,9 @@ button{
     margin-bottom: 20px;
 }
 
-/* #outercsik{
-    width: 100%;
-    height: 24px;
-    border: 1px solid black;
-    padding: 0;
+@media screen and (max-width: 767px) {
+  .btn {
+    display: flex;
+    justify-content: center;
+  }
 }
-
-#csik{
-    width: 100%;
-    height: 100%;
-    background: greenyellow;
-} */

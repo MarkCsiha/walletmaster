@@ -1,4 +1,6 @@
-
+@push('reset-css')
+    <link rel="stylesheet" href="{{asset('resetpass.css')}}">
+@endpush
 <form method="POST" action="{{ route('password.update') }}">
     @csrf
 
@@ -32,6 +34,8 @@
                name="password_confirmation"
                required>
     </div>
+    <div class="btn">
+        <button type="submit">Jelszó megváltoztatása</button>
+    </div>
 
-    <button type="submit">Jelszó megváltoztatása</button>
 </form>

@@ -124,8 +124,9 @@
                                     @endif
                                 </select>
                             </div>
-
-                            <button class="btn btn-dark mt-4" type="submit">Módosítás</button>
+                            <div class="btn">
+                                <button class="btn btn-dark mt-4" type="submit">Módosítás</button>
+                            </div>
                         </form>
                     </div>
                 </div>

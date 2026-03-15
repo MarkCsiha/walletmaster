@@ -47,8 +47,9 @@
                             @error('hatarido')
                                 <p style="color: tomato" class="text-danger">{{ $message }}</p>
                             @enderror
-
-                            <button class="btn btn-dark mt-4" type="submit">Módosítás</button>
+                            <div class="btn">
+                                <button class="btn btn-dark mt-4" type="submit">Módosítás</button>
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -15,7 +15,7 @@
                         {{-- ÉV + HÓNAP --}}
                         <div class="text-center mb-2">
                             <h2 class="m-0" id="cm">{{ $monthStart->year }}</h2>
-                            <h4>{{ $monthStart->translatedFormat('F') }}</h4>
+                            <h4>{{ ucfirst($monthStart->translatedFormat('F')) }}</h4>
                         </div>
 
                         {{-- HÓNAP VÁLTÁS --}}
@@ -141,12 +141,14 @@
 
                 <div class="col-md-3">
                     <label>Mettől</label>
-                    <input type="number" name="from" min="1" max="31" class="form-control" value="{{ request('from', 1) }}">
+                    <input type="number" name="from" min="1" max="31" class="form-control"
+                        value="{{ request('from', 1) }}">
                 </div>
 
                 <div class="col-md-3">
                     <label>Meddig</label>
-                    <input type="number" name="to" min="1" max="31" class="form-control" value="{{ request('to', 31) }}">
+                    <input type="number" name="to" min="1" max="31" class="form-control"
+                        value="{{ request('to', 31) }}">
                 </div>
 
                 <div class="col-md-3">
@@ -167,7 +169,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <h2 class="text-center pb-3">{{ $monthStart->translatedFormat('F') }}</h2>
+                        <h2 class="text-center pb-3">{{ ucfirst($monthStart->translatedFormat('F')) }}</h2>
                         <table class="table table bordered">
                             <tr>
                                 <th>Összeg</th>
@@ -205,21 +207,17 @@
                     <div class="d-flex justify-content-center">
                         {{ $result->links('pagination::bootstrap-4') }}
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div id="exportbtn" class=" mt-2">
-                                <form action="/export" id="export" method="GET">
-                                    <button type="submit" class="btn btn-dark">Exportálás</button>
-                                </form>
-                            </div>
+                    <div class="row mt-3">
+                        <div class="col-6 d-flex align-items-center">
+                            <form action="/export" method="GET" class="m-0">
+                                <button type="submit" class="btn btn-dark">Exportálás</button>
+                            </form>
                         </div>
-                        <div class="col-6">
-                            <div id="addbtn">
-                                <a href="/add" class="btn btn-dark">Hozzáadás</a>
-                            </div>
+
+                        <div class="col-6 d-flex justify-content-end align-items-center">
+                            <a href="/add" class="btn btn-dark">Hozzáadás</a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

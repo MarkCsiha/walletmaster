@@ -19,6 +19,8 @@
         @stack("account-css")
         @stack("verify-css")
         @stack("debt-css")
+        @stack("forgot-css")
+        @stack("reset-css")
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
     </head>
@@ -31,7 +33,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         @guest
-                            <li class="nav-item"><a href="/login" class="btn btn-secondary">Bejelentkezés</a></li>
+                            <li class="nav-item ms-4 me-4 pb-2"><a href="/login" class="btn btn-secondary">Bejelentkezés</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/registration" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
                             <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>

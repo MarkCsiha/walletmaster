@@ -34,3 +34,10 @@ h1{
 label{
     color: white;
 }
+
+@media screen and (max-width: 767px) {
+  .btn {
+    display: flex;
+    justify-content: center;
+  }
+}

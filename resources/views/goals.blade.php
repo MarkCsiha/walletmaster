@@ -11,8 +11,8 @@
     <div class="container">
         <div id="outerpanel">
 
-            <div class="row align-items-start">
-                <div class="col-sm">
+            <div class="row align-items-start justify-content-center">
+                <div class="col">
                     <button type="button" class="goal-tab" onclick="change('goals')">
                         Célok
                     </button>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm text-end">
+                <div class="col text-end">
                     <button type="button" class="goal-tab" onclick="change('add')">
                         Hozzáadás
                     </button>
@@ -96,8 +96,9 @@
                                     @error('hatarido')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
-
-                                    <button class="btn btn-dark mt-4" type="submit">Létrehozás</button>
+                                    <div class="btn">
+                                        <button class="btn btn-dark mt-4" type="submit">Létrehozás</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -109,9 +110,7 @@
                 <div class="col-12 col-md-10 col-lg-8">
                     <div id="centerPanel" class="d-none">
                         <div id="centerPanelInner">
-                            <div class="card">
-                                <div class="card-body" id="cont"></div>
-                            </div>
+                            <div class="card-body" id="cont"></div>
                         </div>
                     </div>
                 </div>
