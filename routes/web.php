@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WMController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\SSEController;
+use App\Http\Controllers\TwoFactorController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Socialite;
@@ -19,6 +21,8 @@ Route::post("/registration", [UserController::class, "RegistrationBtn"]);
 
 Route::get("/login", [UserController::class, "Login"])->name("login")->middleware("guest");
 Route::post("/login", [UserController::class, "LoginBtn"]);
+Route::get("/twofactor", [TwoFactorController::class, "TwoFactorShow"]);
+Route::post("/twofactor", [TwoFactorController::class, "TwoFactorVerify"]);
 
 //ha nem megy az email módosítás akkor rakd vissza a middleware auth verifiedot!
 Route::get("/account", [UserController::class, "Account"])->middleware(["auth", "verified"]);
@@ -118,3 +122,6 @@ Route::delete('/user/{id}', [UserController::class, 'AccountDelete'])->name('use
 
 Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"])->name("userremoval.cancel")->middleware(["auth", "verified"]);
 // Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"]);
+
+Route::get("/review", [ReviewController::class, "ShowReview"])->middleware(["auth", "verified"]);
+Route::post("/review", [ReviewController::class, "ReviewBtn"])->middleware(["auth", "verified"]);

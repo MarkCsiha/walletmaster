@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class PasswordResetEmail extends Notification
 {
+    //vendorból, Illuminate/laravel/framework/Auth-ból kellett kiszednem a reset password emailt
     use Queueable;
 
     public $token;

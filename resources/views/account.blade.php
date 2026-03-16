@@ -69,6 +69,11 @@
                             value="{{ Auth::user()->telszam }}">
                     </div>
 
+                    <div class="mb-3">
+                        <input type="checkbox" name="twoFactorCheck">
+                        <label>Két faktoros hitelesítés bekapcsolása</label>
+                    </div>
+
                     <button class="btn btn-primary" type="submit" name="mentes" value="mentes">Mentés</button>
                 </div>
             </div>
