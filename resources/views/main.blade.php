@@ -141,24 +141,24 @@
 
                 <div class="col-md-3">
                     <label>Mettől</label>
-                    <input type="number" name="from" min="1" max="31" class="form-control"
+                    <input type="number" name="from" min="1" max="31" class="form-control rounded-pill"
                         value="{{ request('from', 1) }}">
                 </div>
 
                 <div class="col-md-3">
                     <label>Meddig</label>
-                    <input type="number" name="to" min="1" max="31" class="form-control"
+                    <input type="number" name="to" min="1" max="31" class="form-control rounded-pill"
                         value="{{ request('to', 31) }}">
                 </div>
 
                 <div class="col-md-3">
                     <label>Kategória</label>
-                    <input type="text" name="category" class="form-control" placeholder="pl.: Élelmiszer"
+                    <input type="text" name="category" class="form-control rounded-pill" placeholder="pl.: Élelmiszer"
                         value="{{ ucfirst(request('category')) }}">
                 </div>
 
-                <div class="col-md-3 d-flex align-items-end">
-                    <button class="btn btn-primary w-100" type="submit">Szűrés</button>
+                <div class="col-md-3 d-flex align-items-end pt-3">
+                    <button class="btn btn-primary  w-100" type="submit">Szűrés</button>
                 </div>
             </div>
 

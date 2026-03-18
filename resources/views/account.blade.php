@@ -116,7 +116,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger"
-                        onclick="return confirm('Biztosan törli felhasználói fiókját?')">Törlés</button>
+                        onclick="return confirm('Biztosan törli felhasználói fiókját?')">Felhasználói fiók törlése</button>
                 </form>
             </div>
         </div>
