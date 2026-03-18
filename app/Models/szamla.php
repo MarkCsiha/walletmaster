@@ -8,5 +8,7 @@ class szamla extends Model
 {
     protected $table = "szamla";
     public $timestamps = false;
+    protected $guarded = [];
+
     protected $primaryKey = "szamla_id";
 }

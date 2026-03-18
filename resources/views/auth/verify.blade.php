@@ -6,7 +6,7 @@
 
 @section('content')
 {{-- https://github.com/ERaufi/LaravelProjects/blob/main/routes/web.php --}}
-<div class="container">
+<main class="container pt-3">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -39,12 +39,9 @@
                         @csrf
                         <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Kattintson ide az új link kéréséhez!</button>.
                     </form>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <button type="button" class="btn btn-outline-secondary btn-lg"><a href="/logout">Kijelentkezés</a></button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</main>
 @endsection

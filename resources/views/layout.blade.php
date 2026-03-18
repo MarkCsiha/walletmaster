@@ -17,18 +17,25 @@
         @stack("belepes-css")
         @stack("layout-css")
         @stack("account-css")
-        @stack("verify-css")
+        @stack("loading-css")
         @stack("debt-css")
         @stack("forgot-css")
         @stack("reset-css")
+        @stack("verify-css")
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
+        @livewireStyles
+        @include('sweetalert::alert')
+
     </head>
     <body>
-
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <div class="container px-lg-5">
-                <a class="navbar-brand" href="/">WalletMaster</a>
+                @if(Auth::check())
+                    <a class="navbar-brand" href="/main">WalletMaster</a>
+                @else
+                    <a class="navbar-brand" href="/">WalletMaster</a>
+                @endif
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -37,7 +44,7 @@
                             <li class="nav-item ms-4 me-4"><a href="/registration" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
                             <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/debt" class="btn btn-dark">Tartozások</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/debt" class="btn btn-dark bi bi-coin">Tartozások</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark bi bi-bullseye"> Céljaim</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/account" class="btn btn-dark"><span class="bi bi-person"></span></a></li>
@@ -46,7 +53,6 @@
                 </div>
             </div>
         </nav>
-
 
         @yield("content")
 
@@ -76,10 +82,12 @@
             </div>
         </div>
     </footer>
-    </body>
-
+    @livewireScripts
+    @livewireScriptConfig
     <script src="{{ asset('js/charts.js') }}"></script>
     <script src="{{ asset("js/charts-spentincome.js") }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{{ asset('js/autologout.js') }}"></script>
+    </body>
 </html>

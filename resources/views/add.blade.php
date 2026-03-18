@@ -13,9 +13,15 @@
             <div class="col-md">
                 <div class="card">
                     <div class="card-body">
+
+                    <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="file" class="form-control" accept=".csv,.xlsx" required>
+                        <button type="submit" class="btn btn-primary mt-2">Adatok importálása</button>
+                    </form>
                         <form action="/add" method="post">
                         @csrf
-                            <label class="for-label" for="osszeg">Összeg:</label>
+                            <label class="form-label" for="osszeg">Összeg:</label>
                             <input class="form-control" type="number" name="osszeg" id="osszeg" value="{{old('osszeg')}}">
                             @error('osszeg')
                                 <p style="color: tomato" class="text-danger">{{$message}}</p>
@@ -28,7 +34,7 @@
                             @enderror
 
                             <div class="my-4">
-                                <p><label class="for-label mb-1" for="leiras">Leírás:</label></p>
+                                <label class="for-label mb-1" for="leiras">Leírás:</label>
                                 <textarea class="form-control" name="leiras" id="leiras" cols="10" rows="10" placeholder="Miket vett?" ></textarea>
                             </div>
                             @error('leiras')
@@ -87,4 +93,4 @@
     </section>
 </main>
 @endsection
-<script src="{{ asset('js/add.js')}}"></script>
+<script src="{{asset('js/add.js')}}"></script>

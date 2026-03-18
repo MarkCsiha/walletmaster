@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SpendingExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\szamla;
-use App\Models\celok;
-use App\Models\fix;
+use App\Models\kategoriak;
 use App\Models\koltseglimit;
+use App\Models\celok;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\fix;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SzamlaImport;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class WMController extends Controller
 {
@@ -94,9 +100,7 @@ class WMController extends Controller
                 $kfix->fizetve = now()->format('Y-m-d');
                 $kfix->Save();
             }
-
         }
-
         //SELECT szamla.user_id, szamla.osszeg, szamla.honnan, szamla.leiras, szamla.datum, szamla.fix, szamla.tipus, szamla.kategoria_nev FROM `fix` JOIN szamla on szamla.szamla_id = fix.szamla_id where date_add(fix.fizetve, interval + 1 month) = CURDATE();
 
         // --- NAPTÁR: hónap kiválasztás query param alapján ---
@@ -141,12 +145,12 @@ class WMController extends Controller
                                         return $query->whereDate('datum', '<=', $req->to);
                                     })
                                     ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
-                                            //biztosan a felhasználó adatait adja meg
-                                            ->where("tipus", 0)
-                                            ->groupBy('category_name')
-                                            ->orderBy('total')
-                                            //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
-                                            ->pluck('total', 'category_name');
+                                    //biztosan a felhasználó adatait adja meg
+                                    ->where("tipus", 0)
+                                    ->groupBy('category_name')
+                                    ->orderBy('total')
+                                    //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
+                                    ->pluck('total', 'category_name');
         $year = (int) $req->input('year', now()->year);
 
         if ($req->input('chartDataType') === 'categoryChart') {
@@ -159,11 +163,11 @@ class WMController extends Controller
                                     })
                                     ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
                                             //biztosan a felhasználó adatait adja meg
-                                            ->where("tipus", 0)
-                                            ->groupBy('category_name')
-                                            ->orderBy('total')
+                                    ->where("tipus", 0)
+                                    ->groupBy('category_name')
+                                    ->orderBy('total')
                                             //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
-                                            ->pluck('total', 'category_name');
+                                    ->pluck('total', 'category_name');
         }
         //ha a felhasználó havi költségbontást kér
         if ($req->input('chartDataType') === 'monthlyChart') {
@@ -190,10 +194,10 @@ class WMController extends Controller
                                 ->pluck('monthly_total', 'month_name');
         }
 
-        $spentIncome = null;
-
+        $spent = null;
+        $income = null;
         if ($req->input('chartDataType') === 'spentIncomeChart') {
-            $spentIncome = szamla::selectRaw("SUM(osszeg) as osszeg, MONTH(datum) as month_number, CASE MONTH(datum)
+            $spent = szamla::selectRaw("SUM(osszeg) as osszeg, tipus, MONTH(datum) as month_number, CASE MONTH(datum)
                                                 WHEN 1 THEN 'Január'
                                                 WHEN 2 THEN 'Február'
                                                 WHEN 3 THEN 'Március'
@@ -209,8 +213,30 @@ class WMController extends Controller
                                                 END as month_name,
                                                 SUM(osszeg) as monthly_total")
                                     ->where('user_id', Auth::id())
+                                    ->where("tipus", 0)
                                     ->whereYear('datum', $year)
-                                    ->groupBy(['osszeg', 'month_name', 'month_number'])
+                                    ->groupBy(['tipus', 'month_name', 'month_number'])
+                                    ->orderBy('month_number')
+                                    ->pluck('osszeg', 'month_name');
+            $income = szamla::selectRaw("SUM(osszeg) as osszeg, tipus, MONTH(datum) as month_number, CASE MONTH(datum)
+                                                WHEN 1 THEN 'Január'
+                                                WHEN 2 THEN 'Február'
+                                                WHEN 3 THEN 'Március'
+                                                WHEN 4 THEN 'Április'
+                                                WHEN 5 THEN 'Május'
+                                                WHEN 6 THEN 'Június'
+                                                WHEN 7 THEN 'Július'
+                                                WHEN 8 THEN 'Augusztus'
+                                                WHEN 9 THEN 'Szeptember'
+                                                WHEN 10 THEN 'Október'
+                                                WHEN 11 THEN 'November'
+                                                WHEN 12 THEN 'December'
+                                                END as month_name,
+                                                SUM(osszeg) as monthly_total")
+                                    ->where('user_id', Auth::id())
+                                    ->where("tipus", 1)
+                                    ->whereYear('datum', $year)
+                                    ->groupBy(['tipus', 'month_name', 'month_number'])
                                     ->orderBy('month_number')
                                     ->pluck('osszeg', 'month_name');
         }
@@ -221,7 +247,27 @@ class WMController extends Controller
                             ->distinct()
                             ->orderBy('year', 'desc')
                             ->pluck('year');
+        $budgetComparison = null;
+        $userExpenses = null;
         //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
+        if ($req->input('chartDataType') === "budgetComparisonChart") {
+            $budgetComparison = szamla::selectRaw("ROUND(AVG(osszeg)) as average, kategoria_nev as category_name")
+                                        ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
+                                        ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
+                                        ->where("tipus", 0)
+                                        ->where("user_id", "!=", Auth::id())
+                                        ->groupBy("kategoria_nev")
+                                        ->orderBy('kategoria_nev')
+                                        ->pluck("average", "category_name");
+            $userExpenses = szamla::selectRaw('kategoria_nev as category_name, ROUND(AVG(osszeg)) as average')
+                                    ->where("user_id", Auth::id())
+                                    ->where('tipus', 0)
+                                    ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
+                                    ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
+                                    ->groupBy('kategoria_nev')
+                                    ->orderBy('kategoria_nev')
+                                    ->pluck('average', 'category_name');
+        }
         $categories = szamla::where("user_id", Auth::id())
                                 ->selectRaw("kategoria_nev as category_name");
 
@@ -286,20 +332,25 @@ class WMController extends Controller
                 'monthly'           => $monthly,
                 'years'             => $years,
                 'year'              => $year,
-                'spentIncome'       => $spentIncome,
+                'spent'             => $spent,
+                'income'            => $income,
                 "result"            => $result,
                 "monthStart"        => $monthStart,
                 "days"              => $days,
                 "prevYm"            => $prevYm,
                 "nextYm"            => $nextYm,
+                "budgetComparison"  => $budgetComparison,
+                "userExpenses"      => $userExpenses,
+                // 'compLabels'        => $budgetComparison->keys(),
+                // "compData"          => $budgetComparison->values(),
                 "dailySums"         => $dailySums
             ]);
         }
         else {
             return redirect("login");
         }
-    }
 
+}
     public function MainMod($szamla_id){
         return view("mainmod", [
             "result" => szamla::find($szamla_id)
@@ -391,7 +442,7 @@ class WMController extends Controller
             "osszeg.numeric"        =>  "Az összeget számmal adja meg!",
             "datum.date"            =>  "Létező dátumot adjon meg!",
             "datum.date_format"     =>  "A dátum helyes formátuma éééé-hh-nn",
-            "datum.before_or_equal" =>  "Nem adjon meg jövőbeli dátumot!"
+            "datum.before_or_equal" =>  "Ne adjon meg jövőbeli dátumot!"
         ]);
 
         $data = new szamla;
@@ -409,22 +460,34 @@ class WMController extends Controller
         else{
             $data->tipus = 0;
         }
-        $data->kategoria_nev = $req->kategoria;
+        $data->kategoria_nev = $suggested ?? $req->kategoria;
 
         $data->Save();
 
-        if($req->fix != "nem")
-        {
-            $kfix = new fix;
-            $kfix->szamla_id = $data->szamla_id;
-            $kfix->tipus = $req->fix;
-            $kfix->osszeg = $req->osszeg;
-            $kfix->letrehozas = $req->datum;
-            $kfix->fizetve = $req->datum;
-            $kfix->Save();
-        }
+        $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
+        $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
 
-        return redirect('/main')->with('success','Sikeres mentés!');
+        $sumSpending = szamla::where("user_id", Auth::id())
+                            ->where("tipus", 0)
+                            ->whereBetween('datum', [$first_day_of_the_current_month, $last_day_of_the_current_month])
+                            ->sum("osszeg");
+        $limitSelect = koltseglimit::where("user_id", Auth::id())
+                                    ->whereDate('start_datum', $first_day_of_the_current_month)
+                                    ->whereDate('vege_datum', $last_day_of_the_current_month)
+                                    ->where('tipus', 0)
+                                    ->value("osszeg");
+        $limitSelect = (int) ($limitSelect ?? 0);
+        $limitMessage = null;
+        $comparison = $sumSpending - $limitSelect;
+
+        if ($limitSelect == 0) {
+            $limitMessage = "Nincs megadva költség limit erre a hónapra.";
+        } elseif ($comparison > 0) {
+            $limitMessage = "Túllépte az e havi megadott költség limitet ".$comparison." Ft-tal!";
+        } else {
+            $limitMessage = "Még ".abs($comparison)." Ft-tal a megadott e havi limit alatt van.";
+        }
+        return redirect('/main')->with(["success"  => "Sikeres mentés! ".$limitMessage.""]);
     }
     public function Index(Request $request)
     {
@@ -448,10 +511,86 @@ class WMController extends Controller
 
     }
 
+    public function Charts(Request $req) {
+           //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
+            // $userSpending = szamla::where("user_id", Auth::id())
+            //                         ->when($req->from, function($query) use ($req) {
+            //                             return $query->whereDate('datum', '>=', $req->from);
+            //                         })
+            //                         ->when($req->to, function($query) use ($req) {
+            //                             return $query->whereDate('datum', '<=', $req->to);
+            //                         })
+            //                         ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
+            //                                 //biztosan a felhasználó adatait adja meg
+            //                                 ->where("tipus", 0)
+            //                                 ->groupBy('category_name')
+            //                                 ->orderBy('total')
+            //                                 //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
+            //                                 ->pluck('total', 'category_name');
+
+            // //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
+            // $categories = szamla::where("user_id", Auth::id())
+            //                     ->selectRaw("kategoria_nev as category_name");
+            // if (Auth::check()) {
+            //     return view('main', [
+            //     //a pluck-ból megkapja a kulcsot és értéket
+            //     'userSpending' => $userSpending,
+            //     'labels'    => $userSpending->keys(),
+            //     'data'      => $userSpending->values(),
+            //     ]);
+            // }
+            // else {
+            //     return redirect("login");
+            // }
+    }
+
+    public function SpendingChart() {
+        // $spent = szamla::where('user_id', Auth::id())
+        //                 ->where('tipus', 0)
+        //                 ->sum("osszeg");
+        // $income = szamla::where('user_id', Auth::id())
+        //                 ->where('tipus', 1)
+        //                 ->sum("osszeg");
+        // $labels = ["Kiadás", "Bevétel"];
+        // $data = [$spent, $income];
+
+        //     //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
+        //     if (Auth::check()) {
+        //         return view('main', [
+        //         //a pluck-ból megkapja a kulcsot és értéket
+        //         'labels'    => $labels,
+        //         'data'      => $data,
+        //         ]);
+        //     }
+        //     else {
+        //         return redirect("login");
+        //     }
+    }
+
+    public function ExportExcel() {
+        //https://brainlet.medium.com/format-dates-with-carbon-in-laravel-583656a77940
+        return Excel::download(new SpendingExport(), "koltsegvetesi_adat_".Carbon::today()->toDateString().".xlsx", null,[
+            "include_charts" => true,
+        ]);
+    }
+
+    public function ImportExcel(Request $req) {
+        $req->validate([
+            "file"      => "required|file"
+        ],[
+            "file.required" => "Töltse fel a fájlt!",
+            "file.file"     => "Fájlt adjon meg!"
+        ]);
+        Excel::import(new SzamlaImport(), $req->file('file'));
+
+        return redirect('/add')->with(["success" => "Sikeres fájlfeltöltés!"]);
+
+    }
     public function Goals(){
-        $asd = Auth::id();
+        $user = Auth::id();
+        $result = celok::where("user_id", $user)->orderBy("statusz")->get();
         return view("goals", [
-            "result" => celok::where("user_id", $asd)->orderBy("statusz")->get()
+            "result" => $result,
         ]);
     }
 
@@ -480,12 +619,13 @@ class WMController extends Controller
 
         $data->Save();
 
-        return redirect("/goals");
+        return redirect("/goals")->with(["success" => "Sikeres célhozzáadás!"]);
     }
 
     public function GoalsMod($cel_id){
+        $result = celok::find($cel_id);
         return view("goalsmod", [
-            "result" => celok::find($cel_id)
+            "result" => $result
         ]);
     }
 
@@ -502,7 +642,7 @@ class WMController extends Controller
             "nev.unique"                =>  "Már létezik ilyen nevű célja!", //"Már létezik ". nev ." nevű célja!",
             "hatarido.date"             =>  "Valós dátumot adjon meg!",
             "hatarido.date_format"      =>  "A dátum helyes formátuma éééé-hh-nn!",
-            "statusz.in"                =>  "A cél státusza aktív, teljesítve, vagx törölve lehet!"
+            "statusz.in"                =>  "A cél státusza 'aktív', 'teljesítve', vagy 'törölve' lehet!"
         ]);
 
         $data = celok::find($req->cel_id);
@@ -522,7 +662,7 @@ class WMController extends Controller
 
         $data->Save();
 
-        return redirect("/goals");
+        return redirect("/goals")->with(["success" => "Sikeres célmódosítás!"]);
     }
 
     public function GoalsDelete($cel_id){

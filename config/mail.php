@@ -14,7 +14,15 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+        // return new Envelope(
+        //     from: new Address('sigmawallet01@gmail.com', 'WalletMaster'),
+        //     subject: 'Új tartozási kérelem',
+        // );
+
+        'from' => [
+    'address' => env('MAIL_FROM_ADDRESS', 'sigmawallet01@gmail.com'),
+    'name' => env('MAIL_FROM_NAME', 'WalletMaster'),
+    ],
 
     /*
     |--------------------------------------------------------------------------

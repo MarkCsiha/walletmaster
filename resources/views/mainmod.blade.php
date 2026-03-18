@@ -55,11 +55,11 @@
                                     @if ($result->fix == "nem")
                                         <option value="nem">Nem</option>
                                         <option value="havi">Havi</option>
-                                        <option value="feleves">Féléves</option>
+                                        <option value="feleves">Fél éves</option>
                                         <option value="eves">Éves</option>
                                     @elseif ($result->fix == "havi")
                                         <option value="havi">Havi</option>
-                                        <option value="feleves">Féléves</option>
+                                        <option value="feleves">Fél éves</option>
                                         <option value="eves">Éves</option>
                                         <option value="nem">Nem</option>
                                     @elseif ($result->fix == "feleves")
@@ -69,14 +69,14 @@
                                         <option value="nem">Nem</option>
                                     @elseif ($result->fix == "eves")
                                         <option value="eves">Éves</option>
-                                        <option value="feleves">Féléves</option>
+                                        <option value="feleves">Fél éves</option>
                                         <option value="havi">Havi</option>
                                         <option value="nem">Nem</option>
                                     @else
                                         <option value="0">---</option>
                                         <option value="nem">Nem</option>
                                         <option value="havi">Havi</option>
-                                        <option value="feleves">Féléves</option>
+                                        <option value="feleves">Fél éves</option>
                                         <option value="eves">Éves</option>
                                     @endif
                                 </select>

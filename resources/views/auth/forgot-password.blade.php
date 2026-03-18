@@ -31,12 +31,24 @@
                     </div>
                     <div class="btn">
                         <button type="submit" class="btn btn-primary btn-lg" name="mentes" id="mentes"
-                            value="mentes">Új
-                            jelszó igénylése</button>
+                            value="mentes">Új jelszó igénylése
+                        </button>
                     </div>
+                    <div class="container py-5">
+                        <h2 class="mb-4">Új jelszó igénylése</h2>
+                        <div class="container">
+                            @if (session('success'))
+                                <p class="text-success text-center">{{ session('success') }}</p>
+                            @else
+                                <p class="text-danger text-center">{{ session('unsuccessful') }}</p>
+                        </div>
+                        @endif
+                        <form action="/forgot-password" method="post">
+                            @csrf
+                            <hr class="w-50 mx-auto">
 
+                    </div>
                 </div>
-            </div>
         </form>
     </div>
 @endsection

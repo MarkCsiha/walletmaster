@@ -88,16 +88,10 @@
                     <label for="chartDataType">Költségvetési diagram típusa</label>
                     <select name="chartDataType" id="chartDataType" class="form-control" onchange="this.form.submit()">
                         {{-- request: olyan mint az old value, megtartja az oldal frissítése után azt az inputot, amit a felhasználó választott --}}
-                        <option value="categoryChart" {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>
-                            Kategóriák szerinti bontás</option>
-                        <option value="monthlyChart" {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>
-                            Havi kiadás diagram</option>
-                        <option value="spentIncomeChart"
-                            {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>Költség - Bevétel
-                            differencia</option>
-                        <option value="budgetComparisonChart"
-                            {{ request('chartDataType') == 'budgetComparisonChart' ? 'selected' : '' }}>Összehasonlítás
-                        </option>
+                        <option value="categoryChart"    {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>Kategóriák szerinti bontás</option>
+                        <option value="monthlyChart"     {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>Havi kiadás diagram</option>
+                        <option value="spentIncomeChart" {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>Költség - Bevétel differencia</option>
+                        <option value="budgetComparisonChart" {{ request('chartDataType') == 'budgetComparisonChart' ? 'selected' : '' }}>Összehasonlítás</option>
                     </select>
                     {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
                     @if (request('chartDataType') == 'monthlyChart')
@@ -115,18 +109,16 @@
 
                 {{-- Oszlop kategória --}}
                 <select name="chartType" id="chartType" class="form-control mt-3" onchange="this.form.submit()">
-                    <option value="bar" {{ request('chartType', 'bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram
-                    </option>
-                    <option value="pie" {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
-                    <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram
-                    </option>
-                    <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
+                    <option value="bar"      {{ request('chartType','bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram</option>
+                    <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
+                    <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
+                    <option value="line"     {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
                 </select>
 
                 {{-- Oszlop --}}
                 <div>
                     <h4 class="text-center">Oszlopdiagram</h4>
-                    <canvas id="myChart" style="background-color: white; padding: 5px; width:100%; height:100%"></canvas>
+                    <canvas id="myChart" style="padding: 5px; width:100%; height:100%"></canvas>
                 </div>
 
             </div>
@@ -136,9 +128,9 @@
             {{-- Sor lezárás --}}
         </div>
 
-        <form id="filtersForm" method="GET" action="/main">
+        <form id="filtersForm" method="GET" action="/main" class="mt-3">
+            @csrf
             <div class="row">
-
                 <div class="col-md-3">
                     <label>Mettől</label>
                     <input type="number" name="from" min="1" max="31" class="form-control rounded-pill"
@@ -221,45 +213,45 @@
                 </div>
             </div>
         </div>
-    </main>
+</main>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
 
-    <script>
-        //a ??-el lehet üres is, azaz ha más formot küldünk, akkor nem fog összeomlani hogy nem kapta meg
-        let labels = {!! json_encode($labels ?? []) !!};
-        let data = {!! json_encode($data ?? []) !!};
+<script>
+    //a ??-el lehet üres is, azaz ha más formot küldünk, akkor nem fog összeomlani hogy nem kapta meg
+    let labels = {!! json_encode($labels ?? []) !!};
+    let data   = {!! json_encode($data ?? []) !!};
 
-        let spent = [];
-        let income = [];
-        let userData = [];
-        let compData = [];
-        @if (!empty($monthly))
-            labels = @json($monthly->keys()->values());
-            data = @json($monthly->values());
-        @endif
+    let spent = [];
+    let income = [];
+    let userData = [];
+    let compData = [];
+    @if(!empty($monthly))
+        labels = @json($monthly->keys()->values());
+        data   = @json($monthly->values());
+    @endif
 
-        @if (!empty($spent))
-            labels = @json($spent->keys()->values());
-            spent = @json($spent->values());
-            income = @json($income->values());
-        @endif
-        @if (!empty($budgetComparison))
-            labels = @json($userExpenses->keys()->values());
-            userData = @json($userExpenses->values());
-            compData = @json($budgetComparison->values());
-        @endif
+    @if(!empty($spent))
+        labels = @json($spent->keys()->values());
+        spent = @json($spent->values());
+        income = @json($income->values());
+    @endif
+    @if(!empty($budgetComparison))
+        labels = @json($userExpenses->keys()->values());
+        userData = @json($userExpenses->values());
+        compData = @json($budgetComparison->values());
+    @endif
 
-        const isMonthly = @json(!empty($monthly));
-        const isSpentIncome = @json(!empty($spent));
-        const isComparison = @json(!empty($budgetComparison));
-        // $(document).on('click','.deleteSpending',function(){
-        //     var programID=$(this).attr('data-programid');
-        //     $('#app_id').val(programID);
-        //     $('#question').append(programID+' ?');
-        //     $('#applicantDeleteModal').modal('show');
-        // });
-    </script>
+    const isMonthly     = @json(!empty($monthly));
+    const isSpentIncome = @json(!empty($spent));
+    const isComparison  = @json(!empty($budgetComparison));
+    // $(document).on('click','.deleteSpending',function(){
+    //     var programID=$(this).attr('data-programid');
+    //     $('#app_id').val(programID);
+    //     $('#question').append(programID+' ?');
+    //     $('#applicantDeleteModal').modal('show');
+    // });
+</script>
 @endsection

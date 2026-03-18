@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Str;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserDeleteMail;
 
 class UserController extends Controller
 {
@@ -18,40 +21,40 @@ class UserController extends Controller
             return redirect("/main");
         }
         else{
-            return view("/registration");
+            return view("registration");
         }
     }
 
     public function RegistrationBtn(Request $req){
         $req->validate([
-            'firstName'               => 'required|max:30',
-            'lastName'               => 'required|max:30',
-            'username'        => 'required|min:3|max:30|unique:users,felhasznalonev|regex:/^[a-zA-Z0-9._]+$/',
-            'email'                 => 'required|email|unique:users,email|email:rfc,dns',
+            'firstName'             => 'required|max:30',
+            'lastName'              => 'required|max:30',
+            'username'              => 'required|min:3|max:30|unique:users,felhasznalonev|regex:/^[a-zA-Z0-9._]+$/',
+            'email'                 => 'required|email|unique:users,email',
             //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
-            'phone'               => ['required', 'unique:users,telszam', 'regex:/^(?:\+36|06)(20|30|50|70)\d{3}\d{4}$/'],
+            'phone'                 => ['required', 'unique:users,telszam', 'regex:/^(?:\+36|06)(20|30|50|70)\d{3}\d{4}$/'],
             'password'              => ['required','confirmed', Password::min(8)
                                         ->letters()
                                         ->numbers()
                                         ->mixedCase()
                                         ->symbols()
                                         ->uncompromised()],
-
+                                        // Tesztjelszó: #Palmafa123
             'password_confirmation' => 'required'
         ],[
             '*.required'            => 'Kötelező kitölteni!',
-            'firstName.max'           => 'Maximum 30 karakter lehet!',
-            'lastName.max'           => 'Maximum 30 karakter lehet!',
-            'username.max'    => "Maximum 30 karakter lehet!",
-            'username.unique' => "Ez a felhasználónév foglalt.",
+            'firstName.max'         => 'Maximum 30 karakter lehet!',
+            'lastName.max'          => 'Maximum 30 karakter lehet!',
+            'username.max'          => "Maximum 30 karakter lehet!",
+            'username.unique'       => "Ez a felhasználónév foglalt.",
             "email.unique"          => "Ez az email cím foglalt.",
             'email.regex'           => "Az email címnek tartalmaznia kell",
             'email.email'           => "Érvényes email címet adjon meg, mely megfelel az email cím formátumnak, például: kissbela@walletmaster.hu.",
             '*.email'               => 'Érvényes e-mail címet adjon meg!',
-            'phone.regex'         => 'A telefonszámnak meg kell felelnie a telefonszám formátumnak, például: +36701234567.',
+            'phone.regex'           => 'A telefonszámnak meg kell felelnie a telefonszám formátumnak, például: +36701234567.',
             // 'telszam.min'           => "A telefonszámnak legalább 11 karakter hosszúnak kell lennie!",
             // 'telszam.max'           => "A telefonszám maximum 13 karakter hosszú lehet!",
-            'phone.unique'        => "Ez a telefonszám foglalt.",
+            'phone.unique'          => "Ez a telefonszám foglalt.",
             '*.confirmed'           => 'A két jelszó nem egyezik meg!',
             'password.min'          => 'A jelszónak legalább 8 karakternek kell lennie!',
             'password.letters'      => 'A jelszónak betűt kell tartalmaznia!',
@@ -70,11 +73,11 @@ class UserController extends Controller
         $data->password         = $req->password;
 
         $data->Save();
-        Auth::login($data);        //mivel manuális, egyéni regisztrációs felület van, ezért ezt be kell importálni.
+        Auth::login($data);
         event(new Registered($data));
 
         return redirect('/auth/verify')->with([
-            'success' => 'Sikeresen regisztráltál, üdvözlünk a WalletMaster oldalán '.$req->firstName.' '.$req->lastName.'!'
+            'success' => 'Sikeresen regisztrál, üdvözöljük a WalletMaster oldalán '.$req->firstName.' '.$req->lastName.'!'
         ]);
     }
 
@@ -90,18 +93,28 @@ class UserController extends Controller
     public function LoginBtn(Request $req)
     {
         $req->validate([
-            "email"     => "required",
+            "loginData" => "required",
             "password"  => "required"
+        ], [
+            "loginData.required"    => "Adja meg az e-mail címét vagy felhasználónevét!",
+            "password.required"     => "Adja meg jelszavát!"
         ]);
 
-        if(Auth::attempt(['email' => $req->email, 'password' => $req->password])){
+        if (Str::contains($req->loginData, '@')) {
+            $credentials = 'email';
+        }
+        else {
+            $credentials = 'felhasznalonev';
+        }
+
+        if(Auth::attempt([$credentials => $req->loginData, 'password' => $req->password, 'torles_ido' => null])){
             return redirect("/main")->with([
                 "success" => "Sikeresen belépett!"
             ]);
         }
         else{
             return redirect("/login")->with([
-                "unsuccessful"    => "Az email cím, jelszó páros nem egyezik, kérjük próbálja meg újra!"
+                "unsuccessful"    => "Az email cím, jelszó páros nem egyezik, vagy a felhasználói fiók törlésre került, kérjük próbálja meg újra!"
             ]);
         }
     }
@@ -148,7 +161,7 @@ class UserController extends Controller
                             //Rule::unique('users', 'email')->ignore(Auth::id())/*,"email:rfc,dns"],*/
                             "unique:users,email,".Auth::user()->id
                         ],
-            'username'        => ['required',
+            'username'        => [
                                     'min:3',
                                     'max:30',
                                     Rule::unique('users','felhasznalonev')->ignore(Auth::id()),
@@ -206,7 +219,7 @@ class UserController extends Controller
         //megnézi hogy történt-e változás a data változóban
         if (!$data->isDirty()) {
         return redirect('/account')->with('unsuccessful', 'Nem történt változás.');
-}
+        }
 
         $data->save();
         return redirect('/account')->with('success', 'Sikeres adatmódosítás!');
@@ -245,23 +258,44 @@ class UserController extends Controller
             "email.unique"              => "Ez az email cím foglalt.",
             'email.regex'               => "Az email címnek tartalmaznia kell",
         ]);
+
+        $data = $req->user();
+
+        // Ha ugyanazt írta be, ne küldj új linket
+        if ($req->email === $data->email) {
+            return back()->with('message', 'Ez az email már be van állítva.');
+        }
         //megkeresi azt a felhasználót azonosító alapján, akinek egyezik az azonosítója a keresett azonosítóval
-        $data = User::find(Auth::user()->id);
         $data->email = $req->email;
+        $data->email_verified_at = null;
         $data->Save();
         //kiküldi újra a regisztrációt megerősítő linket
         $data->sendEmailVerificationNotification();
 
-        return redirect('/auth/verify')->with('success', 'Sikeres adatmódosítás!');
+        return redirect('/auth/verify')->with(['success' =>'Sikeres adatmódosítás!']);
+    }
+
+    public function AccountDelete($id) {
+        $user = User::findOrFail($id);
+        $user->torles_ido = now();
+        $user->save();
+        Mail::to($user->email)->send(new UserDeleteMail($user));
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect('/')->with(["success" => "Sikeres fióktörlés."]);
+    }
+
+    public function UserRemovalCancel($id) {
+        $user = User::findOrFail($id);
+        $user->torles_ido = null;
+        $user->save();
+
+        return redirect("/login")->with(["success" => "Sikeresen visszavonta fiókjának törlését!"]);
     }
 }
 
 
-#matejosz27@gmail.com
-#Teszter11*
-
-#matejosz28@gmail.com
-#sZmateka28*
-
-#scoobydoo@gmail.com
-#SkibidiGooner11*
+#walletmaster@gmail.com
+#Palmafa123

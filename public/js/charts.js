@@ -46,9 +46,6 @@
 //   return createRadialGradient3(ctx, start, mid, end);
 // }
 
-
-
-
 //nullá teszi az eddigi chartot -> szükséges az új chart rendereléséhez
 let chart = null;
 let delayed = false;
@@ -58,23 +55,69 @@ const config = (type) => {
         type: type,
         data: {
         labels: labels,
-        datasets: [{
-            label: 'Költségek',
+        //ha az isComparison igaz (azaz ha az a select option van kiválasztva), akkor a címek 'Te' és 'Átlag'-ok lesznek, az adatok pedig a userData és a compData
+        datasets: isComparison ? [
+            {
+                data: userData,
+                label: "Ön",
+            },
+            {
+                data: compData,
+                label: "Átlag",
+            }
+        ] : isSpentIncome ? [
+            {
+                data: spent,
+                label: "Költség",
+            },
+            {
+                data: income,
+                label: "Bevétel",
+            }
+        ] : isMonthly ? [{
+            label: "Költségek",
             data: data,
             backgroundColor:
             [
-                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                        '#FF9F40', '#66BB6A', '#EF5350'
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                '#FF9F40', '#66BB6A', '#EF5350'
             ],
+        }] : [{
+            label: "Költségek",
+            data: data,
+            backgroundColor:
+            [
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                '#FF9F40', '#66BB6A', '#EF5350'
+            ],
+
             //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
             //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
-            hoverBorderColor: 'white',
-            //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
-            borderWidth: 2
+            // hoverBorderColor: 'white',
+            // //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
+            // borderWidth: 2
     }]
     },
     options: {
-
+        //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
+        //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
+        hoverBorderColor: 'white',
+        //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
+        borderWidth: 2,
+        //rakd majd egybe a kettő scales-t + színek változtatása
+        scales: (type === "pie" || type === "doughnut") ? {} : {
+     x: {
+        stacked: isComparison || isSpentIncome,
+        ticks: { color: "#ffffff" }
+      },
+      y: {
+        stacked: isComparison || isSpentIncome,
+        beginAtZero: true,
+        ticks: {
+            color: "#ffffff"
+        }
+      }
+    },
         responsive: true,
         animation: {
             //animáció forrás: https://www.chartjs.org/docs/latest/samples/animations/delay.html
@@ -95,33 +138,23 @@ const config = (type) => {
                     }
         }
     },
-     elements: {
-      arc: {
-        backgroundColor: function(context) {
-          let c = colors[context.dataIndex];
-          if (!c) {
-            return;
-          }
-          if (context.active) {
-            c = helpers.getHoverColor(c);
-          }
-          const mid = helpers.color(c).desaturate(0.2).darken(0.2).rgbString();
-          const start = helpers.color(c).lighten(0.2).rotate(270).rgbString();
-          const end = helpers.color(c).lighten(0.1).rgbString();
-          return createRadialGradient3(context, start, mid, end);
-        },
-      }
-    },
     plugins: {
+        datalabels: {
+            display: false
+        },
         legend: {
         //eltűnteti a címet
         //https://stackoverflow.com/questions/56846339/how-to-remove-title-color-box-in-chart-js
-        display: type !== "bar"
+            // display: type !== "bar",
+            display: isComparison || type == "pie" || type == "doughnut" ? true : false,
+            labels: {
+                color: "white"
+            }
         },
         tooltip: {
           callbacks: {
             label: (context) => {
-              if (type === "doughnut") {
+              if (type === "doughnut" || type === "pie") {
                 //https://www.geeksforgeeks.org/javascript/how-to-add-percentage-and-value-datalabels-in-pie-chart-in-chartjs/
                 //százalékszámítás
                 //frissített, verzióhoz helyes számítás
@@ -143,8 +176,22 @@ const config = (type) => {
       },
 
     //megmondja hogy torta és kördiagram esetén nullán keződjön
-      scales: (type === "pie" || type === "doughnut") ? {} : {
-        y: { beginAtZero: true }
+    scales: (type === "pie" || type === "doughnut") ? {} : {
+        y: {
+            beginAtZero: true,
+            //https://www.geeksforgeeks.org/javascript/how-to-change-grid-line-color-chartjs/
+            // grid: {
+            //     color: "rgba(192, 192, 192, 0.7)"
+            // },
+            ticks: {
+                color: "#ffffff"
+            }
+        },
+        x: {
+            ticks : {
+                color: "#ffffff"
+            }
+        }
       }
     },
     plugins: [ChartDataLabels]
@@ -152,7 +199,6 @@ const config = (type) => {
 }
 
 //az új chartot generálja le, és törli az előzőt, így van szabad hely a myChart változóban az új diagramnak
-
 function render(type) {
   //kérdéses, ha nem működik írd át a nevet canvas-ra!
   const ctx = document.getElementById("myChart");
@@ -177,71 +223,3 @@ function render(type) {
     });
 });
 
-
-const configSpentIncome = {
-  type: 'bar',
-  data: {
-    labels: labels,
-    datasets: [{
-        label: 'Kiadás - Bevétel',
-        data: income_total,
-        backgroundColor: [
-            '#FF6384', '#36A2EB'
-        ],
-        borderWidth: 1
-    }]
-  },
-  options: {
-    indexAxis: 'y',
-    // Elements options apply to all of the options unless overridden in a dataset
-    // In this case, we are setting the border of each horizontal bar to be 2px wide
-    elements: {
-      bar: {
-        borderWidth: 2,
-      }
-    },
-    responsive: true,
-     animation: {
-            //animáció forrás: https://www.chartjs.org/docs/latest/samples/animations/delay.html
-            onComplete: () => {
-            //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
-                    delayed = true;
-            },
-            delay: (context) => {
-                //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
-                        let delay = 0;
-                        if (context.type === 'data' && context.mode === 'default' && !delayed) {
-                            delay = context.dataIndex * 300 + context.datasetIndex * 100;
-                        }
-                        return delay;
-        }
-    },
-    plugins: {
-      legend: {
-        position: 'right',
-      },
-      title: {
-        display: true,
-        text: 'Kiadás - Bevétel'
-      }
-    },
-    plugins: [ChartDataLabels]
-
-  },
-}
-
-
-function renderSpentIncome() {
-  const ctx = document.getElementById("spentIncomeChart");
-
-  if (spentChart) spentChart.destroy();
-
-  spentChart = new Chart(ctx, spentConfig());
-  labels = newLabels;
-  data   = newData;
-
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderSpentIncome();
-});
