@@ -31,7 +31,7 @@
         <label for="debtDate" class="form-label mt-3">Dátum: </label>
         <input type="date" class="form-control @error('date') is-invalid @enderror" name="debtDate" id="debtDate">
 
-        <button type="submit">Tartozás felvitele</button>
+        <button type="submit" id="animationBtn">Tartozás felvitele</button>
 
 </main>
 @endsection

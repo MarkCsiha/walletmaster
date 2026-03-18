@@ -125,7 +125,7 @@
                                 </select>
                             </div>
 
-                            <button class="btn btn-dark mt-4" type="submit">Módosítás</button>
+                            <button class="btn btn-dark mt-4" type="submit" id="animationBtn">Módosítás</button>
                         </form>
                     </div>
                 </div>

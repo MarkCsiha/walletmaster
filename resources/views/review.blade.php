@@ -38,7 +38,7 @@
                         @enderror
                     </div>
 
-                    <button class="btn btn-primary mt-3" type="submit">Vélemény küldése</button>
+                    <button class="btn btn-primary mt-3" type="submit" id="animationBtn">Vélemény küldése</button>
                 </form>
             </div>
         </div>

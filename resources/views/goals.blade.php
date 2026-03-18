@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="col-sm text-end">
-                    <button type="button" class="goal-tab" data-target="addBody">
+                    <button type="button" class="goal-tab" data-target="addBody" id="animationBtn">
                         Hozzáadás
                     </button>
 
@@ -97,7 +97,7 @@
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <button class="btn btn-dark mt-4" type="submit">Létrehozás</button>
+                                    <button class="btn btn-dark mt-4" type="submit" id="animationBtn">Létrehozás</button>
                                 </form>
                             </div>
                         </div>

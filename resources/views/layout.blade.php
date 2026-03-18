@@ -64,6 +64,7 @@
                         <br>
                         <p>Terebély Károly Sigmaképző Technikum</p>
                         <p>2025-2026</p>
+                        <a href="/review">Észrevétele van? Írjon nekünk!</a>
                     </p>
                 </div>
 

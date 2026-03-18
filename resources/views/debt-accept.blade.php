@@ -50,13 +50,13 @@
         @csrf
         <input type="hidden" name="action" value="elfogadva">
 
-        <button class="btn btn-success" type="submit" name="accept" id="accept">Elfogadom</button>
+        <button class="btn btn-success" type="submit" name="accept" id="animationBtn">Elfogadom</button>
     </form>
 <form class="card-body" action="{{ route('debts.reject', ['id' => $userDebt->tartozasok_id]) }}" method="post">
         @csrf
         <input type="hidden" name="action" value="elutasítva">
 
-        <button class="btn btn-danger" type="submit" name="reject" id="reject">Visszautasítom</button>
+        <button class="btn btn-danger" type="submit" name="reject" id="animationBtn">Visszautasítom</button>
     </form>
 </main>
 

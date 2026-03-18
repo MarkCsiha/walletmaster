@@ -69,12 +69,7 @@
                             value="{{ Auth::user()->telszam }}">
                     </div>
 
-                    <div class="mb-3">
-                        <input type="checkbox" name="twoFactorCheck">
-                        <label>Két faktoros hitelesítés bekapcsolása</label>
-                    </div>
-
-                    <button class="btn btn-primary" type="submit" name="mentes" value="mentes">Mentés</button>
+                    <button class="btn btn-primary" type="submit" name="mentes" value="mentes" id="animationBtn">Mentés</button>
                 </div>
             </div>
         </form>
@@ -113,7 +108,7 @@
                         <i class="bi bi-eye" id="show-password"></i>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" name="mentes" value="mentes">Mentés</button>
+                    <button type="submit" class="btn btn-primary" name="mentes" value="mentes" id="animationBtn">Mentés</button>
                 </div>
             </div>
         </form>
@@ -123,8 +118,8 @@
         <div class="row-mb-4">
             <div class="col-mb-6">
                 <form action="" method="post">
-                    <button type="button" class="btn btn-primary mb-2">
-                        <a href="/logout">Kijelentkezés</a>
+                    <button type="button" class="btn btn-primary mb-2" id="animationBtn">
+                        <a href="/logout" id="animationA">Kijelentkezés</a>
                     </button>
                 </form>
             </div>
@@ -134,7 +129,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger"
-                        onclick="return confirm('Biztosan törli felhasználói fiókját?')">Törlés</button>
+                        onclick="return confirm('Biztosan törli felhasználói fiókját?')" id="animationBtn">Felhasználói fiók törlése</button>
                 </form>
             </div>
         </div>

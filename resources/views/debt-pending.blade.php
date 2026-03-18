@@ -67,7 +67,7 @@
                                         <input type="hidden" name="action" value="elfogadva">
 
                                         <button class="btn btn-success" type="submit" name="accept"
-                                            id="accept">Elfogadom</button>
+                                            id="animationBtn">Elfogadom</button>
                                     </form>
                                 </td>
                                 <td>
@@ -78,7 +78,7 @@
                                         <input type="hidden" name="action" value="elutasítva">
 
                                         <button class="btn btn-danger" type="submit" name="reject"
-                                            id="reject">Visszautasítom</button>
+                                            id="animationBtn">Visszautasítom</button>
                                     </form>
                                 </td>
                             </tr>

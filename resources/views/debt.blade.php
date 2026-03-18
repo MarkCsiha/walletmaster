@@ -16,9 +16,6 @@
                 @endif
             </div>
             <div class="card-body">
-                @if (count($userDebt) == 0)
-                    <h2>Még nincsenek felírt tartozásai!</h2>
-                @else
                     <table class="table table bordered">
                         <tr>
                             <th>Összeg: </th>
@@ -70,7 +67,6 @@
                             </tr>
                         @endforeach
                     </table>
-                @endif
                 {{-- <div class="d-flex justify-content-center">
                         {{$result->links('pagination::bootstrap-4')}}
                     </div> --}}
@@ -104,7 +100,7 @@
             <label for="debtDate" class="form-label mt-3">Dátum: </label>
             <input type="date" class="form-control @error('date') is-invalid @enderror" name="debtDate" id="debtDate">
 
-            <button type="submit">Tartozás felvitele</button>
+            <button type="submit" id="animationBtn">Tartozás felvitele</button>
         </form>
     </main>
 @endsection

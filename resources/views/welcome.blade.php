@@ -40,8 +40,8 @@
                         <div class="card bg-light border-0 h-100">
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-cash"></i></div>
-                                <h2 class="fs-4 fw-bold">Valutaváltó</h2>
-                                <p class="mb-0">Nézze meg, mennyit ér a pénze más pénznemben!</p>
+                                <h2 class="fs-4 fw-bold">Tartozások</h2>
+                                <p class="mb-0">Tartozik önnek valaki? Esetleg ön tartozik másnak? Írja fel hatékonyan! Ha ismeri a felhasználót, tartozási kérelmet is írhat neki.</p>
                             </div>
                         </div>
                     </div>

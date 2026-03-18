@@ -161,7 +161,7 @@
             {{-- Sor lezárás --}}
         </div>
         <form action="/export" id="export" method="GET">
-            <button type="submit">Exportálás</button>
+            <button type="submit" id="animationBtn">Exportálás</button>
         </form>
         <form id="filtersForm" method="GET" action="/main">
             @csrf
@@ -191,7 +191,7 @@
                 </div>
 
                 <div class="col-md-3 d-flex align-items-end">
-                    <button class="btn btn-primary w-100" type="submit">Szűrés</button>
+                    <button class="btn btn-primary w-100" id="animationBtn" type="submit">Szűrés</button>
                 </div>
             </div>
         </form>
@@ -238,7 +238,7 @@
                     <div class="d-flex justify-content-center">
                         {{ $result->links('pagination::bootstrap-4') }}
                     </div>
-                    <div id="addbtn"><a href="/add" class="btn btn-dark">Hozzáadás</a></div>
+                    <button id="animationBtn"><a href="/add" id="animationA" class="btn btn-dark">Hozzáadás</a></div>
                 </div>
             </div>
 
