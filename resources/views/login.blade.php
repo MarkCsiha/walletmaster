@@ -21,7 +21,7 @@
                             name="email" id="email"> --}}
 
                         <label class="form-label mt-3" for="loginData">E-mail cím vagy felhasználónév:</label>
-                        <input class="form-control @error('loginData') is-invalid @enderror" type="text" name="loginData" id="loginData">
+                        <input class="form-control rounded-pill @error('loginData') is-invalid @enderror" type="text" name="loginData" id="loginData">
 
                         <label class="form-label mt-3" for="password">Jelszó:</label>
                         <input class="form-control rounded-pill" @error('password') is-invalid @enderror type="password"

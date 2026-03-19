@@ -85,7 +85,7 @@
             <div class="col r-3 ">
                 <form action="main" method="POST" id="monthlyChart">
                     @csrf
-                    <label for="chartDataType">Költségvetési diagram típusa</label>
+                    <label for="chartDataType" class="mb-2 mt-3">Költségvetési diagram típusa</label>
                     <select name="chartDataType" id="chartDataType" class="form-control" onchange="this.form.submit()">
                         {{-- request: olyan mint az old value, megtartja az oldal frissítése után azt az inputot, amit a felhasználó választott --}}
                         <option value="categoryChart"    {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>Kategóriák szerinti bontás</option>
@@ -95,7 +95,7 @@
                     </select>
                     {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
                     @if (request('chartDataType') == 'monthlyChart')
-                        <label for="year">Év kiválasztása</label>
+                        <label for="year mb-2">Év kiválasztása</label>
                         <select name="year" id="year" class="form-control" onchange="this.form.submit()">
                             @foreach ($years as $y)
                                 <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
@@ -108,7 +108,7 @@
 
 
                 {{-- Oszlop kategória --}}
-                <select name="chartType" id="chartType" class="form-control mt-3" onchange="this.form.submit()">
+                <select name="chartType" id="chartType" class="form-control mb-3 mt-3" onchange="this.form.submit()">
                     <option value="bar"      {{ request('chartType','bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram</option>
                     <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
                     <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
@@ -132,19 +132,19 @@
             @csrf
             <div class="row">
                 <div class="col-md-3">
-                    <label>Mettől</label>
+                    <label class="mb-1">Mettől</label>
                     <input type="number" name="from" min="1" max="31" class="form-control rounded-pill"
                         value="{{ request('from', 1) }}">
                 </div>
 
                 <div class="col-md-3">
-                    <label>Meddig</label>
+                    <label class="mb-1">Meddig</label>
                     <input type="number" name="to" min="1" max="31" class="form-control rounded-pill"
                         value="{{ request('to', 31) }}">
                 </div>
 
                 <div class="col-md-3">
-                    <label>Kategória</label>
+                    <label class="mb-1">Kategória</label>
                     <input type="text" name="category" class="form-control rounded-pill" placeholder="pl.: Élelmiszer"
                         value="{{ ucfirst(request('category')) }}">
                 </div>
