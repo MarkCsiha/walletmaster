@@ -39,7 +39,7 @@ class DebtController extends Controller
             $partner = User::where('felhasznalonev', $req->input('username'))->first();
 
             if (!$partner) {
-                return redirect()->route('debt.show')->with('unsuccessful', 'Az adatbázisban nem szerepel ilyen nevű felhasználó!');
+                return redirect('debt')->with('unsuccessful', 'Az adatbázisban nem szerepel ilyen nevű felhasználó!');
             }
 
             $partnerId = $partner->id;
@@ -59,6 +59,7 @@ class DebtController extends Controller
         $myView->osszeg = $req->debtAmount;
         $myView->leiras = $req->description;
         $myView->datum  = $req->debtDate;
+        $myView->ki_irta = Auth::id();
 
         $myView->save();
 
@@ -78,13 +79,14 @@ class DebtController extends Controller
             else {
                 $mirror->tipus = 1;
             }
+            $mirror->ki_irta = Auth::id();
             $mirror->save();
             //email-t küld a usernek, aki felé a tartozási kérelem ment
             Mail::to($partner->email)->send(new DebtMail($mirror));
 
 
         }
-        return redirect()->route('debt.show')->with('success', 'Sikeres mentés!');
+        return redirect('debt')->with('success', 'Sikeres mentés!');
 
     }
 
@@ -121,7 +123,7 @@ class DebtController extends Controller
             $originalDebt->save();
         }
     }
-        return redirect()->route('debt.show')->with(['success' => 'Sikeresen elfogadta a tartozást!']);
+        return redirect('debt')->with(['success' => 'Sikeresen elfogadta a tartozást!']);
     }
 
     public function RejectDebt($id) {
@@ -144,7 +146,7 @@ class DebtController extends Controller
             }
         }
 
-        return redirect()->route('debt.show')->with(['success' => 'Visszautasította a tartozást!']);
+        return redirect('debt')->with(['success' => 'Visszautasította a tartozást!']);
     }
 
     public function DebtDone($id) {
@@ -153,5 +155,18 @@ class DebtController extends Controller
         $debt->save();
 
         return redirect('/debt')->with(["success"   => "Sikeres tartozásteljesítés!"]);
+    }
+
+    public function ShowPendingDebts() {
+        $userDebt = tartozasok::where('tartozasok.user_id', Auth::id())
+                                ->where("tartozasok.ki_irta", "!=", Auth::id())
+                                ->where("statusz", "függőben")
+                                ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
+                                ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
+                                ->get();
+
+        return view('debt-pending', [
+            "userDebt"  => $userDebt
+        ]);
     }
 }

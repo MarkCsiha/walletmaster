@@ -8,7 +8,7 @@
             {{-- error --}}
         </div>
         <div class="card table-responsive">
-            <div class="col-md-9">
+            <div class="col-md-9 text-center">
                 @if (session('success'))
                     <p class="text text-success text-center">{{ session('success') }}</p>
                 @else
@@ -26,6 +26,7 @@
                         <th>Típus: </th>
                         <th>Dátum: </th>
                         <th>Státusz: </th>
+                        <th></th>
                     </tr>
 
                     @foreach ($allDebt as $debt)
@@ -57,7 +58,7 @@
                                 @csrf
                                 <td>
                                     @if ($debt->statusz != 'rendezve')
-                                        <button type="submit" class="btn btn-success">Tartozás pipa</button>
+                                        <button type="submit" class="btn btn-success" id="checkButton"><i class="bi bi-check-square"></i></button>
                                     @endif
                                 </td>
                             </form>
@@ -68,8 +69,6 @@
         </div>
         <div class="card mt-3">
             <div class="card-body">
-
-
                 <form id="debtForm" method="POST" action="/debt">
                     @csrf
                     <label class="form-label mt-3" for="debtToFrom">Ki tartozik:</label>

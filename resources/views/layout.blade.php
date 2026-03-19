@@ -44,6 +44,7 @@
                             <li class="nav-item ms-4 me-4"><a href="/registration" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
                             <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Adataim</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/debt" class="btn btn-dark bi bi-coin">Tartozások</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark bi bi-bullseye"> Céljaim</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>

@@ -30,7 +30,13 @@ label{
 }
 
 th, td {
-    color: white
+    color: white;
+}
+
+.table td,
+.table th {
+    padding: 16px 12px;
+    vertical-align: middle;
 }
 
 .card{
@@ -48,6 +54,10 @@ th, td {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+#checkButton:hover{
+    
 }
 
 @media screen and (max-width: 767px) {
