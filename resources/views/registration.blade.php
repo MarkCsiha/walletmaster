@@ -71,7 +71,7 @@
                 </form>
 
                  <div class="col-md-3">
-                    <button id="animationBtn"><a href="{{ route('redirect.google') }}" id="animationA">Regisztráció Google fiókkal</a></button>
+                    <button id="animationBtn"><a href="/auth/google" id="animationA">Regisztráció Google fiókkal</a></button>
                 </div>
             </div>
         </div>

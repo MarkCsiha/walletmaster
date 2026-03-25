@@ -54,7 +54,7 @@
                                 <td>{{ $debt->statusz }}</td>
                                 {{-- <td>{{$szamlak->fix}}</td>
                                 <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td> --}}
-                                <form action="{{ route('debts.done', ['id' => $debt->tartozasok_id]) }}" method="POST"
+                                <form action="/debts/{{ $debt->tartozasok_id }}/done" method="POST"
                                     id="debtDone">
                                     @csrf
                                     <td>

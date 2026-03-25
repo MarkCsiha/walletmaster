@@ -6,7 +6,7 @@
     <p>Önnek tartozási kérelmet nyújtottak be, melyet az alábbi linken tud elfogadni, vagy visszautasítani.</p>
 
     {{-- https://laravel.com/docs/12.x/urls --}}
-    <x-mail::button :url="URL::signedRoute('debts.decision',  ['id' => $tartozas->tartozasok_id])">
+    <x-mail::button :url="URL::signedRoute('debts.decision',  $tartozas->tartozasok_id)">
         Tartozás megnyitása
     </x-mail::button>
 

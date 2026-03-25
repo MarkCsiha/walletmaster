@@ -116,7 +116,7 @@ class UserController extends Controller
                 "success" => "Sikeresen belépett!"
             ]);
         }
-        else if (Auth::attempt([$credentials => $req->loginData, 'password' => $req->password, 'torles_ido' != null])) {
+        else if (Auth::attempt([$credentials => $req->loginData, 'password' => $req->password])) {
             return redirect("/login")->with([
                 "unsuccessful" => "Felhasználói fiókja törlésre került!"
             ]);
@@ -293,7 +293,7 @@ class UserController extends Controller
 
         // Ha ugyanazt írta be, ne küldj új linket
         if ($req->email === $data->email) {
-            return back()->with('message', 'Ez az email már be van állítva.');
+            return back()->with(['success' => 'Ez az email már be van állítva.']);
         }
         //megkeresi azt a felhasználót azonosító alapján, akinek egyezik az azonosítója a keresett azonosítóval
         $data->email = $req->email;

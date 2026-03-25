@@ -99,13 +99,13 @@ Route::post("/add", [WMController::class, "AddBtn"])->middleware(["auth", "verif
 Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->name('debts.decision')->middleware(["auth", "verified", "signed"]);
 
 //tartozás elfogadása
-Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->name('debts.accept')->middleware(["auth", "verified"]);
+Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->middleware(["auth", "verified"]);
 
 //tartozás visszautasítása
-Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->name("debts.reject")->middleware(["auth", "verified"]);
+Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->middleware(["auth", "verified"]);
 
 //rendezve gomb a tartozásoknál
-Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->name("debts.done")->middleware(["auth", "verified"]);
+Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->middleware(["auth", "verified"]);
 
 Route::get('/debt/pending', [DebtController::class, 'ShowPendingDebts'])->middleware(['auth', 'verified']);
 
@@ -114,9 +114,9 @@ Route::get('/export', [WMController::class, "ExportExcel"])->middleware(["auth",
 
 Route::post("/import", [WMController::class, "ImportExcel"])->middleware(["auth", "verified"]);
 
-Route::get('auth/google', [GoogleController::class, "RedirectGoogle"])->name('redirect.google');
+Route::get('/auth/google', [GoogleController::class, "RedirectGoogle"]);
 
-Route::get('auth/google/callback', [GoogleController::class, "GoogleCallback"])->name('callback.google');
+Route::get('/auth/google/callback', [GoogleController::class, "GoogleCallback"])->name('callback.google');
 
 Route::delete('/user/{id}', [UserController::class, 'AccountDelete'])->name('user.destroy')->middleware(['auth', 'verified']);
 

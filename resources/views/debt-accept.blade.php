@@ -46,13 +46,13 @@
             </table>
         </div>
     </div>
-<form class="card-body" action="{{ route('debts.accept', ['id' => $userDebt->tartozasok_id]) }}" method="post">
+<form class="card-body" action="/debts/{{ $userDebt->tartozasok_id }}/accept" method="post">
         @csrf
         <input type="hidden" name="action" value="elfogadva">
 
         <button class="btn btn-success" type="submit" name="accept" id="animationBtn">Elfogadom</button>
     </form>
-<form class="card-body" action="{{ route('debts.reject', ['id' => $userDebt->tartozasok_id]) }}" method="post">
+<form class="card-body" action="/debts/{{ $userDebt->tartozasok_id }}/reject" method="post">
         @csrf
         <input type="hidden" name="action" value="elutasítva">
 
