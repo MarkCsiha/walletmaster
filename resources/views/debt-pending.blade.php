@@ -5,17 +5,28 @@
 @section('content')
 
     <main class="container pb-2">
-        <div class="col-md-9">
-            {{-- error --}}
-        </div>
+            @if (session('success'))
+                <div class="alert alert-success text-success text-center w-50 py-1 mx-auto">
+                    <i class="bi bi-check-circle-fill">
+                        {{ session('success') }}
+                    </i>
+                </div>
+            @elseif (session('unchanged'))
+                <div class="alert alert-primary text-primary text-center w-50 py-1 mx-auto">
+                    <i class="bi bi-dash-circle-fill">
+                        {{ session('unchanged') }}
+                    </i>
+                </div>
+            @elseif (session('unsuccessful'))
+                <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto">
+                    <i class="bi bi-exclamation-triangle-fill">
+                        {{ session('unsuccessful') }}
+                    </i>
+                </div>
+            @endif
         <div class="card">
             <div class="col-md-9">
-                @if (session('success'))
-                    <p class="text text-success text-center">{{ session('success') }}</p>
-                @else
-                    <p class="text text-danger text-center">{{ session('unsuccessful') }}</p>
-                @endif
-            </div>
+
             <div class="card-body">
                 @if (count($userDebt) == 0)
                     <h2>Még nincsenek függőben lévő tartozási kérelmei!</h2>

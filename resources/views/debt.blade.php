@@ -4,69 +4,71 @@
 @endpush
 @section('content')
     <main class="container pb-2">
-        <div class="col-md-9">
-            {{-- error --}}
-        </div>
-        <div class="card">
-            <div class="col-md-9">
-                @if (session('success'))
-                    <p class="text text-success text-center">{{ session('success') }}</p>
-                @else
-                    <p class="text text-danger text-center">{{ session('unsuccessful') }}</p>
-                @endif
+        @if (session('success'))
+            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto">
+                <i class="bi bi-check-circle-fill">
+                    {{ session('success') }}
+                </i>
             </div>
+        @elseif (session('unsuccessful'))
+            <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto">
+                <i class="bi bi-exclamation-triangle-fill">
+                    {{ session('unsuccessful') }}
+                </i>
+            </div>
+        @endif
+        <div class="card">
             <div class="card-body">
-                    <table class="table table bordered">
+                <table class="table table bordered">
+                    <tr>
+                        <th>Összeg: </th>
+                        <th>Személy: </th>
+                        <th>Felhasználónév: </th>
+                        <th>Leírás: </th>
+                        <th>Típus: </th>
+                        <th>Dátum: </th>
+                        <th>Státusz: </th>
+                        <th>Teljesítve? </th>
+                    </tr>
+
+                    @foreach ($allDebt as $debt)
                         <tr>
-                            <th>Összeg: </th>
-                            <th>Személy: </th>
-                            <th>Felhasználónév: </th>
-                            <th>Leírás: </th>
-                            <th>Típus: </th>
-                            <th>Dátum: </th>
-                            <th>Státusz: </th>
-                            <th>Teljesítve? </th>
-                        </tr>
+                            <td>
+                                @if ($debt->tipus == 1)
+                                    <span class="text-danger">- {{ $debt->osszeg }} Ft</span>
+                                @else
+                                    <span class="text-success">+ {{ $debt->osszeg }} Ft</span>
+                                @endif
+                            </td>
 
-                        @foreach ($allDebt as $debt)
-                            <tr>
-                                <td>
-                                    @if ($debt->tipus == 1)
-                                        <span class="text-danger">- {{ $debt->osszeg }} Ft</span>
-                                    @else
-                                        <span class="text-success">+ {{ $debt->osszeg }} Ft</span>
-                                    @endif
-                                </td>
+                            <td>{{ $debt->partner_nev }}</td>
+                            {{-- kiírja a felhasználónevet, de csak ha nem üres, lehet kell majd bele más td is null esetén --}}
+                            <td>{{ $debt->partner_username ?? '' }}</td>
 
-                                <td>{{ $debt->partner_nev }}</td>
-                                {{-- kiírja a felhasználónevet, de csak ha nem üres, lehet kell majd bele más td is null esetén --}}
-                                <td>{{ $debt->partner_username ?? '' }}</td>
-
-                                <td>{{ $debt->leiras }}</td>
-                                <td>
-                                    @if ($debt->tipus == 1)
-                                        <span class="text-danger">Tartozás</span>
-                                    @else
-                                        <span class="text-success">Másik fél</span>
-                                    @endif
-                                </td>
-                                <td>{{ $debt->datum }}</td>
-                                <td>{{ $debt->statusz }}</td>
-                                {{-- <td>{{$szamlak->fix}}</td>
+                            <td>{{ $debt->leiras }}</td>
+                            <td>
+                                @if ($debt->tipus == 1)
+                                    <span class="text-danger">Tartozás</span>
+                                @else
+                                    <span class="text-success">Másik fél</span>
+                                @endif
+                            </td>
+                            <td>{{ $debt->datum }}</td>
+                            <td>{{ $debt->statusz }}</td>
+                            {{-- <td>{{$szamlak->fix}}</td>
                                 <td>{{ date_format(date_create($szamlak->datum), "Y. m. d")}}</td> --}}
-                                <form action="/debts/{{ $debt->tartozasok_id }}/done" method="POST"
-                                    id="debtDone">
-                                    @csrf
-                                    <td>
-                                        @if ($debt->statusz != 'rendezve')
-                                            <button type="submit" class="btn shadow-none"><i
-                                                    class="bi bi-check-circle text-success"></i></button>
-                                        @endif
-                                    </td>
-                                </form>
-                            </tr>
-                        @endforeach
-                    </table>
+                            <form action="/debts/{{ $debt->tartozasok_id }}/done" method="POST" id="debtDone">
+                                @csrf
+                                <td>
+                                    @if ($debt->statusz != 'rendezve')
+                                        <button type="submit" class="btn shadow-none"><i
+                                                class="bi bi-check-circle text-success"></i></button>
+                                    @endif
+                                </td>
+                            </form>
+                        </tr>
+                    @endforeach
+                </table>
                 {{-- <div class="d-flex justify-content-center">
                         {{$result->links('pagination::bootstrap-4')}}
                     </div> --}}

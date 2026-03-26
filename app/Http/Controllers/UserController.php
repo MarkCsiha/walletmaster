@@ -250,7 +250,7 @@ class UserController extends Controller
         //https://laravel.com/docs/12.x/eloquent#examining-attribute-changes
         //megnézi hogy történt-e változás a data változóban
         if (!$data->isDirty()) {
-            return redirect('/account')->with('unsuccessful', 'Nem történt változás.');
+            return redirect('/account')->with('unchanged', 'Nem történt változás.');
         }
 
         $data->save();
@@ -267,10 +267,10 @@ class UserController extends Controller
                 $data->password = $req->newpassword;
                 $data->Save();
                 Auth::logout();
-                return redirect(to: '/main')->with(['success' => "Sikeresen megváltoztatta a jelszavát"]);
+                return redirect(to: '/main')->with(['success' => "Sikeres jelszómódosítás!"]);
             }
         } else {
-            return redirect('/account')->with(['unsuccessful' => "Nem sikerült a jelszómódosítás"]);
+            return redirect('/account')->with(['unsuccessful' => "Sikertelen jelszómódosítás!"]);
         }
     }
 

@@ -8,8 +8,18 @@
     <main class="container pb-2">
         <div class="row justify-content-center">
             <div class="col-md-9 mb-3">
-                @if (session('unsuccessful'))
-                    <p class="text-danger text-center">{{ session('unsuccessful') }}</p>
+                @if (session('success'))
+                    <div class="alert alert-success text-success text-center w-50 py-1 mx-auto">
+                        <i class="bi bi-check-circle-fill">
+                            {{ session('success') }}
+                        </i>
+                    </div>
+                @elseif (session('unsuccessful'))
+                    <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto">
+                        <i class="bi bi-exclamation-triangle-fill">
+                            {{ session('unsuccessful') }}
+                        </i>
+                    </div>
                 @endif
             </div>
             <h1 class="text-center py-3">Vélemény, ötlet írása</h1>
@@ -18,16 +28,16 @@
                     @csrf
                     <div class="my-4">
                         <label class="form-label-mt-3" for="typeSelect">Vélemény típusa:</p>
-                        <select name="typeSelect" id="typeSelect" class="@error('typeSelect') is-invalid @enderror">
-                            <option value="otlet">Ötlet</option>
-                            <option value="hiba">Hiba</option>
-                            <option value="tanacs">Tanács</option>
-                            <option value="fejlesztes">Fejlesztési javaslat</option>
-                            <option value="egyeb">Egyéb</option>
-                        </select>
-                        @error('typeSelect')
-                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                        @enderror
+                            <select name="typeSelect" id="typeSelect" class="@error('typeSelect') is-invalid @enderror">
+                                <option value="otlet">Ötlet</option>
+                                <option value="hiba">Hiba</option>
+                                <option value="tanacs">Tanács</option>
+                                <option value="fejlesztes">Fejlesztési javaslat</option>
+                                <option value="egyeb">Egyéb</option>
+                            </select>
+                            @error('typeSelect')
+                                <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                            @enderror
                     </div>
                     <div class="my-4">
                         <label class="form-label mt-3" for="reviewText">Vélemény leírása:</label>

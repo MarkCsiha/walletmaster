@@ -9,8 +9,18 @@
     <div class="row justify-content-center">
         <div class="col-md-9">
             @if (session('success'))
-                    <p class="text text-success text-center">{{session("success")}}</p>
-            @endif
+            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto">
+                <i class="bi bi-check-circle-fill">
+                    {{ session('success') }}
+                </i>
+            </div>
+        @elseif (session('unsuccessful'))
+            <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto">
+                <i class="bi bi-exclamation-triangle-fill">
+                    {{ session('unsuccessful') }}
+                </i>
+            </div>
+        @endif
         </div>
             <h1 class="text-center py-3">Regisztráció</h1>
             <div class="card w-75 mx-auto mb-3">

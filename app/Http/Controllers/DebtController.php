@@ -35,7 +35,7 @@ class DebtController extends Controller
 
         $partnerId = null;
         //ellenőrizzük, hogy létezik-e a user akinek felhasználónevet adunk, ha igen, akkor a partnerId-t egyenlővé tesszük vele
-        if ($req->filled('username')) {
+        if ($req->has('username')) {
             $partner = User::where('felhasznalonev', $req->input('username'))->first();
 
             if (!$partner) {
