@@ -21,7 +21,7 @@
                     </form>
                         <form action="/add" method="post">
                         @csrf
-                            <label class="form-label" for="osszeg">Összeg:</label>
+                            <label class="form-label" for="osszeg"><span style="color: tomato">*</span>Összeg:</label>
                             <input class="form-control" type="number" name="osszeg" id="osszeg" value="{{old('osszeg')}}">
                             @error('osszeg')
                                 <p style="color: tomato" class="text-danger">{{$message}}</p>
@@ -42,7 +42,7 @@
                             @enderror
 
                             <div class="my-4">
-                                <label class="form-label" for="datum">Dátum: </label>
+                                <label class="form-label" for="datum"><span style="color: tomato">*</span>Dátum: </label>
                                 <input class="form-control" type="date" name="datum" id="datum" placeholder="éééé.hh.nn">
                             </div>
                             @error('datum')
@@ -61,7 +61,7 @@
                             </div>
 
                             <div class="mt-4">
-                                <label class="for-label mb-2" for="tipus">Bevétel vagy kiadás?</label>
+                                <label class="for-label mb-2" for="tipus"><span style="color: tomato">*</span>Bevétel vagy kiadás?</label>
                                 <select class="form-select" name="tipus" id="tipus" data-old="{{ old('tipus') }}">
                                     <option value="0">---</option>
                                     <option value="kiadas"  {{ old('tipus')=='kiadas' ? 'selected' : '' }}>Kiadás</option>
@@ -75,7 +75,7 @@
                             </div>
                             @endif
                             <div class="mt-2">
-                                <label class="form-label mb-2" for="kategoria">Kategória</label>
+                                <label class="form-label mb-2" for="kategoria"><span style="color: tomato">*</span>Kategória</label>
                                 <select class="form-select" name="kategoria" id="kategoria" data-old="{{ old('kategoria') }}"         data-suggested="{{ session('suggested_category') }}">>
                                     <option value="0">Válasszon típust először</option>
                                 </select>

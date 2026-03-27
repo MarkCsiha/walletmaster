@@ -17,8 +17,9 @@ Route::view('/', 'welcome');
 Route::get("/registration", [UserController::class, "Registration"]);
 Route::post("/registration", [UserController::class, "RegistrationBtn"]);
 
-Route::get("/login", [UserController::class, "Login"]);
+Route::get("/login", [UserController::class, "Login"])->name("login");
 Route::post("/login", [UserController::class, "LoginBtn"]);
+
 
 //ha nem megy az email módosítás akkor rakd vissza a middleware auth verifiedot!
 Route::get("/account", [UserController::class, "Account"])->middleware(["auth", "verified"]);
@@ -118,3 +119,6 @@ Route::delete('/user/{id}', [UserController::class, 'AccountDelete'])
 
 Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"])->name("userremoval.cancel")->middleware(["auth", "verified"]);
 // Route::get('/user/{id}', [UserController::class, "UserRemovalCancel"]);
+
+Route::get("/limit", [WMController::class, "MyData"]);
+Route::post("/limit", [WMController::class, "MyDataSet"]);

@@ -352,13 +352,20 @@ class WMController extends Controller
 
 }
     public function MainMod($szamla_id){
-        return view("mainmod", [
-            "result" => szamla::find($szamla_id)
-        ]);
+        $user = Auth::id();
+        if(Auth::check()){
+            return view("mainmod", [
+                "result" => szamla::find($szamla_id)
+            ]);
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function MainModBtn(Request $req){
-       $req->validate([
+        $user = Auth::id();
+        $req->validate([
             "osszeg"        =>  "required|numeric",
             "honnan"        =>  "required",
             "leiras"        =>  "max:200",
@@ -412,15 +419,25 @@ class WMController extends Controller
         }
         $data->kategoria_nev = $req->kategoria;
 
-        $data->Save();
-
-        return redirect("/main");
+        if(Auth::check()){
+            $data->Save();
+            return redirect("/main");
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function MainDelete($szamla_id){
+        $user = Auth::id();
         $data = szamla::find($szamla_id);
         $data->Delete();
-        return redirect("/main");
+        if(Auth::check()){
+            return redirect("/main");
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function Add(){
@@ -429,6 +446,7 @@ class WMController extends Controller
     }
 
     public function AddBtn(Request $req){
+        $user = Auth::id();
         $req->validate([
             "osszeg"        =>  "required|numeric",
             "honnan"        =>  "required",
@@ -487,7 +505,12 @@ class WMController extends Controller
         } else {
             $limitMessage = "Még ".abs($comparison)." Ft-tal a megadott e havi limit alatt van.";
         }
-        return redirect('/main')->with(["success"  => "Sikeres mentés! ".$limitMessage.""]);
+        if(Auth::check()){
+            return redirect('/main')->with(["success"  => "Sikeres mentés! ".$limitMessage.""]);
+        }
+        else{
+            return redirect("login");
+        }
     }
     public function Index(Request $request)
     {
@@ -507,8 +530,12 @@ class WMController extends Controller
         $prevYm = $monthStart->copy()->subMonth()->format('Y-m');
         $nextYm = $monthStart->copy()->addMonth()->format('Y-m');
 
-        return view('naptar', compact('monthStart', 'days', 'prevYm', 'nextYm'));
-
+        if(Auth::check()){
+            return view('naptar', compact('monthStart', 'days', 'prevYm', 'nextYm'));
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function Charts(Request $req) {
@@ -582,16 +609,24 @@ class WMController extends Controller
             "file.file"     => "Fájlt adjon meg!"
         ]);
         Excel::import(new SzamlaImport(), $req->file('file'));
-
-        return redirect('/add')->with(["success" => "Sikeres fájlfeltöltés!"]);
-
+        if(Auth::check()){
+            return redirect('/add')->with(["success" => "Sikeres fájlfeltöltés!"]);
+        }
+        else{
+            return redirect("login");
+        }
     }
     public function Goals(){
         $user = Auth::id();
         $result = celok::where("user_id", $user)->orderBy("statusz")->get();
-        return view("goals", [
-            "result" => $result,
-        ]);
+        if(Auth::check()){
+            return view("goals", [
+                "result" => $result,
+            ]);
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function GoalsBtn(Request $req){
@@ -618,15 +653,24 @@ class WMController extends Controller
         $data->modositas_datum = now()->format('Y-m-d');
 
         $data->Save();
-
-        return redirect("/goals")->with(["success" => "Sikeres célhozzáadás!"]);
+        if(Auth::check()){
+            return redirect("/goals")->with(["success" => "Sikeres célhozzáadás!"]);
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function GoalsMod($cel_id){
         $result = celok::find($cel_id);
-        return view("goalsmod", [
-            "result" => $result
-        ]);
+        if(Auth::check()){
+            return view("goalsmod", [
+                "result" => $result
+            ]);
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function GoalsModBtn(Request $req){
@@ -661,13 +705,49 @@ class WMController extends Controller
 
 
         $data->Save();
+        if(Auth::check()){
+            return redirect("/goals")->with(["success" => "Sikeres célmódosítás!"]);
+        }
+        else{
+            return redirect("login");
+        }
 
-        return redirect("/goals")->with(["success" => "Sikeres célmódosítás!"]);
     }
 
     public function GoalsDelete($cel_id){
-        $data = celok::find($cel_id);
-        $data->Delete();
-        return redirect("/goals");
+        if(Auth::check()){
+            $data = celok::find($cel_id);
+            $data->Delete();
+            return redirect("/goals");
+        }
+        else{
+            return redirect("login");
+        }
+
+    }
+
+    public function MyData(){
+        $user = Auth::id();
+        if (Auth::check()) {
+            return view("limit", [
+                "result" => koltseglimit::all(),
+                "pays" => fix::where("szamla_id", $user)->where("tipus", 0)->get(),
+                "incomes" => fix::where("szamla_id", $user)->where("tipus", 1)->get()
+            ]);
+        }
+        else {
+            return redirect("login");
+        }
+    }
+
+    public function MyDataSet(){
+        if (Auth::check()) {
+            return redirect("limit", [
+
+            ]);
+        }
+        else {
+            return redirect("login");
+        }
     }
 }

@@ -73,25 +73,25 @@
                                 <form action="/goals" method="post">
                                     @csrf
 
-                                    <label class="form-label" for="nev">Cél neve:</label>
+                                    <label class="form-label" for="nev"><span style="color: tomato">*</span>Cél neve:</label>
                                     <input class="form-control rounded-pill" type="text" name="nev" id="nev">
                                     @error('nev')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <label class="form-label" for="cel_osszeg">Célösszeg:</label>
+                                    <label class="form-label" for="cel_osszeg"><span style="color: tomato">*</span>Célösszeg:</label>
                                     <input class="form-control rounded-pill" type="number" name="cel_osszeg" id="cel_osszeg">
                                     @error('cel_osszeg')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <label class="form-label" for="osszeg">Most mennyit tud rászánni:</label>
+                                    <label class="form-label" for="osszeg"><span style="color: tomato">*</span>Most mennyit tud rászánni:</label>
                                     <input class="form-control rounded-pill" type="number" name="osszeg" id="osszeg">
                                     @error('osszeg')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <label class="form-label" for="hatarido">Határidő:</label>
+                                    <label class="form-label" for="hatarido"><span style="color: tomato">*</span>Határidő:</label>
                                     <input class="form-control rounded-pill" type="date" name="hatarido" id="hatarido">
                                     @error('hatarido')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>

@@ -22,6 +22,7 @@
         @stack("forgot-css")
         @stack("reset-css")
         @stack("verify-css")
+        @stack("limit-css")
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
         @livewireStyles
@@ -44,7 +45,7 @@
                             <li class="nav-item ms-4 me-4"><a href="/registration" class="btn btn-success bi bi-person">Regisztráció</a></li>
                         @else
                             <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>
-                            <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Adataim</a></li>
+                            <li class="nav-item ms-4 me-4"><a href="/limit" class="btn btn-dark">Adataim</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/debt" class="btn btn-dark bi bi-coin">Tartozások</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark bi bi-bullseye"> Céljaim</a></li>
                             <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
