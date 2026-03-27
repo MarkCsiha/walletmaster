@@ -277,8 +277,8 @@ class WMController extends Controller
         $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
 
         $checkIfUserExists = koltseglimit::where("user_id", Auth::id())
-                                        ->whereDate('start_datum', $first_day_of_the_current_month)
-                                        ->whereDate('vege_datum', $last_day_of_the_current_month)
+                                        ->whereDate('start_date', $first_day_of_the_current_month)
+                                        ->whereDate('finish_date', $last_day_of_the_current_month)
                                         ->where('tipus', 0)
                                         ->first();
 
@@ -288,8 +288,8 @@ class WMController extends Controller
                 $budgetGoal->user_id = Auth::id();
                 $budgetGoal->osszeg = $req->input('budgetLimit');
                 $budgetGoal->tipus = 0;
-                $budgetGoal->start_datum = $first_day_of_the_current_month;
-                $budgetGoal->vege_datum = $last_day_of_the_current_month;
+                $budgetGoal->start_date = $first_day_of_the_current_month;
+                $budgetGoal->finish_date = $last_day_of_the_current_month;
 
                 $budgetGoal->save();
             }
@@ -445,8 +445,8 @@ class WMController extends Controller
         ]);
     }
 
+
     public function AddBtn(Request $req){
-        $user = Auth::id();
         $req->validate([
             "osszeg"        =>  "required|numeric",
             "honnan"        =>  "required",
@@ -482,6 +482,19 @@ class WMController extends Controller
 
         $data->Save();
 
+        $fix_pay = new fix;
+        if($req->fix == "eves" || $req->fix == "feleves" || $req->fix == "havi"){
+            $fix_pay->user_id = Auth::user()->id;
+            $fix_pay->szamla_id = $data->szamla_id;
+            $fix_pay->tipus = $data->fix;
+            $fix_pay->osszeg = $data->osszeg;
+            $fix_pay->letrehozas = now()->format('Y-m-d');
+            $fix_pay->fizetve = now()->format('Y-m-d');
+            $fix_pay->Save();
+        }
+
+
+
         $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
         $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
 
@@ -490,8 +503,8 @@ class WMController extends Controller
                             ->whereBetween('datum', [$first_day_of_the_current_month, $last_day_of_the_current_month])
                             ->sum("osszeg");
         $limitSelect = koltseglimit::where("user_id", Auth::id())
-                                    ->whereDate('start_datum', $first_day_of_the_current_month)
-                                    ->whereDate('vege_datum', $last_day_of_the_current_month)
+                                    ->whereDate('start_date', $first_day_of_the_current_month)
+                                    ->whereDate('finish_date', $last_day_of_the_current_month)
                                     ->where('tipus', 0)
                                     ->value("osszeg");
         $limitSelect = (int) ($limitSelect ?? 0);
@@ -505,13 +518,9 @@ class WMController extends Controller
         } else {
             $limitMessage = "Még ".abs($comparison)." Ft-tal a megadott e havi limit alatt van.";
         }
-        if(Auth::check()){
-            return redirect('/main')->with(["success"  => "Sikeres mentés! ".$limitMessage.""]);
-        }
-        else{
-            return redirect("login");
-        }
+        return redirect('/main')->with(["success"  => "Sikeres mentés! ".$limitMessage.""]);
     }
+
     public function Index(Request $request)
     {
         $ym = $request->query('ym', now()->format('Y-m'));
@@ -730,9 +739,23 @@ class WMController extends Controller
         $user = Auth::id();
         if (Auth::check()) {
             return view("limit", [
-                "result" => koltseglimit::all(),
-                "pays" => fix::where("szamla_id", $user)->where("tipus", 0)->get(),
-                "incomes" => fix::where("szamla_id", $user)->where("tipus", 1)->get()
+                "result" => koltseglimit::where("user_id", $user)->first(),
+                "pays" => fix::join("szamla", "szamla.szamla_id", "=", "fix.szamla_id")
+                                ->where("fix.user_id", $user)
+                                ->where("szamla.tipus", 0)
+                                ->get(),
+                "incomes" => fix::join("szamla", "szamla.szamla_id", "=", "fix.szamla_id")
+                                ->where("fix.user_id", $user)
+                                ->where("szamla.tipus", 1)
+                                ->get(),
+                "has_limit" => koltseglimit::where("user_id", $user)->first(),
+                "sum_prices" => koltseglimit::join("users", "koltseg_limit.user_id", "users.id")
+                                        ->join("szamla", "szamla.user_id", "users.id")
+                                        ->whereColumn("szamla.datum", ">=", "koltseg_limit.start_date")
+                                        ->whereColumn("szamla.datum", "<=", "koltseg_limit.finish_date")
+                                        ->sum("szamla.osszeg"),
+
+
             ]);
         }
         else {
@@ -740,11 +763,25 @@ class WMController extends Controller
         }
     }
 
-    public function MyDataSet(){
-        if (Auth::check()) {
-            return redirect("limit", [
+    public function MyDataSet(Request $req){
+        $req->validate([
+            "paylimit" => "required|numeric",
+            "start_date" => "required|date",
+            "finish_date" => "required|date",
+        ], [
+            "*.required" => "Töltse ki a mezőt!",
+            "*.date"    => "Dátumot adjon meg!",
+            "paylimit.numeric" => "Számot adjon meg!",
+        ]);
+        $data = new koltseglimit();
+        $data->user_id = Auth::user()->id;
+        $data->osszeg = $req->paylimit;
+        $data->start_date = $req->start_date;
+        $data->finish_date = $req->finish_date;
+        $data->Save();
 
-            ]);
+        if (Auth::check()) {
+            return redirect("limit");
         }
         else {
             return redirect("login");
