@@ -48,7 +48,7 @@
                                 <p style="color: tomato" class="text-danger">{{ $message }}</p>
                             @enderror
 
-                            <button class="btn btn-dark mt-4" type="submit" id="animationBtn">Módosítás</button>
+                            <button class="btn btn-dark mt-4 animationBtn" type="submit">Módosítás</button>
                         </form>
                     </div>
                 </div>

@@ -30,7 +30,13 @@ label{
 }
 
 th, td {
-    color: white
+    color: white;
+}
+
+.table td,
+.table th {
+    padding: 16px 12px;
+    vertical-align: middle;
 }
 
 .card{
@@ -50,10 +56,14 @@ th, td {
     flex-direction: column;
 }
 
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
+    color: white;
+}
 
 /* https://www.youtube.com/watch?v=m4NUID4kDyo */
 
-#animationBtn {
+.animationBtn {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
     color: white;
     background-size: 200%;
@@ -62,12 +72,12 @@ th, td {
     border-radius: 10px;
 }
 
-#animationBtn:hover {
+.animationBtn:hover {
     background-position: right;
     border: 2px solid rgb(165, 1, 187);
 }
 
-#animationA {
+.animationA {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
     color: white;
     background-size: 200%;
@@ -75,6 +85,14 @@ th, td {
     border: none;
 }
 
-#animationA:hover {
+.animationA:hover {
     background-position: right;
 }
+
+@media screen and (max-width: 767px) {
+  #button {
+    display: flex;
+    justify-content: center;
+  }
+}
+

@@ -6,7 +6,7 @@
 
 @section('content')
 {{-- https://github.com/ERaufi/LaravelProjects/blob/main/routes/web.php --}}
-<div class="container">
+<main class="container pt-3">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -43,5 +43,5 @@
             </div>
         </div>
     </div>
-</div>
+</main>
 @endsection

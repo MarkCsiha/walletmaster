@@ -27,10 +27,13 @@ class DebtController extends Controller
 
     public function DebtAdd(Request $req) {
         $req->validate([
-            "debtDate"          => "date_format:Y-m-d|before_or_equal:today"
+            "debtDate"          => "date_format:Y-m-d|before_or_equal:today",
+            "amount"            => "required|numeric"
         ],
         [
-            'debtDate.before'   => "Nem adhat meg jövőbeli dátumot!"
+            'debtDate.before'   => "Nem adhat meg jövőbeli dátumot!",
+            "amount.required"   => "Az összeget kötelező megadni!",
+            "amount.numeric"    => "Csak számot adhat meg!"
         ]);
 
         $partnerId = null;

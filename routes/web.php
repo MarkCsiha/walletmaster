@@ -78,7 +78,7 @@ Route::get('/reset-password/{token}', function (string $token) {
 })->middleware('guest')->name('password.reset');
 
 //frissíti a jelszót
-Route::post('/reset-password', [ResetPasswordController::class, "PasswordReset"])->middleware('guest')->name('password.update');
+Route::post('/reset-password', [ResetPasswordController::class, "PasswordReset"])->middleware('guest');
 
 Route::get('/debt', [DebtController::class, 'DebtShow'])->middleware(["auth", "verified"]);
 Route::post('/debt', [DebtController::class, 'DebtAdd'])->middleware(["auth", "verified"]);

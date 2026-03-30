@@ -7,12 +7,19 @@
 @section('content')
 
     <main class="container pb-2">
-        <div class="col-md-9">
-            @if (session('success'))
-                <p class="text text-success text-center">{{session("success")}}</p>
-            @endif
-
-        </div>
+        @if (session('success'))
+            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
+                <i class="bi bi-check-circle-fill">
+                    {{ session('success') }}
+                </i>
+            </div>
+        @elseif (session('unsuccessful'))
+            <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
+                <i class="bi bi-exclamation-triangle-fill">
+                    {{ session('unsuccessful') }}
+                </i>
+            </div>
+        @endif
         {{-- <div id="applicantDeleteModal" class="modal modal-danger fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" style="width:55%;">
         <div class="modal-content">
@@ -35,12 +42,12 @@
 
              </form>
         </div> --}}
-    {{-- </div>
+        {{-- </div>
 </div> --}}
-    <form action="main" method="POST" id="budgetLimit">
-        @csrf
-        <input type="number" name="budgetLimit" id="budgetLimit" onsubmit="this.form.submit()">
-    </form>
+        <form action="main" method="POST" id="budgetLimit">
+            @csrf
+            <input type="number" name="budgetLimit" id="budgetLimit" onsubmit="this.form.submit()">
+        </form>
         <div class="row mt-3">
             <div class="col r-3" id="outerpanel">
 
@@ -49,17 +56,17 @@
                         {{-- ÉV + HÓNAP --}}
                         <div class="text-center mb-2">
                             <h2 class="m-0" id="cm">{{ $monthStart->year }}</h2>
-                            <h4>{{ $monthStart->translatedFormat('F') }}</h4>
+                            <h4>{{ ucfirst($monthStart->translatedFormat('F')) }}</h4>
                         </div>
 
                         {{-- HÓNAP VÁLTÁS --}}
                         <div class="d-flex justify-content-between mb-2">
-                            <a class="btn btn-outline-secondary btn-sm text-white"
+                            <a class="btn btn-outline-secondary btn-sm animationBtn text-white"
                                 href="{{ route('naptar', ['ym' => $prevYm]) }}">
                                 Előző
                             </a>
 
-                            <a class="btn btn-outline-secondary btn-sm  text-white"
+                            <a class="btn btn-outline-secondary btn-sm animationBtn text-white"
                                 href="{{ route('naptar', ['ym' => $nextYm]) }}">
                                 Következő
                             </a>
@@ -96,7 +103,8 @@
                                                 </div>
                                             @else
                                                 @if ($inMonth and $hasTxn)
-                                                    <div style="font-weight:700;" title="+{{ $gainaday }} | -{{ $spentaday }}">
+                                                    <div style="font-weight:700;"
+                                                        title="+{{ $gainaday }} | -{{ $spentaday }}">
                                                         {{ $day->day }}
                                                     </div>
                                                 @else
@@ -118,17 +126,23 @@
             <div class="col r-3 ">
                 <form action="main" method="POST" id="monthlyChart">
                     @csrf
-                    <label for="chartDataType">Költségvetési diagram típusa</label>
+                    <label for="chartDataType" class="mb-2 mt-3">Költségvetési diagram típusa</label>
                     <select name="chartDataType" id="chartDataType" class="form-control" onchange="this.form.submit()">
                         {{-- request: olyan mint az old value, megtartja az oldal frissítése után azt az inputot, amit a felhasználó választott --}}
-                        <option value="categoryChart"    {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>Kategóriák szerinti bontás</option>
-                        <option value="monthlyChart"     {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>Havi kiadás diagram</option>
-                        <option value="spentIncomeChart" {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>Költség - Bevétel differencia</option>
-                        <option value="budgetComparisonChart" {{ request('chartDataType') == 'budgetComparisonChart' ? 'selected' : '' }}>Összehasonlítás</option>
+                        <option value="categoryChart" {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>
+                            Kategóriák szerinti bontás</option>
+                        <option value="monthlyChart" {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>
+                            Havi kiadás diagram</option>
+                        <option value="spentIncomeChart"
+                            {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>Költség - Bevétel
+                            differencia</option>
+                        <option value="budgetComparisonChart"
+                            {{ request('chartDataType') == 'budgetComparisonChart' ? 'selected' : '' }}>Összehasonlítás
+                        </option>
                     </select>
                     {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
                     @if (request('chartDataType') == 'monthlyChart')
-                        <label for="year">Év kiválasztása</label>
+                        <label for="year mb-2">Év kiválasztása</label>
                         <select name="year" id="year" class="form-control" onchange="this.form.submit()">
                             @foreach ($years as $y)
                                 <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
@@ -141,17 +155,19 @@
 
 
                 {{-- Oszlop kategória --}}
-                <select name="chartType" id="chartType" class="form-control mt-3" onchange="this.form.submit()">
-                    <option value="bar"      {{ request('chartType','bar') == 'bar' ? 'selected' : '' }}>Oszlopdiagram</option>
-                    <option value="pie"      {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
-                    <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram</option>
-                    <option value="line"     {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
+                <select name="chartType" id="chartType" class="form-control mb-3 mt-3" onchange="this.form.submit()">
+                    <option value="bar" {{ request('chartType') == 'bar' ? 'selected' : '' }}>Oszlopdiagram
+                    </option>
+                    <option value="pie" {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
+                    <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram
+                    </option>
+                    <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
                 </select>
 
                 {{-- Oszlop --}}
-                <div {{-- class="h-75" --}}>
-                    <h4 class="text-center">Oszlopdiagram</h4>
-                    <canvas id="myChart"></canvas>
+                <div>
+                    <h4 class="text-center">{{ request('chartType') }}</h4>
+                    <canvas id="myChart" style="padding: 5px; width:100%; height:100%"></canvas>
                 </div>
 
             </div>
@@ -161,39 +177,34 @@
             {{-- Sor lezárás --}}
         </div>
         <form action="/export" id="export" method="GET">
-            <button type="submit" id="animationBtn">Exportálás</button>
+            <button type="submit" class="animationBtn">Exportálás</button>
         </form>
         <form id="filtersForm" method="GET" action="/main">
             @csrf
-
-            {{-- <div class="row">
+            <div class="row">
                 <div class="col-md-3">
-                    <label>Kategória</label>
-                    <select name="category" class="form-control">
-                        <option value="">Összes</option>
-                        @foreach ($labels as $label)
-                            <option value="{{ $label }}"
-                                {{ ($selectedCategory ?? '') === $label ? 'selected' : '' }}>
-                                {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div> --}}
-
-                <div class="col-md-3">
-                    <label>Mettől</label>
-                    <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+                    <label class="mb-1">Mettől</label>
+                    <input type="number" name="from" min="1" max="31" class="form-control rounded-pill"
+                        value="{{ request('from', 1) }}">
                 </div>
 
                 <div class="col-md-3">
-                    <label>Meddig</label>
-                    <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+                    <label class="mb-1">Meddig</label>
+                    <input type="number" name="to" min="1" max="31" class="form-control rounded-pill"
+                        value="{{ request('to', 31) }}">
                 </div>
 
-                <div class="col-md-3 d-flex align-items-end">
-                    <button class="btn btn-primary w-100" id="animationBtn" type="submit">Szűrés</button>
+                <div class="col-md-3">
+                    <label class="mb-1">Kategória</label>
+                    <input type="text" name="category" class="form-control rounded-pill" placeholder="pl.: Élelmiszer"
+                        value="{{ ucfirst(request('category')) }}">
+                </div>
+
+                <div class="col-md-3 d-flex align-items-end pt-3">
+                    <button class="btn btn-primary w-100 animationBtn" type="submit">Szűrés</button>
                 </div>
             </div>
+
         </form>
 
         <div class="mt-3">
@@ -201,12 +212,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
+                        <h2 class="text-center pb-3">{{ ucfirst($monthStart->translatedFormat('F')) }}</h2>
                         <table class="table table bordered">
                             <tr>
                                 <th>Összeg</th>
                                 <th>Honnan</th>
-                                <th>Leíras</th>
-                                <th>Kategoria</th>
+                                <th>Leírás</th>
+                                <th>Kategória</th>
                                 <th>Rendszeres</th>
                                 <th>Dátum</th>
                                 <th>Módosítás</th>
@@ -229,8 +241,8 @@
                                     <td>{{ date_format(date_create($szamlak->datum), 'Y. m. d') }}</td>
                                     <td class="text-center"> <a href="/mainmod/{{ $szamlak->szamla_id }}"> <i
                                                 class="bi bi-pencil-fill text-warning"></i> </a> </td>
-                                    <td class="text-center"> <a href="/mainexit/{{ $szamlak->szamla_id }}"> <i
-                                                class="bi bi-trash-fill text-danger"></i> </a> </td>
+                                    <td class="text-center"> <button class="delBtn" onclick="return confirm('Biztosan törli a költséget/bevételt?')"><a href="/mainexit/{{ $szamlak->szamla_id }}"> <i
+                                                class="bi bi-trash-fill text-danger"></i> </a></button> </td>
                                 </tr>
                             @endforeach
                         </table>
@@ -238,50 +250,59 @@
                     <div class="d-flex justify-content-center">
                         {{ $result->links('pagination::bootstrap-4') }}
                     </div>
-                    <button id="animationBtn"><a href="/add" id="animationA" class="btn btn-dark">Hozzáadás</a></div>
+                    <div class="row mt-3">
+                        <div class="col-6 d-flex align-items-center">
+                            <form action="/export" method="GET" class="m-0">
+                                <button type="submit" class="btn btn-dark animationBtn">Exportálás</button>
+                            </form>
+                        </div>
+
+                        <div class="col-6 d-flex justify-content-end align-items-center">
+                            <a href="/add" class="btn btn-dark animationBtn">Hozzáadás</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
-</main>
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
 
-<script>
-    //a ??-el lehet üres is, azaz ha más formot küldünk, akkor nem fog összeomlani hogy nem kapta meg
-    let labels = {!! json_encode($labels ?? []) !!};
-    let data   = {!! json_encode($data ?? []) !!};
+    <script>
+        //a ??-el lehet üres is, azaz ha más formot küldünk, akkor nem fog összeomlani hogy nem kapta meg
+        let labels = {!! json_encode($labels ?? []) !!};
+        let data = {!! json_encode($data ?? []) !!};
 
-    let spent = [];
-    let income = [];
-    let userData = [];
-    let compData = [];
-    @if(!empty($monthly))
-        labels = @json($monthly->keys()->values());
-        data   = @json($monthly->values());
-    @endif
+        let spent = [];
+        let income = [];
+        let userData = [];
+        let compData = [];
+        @if (!empty($monthly))
+            labels = @json($monthly->keys()->values());
+            data = @json($monthly->values());
+        @endif
 
-    @if(!empty($spent))
-        labels = @json($spent->keys()->values());
-        spent = @json($spent->values());
-        income = @json($income->values());
-    @endif
-    @if(!empty($budgetComparison))
-        labels = @json($userExpenses->keys()->values());
-        userData = @json($userExpenses->values());
-        compData = @json($budgetComparison->values());
-    @endif
+        @if (!empty($spent))
+            labels = @json($spent->keys()->values());
+            spent = @json($spent->values());
+            income = @json($income->values());
+        @endif
+        @if (!empty($budgetComparison))
+            labels = @json($userExpenses->keys()->values());
+            userData = @json($userExpenses->values());
+            compData = @json($budgetComparison->values());
+        @endif
 
-    const isMonthly     = @json(!empty($monthly));
-    const isSpentIncome = @json(!empty($spent));
-    const isComparison  = @json(!empty($budgetComparison));
-    // $(document).on('click','.deleteSpending',function(){
-    //     var programID=$(this).attr('data-programid');
-    //     $('#app_id').val(programID);
-    //     $('#question').append(programID+' ?');
-    //     $('#applicantDeleteModal').modal('show');
-    // });
-</script>
+        const isMonthly = @json(!empty($monthly));
+        const isSpentIncome = @json(!empty($spent));
+        const isComparison = @json(!empty($budgetComparison));
+        // $(document).on('click','.deleteSpending',function(){
+        //     var programID=$(this).attr('data-programid');
+        //     $('#app_id').val(programID);
+        //     $('#question').append(programID+' ?');
+        //     $('#applicantDeleteModal').modal('show');
+        // });
+    </script>
 @endsection

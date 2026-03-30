@@ -13,10 +13,13 @@ h2, h3, h4, label{
     color: white;
 }
 
+a:hover {
+    color: white;
+}
 
 /* https://www.youtube.com/watch?v=m4NUID4kDyo */
 
-#animationBtn {
+.animationBtn {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
     color: white;
     background-size: 200%;
@@ -25,12 +28,26 @@ h2, h3, h4, label{
     border-radius: 10px;
 }
 
-#animationBtn:hover {
+.animationBtnDel {
+    background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(179, 0, 0) 50%);
+    color: white;
+    background-size: 200%;
+    transition: 0.3s ease-out;
+    border: 2px solid rgb(53, 75, 240);
+    border-radius: 10px;
+}
+
+.animationBtnDel:hover {
+    background-position: right;
+    border: 2px solid rgb(179, 0, 0);
+}
+
+.animationBtn:hover {
     background-position: right;
     border: 2px solid rgb(165, 1, 187);
 }
 
-#animationA {
+.animationA {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
     color: white;
     background-size: 200%;
@@ -38,7 +55,7 @@ h2, h3, h4, label{
     border: none;
 }
 
-#animationA:hover {
+.animationA:hover {
     background-position: right;
         border: 2px solid rgb(165, 1, 187);
 }

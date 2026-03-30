@@ -9,13 +9,13 @@
         <div class="row justify-content-center">
             <div class="col-md-9 mb-3">
                 @if (session('success'))
-                    <div class="alert alert-success text-success text-center w-50 py-1 mx-auto">
+            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
                         <i class="bi bi-check-circle-fill">
                             {{ session('success') }}
                         </i>
                     </div>
                 @elseif (session('unsuccessful'))
-                    <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto">
+            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
                         <i class="bi bi-exclamation-triangle-fill">
                             {{ session('unsuccessful') }}
                         </i>
@@ -48,7 +48,7 @@
                         @enderror
                     </div>
 
-                    <button class="btn btn-primary mt-3" type="submit" id="animationBtn">Vélemény küldése</button>
+                    <button class="btn btn-primary mt-3 animationBtn" type="submit">Vélemény küldése</button>
                 </form>
             </div>
         </div>

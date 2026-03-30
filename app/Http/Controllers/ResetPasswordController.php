@@ -17,28 +17,37 @@ use Illuminate\Support\Facades\Auth;
 class ResetPasswordController extends Controller
 {
     public function SendLink(Request $req) {
-      $req->validate(['email' => 'required|email']);
+      $req->validate([
+        'email' => 'required|email'
+        ], [
+        "required" => "Adja meg az email címet!",
+        "email" => "Az email címnek meg kell felelnie a megfelelő formátumnak, pl.: walletmaster00@gmail.com!"
+      ]);
 
-    //jelszó visszaállítás linket küld a felhasználó email címére
-    //auth.php-ból tudja a Laravel alapból, hogy kinek kell küldeni linket
-    $status = Password::sendResetLink(
-        $req->only('email')
-    );
+        //jelszó visszaállítás linket küld a felhasználó email címére
+        //auth.php-ból tudja a Laravel alapból, hogy kinek kell küldeni linket
+        $status = Password::sendResetLink(
+            $req->only('email')
+        );
 
-    return $status === Password::ResetLinkSent
-        ? back()->with(['status' => __($status)])
-        : back()->withErrors(['email' => __($status)]);
+            if ($status == Password::ResetLinkSent) {
+                return back()->with(["success" => "Sikeres új jelszó igénylés!"]);
+            } else {
+                return back()->with([
+                    "unsuccessful" => "Sikertelen jelszóigénylés, kérjük próbálja újra."
+                ]);
+            }
     }
     public function PasswordReset(Request $req) {
     $req->validate([
         'token' => 'required',
         'email' => 'required|email',
         'password' => ['required','confirmed', PasswordRule::min(8)
-                                        ->letters()
-                                        ->numbers()
-                                        ->mixedCase()
-                                        ->symbols()
-                                        ->uncompromised()],
+                                                            ->letters()
+                                                            ->numbers()
+                                                            ->mixedCase()
+                                                            ->symbols()
+                                                            ->uncompromised()],
     ], [
         'password.min'          => 'A jelszónak legalább 8 karakternek kell lennie!',
         'password.letters'      => 'A jelszónak betűt kell tartalmaznia!',
@@ -61,8 +70,11 @@ class ResetPasswordController extends Controller
         }
     );
 
-   return $status === Password::PasswordReset
-        ? redirect('login')->with(['success' => "Sikeresen megváltoztatta jelszavát!"])
-        : redirect('forgot-password')->with(['unsuccessful' => "Sikertelen jelszómódosítás."]);
+        if($status == Password::PasswordReset) {
+            return redirect('login')->with(['success' => "Sikeresen megváltoztatta jelszavát!"]);
+        }
+        else {
+            return redirect('forgot-password')->with(['unsuccessful' => "Sikertelen jelszómódosítás."]);
+        }
     }
 }

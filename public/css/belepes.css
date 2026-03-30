@@ -38,7 +38,7 @@ label{
 
 /* https://www.youtube.com/watch?v=m4NUID4kDyo */
 
-#animationBtn {
+.animationBtn {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
     color: white;
     background-size: 200%;
@@ -47,18 +47,30 @@ label{
     border-radius: 10px;
 }
 
-#animationBtn:hover {
+.animationBtn:hover {
     background-position: right;
     border: 2px solid rgb(165, 1, 187);
 }
 
-#animationA {
+.animationA {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
     background-size: 200%;
     transition: 0.3s ease-out;
     border: none;
 }
 
-#animationA:hover {
+.animationA:hover {
     background-position: right;
 }
+
+a:hover {
+    color: rgb(100, 154, 255);
+}
+
+@media screen and (max-width: 767px) {
+  .btn {
+    display: flex;
+    justify-content: center;
+  }
+}
+

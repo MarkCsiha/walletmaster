@@ -2,13 +2,13 @@
 @section('content')
     <main class="container pb-2">
         @if (session('success'))
-            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto">
+            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
                 <i class="bi bi-check-circle-fill">
                     {{ session('success') }}
                 </i>
             </div>
         @elseif (session('unsuccessful'))
-            <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto">
+            <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
                 <i class="bi bi-exclamation-triangle-fill">
                     {{ session('unsuccessful') }}
                 </i>
@@ -56,13 +56,13 @@
             @csrf
             <input type="hidden" name="action" value="elfogadva">
 
-            <button class="btn btn-success" type="submit" name="accept" id="animationBtn">Elfogadom</button>
+            <button class="btn btn-success animationBtn" type="submit" name="accept">Elfogadom</button>
         </form>
         <form class="card-body" action="/debts/{{ $userDebt->tartozasok_id }}/reject" method="post">
             @csrf
             <input type="hidden" name="action" value="elutasítva">
 
-            <button class="btn btn-danger" type="submit" name="reject" id="animationBtn">Visszautasítom</button>
+            <button class="btn btn-danger animationBtn" type="submit" name="reject">Visszautasítom</button>
         </form>
     </main>
 @endsection

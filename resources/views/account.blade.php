@@ -1,16 +1,3 @@
-{{-- @extends('layout')
-@section('content')
-    <main class="container pb-2">
-        <h1 class="text-center py-3">Fiókbeállítások</h1>
-            <h2 class="text-center py-3">{{ Auth::user()->vez_nev.' '.Auth::user()->ker_nev }} </h2>
-
-            <p class="text-center">
-                <a href="/kijelentkezes" class="text-decoration-none">Kijelentkezés</a>
-            </p>
-    </main>
-@endsection --}}
-
-
 @extends('layout')
 @push('account-css')
     <link rel="stylesheet" href="{{ asset('css/account.css') }}">
@@ -18,19 +5,19 @@
 @section('content')
     <div class="container py-5">
         @if (session('success'))
-            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto">
+            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
                 <i class="bi bi-check-circle-fill">
                     {{ session('success') }}
                 </i>
             </div>
         @elseif (session('unchanged'))
-            <div class="alert alert-primary text-primary text-center w-50 py-1 mx-auto">
+            <div class="alert alert-primary text-primary text-center w-50 py-1 mx-auto mt-3">
                 <i class="bi bi-dash-circle-fill">
                     {{ session('unchanged') }}
                 </i>
             </div>
         @elseif (session('unsuccessful'))
-            <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto">
+            <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
                 <i class="bi bi-exclamation-triangle-fill">
                     {{ session('unsuccessful') }}
                 </i>
@@ -45,7 +32,7 @@
                         <h4>Személyes adatok</h4>
                         <div class="mb-3">
                             <label for="firstName" class="form-label">Vezetéknév: </label>
-                            <input type="text" class="form-control" id="firstName" name="firstName"
+                            <input type="text" class="form-control rounded-pill" id="firstName" name="firstName"
                                 value="{{ Auth::user()->vez_nev }}">
                             @error('firstName')
                                 <p class="text-danger">{{ $message }}</p>
@@ -53,7 +40,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="lastName" class="form-label">Keresztnév: </label>
-                            <input type="text" class="form-control" id="lastName" name="lastName"
+                            <input type="text" class="form-control rounded-pill" id="lastName" name="lastName"
                                 value="{{ Auth::user()->ker_nev }}">
                             @error('lastName')
                                 <p class="text-danger">{{ $message }}</p>
@@ -61,7 +48,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email cím: </label>
-                            <input type="email" class="form-control" id="email" name="email"
+                            <input type="email" class="form-control rounded-pill" id="email" name="email"
                                 value="{{ old('email', Auth::user()->email) }}">
                             @error('email')
                                 <p class="text-danger">{{ $message }}</p>
@@ -69,7 +56,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">Felhasználónév: </label>
-                            <input type="text" class="form-control" id="username" name="username"
+                            <input type="text" class="form-control rounded-pill" id="username" name="username"
                                 value="{{ Auth::user()->felhasznalonev }}">
                             @error('username')
                                 <p class="text-danger">{{ $message }}</p>
@@ -78,12 +65,11 @@
 
                         <div class="mb-3">
                             <label for="phone" class="form-label">Telefonszám: </label>
-                            <input type="tel" class="form-control" id="phone" name="phone"
+                            <input type="tel" class="form-control rounded-pill" id="phone" name="phone"
                                 value="{{ Auth::user()->telszam }}">
                         </div>
 
-                        <button class="btn btn-primary" type="submit" name="mentes" value="mentes"
-                            id="animationBtn">Mentés</button>
+                        <button class="btn btn-primary animationBtn" type="submit" name="mentes" value="mentes">Változtatások mentése</button>
                     </div>
                 </div>
             </form>
@@ -97,7 +83,7 @@
                         <h4>Jelszó megváltoztatása</h4>
                         <div class="mb-3">
                             <label for="currentpassword" class="form-label">Jelenlegi jelszó: </label>
-                            <input type="password" class="form-control @error('currentpassword') is-invalid @enderror"
+                            <input type="password" class="form-control @error('currentpassword') is-invalid @enderror rounded-pill"
                                 id="currentpassword" name="currentpassword">
                             @error('currentpassword')
                                 <p class="text-danger">{{ $message }}</p>
@@ -105,7 +91,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="newpassword" class="form-label">Új jelszó: </label>
-                            <input type="password" class="form-control @error('newpassword') is-invalid @enderror"
+                            <input type="password" class="form-control @error('newpassword') is-invalid @enderror rounded-pill"
                                 id="newpassword" name="newpassword">
                             @error('newpassword')
                                 <p class="text-danger">{{ $message }}</p>
@@ -115,7 +101,7 @@
                         <div class="mb-3">
                             <label for="newpassword_confirmation" class="form-label">Új jelszó megerősítése: </label>
                             <input type="password"
-                                class="form-control @error('newpassword_confirmation') is-invalid @enderror"
+                                class="form-control @error('newpassword_confirmation') is-invalid @enderror rounded-pill"
                                 name="newpassword_confirmation" id="newpassword_confirmation">
                             @error('newpassword_confirmation')
                                 <p class="text-danger">{{ $message }}</p>
@@ -123,8 +109,7 @@
                             <i class="bi bi-eye" id="show-password"></i>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" name="mentes" value="mentes"
-                            id="animationBtn">Mentés</button>
+                        <button type="submit" class="btn btn-primary animationBtn" name="mentes" value="mentes">Változtatások mentése</button>
                     </div>
                 </div>
             </form>
@@ -134,7 +119,7 @@
             <div class="row-mb-4">
                 <div class="col-mb-6">
                     <form action="" method="post">
-                        <button type="button" class="btn btn-primary mb-2" id="animationBtn">
+                        <button type="button" class="btn btn-primary mb-2 animationBtn">
                             <a href="/logout" id="animationA">Kijelentkezés</a>
                         </button>
                     </form>
@@ -144,9 +129,8 @@
                     <form action="{{ route('user.destroy', Auth::id()) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Biztosan törli felhasználói fiókját?')"
-                            id="animationBtn">Felhasználói fiók törlése</button>
+                        <button type="submit" class="btn btn-danger animationBtnDel"
+                            onclick="return confirm('Biztosan törli felhasználói fiókját?')">Felhasználói fiók törlése</button>
                     </form>
                 </div>
             </div>

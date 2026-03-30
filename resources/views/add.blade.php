@@ -7,7 +7,7 @@
         <section>
             <h1>Kiadás/bevétel hozzáadása</h1>
             @if (session('success'))
-                <div class="alert alert-success text-success text-center w-50 py-1 mx-auto">
+                <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
                     <i class="bi bi-check-circle-fill">
                         {{ session('success') }}
                     </i>
@@ -21,7 +21,7 @@
                             <form action="/import" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="file" name="file" class="form-control" accept=".csv,.xlsx" required>
-                                <button type="submit" class="btn btn-primary mt-2" id="animationBtn">Adatok
+                                <button type="submit" class="btn btn-primary mt-2 animationBtn">Adatok
                                     importálása</button>
                             </form>
                             <form action="/add" method="post">
@@ -94,7 +94,7 @@
                                     </select>
                                 </div>
 
-                                <button class="btn btn-dark mt-4" type="submit" id="animationBtn">Elküld</button>
+                                <button class="btn btn-dark mt-4 animationBtn" type="submit">Elküld</button>
                             </form>
                         </div>
                     </div>

@@ -78,7 +78,7 @@ button{
 
 /* https://www.youtube.com/watch?v=m4NUID4kDyo */
 
-#animationBtn {
+.animationBtn {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
     color: white;
     background-size: 200%;
@@ -87,12 +87,12 @@ button{
     border-radius: 10px;
 }
 
-#animationBtn:hover {
+.animationBtn:hover {
     background-position: right;
     border: 2px solid rgb(165, 1, 187);
 }
 
-#animationA {
+.animationA {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
     color: white;
     background-size: 200%;
@@ -100,10 +100,13 @@ button{
     border: none;
 }
 
-#animationA:hover {
+.animationA:hover {
     background-position: right;
 }
 
+a:hover {
+    color: rgb(100, 154, 255);
+}
 
 
 
@@ -114,9 +117,3 @@ button{
     border: 1px solid black;
     padding: 0;
 }
-
-#csik{
-    width: 100%;
-    height: 100%;
-    background: greenyellow;
-} */

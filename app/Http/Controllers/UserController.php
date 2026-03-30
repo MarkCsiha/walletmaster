@@ -33,8 +33,8 @@ class UserController extends Controller
             'firstName'             => 'required|max:30',
             'lastName'              => 'required|max:30',
             'username'              => 'required|min:3|max:30|unique:users,felhasznalonev|regex:/^[a-zA-Z0-9._]+$/',
-            'email'                 => 'required|email|unique:users,email',
-            //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
+            'email' => ['required', 'email:rfc,dns', 'unique:users,email'],
+             //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
             'phone'                 => ['required', 'unique:users,telszam', 'regex:/^(?:\+36|06)(20|30|50|70)\d{3}\d{4}$/'],
             'password'              => ['required', 'confirmed', Password::min(8)
                 ->letters()
@@ -115,8 +115,7 @@ class UserController extends Controller
             return redirect("/main")->with([
                 "success" => "Sikeresen belépett!"
             ]);
-        }
-        else if (Auth::attempt([$credentials => $req->loginData, 'password' => $req->password])) {
+        } else if (Auth::attempt([$credentials => $req->loginData, 'password' => $req->password])) {
             return redirect("/login")->with([
                 "unsuccessful" => "Felhasználói fiókja törlésre került!"
             ]);
@@ -184,10 +183,10 @@ class UserController extends Controller
             //https://regex101.com/library/SxCdMO?orderBy=RELEVANCE&search=email+&filterFlavors=pcre2
             //regex alkalmazását követően összeomlik a rendszer, nem frissül semmi!
             'email'      => [
-                "email",
+                "email:rfc,dns",
                 // "email:rfc,dns",
                 //Rule::unique('users', 'email')->ignore(Auth::id())/*,"email:rfc,dns"],*/
-                "unique:users,email," . Auth::user()->id
+                "unique:users,email,". Auth::user()->id
             ],
             'username'        => [
                 'min:3',
@@ -211,6 +210,8 @@ class UserController extends Controller
             'lastName.max'              => 'Maximum 30 karakter lehet!',
             'username.max'              => "Maximum 30 karakter lehet!",
             'username.unique'           => "Ez a felhasználónév foglalt.",
+            "email.rfc"                 => "Az email címnek tartalmaznia kell @ karaktert!",
+            "email.email"                 => "Az email címnek meg kell felelnie a helyes email cím formátumnak, pl.: kisspista@walletmaster.com",
             "email.unique"              => "Ez az email cím foglalt.",
             'email.regex'               => "Az email címnek tartalmaznia kell",
             'phone.regex'               => 'A telefonszámnak meg kell felelnie a telefonszám formátumnak, például: +36701234567.',

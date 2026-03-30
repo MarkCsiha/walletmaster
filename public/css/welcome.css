@@ -16,7 +16,7 @@ body{
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 4px 30px rgba(255, 255, 0, 0.1);
     backdrop-filter: blur(5px);
-    color: rgb(18, 0, 123);
+    color: white;
 }
 
 .card.card-body{
@@ -32,5 +32,5 @@ header{
 }
 
 h1{
-    color: rgb(22, 7, 107);
+    color: white;
 }
