@@ -177,7 +177,7 @@
             {{-- Sor lezárás --}}
         </div>
         <form action="/export" id="export" method="GET">
-            <button type="submit" class="animationBtn">Exportálás</button>
+            <button type="submit" class="animationBtn rounded-pill">Adatok exportálása</button>
         </form>
         <form id="filtersForm" method="GET" action="/main">
             @csrf
@@ -201,7 +201,7 @@
                 </div>
 
                 <div class="col-md-3 d-flex align-items-end pt-3">
-                    <button class="btn btn-primary w-100 animationBtn" type="submit">Szűrés</button>
+                    <button class="btn btn-primary w-100 animationBtn rounded-pill" type="submit">Szűrés</button>
                 </div>
             </div>
 
@@ -211,7 +211,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table table-responsive table-hover">
                         <h2 class="text-center pb-3">{{ ucfirst($monthStart->translatedFormat('F')) }}</h2>
                         <table class="table table bordered">
                             <tr>
@@ -253,12 +253,12 @@
                     <div class="row mt-3">
                         <div class="col-6 d-flex align-items-center">
                             <form action="/export" method="GET" class="m-0">
-                                <button type="submit" class="btn btn-dark animationBtn">Exportálás</button>
+                                <button type="submit" class="btn btn-dark animationBtn rounded-pill">Exportálás</button>
                             </form>
                         </div>
 
                         <div class="col-6 d-flex justify-content-end align-items-center">
-                            <a href="/add" class="btn btn-dark animationBtn">Hozzáadás</a>
+                            <a href="/add" class="btn btn-dark animationBtn rounded-pill">Hozzáadás</a>
                         </div>
                     </div>
                 </div>

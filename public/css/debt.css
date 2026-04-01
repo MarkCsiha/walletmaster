@@ -89,6 +89,10 @@ th, td {
     background-position: right;
 }
 
+a:hover {
+    color: rgb(100, 154, 255);
+}
+
 @media screen and (max-width: 767px) {
   #button {
     display: flex;

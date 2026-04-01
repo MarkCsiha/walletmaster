@@ -18,7 +18,7 @@
             </div>
         @endif
         <div class="card table-responsive">
-       <div class="card-body">
+            <div class="card-body">
 
                 <table class="table table bordered table-hover table-responsive">
                     <tr>
@@ -68,6 +68,7 @@
                         </tr>
                     @endforeach
                 </table>
+                <a href="/debt/pending" class="mx-auto debtReqA">Más felhasználóktól kapott tartozási kérelmek</a>
             </div>
         </div>
 
@@ -80,7 +81,7 @@
                                     @endif
                                 </td>
                             </form> --}}
-        <a href="/debt/pending">Más felhasználóktól kapott tartozási kérelmek</a>
+
         <div class="card mt-3">
             <div class="card-body">
                 <form id="debtForm" method="POST" action="/debt">
@@ -92,25 +93,25 @@
                     </select>
                     <br>
                     <label for="name" class="form-label mt-3">Mi a neve?</label>
-                    <input class="form-control @error('name') is-invalid @enderror rounded-pill" type="text" name="name"
-                        id="name">
+                    <input class="form-control @error('name') is-invalid @enderror rounded-pill" type="text"
+                        name="name" id="name">
 
                     <label for="username" class="form-label mt-3">Mi a felhasználóneve? (Ha nem WalletMaster felhasználó,
                         kérjük hagyja üresen)</label>
-                    <input type="text" class="form-control @error('username') is-invalid @enderror rounded-pill" type="text"
-                        name="username" id="username">
+                    <input type="text" class="form-control @error('username') is-invalid @enderror rounded-pill"
+                        type="text" name="username" id="username">
 
                     <label for="debtAmount" class="form-label mt-3">Összeg: </label>
-                    <input type="number" class="form-control @error('amount') is-invalid @enderror rounded-pill" name="debtAmount"
-                        id="debtAmount">
+                    <input type="number" class="form-control @error('amount') is-invalid @enderror rounded-pill"
+                        name="debtAmount" id="debtAmount">
 
                     <label for="description" class="form-label mt-3">Leírás, ha szükséges: </label>
-                    <input type="textbox" class="form-control @error('description') is-invalid @enderror rounded-pill" type="text"
-                        name="description" id="description">
+                    <input type="textbox" class="form-control @error('description') is-invalid @enderror rounded-pill"
+                        type="text" name="description" id="description">
 
                     <label for="debtDate" class="form-label mt-3">Dátum: </label>
-                    <input type="date" class="form-control @error('date') is-invalid @enderror rounded-pill" name="debtDate"
-                        id="debtDate">
+                    <input type="date" class="form-control @error('date') is-invalid @enderror rounded-pill"
+                        name="debtDate" id="debtDate">
 
                     <button type="submit" class="btn btn-dark mt-3 animationBtn">Tartozás felvitele</button>
                 </form>

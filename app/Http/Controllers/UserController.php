@@ -197,12 +197,12 @@ class UserController extends Controller
             //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
             'phone'               => [Rule::unique('users', 'telszam')->ignore(Auth::id())],
             'currentpassword',
-            "newpassword"                   => ["confirmed", Password::min(8)
-                ->letters()
-                ->numbers()
-                ->mixedCase()
-                ->symbols()
-                ->uncompromised()],
+            "newpassword"         => ["confirmed", Password::min(8)
+                                                            ->letters()
+                                                            ->numbers()
+                                                            ->mixedCase()
+                                                            ->symbols()
+                                                            ->uncompromised()],
             //Tesztjelszó: #Palmafa123
             "newpassword_confirmation"
         ], [
@@ -251,7 +251,7 @@ class UserController extends Controller
         //https://laravel.com/docs/12.x/eloquent#examining-attribute-changes
         //megnézi hogy történt-e változás a data változóban
         if (!$data->isDirty()) {
-            return redirect('/account')->with('unchanged', 'Nem történt változás.');
+            return redirect('/account')->with(['unchanged' => 'Nem történt változás a fiók adataiban.']);
         }
 
         $data->save();
@@ -270,7 +270,11 @@ class UserController extends Controller
                 Auth::logout();
                 return redirect(to: '/main')->with(['success' => "Sikeres jelszómódosítás!"]);
             }
-        } else {
+        }
+        else if (!$data->isDirty()) {
+            return redirect('/account')->with('unchanged', 'Nem történt változás a fiók adataiban.');
+        }
+        else {
             return redirect('/account')->with(['unsuccessful' => "Sikertelen jelszómódosítás!"]);
         }
     }

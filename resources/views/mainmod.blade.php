@@ -71,11 +71,11 @@
                                         @if ($result->fix == 'nem')
                                             <option value="nem">Nem</option>
                                             <option value="havi">Havi</option>
-                                            <option value="feleves">Fél éves</option>
+                                            <option value="feleves">Féléves</option>
                                             <option value="eves">Éves</option>
                                         @elseif ($result->fix == 'havi')
                                             <option value="havi">Havi</option>
-                                            <option value="feleves">Fél éves</option>
+                                            <option value="feleves">Féléves</option>
                                             <option value="eves">Éves</option>
                                             <option value="nem">Nem</option>
                                         @elseif ($result->fix == 'feleves')
@@ -104,14 +104,14 @@
                                     <select class="form-select rounded-pill" name="tipus" id="tipus"
                                         data-old="{{ old('tipus') }}">
                                         @if ($result->tipus == 0)
-                                            <option value="kiadas" {{ old('tipus') == 'kiadas' ? 'selected' : '' }}>Kiadás
+                                            <option value="kiadas" value="{{ old('tipus') == 'kiadas' ? 'selected' : '' }}">Kiadás
                                             </option>
-                                            <option value="bevetel" {{ old('tipus') == 'bevetel' ? 'selected' : '' }}>Bevétel
+                                            <option value="bevetel" value="{{ old('tipus') == 'bevetel' ? 'selected' : '' }}">Bevétel
                                             </option>
                                         @else
-                                            <option value="bevetel" {{ old('tipus') == 'bevetel' ? 'selected' : '' }}>Bevétel
+                                            <option value="bevetel" value="{{ old('tipus') == 'bevetel' ? 'selected' : '' }}">Bevétel
                                             </option>
-                                            <option value="kiadas" {{ old('tipus') == 'kiadas' ? 'selected' : '' }}>Kiadás
+                                            <option value="kiadas" value="{{ old('tipus') == 'kiadas' ? 'selected' : '' }}">Kiadás
                                             </option>
                                         @endif
                                         {{-- <option value="0">---</option> --}}
@@ -121,7 +121,7 @@
                                 <div class="mt-2">
                                     <label class="form-label mb-2" for="kategoria">Kategória</label>
                                     <select class="form-select rounded-pill" name="kategoria" id="kategoria"
-                                        data-old="{{ old('kategoria') }}">
+                                        value="{{ old('kategoria') }}">
                                         <option value="{{ $result->kategoria }}">{{ $result->kategoria }}</option>
                                         @if ($result->tipus == 0)
                                             <option value="Élelmiszer">Élelmiszer</option>

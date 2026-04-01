@@ -69,7 +69,7 @@
                                 value="{{ Auth::user()->telszam }}">
                         </div>
 
-                        <button class="btn btn-primary animationBtn" type="submit" name="mentes" value="mentes">Változtatások mentése</button>
+                        <button class="btn btn-primary animationBtn rounded-pill" type="submit" name="mentes" value="mentes">Változtatások mentése</button>
                     </div>
                 </div>
             </form>
@@ -109,7 +109,7 @@
                             <i class="bi bi-eye" id="show-password"></i>
                         </div>
 
-                        <button type="submit" class="btn btn-primary animationBtn" name="mentes" value="mentes">Változtatások mentése</button>
+                        <button type="submit" class="btn btn-primary animationBtn rounded-pill" name="mentes" value="mentes">Jelszó változtatás mentése</button>
                     </div>
                 </div>
             </form>
@@ -119,7 +119,7 @@
             <div class="row-mb-4">
                 <div class="col-mb-6">
                     <form action="" method="post">
-                        <button type="button" class="btn btn-primary mb-2 animationBtn">
+                        <button type="button" class="btn btn-primary mb-2 animationBtn rounded-pill">
                             <a href="/logout" id="animationA">Kijelentkezés</a>
                         </button>
                     </form>
@@ -129,7 +129,7 @@
                     <form action="{{ route('user.destroy', Auth::id()) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger animationBtnDel"
+                        <button type="submit" class="btn btn-danger animationBtnDel rounded-pill"
                             onclick="return confirm('Biztosan törli felhasználói fiókját?')">Felhasználói fiók törlése</button>
                     </form>
                 </div>

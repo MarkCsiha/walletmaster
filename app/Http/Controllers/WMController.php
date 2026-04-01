@@ -186,6 +186,7 @@ class WMController extends Controller
                                             SUM(osszeg) as monthly_total")
                 ->where('user_id', Auth::id())
                 ->whereYear('datum', $year)
+                ->where("tipus", 0)
                 ->groupBy(['month_number', 'month_name'])
                 ->orderBy('month_number')
                 ->pluck('monthly_total', 'month_name');
@@ -431,17 +432,17 @@ class WMController extends Controller
     {
         $req->validate([
             "osszeg"        =>  "required|numeric",
-            "honnan"        =>  "required",
+            "honnan"        =>  "required|max:50",
             "leiras"        =>  "max:200",
             "datum"         =>  "required|date|date_format:Y-m-d|before_or_equal:today",
             "fix"           =>  "required",
             "tipus"         =>  "required|not_in:0",
         ], [
-            "*.required"            =>  "Töltse ki a mezőt!",
-            "honnan.max"            =>  "Maximum 255 karakter adhat meg!",
+            "*.required"            =>  "Kötelező mező!",
+            "honnan.max"            =>  "Maximum 255 karaktert adhat meg!",
             "osszeg.numeric"        =>  "Az összeget számmal adja meg!",
             "datum.date"            =>  "Létező dátumot adjon meg!",
-            "datum.date_format"     =>  "A dátum helyes formátuma éééé-hh-nn",
+            "datum.date_format"     =>  "A dátum helyes formátuma éééé-hh-nn!",
             "datum.before_or_equal" =>  "Ne adjon meg jövőbeli dátumot!"
         ]);
 
@@ -571,7 +572,7 @@ class WMController extends Controller
     public function ExportExcel()
     {
         //https://brainlet.medium.com/format-dates-with-carbon-in-laravel-583656a77940
-        return Excel::download(new SpendingExport(), "koltsegvetesi_adat_" . Carbon::today()->toDateString() . ".xlsx", null, [
+        return Excel::download(new SpendingExport(), "koltsegvetesi_adat_".Carbon::today()->toDateString().".xlsx", null, [
             "include_charts" => true,
         ]);
     }
@@ -605,9 +606,9 @@ class WMController extends Controller
             "osszeg"            =>  "required",
             "hatarido"          =>  "required|date|date_format:Y-m-d",
         ], [
-            "*.required"                =>  "Kérem töltse ki a mezőt!",
+            "*.required"                =>  "Kötelező mező!",
             // "*.min"                     =>  "A minimum megadható összeg: 5000!",
-            "nev.unique"                =>  "Már létezik ilyen nevű célja!", //"Már létezik ". nev ." nevű célja!",
+            "nev.unique"                =>  "Már létezik ".$req->nev." nevű célja!", //"Már létezik ". nev ." nevű célja!",
             "hatarido.date"             =>  "Valós dátumot adjon meg!",
             "hatarido.date_format"      =>  "A dátum helyes formátuma éééé-hh-nn!",
         ]);
@@ -645,7 +646,7 @@ class WMController extends Controller
         ], [
             "*.required"                =>  "Kérem töltse ki a mezőt!",
             // "*.min"                     =>  "A minimum megadható összeg: 5000!",
-            "nev.unique"                =>  "Már létezik ilyen nevű célja!", //"Már létezik ". nev ." nevű célja!",
+            "nev.unique"                =>  "Már létezik ".$req->nev." nevű célja!", //"Már létezik ". nev ." nevű célja!",
             "hatarido.date"             =>  "Valós dátumot adjon meg!",
             "hatarido.date_format"      =>  "A dátum helyes formátuma éééé-hh-nn!",
             "statusz.in"                =>  "A cél státusza 'aktív', 'teljesítve', vagy 'törölve' lehet!"
