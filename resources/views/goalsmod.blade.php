@@ -41,7 +41,7 @@
                             <label class="form-label" for="statusz">Cél státusza:</label>
                             <select class="form-control rounded-pill" name="statusz" id="statusz">
                                 <option value="aktív">Aktív</option>
-                                <option value="kész">Teljesítve</option>
+                                <option value="teljesítve">Teljesítve</option>
                                 <option value="törölve">Törölve</option>
                             </select>
                             @error('hatarido')

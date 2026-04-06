@@ -7,7 +7,7 @@
         <div class="col-md-9">
             {{-- error --}}
         </div>
-        <div class="card table-responsive">
+        <div class="card table-responsive mt-3">
             <div class="col-md-9 text-center">
                 @if (session('success'))
                     <p class="text text-success text-center">{{ session('success') }}</p>
@@ -33,9 +33,9 @@
                         <tr>
                             <td>
                                 @if ($debt->tipus == 1)
-                                    <span class="text-danger">- {{ $debt->osszeg }} Ft</span>
+                                    <span class="minus">- {{ $debt->osszeg }} Ft</span>
                                 @else
-                                    <span class="text-success">+ {{ $debt->osszeg }} Ft</span>
+                                    <span class="plus">+ {{ $debt->osszeg }} Ft</span>
                                 @endif
                             </td>
 
@@ -46,9 +46,9 @@
                             <td>{{ $debt->leiras }}</td>
                             <td>
                                 @if ($debt->tipus == 1)
-                                    <span class="text-danger">Tartozás</span>
+                                    <span class="minus">Tartozás</span>
                                 @else
-                                    <span class="text-success">Másik fél</span>
+                                    <span class="plus">Másik fél</span>
                                 @endif
                             </td>
                             <td>{{ $debt->datum }}</td>

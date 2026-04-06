@@ -47,7 +47,7 @@
                                                     Teljesítve <span class="bi bi-check-square-fill text-success"></span>
                                                 @elseif ($cel->statusz == "aktív")
                                                     Aktív <span class=""></span>
-                                                @elseif ($cel->statusz == "kész")
+                                                @elseif ($cel->statusz == "teljesítve")
                                                     Teljesítve <span class="bi bi-check-square-fill text-success"></span>
                                                 @else
                                                     Törölve <span class="bi bi-x-circle-fill text-danger"></span>

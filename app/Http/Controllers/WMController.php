@@ -705,14 +705,13 @@ class WMController extends Controller
         $data->budzse = $req->osszeg;
         $data->hatarido = $req->hatarido;
         $data->modositas_datum = now()->format('Y-m-d');
-        if($req->cel_osszeg <= $req->budzse){
-            $data->statusz = "kész";
-        }
-        else{
-            $data->statusz = $req->statusz;
-        }
-
-
+        $data->statusz = $req->statusz;
+        // if($req->cel_osszeg <= $req->budzse){
+        //     $data->statusz = "aktív";
+        // }
+        // else{
+        //     $data->statusz = $req->statusz;
+        // }
         $data->Save();
         if(Auth::check()){
             return redirect("/goals")->with(["success" => "Sikeres célmódosítás!"]);
@@ -751,8 +750,8 @@ class WMController extends Controller
                 "has_limit" => koltseglimit::where("user_id", $user)->first(),
                 "sum_prices" => koltseglimit::join("users", "koltseg_limit.user_id", "users.id")
                                         ->join("szamla", "szamla.user_id", "users.id")
-                                        ->whereColumn("szamla.datum", ">=", "koltseg_limit.start_date")
-                                        ->whereColumn("szamla.datum", "<=", "koltseg_limit.finish_date")
+                                        ->whereColumn("szamla.datum", ">=", "koltseg_limit.start_datum")
+                                        ->whereColumn("szamla.datum", "<=", "koltseg_limit.vege_datum")
                                         ->sum("szamla.osszeg"),
 
 
@@ -776,8 +775,8 @@ class WMController extends Controller
         $data = new koltseglimit();
         $data->user_id = Auth::user()->id;
         $data->osszeg = $req->paylimit;
-        $data->start_date = $req->start_date;
-        $data->finish_date = $req->finish_date;
+        $data->start_datum = $req->start_date;
+        $data->vege_datum = $req->finish_date;
         $data->Save();
 
         if (Auth::check()) {

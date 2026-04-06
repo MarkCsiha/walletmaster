@@ -18,7 +18,7 @@
                                 <h3 class="fw-semibold mb-2">Költség limit:</h3>
 
                                 <p class="fs-4 fw-semibold mb-4">
-                                    {{ $result->osszeg - $sum_prices }} Ft maradt a {{ $result->osszeg }}-ből
+                                    {{ $result->osszeg - $sum_prices }} Ft maradt a(z) {{ $result->osszeg }}-ből
                                 </p>
 
                                 <div class="progress my-4" role="progressbar" aria-label="Basic example" aria-valuenow="50"
