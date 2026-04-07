@@ -20,30 +20,6 @@
                 </i>
             </div>
         @endif
-        {{-- <div id="applicantDeleteModal" class="modal modal-danger fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog" style="width:55%;">
-        <div class="modal-content">
-             <form action="{{ route('naptar', ['ym' => $prevYm]) }}" method="POST" class="remove-record-model">
-               {{ method_field('delete') }}
-               {{ csrf_field() }}
-
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h5 class="modal-title text-center" id="custom-width-modalLabel">Change Department Status</h5>
-            </div>
-            <div class="modal-body">
-                <h4 id="question">Are You sure want to delete </h4>
-                <input type="hidden" name="applicant_id" id="app_id">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger waves-effect remove-data-from-delete-form">Delete</button>
-            </div>
-
-             </form>
-        </div> --}}
-        {{-- </div>
-</div> --}}
         <form action="main" method="POST" id="budgetLimit">
             @csrf
             <input type="number" name="budgetLimit" id="budgetLimit" onsubmit="this.form.submit()">
@@ -176,9 +152,6 @@
 
             {{-- Sor lezárás --}}
         </div>
-        <form action="/export" id="export" method="GET">
-            <button type="submit" class="animationBtn rounded-pill">Adatok exportálása</button>
-        </form>
         <form id="filtersForm" method="GET" action="/main">
             @csrf
             <div class="row">

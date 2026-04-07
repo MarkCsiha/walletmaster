@@ -20,7 +20,7 @@
                     </i>
                 </div>
             @endif
-            <h1 class="text-center py-3">Belépés</h1>
+            <h1 class="text-center py-3">Bejelentkezés</h1>
             <div class="card w-75 mx-auto">
                 <form class="card-body" action="/login" method="post">
                     @csrf
@@ -36,7 +36,7 @@
                     <input class="form-control rounded-pill" @error('password') is-invalid @enderror type="password"
                         name="password" id="password">
                     <div class="btn">
-                        <button class="btn btn-primary mt-3 animationBtn" type="submit">Belépés</button>
+                        <button class="btn btn-primary mt-3 animationBtn rounded-pill" type="submit">Belépés</button>
                     </div>
 
                 </form>

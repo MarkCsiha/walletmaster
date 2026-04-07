@@ -72,16 +72,6 @@
             </div>
         </div>
 
-        {{-- <form action="/debts/{{ $debt->tartozasok_id }}/done" method="POST" id="debtDone">
-                                @csrf
-                                <td>
-                                    @if ($debt->statusz != 'rendezve')
-                                        <button type="submit" class="btn shadow-none"><i
-                                                class="bi bi-check-circle text-success"></i></button>
-                                    @endif
-                                </td>
-                            </form> --}}
-
         <div class="card mt-3">
             <div class="card-body">
                 <form id="debtForm" method="POST" action="/debt">
@@ -113,7 +103,7 @@
                     <input type="date" class="form-control @error('date') is-invalid @enderror rounded-pill"
                         name="debtDate" id="debtDate">
 
-                    <button type="submit" class="btn btn-dark mt-3 animationBtn">Tartozás felvitele</button>
+                    <button type="submit" class="btn btn-dark mt-3 animationBtn rounded-pill">Tartozás felvitele</button>
                 </form>
             </div>
         </div>

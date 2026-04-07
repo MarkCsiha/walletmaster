@@ -39,7 +39,7 @@
 
                                     <div class="row">
                                         <div class="col">
-                                            <a class="btn btn-primary mt-4 animationA" href="/goalsmod/{{$cel->cel_id}}">Módosítás</a>
+                                            <a class="btn btn-primary mt-4 animationA rounded-pill" href="/goalsmod/{{$cel->cel_id}}">Módosítás</a>
                                         </div>
                                         <div class="col mt-4">
                                             <p>
@@ -97,7 +97,7 @@
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
                                     <div class="btn">
-                                        <button class="btn btn-dark mt-4 animationBtn" type="submit">Létrehozás</button>
+                                        <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Létrehozás</button>
                                     </div>
                                 </form>
                             </div>

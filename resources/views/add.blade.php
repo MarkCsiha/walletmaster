@@ -21,7 +21,7 @@
                             <form action="/import" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="file" name="file" class="form-control" accept=".csv,.xlsx" required>
-                                <button type="submit" class="btn btn-primary mt-2 animationBtn">Adatok
+                                <button type="submit" class="btn btn-primary mt-2 animationBtn rounded-pill">Adatok
                                     importálása</button>
                             </form>
                             <form action="/add" method="post">
@@ -80,21 +80,15 @@
                                     </select>
                                 </div>
 
-                                @if (session('suggested_category'))
-                                    <div class="alert alert-info mt-3">
-                                        Javasolt kategória: <b>{{ session('suggested_category') }}</b>
-                                    </div>
-                                @endif
                                 <div class="mt-2">
                                     <label class="form-label mb-2" for="kategoria">Kategória</label>
                                     <select class="form-select" name="kategoria" id="kategoria"
-                                        data-old="{{ old('kategoria') }}"
-                                        data-suggested="{{ session('suggested_category') }}">>
+                                        data-old="{{ old('kategoria') }}">
                                         <option value="0">Válasszon típust először</option>
                                     </select>
                                 </div>
 
-                                <button class="btn btn-dark mt-4 animationBtn" type="submit">Elküld</button>
+                                <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Elküld</button>
                             </form>
                         </div>
                     </div>

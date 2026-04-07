@@ -84,7 +84,7 @@
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
 
-                    <button class="btn btn-primary mt-3 animationBtn" type="submit">Regisztrálok</button>
+                    <button class="btn btn-primary mt-3 animationBtn rounded-pill" type="submit">Regisztrálok</button>
                 </form>
                 <p class="mt-2"><a href="/login">Van már fiókja?</a></p>
 
