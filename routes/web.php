@@ -105,9 +105,9 @@ Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->middle
 Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->middleware(["auth", "verified"]);
 
 //rendezve gomb a tartozásoknál
-Route::post("/debt/{id}/done", [DebtController::class, "DebtDone"])->middleware(["auth", "verified"]);
+Route::post("/debts/{id}/done", [DebtController::class, "DebtDone"])->middleware(["auth", "verified"]);
 
-Route::get('/debt/pending', [DebtController::class, 'ShowPendingDebts'])->middleware(['auth', 'verified']);
+Route::get('/debts/pending', [DebtController::class, 'ShowPendingDebts'])->middleware(['auth', 'verified']);
 
 //exportálás
 Route::get('/export', [WMController::class, "ExportExcel"])->middleware(["auth", "verified"]);

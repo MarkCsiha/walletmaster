@@ -28,35 +28,29 @@ class DebtController extends Controller
 
     public function DebtAdd(Request $req)
     {
-        $req->validate(
-            [
+        $req->validate([
                 "debtDate"              => "required|date_format:Y-m-d|before_or_equal:today",
                 "debtAmount"            => "required|numeric"
-            ],
-            [
+            ], [
                 'debtDate.before'       => "Nem adhat meg jövőbeli dátumot!",
                 "*.required"            => "Kötelező mező!",
                 "debtAmount.numeric"    => "Csak számot adhat meg!"
-            ]
-        );
+        ]);
 
         $partnerId = null;
-        //ellenőrizzük, hogy létezik-e a user akinek felhasználónevet adunk, ha igen, akkor a partnerId-t egyenlővé tesszük vele
         if ($req->filled('username')) {
             $partner = User::where('felhasznalonev', $req->username)->first();
 
             if (!$partner) {
-                return redirect('debt')->with('unsuccessful', 'Az adatbázisban nem szerepel ilyen nevű felhasználó!');
+                return redirect('debt')->with(['unsuccessful' => 'Nem találtunk ilen felhasználónévvel rendelkező felhasználót!']);
             }
 
             $partnerId = $partner->id;
         }
-        //"én nézetem": az a user, aki felvitte a tartozást az adabázisba, annak így fog megjelenni
         $myView                  = new tartozasok;
         $myView->user_id         = Auth::id();
         $myView->partner_nev     = $req->name;
         $myView->partner_user_id = $partnerId;
-        //0 ha nekünk, 1 ha mi neki
         if ($req->debtToFrom == "debtTo") {
             $myView->tipus = 1;
         } else {
@@ -69,12 +63,10 @@ class DebtController extends Controller
 
         $myView->save();
 
-        //ha van partner, azaz felhasználónév, akkor el kell menteni a másik félnek is az adatokat. Ez a tükrözött nézet, neki fordítva lesz elmentve
         if ($partnerId) {
             $mirror                  = new tartozasok;
             $mirror->user_id         = $partnerId;
-            //trimmeljük, hogy a Laravel elfogadja partner névként a User tábla két külön elemét
-            $mirror->partner_nev     = trim((Auth::User()->vez_nev ?? '') . ' ' . (Auth::User()->ker_nev ?? ''));
+            $mirror->partner_nev     = trim(Auth::User()->vez_nev ?? '').' '.(Auth::User()->ker_nev ?? '');
             $mirror->partner_user_id = Auth::id();
             $mirror->osszeg          = $req->debtAmount;
             $mirror->leiras          = $req->description;
@@ -86,10 +78,9 @@ class DebtController extends Controller
             }
             $mirror->ki_irta = Auth::id();
             $mirror->save();
-            //email-t küld a usernek, aki felé a tartozási kérelem ment
             Mail::to($partner->email)->send(new DebtMail($mirror));
         }
-        return redirect('debt')->with('success', 'Sikeres mentés!');
+        return redirect('debt')->with(['success' => 'Sikeres tartozás hozzáadás!']);
     }
 
     public function ShowDebtDetails($id)
@@ -116,7 +107,7 @@ class DebtController extends Controller
                             ->where("user_id", Auth::id())
                             ->firstOrFail();
         if ($debt->ki_irta == Auth::id()) {
-            return redirect('/debt')->with('unsuccessful', 'Saját maga által rögzített tartozást nem fogadhat el.');
+            return redirect('/debt')->with(['unsuccessful' => 'Saját maga által rögzített tartozást nem fogadhat el.']);
         }
 
         $debt->statusz = "elfogadva";
@@ -146,7 +137,7 @@ class DebtController extends Controller
             ->firstOrFail();
 
         if ($debt->ki_irta == Auth::id()) {
-            return redirect('/debt')->with('unsuccessful', 'Saját maga által rögzített tartozást nem fogadhat el.');
+            return redirect('/debt')->with(['unsuccessful' => 'Saját maga által rögzített tartozást nem fogadhat el.']);
         }
 
         $debt->statusz = "elutasítva";

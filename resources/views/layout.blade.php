@@ -47,12 +47,13 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     @guest
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center">
-                            <a href="/login" class="btn btn-secondary d-flex align-items-center">
-                                Bejelentkezés
+                            <a href="/login" class="btn rounded-pill d-flex align-items-center gap-2 loginBtn">
+                                <span class="bi bi-person"></span>
+                                <span>Bejelentkezés</span>
                             </a>
                         </li>
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center">
-                            <a href="/registration" class="btn btn-success d-flex align-items-center gap-2">
+                            <a href="/registration" class="btn rounded-pill d-flex align-items-center gap-2 registrationBtn">
                                 <span class="bi bi-person"></span>
                                 <span>Regisztráció</span>
                             </a>

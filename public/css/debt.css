@@ -93,6 +93,10 @@ a:hover {
     color: rgb(100, 154, 255);
 }
 
+.pending-cim {
+    color: white;
+}
+
 @media screen and (max-width: 767px) {
   #button {
     display: flex;

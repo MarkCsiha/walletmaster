@@ -28,7 +28,7 @@
                     @csrf
                     <div class="my-4">
                         <label class="form-label-mt-3" for="typeSelect">Vélemény típusa:</p>
-                            <select name="typeSelect" id="typeSelect" class="@error('typeSelect') is-invalid @enderror">
+                            <select name="typeSelect" id="typeSelect" class="@error('typeSelect') is-invalid @enderror rounded-pill">
                                 <option value="otlet">Ötlet</option>
                                 <option value="hiba">Hiba</option>
                                 <option value="tanacs">Tanács</option>
@@ -41,14 +41,14 @@
                     </div>
                     <div class="my-4">
                         <label class="form-label mt-3" for="reviewText">Vélemény leírása:</label>
-                        <textarea class="form-control @error('reviewText') is-invalid @enderror" name="reviewText" id="reviewText"
+                        <textarea class="form-control @error('reviewText') is-invalid @enderror border rounded-4" name="reviewText" id="reviewText"
                             cols="10" rows="10"></textarea>
                         @error('reviewText')
                             <p style="color: tomato" class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <button class="btn btn-primary mt-3 animationBtn" type="submit">Vélemény küldése</button>
+                    <button class="btn btn-primary mt-3 animationBtn rounded-pill" type="submit">Vélemény küldése</button>
                 </form>
             </div>
         </div>

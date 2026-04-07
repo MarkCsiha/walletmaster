@@ -1,25 +1,25 @@
 .side-nav {
-  height: 100%;
-  width: 250px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(32, 30, 30);
-  overflow-x: hidden;
-  padding: 20px 30px;
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(32, 30, 30);
+    overflow-x: hidden;
+    padding: 20px 30px;
 }
 
-.logo{
+.logo {
     display: block;
     margin-bottom: 130px;
 }
 
-.logo img{
+.logo img {
     width: 150px;
 }
 
-ul{
+ul {
     justify-content: center;
 }
 
@@ -47,11 +47,43 @@ nav ul li a:hover::after {
     width: 100%;
 }
 
+.loginBtn {
+    background-color: #972ef9;
+    color: white;
+    border: none;
+}
+
+.loginBtn:hover {
+    background: linear-gradient(135deg,
+            #481796 0%,
+            #4b1f7a 35%,
+            #6a2bbd 70%,
+            #a855f7 100%);
+    color: white;
+    border: none;
+}
+
+.registrationBtn {
+    background-color: #972ef9;
+    color: white;
+    border: none;
+}
+
+.registrationBtn:hover {
+    background: linear-gradient(135deg,
+            #481796 0%,
+            #4b1f7a 35%,
+            #6a2bbd 70%,
+            #a855f7 100%);
+    color: white;
+    border: none;
+}
+
 nav ul li a:hover {
     color: white;
 }
 
-footer a{
+footer a {
     color: white;
 }
 
@@ -60,7 +92,7 @@ footer a:hover {
 }
 
 @media screen and (max-width: 767px) {
-  #no-mobile {
-    display: none;
-  }
+    #no-mobile {
+        display: none;
+    }
 }

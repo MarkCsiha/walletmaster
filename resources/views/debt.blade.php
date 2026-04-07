@@ -68,7 +68,7 @@
                         </tr>
                     @endforeach
                 </table>
-                <a href="/debt/pending" class="mx-auto debtReqA">Más felhasználóktól kapott tartozási kérelmek</a>
+                <a href="/debts/pending" class="mx-auto debtReqA">Más felhasználóktól kapott tartozási kérelmek</a>
             </div>
         </div>
 
