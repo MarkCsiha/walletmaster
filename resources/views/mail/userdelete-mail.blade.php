@@ -322,7 +322,7 @@
                                                                     <p style="margin: 0;">Ha vissza szeretné vonni
                                                                         fiókjának törlését, akkor az alábbi gombra
                                                                         kattintva visszavonhatja azt.</p>
-                                                                    <p style="margin: 0;">Felhívjuk szíves figyelmét, hogy a helyreállító link csak 30 napig érvényes, ezt követően a fiók végérvényesen törlésre kerül.</p>
+                                                                    <p style="margin: 0;">Felhívjuk szíves figyelmét, hogy a helyreállító link csak 7 napig érvényes, ezt követően a fiók végérvényesen törlésre kerül.</p>
 
                                                                 </div>
                                                             </td>
@@ -341,7 +341,7 @@
 <v:textbox inset="0px,0px,0px,0px">
 <center dir="false" style="color:#ffffff;font-family:sans-serif;font-size:16px">
 <![endif]-->
-                                                                    <a href="{{ URL::signedRoute('userremoval.cancel', ['id' => $user->id], now()->addDays(30))}} "
+                                                                    <a href="{{ URL::signedRoute('userremoval.cancel', ['id' => $user->id], now()->addDays(7))}} "
                                                                         target="_blank"><span class="button"
                                                                             style="background-color: #1aa19c; border-bottom: 0px solid transparent; border-left: 0px solid transparent; border-radius: 60px; border-right: 0px solid transparent; border-top: 0px solid transparent; color: #ffffff; display: inline-block; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 16px; font-weight: undefined; mso-border-alt: none; text-align: center; width: auto; word-break: keep-all; letter-spacing: normal;"><span
                                                                                 class="btn-pad"

@@ -17,7 +17,11 @@
             <td>{{ $row->honnan }}</td>
             <td>{{ $row->leiras }}</td>
             <td>
-              {{ $row->tipus }}
+                @if($row->tipzs == 0)
+                    kiadás
+                @else
+                    bevétel
+                @endif
             </td>
             <td>{{ $row->kategoria_nev }}</td>
             <td>

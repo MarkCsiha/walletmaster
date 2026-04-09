@@ -12,11 +12,19 @@
             <div class="card">
                 <div class="card-header"></div>
                 <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            <p>Új hitelesítő e-mail elküldve!</p>
-                        </div>
-                    @endif
+                    @if (session('success'))
+                <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
+                    <i class="bi bi-check-circle-fill">
+                        {{ session('success') }}
+                    </i>
+                </div>
+            @elseif (session('unsuccessful'))
+                <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
+                    <i class="bi bi-exclamation-triangle-fill">
+                        {{ session('unsuccessful') }}
+                    </i>
+                </div>
+            @endif
                     {{-- Kéri a felhasználót, hogy hagyja jóvá az email címet --}}
                     <p>Kérjük, hagyja jóvá a regisztrációt az e-mail címére kapott linkre kattintva!</p>
                     <p>Ha nem kapta meg a hitelesítő levelet: </p>

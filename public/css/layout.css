@@ -91,6 +91,10 @@ footer a:hover {
     color: rgb(100, 154, 255);
 }
 
+.footerReview {
+    text-decoration: underline;
+}
+
 @media screen and (max-width: 767px) {
     #no-mobile {
         display: none;

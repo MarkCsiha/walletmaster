@@ -82,7 +82,7 @@ class UserController extends Controller
         event(new Registered($data));
 
         return redirect('/auth/verify')->with([
-            'success' => 'Sikeresen regisztrált, üdvözöljük a WalletMaster oldalán ' . $req->firstName . ' ' . $req->lastName . '!'
+            'success' => 'Sikeresen regisztrált, üdvözöljük a WalletMaster oldalán '.$req->firstName.' '.$req->lastName.'!'
         ]);
     }
 
@@ -285,20 +285,18 @@ class UserController extends Controller
         $req->validate([
             "email" =>  [
                 "email",
-                // "email:rfc,dns",
-                //Rule::unique('users', 'email')->ignore(Auth::id())/*,"email:rfc,dns"],*/
-                "unique:users,email," . Auth::user()->id
+                "unique:users,email,".Auth::user()->id
             ],
         ], [
             "email.unique"              => "Ez az email cím foglalt.",
-            'email.regex'               => "Az email címnek tartalmaznia kell",
+            'email.email'               => "Az email címnek meg kell felelnie a megfelelő email cím formátumnak, pl.: walletmaster1@gmail.com!",
         ]);
 
         $data = $req->user();
 
         // Ha ugyanazt írta be, ne küldj új linket
-        if ($req->email === $data->email) {
-            return back()->with(['success' => 'Ez az email már be van állítva.']);
+        if ($req->email == $data->email) {
+            return back()->with(['unsuccessful' => 'Ez az email már be van állítva.']);
         }
         //megkeresi azt a felhasználót azonosító alapján, akinek egyezik az azonosítója a keresett azonosítóval
         $data->email = $req->email;

@@ -146,7 +146,7 @@ const config = (type) => {
                     //eltűnteti a címet
                     //https://stackoverflow.com/questions/56846339/how-to-remove-title-color-box-in-chart-js
                     // display: type !== "bar",
-                    display: isComparison || type == "pie" || type == "doughnut" ? true : false,
+                    display: isComparison || isSpentIncome || type == "pie" || type == "doughnut" ? true : false,
                     labels: {
                         color: "white"
                     }
