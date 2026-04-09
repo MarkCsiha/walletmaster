@@ -5,21 +5,21 @@
 @endpush
 
 @section('content')
-<main class="container pb-2">
+<main class="container py-5">
     <h1 class="bi bi-bullseye p-3"> Céljaim</h1>
 
     <div class="container">
         <div id="outerpanel">
 
-            <div class="row align-items-start">
-                <div class="col-sm">
-                    <button type="button" class="goal-tab" data-target="goalsBody">
+            <div class="row align-items-start justify-content-center">
+                <div class="col">
+                    <button type="button" class="goal-tab" onclick="change('goals')">
                         Célok
                     </button>
 
-                    <div id="goalsBody" class="dbody-source d-none">
+                    <div id="goalsBody" class="d-none">
                         @foreach ($result as $cel)
-                            <div class="card w-75" id="goalcard">
+                            <div class="card mb-3" id="goalcard">
                                 <div class="card-body">
 
                                     <div class="row">
@@ -39,7 +39,7 @@
 
                                     <div class="row">
                                         <div class="col">
-                                            <a class="btn btn-primary mt-4" href="/goalsmod/{{$cel->cel_id}}">Módosítás</a>
+                                            <a class="btn btn-primary mt-4 animationA" href="/goalsmod/{{$cel->cel_id}}">Módosítás</a>
                                         </div>
                                         <div class="col mt-4">
                                             <p>
@@ -47,7 +47,7 @@
                                                     Teljesítve <span class="bi bi-check-square-fill text-success"></span>
                                                 @elseif ($cel->statusz == "aktív")
                                                     Aktív <span class=""></span>
-                                                @elseif ($cel->statusz == "kész")
+                                                @elseif ($cel->statusz == "teljesítve")
                                                     Teljesítve <span class="bi bi-check-square-fill text-success"></span>
                                                 @else
                                                     Törölve <span class="bi bi-x-circle-fill text-danger"></span>
@@ -62,42 +62,43 @@
                     </div>
                 </div>
 
-                <div class="col-sm text-end">
-                    <button type="button" class="goal-tab" data-target="addBody">
+                <div class="col text-end">
+                    <button type="button" class="goal-tab" onclick="change('add')">
                         Hozzáadás
                     </button>
 
-                    <div id="addBody" class="dbody-source d-none">
+                    <div id="addBody" class="d-none">
                         <div class="card">
                             <div class="card-body">
                                 <form action="/goals" method="post">
                                     @csrf
 
-                                    <label class="form-label" for="nev">Cél neve:</label>
+                                    <label class="form-label" for="nev"><span style="color: tomato">*</span>Cél neve:</label>
                                     <input class="form-control rounded-pill" type="text" name="nev" id="nev">
                                     @error('nev')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <label class="form-label" for="cel_osszeg">Célösszeg:</label>
+                                    <label class="form-label" for="cel_osszeg"><span style="color: tomato">*</span>Célösszeg:</label>
                                     <input class="form-control rounded-pill" type="number" name="cel_osszeg" id="cel_osszeg">
                                     @error('cel_osszeg')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <label class="form-label" for="osszeg">Most mennyit tud rászánni:</label>
+                                    <label class="form-label" for="osszeg"><span style="color: tomato">*</span>Most mennyit tud rászánni:</label>
                                     <input class="form-control rounded-pill" type="number" name="osszeg" id="osszeg">
                                     @error('osszeg')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <label class="form-label" for="hatarido">Határidő:</label>
+                                    <label class="form-label" for="hatarido"><span style="color: tomato">*</span>Határidő:</label>
                                     <input class="form-control rounded-pill" type="date" name="hatarido" id="hatarido">
                                     @error('hatarido')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
-
-                                    <button class="btn btn-dark mt-4" type="submit">Létrehozás</button>
+                                    <div class="btn">
+                                        <button class="btn btn-dark mt-4 animationBtn" type="submit">Létrehozás</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -105,13 +106,11 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-12">
-                    <div id="centerPanel" class="center-panel d-none">
-                        <div id="centerPanelInner" class="mt-3">
-                            <div class="card">
-                                <div class="card-body"></div>
-                            </div>
+            <div class="row mt-4 justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div id="centerPanel" class="d-none">
+                        <div id="centerPanelInner">
+                            <div class="card-body" id="cont"></div>
                         </div>
                     </div>
                 </div>
@@ -122,11 +121,3 @@
 
 <script src="{{asset('js/goals.js')}}"></script>
 @endsection
-
-
-{{--A módosítás gombra kattintva a megjeleneik egy új oldal ami a hozzáadáshoz hasonlít.
-    Azzal bővül ki, hogy a statuszt lehet majd módosítani.
-    Olyankor mentés után visszadob a goals-ra és módosítja az adatokat a módosítás dátuma megvátozik a mostani időre
-    A csikot meg kell még csinálni.
-
---}}

@@ -55,7 +55,7 @@ class WMController extends Controller
 
             $kfix = fix::where('szamla_id', $havi->szamla_id)->first();
             if($kfix){
-                $kfix->fizetve = now()->format('Y-m-d'); //De lehetne a mostani dátum is
+                $kfix->fizetve = now()->format('Y-m-d');
                 $kfix->Save();
             }
 
@@ -282,22 +282,42 @@ class WMController extends Controller
                                         ->first();
 
         if ($req->filled('budgetLimit')) {
-            if (!$checkIfUserExists) {
-                $budgetGoal = new koltseglimit;
-                $budgetGoal->user_id = Auth::id();
-                $budgetGoal->osszeg = $req->input('budgetLimit');
-                $budgetGoal->tipus = 0;
-                $budgetGoal->start_datum = $first_day_of_the_current_month;
-                $budgetGoal->vege_datum = $last_day_of_the_current_month;
+            if ($currentBudget) {
+                $currentBudget->osszeg = $req->budgetLimit;
+                $currentBudget->save();
 
+            }
+
+            else {
+                $budgetGoal = new koltseglimit();
+                $budgetGoal->user_id = Auth::id();
+                $budgetGoal->osszeg = $req->budgetLimit;
                 $budgetGoal->save();
             }
 
-        else {
-            $checkIfUserExists->osszeg = $req->input('budgetLimit');
-            $checkIfUserExists->save();
+
         }
+
+        $category = request('category');
+        if ($category == null) {
+            $result = szamla::where("user_id", $user)
+                ->whereYear('datum', $monthStart->year)
+                ->whereMonth('datum', $monthStart->month)
+                ->whereDay('datum', '>=', (int) request('from', 1))
+                ->whereDay('datum', '<=', (int) request('to', 31))
+                ->orderBy("datum", "desc")
+                ->paginate(10);
+        } else {
+            $result = szamla::where("user_id", $user)
+                ->whereYear('datum', $monthStart->year)
+                ->whereMonth('datum', $monthStart->month)
+                ->whereDay('datum', '>=', (int) request('from', 1))
+                ->whereDay('datum', '<=', (int) request('to', 31))
+                ->where('kategoria_nev', $category)
+                ->orderBy("datum", "desc")
+                ->paginate(10);
         }
+
         $result = szamla::where("user_id", $user)
             ->whereYear('datum', $monthStart->year)
             ->whereMonth('datum', $monthStart->month)
@@ -324,14 +344,15 @@ class WMController extends Controller
                 "userExpenses"      => $userExpenses,
                 // 'compLabels'        => $budgetComparison->keys(),
                 // "compData"          => $budgetComparison->values(),
-                "dailySums"         => $dailySums
+                "dailySums"         => $dailySums,
+                "budgetGoal"        => $budgetGoal
             ]);
         }
         else {
             return redirect("login");
         }
+    }
 
-}
     public function MainMod($szamla_id){
         return view("mainmod", [
             "result" => szamla::find($szamla_id)
@@ -401,7 +422,12 @@ class WMController extends Controller
     public function MainDelete($szamla_id){
         $data = szamla::find($szamla_id);
         $data->Delete();
-        return redirect("/main");
+        if(Auth::check()){
+            return redirect("/main");
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function Add(){
@@ -488,7 +514,12 @@ class WMController extends Controller
         $prevYm = $monthStart->copy()->subMonth()->format('Y-m');
         $nextYm = $monthStart->copy()->addMonth()->format('Y-m');
 
-        return view('naptar', compact('monthStart', 'days', 'prevYm', 'nextYm'));
+         if(Auth::check()){
+            return view('naptar', compact('monthStart', 'days', 'prevYm', 'nextYm'));
+        }
+        else{
+            return redirect("login");
+        }
 
     }
 
@@ -564,15 +595,25 @@ class WMController extends Controller
         ]);
         Excel::import(new SzamlaImport(), $req->file('file'));
 
-        return redirect('/add')->with(["success" => "Sikeres fájlfeltöltés!"]);
+        if(Auth::check()){
+            return redirect('/add')->with(["success" => "Sikeres fájlfeltöltés!"]);
+        }
+        else{
+            return redirect("login");
+        }
 
     }
     public function Goals(){
         $user = Auth::id();
         $result = celok::where("user_id", $user)->orderBy("statusz")->get();
-        return view("goals", [
-            "result" => $result,
-        ]);
+        if(Auth::check()){
+            return view("goals", [
+                "result" => $result,
+            ]);
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function GoalsBtn(Request $req){
@@ -600,14 +641,24 @@ class WMController extends Controller
 
         $data->Save();
 
-        return redirect("/goals")->with(["success" => "Sikeres célhozzáadás!"]);
+        if(Auth::check()){
+            return redirect("/goals")->with(["success" => "Sikeres célhozzáadás!"]);
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function GoalsMod($cel_id){
         $result = celok::find($cel_id);
-        return view("goalsmod", [
-            "result" => $result
-        ]);
+        if(Auth::check()){
+            return view("goalsmod", [
+                "result" => $result
+            ]);
+        }
+        else{
+            return redirect("login");
+        }
     }
 
     public function GoalsModBtn(Request $req){
@@ -633,22 +684,109 @@ class WMController extends Controller
         $data->budzse = $req->osszeg;
         $data->hatarido = $req->hatarido;
         $data->modositas_datum = now()->format('Y-m-d');
-        if($req->cel_osszeg <= $req->budzse){
-            $data->statusz = "kész";
+        $data->statusz = $req->statusz;
+        // if($req->cel_osszeg <= $req->budzse){
+        //     $data->statusz = "aktív";
+        // }
+        // else{
+        //     $data->statusz = $req->statusz;
+        // }
+        $data->Save();
+        if(Auth::check()){
+            return redirect("/goals")->with(["success" => "Sikeres célmódosítás!"]);
         }
         else{
-            $data->statusz = $req->statusz;
+            return redirect("login");
         }
 
-
-        $data->Save();
-
-        return redirect("/goals")->with(["success" => "Sikeres célmódosítás!"]);
     }
 
     public function GoalsDelete($cel_id){
-        $data = celok::find($cel_id);
-        $data->Delete();
-        return redirect("/goals");
+        if(Auth::check()){
+            $data = celok::find($cel_id);
+            $data->Delete();
+            return redirect("/goals");
+        }
+        else{
+            return redirect("login");
+        }
+    }
+
+
+    public function MyData(){
+        $user = Auth::id();
+        $first_day_of_the_current_month = Carbon::now()->startOfMonth()->toDateString();
+        $last_day_of_the_current_month = Carbon::now()->endOfMonth()->toDateString();
+
+        if (Auth::check()) {
+            return view("limit", [
+                "result" => koltseglimit::where("user_id", $user)->first(),
+                "pays" => fix::join("szamla", "szamla.szamla_id", "=", "fix.szamla_id")
+                                ->where("fix.user_id", $user)
+                                ->where("szamla.tipus", 0)
+                                ->get(),
+                "incomes" => fix::join("szamla", "szamla.szamla_id", "=", "fix.szamla_id")
+                                ->where("fix.user_id", $user)
+                                ->where("szamla.tipus", 1)
+                                ->get(),
+                "has_limit" => koltseglimit::where("user_id", $user)->first(),
+                "sum_prices" => koltseglimit::join("users", "koltseg_limit.user_id", "users.id")
+                                        ->join("szamla", "szamla.user_id", "users.id")
+                                        ->whereDate("szamla.datum", ">=", $first_day_of_the_current_month)
+                                        ->whereDate("szamla.datum", "<=", $last_day_of_the_current_month)
+                                        ->where("szamla.user_id", $user)
+                                        ->where("szamla.tipus", 0)
+                                        ->sum("szamla.osszeg"),
+
+
+            //https://laracasts.com/discuss/channels/laravel/getting-the-first-and-last-date-of-the-current-month-and-past-2-months
+            ]);
+        }
+        else {
+            return redirect("login");
+        }
+    }
+
+    public function MyDataSet(Request $req){
+        $req->validate([
+            "paylimit" => "required|numeric",
+            // "start_date" => "required|date",
+            // "finish_date" => "required|date",
+        ], [
+            "*.required" => "Töltse ki a mezőt!",
+            // "*.date"    => "Dátumot adjon meg!",
+            "paylimit.numeric" => "Számot adjon meg!",
+        ]);
+        $data = new koltseglimit();
+        $data->user_id = Auth::user()->id;
+        $data->osszeg = $req->paylimit;
+        // $data->start_datum = $req->start_date;
+        // $data->vege_datum = $req->finish_date;
+        $data->Save();
+
+        if (Auth::check()) {
+            return redirect("limit");
+        }
+        else {
+            return redirect("login");
+        }
+    }
+
+    public function LimitMore($fix_id){
+        $result_fix = celok::find($fix_id);
+        $result_szamla = fix::join('szamla', 'fix.szamla_id', '=', 'szamla.szamla_id')
+                            ->where('fix.fix_id', $fix_id)
+                            ->select('szamla.*')
+                            ->first();
+
+        if(Auth::check()){
+            return view("limitmore", [
+                "result_fix" => $result_fix,
+                "result_szamla" => $result_szamla,
+            ]);
+        }
+        else{
+            return redirect("login");
+        }
     }
 }

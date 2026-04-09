@@ -17,7 +17,7 @@
                     <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="file" name="file" class="form-control" accept=".csv,.xlsx" required>
-                        <button type="submit" class="btn btn-primary mt-2">Adatok importálása</button>
+                        <button type="submit" class="btn btn-primary mt-2 animationBtn">Adatok importálása</button>
                     </form>
                         <form action="/add" method="post">
                         @csrf
@@ -81,7 +81,7 @@
                                 </select>
                             </div>
 
-                            <button class="btn btn-dark mt-4" type="submit">Elküld</button>
+                            <button class="btn btn-dark mt-4 animationBtn" type="submit">Elküld</button>
                         </form>
                     </div>
                 </div>
