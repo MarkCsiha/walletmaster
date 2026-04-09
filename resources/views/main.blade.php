@@ -103,7 +103,7 @@
                 <form action="main" method="POST" id="monthlyChart">
                     @csrf
                     <label for="chartDataType" class="mb-2 mt-3">Költségvetési diagram típusa</label>
-                    <select name="chartDataType" id="chartDataType" class="form-control" onchange="this.form.submit()">
+                    <select name="chartDataType" id="chartDataType" class="form-control rounded-pill" onchange="this.form.submit()">
                         {{-- request: olyan mint az old value, megtartja az oldal frissítése után azt az inputot, amit a felhasználó választott --}}
                         <option value="categoryChart" {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>
                             Kategóriák szerinti bontás</option>
@@ -119,7 +119,7 @@
                     {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
                     @if (request('chartDataType') == 'monthlyChart')
                         <label for="year mb-2">Év kiválasztása</label>
-                        <select name="year" id="year" class="form-control" onchange="this.form.submit()">
+                        <select name="year" id="year" class="form-control rounded-pill" onchange="this.form.submit()">
                             @foreach ($years as $y)
                                 <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
                                     {{ $y }}
