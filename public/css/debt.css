@@ -61,6 +61,13 @@ th, td {
     color: white;
 }
 
+.plus{
+    color: lime;
+}
+
+.minus{
+    color: tomato;
+}
 /* https://www.youtube.com/watch?v=m4NUID4kDyo */
 
 .animationBtn {
@@ -103,4 +110,3 @@ a:hover {
     justify-content: center;
   }
 }
-

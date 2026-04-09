@@ -5,7 +5,11 @@
 @endpush
 
 @section('content')
+<<<<<<< HEAD
 <main class="container pb-5">
+=======
+<main class="container py-5">
+>>>>>>> origin/Csiha
     <h1 class="bi bi-bullseye p-3"> Céljaim</h1>
 
     <div class="container">
@@ -39,7 +43,11 @@
 
                                     <div class="row">
                                         <div class="col">
+<<<<<<< HEAD
                                             <a class="btn btn-primary mt-4 animationA rounded-pill" href="/goalsmod/{{$cel->cel_id}}">Módosítás</a>
+=======
+                                            <a class="btn btn-primary mt-4 animationA" href="/goalsmod/{{$cel->cel_id}}">Módosítás</a>
+>>>>>>> origin/Csiha
                                         </div>
                                         <div class="col mt-4">
                                             <p>
@@ -47,7 +55,7 @@
                                                     Teljesítve <span class="bi bi-check-square-fill text-success"></span>
                                                 @elseif ($cel->statusz == "aktív")
                                                     Aktív <span class=""></span>
-                                                @elseif ($cel->statusz == "kész")
+                                                @elseif ($cel->statusz == "teljesítve")
                                                     Teljesítve <span class="bi bi-check-square-fill text-success"></span>
                                                 @else
                                                     Törölve <span class="bi bi-x-circle-fill text-danger"></span>
@@ -73,31 +81,35 @@
                                 <form action="/goals" method="post">
                                     @csrf
 
-                                    <label class="form-label" for="nev">Cél neve:</label>
+                                    <label class="form-label" for="nev"><span style="color: tomato">*</span>Cél neve:</label>
                                     <input class="form-control rounded-pill" type="text" name="nev" id="nev">
                                     @error('nev')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <label class="form-label" for="cel_osszeg">Célösszeg:</label>
+                                    <label class="form-label" for="cel_osszeg"><span style="color: tomato">*</span>Célösszeg:</label>
                                     <input class="form-control rounded-pill" type="number" name="cel_osszeg" id="cel_osszeg">
                                     @error('cel_osszeg')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <label class="form-label" for="osszeg">Most mennyit tud rászánni:</label>
+                                    <label class="form-label" for="osszeg"><span style="color: tomato">*</span>Most mennyit tud rászánni:</label>
                                     <input class="form-control rounded-pill" type="number" name="osszeg" id="osszeg">
                                     @error('osszeg')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
 
-                                    <label class="form-label" for="hatarido">Határidő:</label>
+                                    <label class="form-label" for="hatarido"><span style="color: tomato">*</span>Határidő:</label>
                                     <input class="form-control rounded-pill" type="date" name="hatarido" id="hatarido">
                                     @error('hatarido')
                                         <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                     @enderror
                                     <div class="btn">
+<<<<<<< HEAD
                                         <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Létrehozás</button>
+=======
+                                        <button class="btn btn-dark mt-4 animationBtn" type="submit">Létrehozás</button>
+>>>>>>> origin/Csiha
                                     </div>
                                 </form>
                             </div>

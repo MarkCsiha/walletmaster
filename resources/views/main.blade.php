@@ -24,135 +24,148 @@
             @csrf
             <input type="number" name="budgetLimit" id="budgetLimit" onsubmit="this.form.submit()">
         </form>
+
         <div class="row mt-3">
-            <div class="col r-3" id="outerpanel">
+            <div class="col-12" id="outerpanel">
+                <div class="row g-4">
 
-                <div class="card" id="kartya">
-                    <div class="card-body">
-                        {{-- ÉV + HÓNAP --}}
-                        <div class="text-center mb-2">
-                            <h2 class="m-0" id="cm">{{ $monthStart->year }}</h2>
-                            <h4>{{ ucfirst($monthStart->translatedFormat('F')) }}</h4>
-                        </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="card h-100" id="kartya">
+                            <div class="card-body">
+                                {{-- ÉV + HÓNAP --}}
+                                <div class="text-center mb-2">
+                                    <h2 class="m-0" id="cm">{{ $monthStart->year }}</h2>
+                                    <h4>{{ $monthStart->translatedFormat('F') }}</h4>
+                                </div>
 
-                        {{-- HÓNAP VÁLTÁS --}}
-                        <div class="d-flex justify-content-between mb-2">
-                            <a class="btn btn-outline-secondary btn-sm animationBtn text-white"
-                                href="{{ route('naptar', ['ym' => $prevYm]) }}">
-                                Előző
-                            </a>
+                                {{-- HÓNAP VÁLTÁS --}}
+                                <div class="d-flex justify-content-between mb-2">
+                                    <a class="btn btn-outline-secondary btn-sm text-white animationBtn"
+                                        href="{{ route('naptar', ['ym' => $prevYm]) }}">
+                                        Előző
+                                    </a>
 
-                            <a class="btn btn-outline-secondary btn-sm animationBtn text-white"
-                                href="{{ route('naptar', ['ym' => $nextYm]) }}">
-                                Következő
-                            </a>
-                        </div>
+                                    <a class="btn btn-outline-secondary btn-sm text-white animationBtn"
+                                        href="{{ route('naptar', ['ym' => $nextYm]) }}">
+                                        Következő
+                                    </a>
+                                </div>
 
-                        {{-- NAPTÁR --}}
-                        <table class="border border-striped" id="calendar">
-                            <tr id="calendar_th">
-                                <th>H</th>
-                                <th>K</th>
-                                <th>Sz</th>
-                                <th>Cs</th>
-                                <th>P</th>
-                                <th>Sz</th>
-                                <th>V</th>
-                            </tr>
-                            @foreach (array_chunk($days, 7) as $week)
-                                <tr>
-                                    @foreach ($week as $day)
-                                        @php
-                                            $date = $day->toDateString();
-                                            $inMonth = $day->month === $monthStart->month;
+                                {{-- NAPTÁR --}}
+                                <table class="border border-striped" id="calendar">
+                                    <tr id="calendar_th">
+                                        <th>H</th>
+                                        <th>K</th>
+                                        <th>Sz</th>
+                                        <th>Cs</th>
+                                        <th>P</th>
+                                        <th>Sz</th>
+                                        <th>V</th>
+                                    </tr>
+                                    @foreach (array_chunk($days, 7) as $week)
+                                        <tr>
+                                            @foreach ($week as $day)
+                                                @php
+                                                    $date = $day->toDateString();
+                                                    $inMonth = $day->month === $monthStart->month;
 
-                                            $spentaday = $dailySums[$date]->spent ?? 0;
-                                            $gainaday = $dailySums[$date]->gain ?? 0;
+                                                    $spentaday = $dailySums[$date]->spent ?? 0;
+                                                    $gainaday = $dailySums[$date]->gain ?? 0;
 
-                                            $hasTxn = $spentaday > 0 || $gainaday > 0;
-                                        @endphp
+                                                    $hasTxn = $spentaday > 0 || $gainaday > 0;
+                                                @endphp
 
-                                        <td style="height:60px; vertical-align:top;">
-                                            @if (!$inMonth)
-                                                <div style="font-weight:700; color:tomato;">
-                                                    {{ $day->day }}
-                                                </div>
-                                            @else
-                                                @if ($inMonth and $hasTxn)
-                                                    <div style="font-weight:700;"
-                                                        title="+{{ $gainaday }} | -{{ $spentaday }}">
-                                                        {{ $day->day }}
-                                                    </div>
-                                                @else
-                                                    <div style="font-weight:700;">
-                                                        {{ $day->day }}
-                                                    </div>
-                                                @endif
-                                            @endif
-                                        </td>
+                                                <td style="height:60px; vertical-align:top;">
+                                                    @if (!$inMonth)
+                                                        <div style="font-weight:700; color:tomato;">
+                                                            {{ $day->day }}
+                                                        </div>
+                                                    @else
+                                                        @if ($inMonth && $hasTxn)
+                                                            <div style="font-weight:700;"
+                                                                title="+{{ $gainaday }} | -{{ $spentaday }}">
+                                                                {{ $day->day }}
+                                                            </div>
+                                                        @else
+                                                            <div style="font-weight:700;">
+                                                                {{ $day->day }}
+                                                            </div>
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                            @endforeach
+                                        </tr>
                                     @endforeach
-                                </tr>
-                            @endforeach
-                        </table>
+                                </table>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="col-12 col-lg-6">
+                        <div class="card h-100 chart-card">
+                            <div class="card-body">
+                                <form action="/main" method="POST" id="monthlyChart">
+                                    @csrf
+                                    <label for="chartDataType">Költségvetési diagram típusa</label>
+                                    <select name="chartDataType" id="chartDataType" class="form-control rounded-pill"
+                                        onchange="this.form.submit()">
+                                        <option value="categoryChart"
+                                            {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>
+                                            Kategóriák szerinti bontás
+                                        </option>
+                                        <option value="monthlyChart"
+                                            {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>
+                                            Havi kiadás diagram
+                                        </option>
+                                        <option value="spentIncomeChart"
+                                            {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>
+                                            Költség - Bevétel differencia
+                                        </option>
+                                        <option value="budgetComparisonChart"
+                                            {{ request('chartDataType') == 'budgetComparisonChart' ? 'selected' : '' }}>
+                                            Összehasonlítás
+                                        </option>
+                                    </select>
+
+                                    @if (request('chartDataType') == 'monthlyChart')
+                                        <label for="year">Év kiválasztása</label>
+                                        <select name="year" id="year" class="form-control"
+                                            onchange="this.form.submit()">
+                                            @foreach ($years as $y)
+                                                <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
+                                                    {{ $y }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                </form>
+
+                                <select name="chartType" id="chartType" class="form-control mt-3 rounded-pill">
+                                    <option value="bar" {{ request('chartType', 'bar') == 'bar' ? 'selected' : '' }}>
+                                        Oszlopdiagram</option>
+                                    <option value="pie" {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram
+                                    </option>
+                                    <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>
+                                        Fánk diagram</option>
+                                    <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal
+                                        diagram</option>
+                                </select>
+
+                                <div class="mt-4">
+                                    <h4 class="text-center">Oszlopdiagram</h4>
+                                    <div id="chartFrame">
+                                        <canvas id="myChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-
-            {{-- Ez a diagram oszlopa --}}
-            <div class="col r-3 ">
-                <form action="main" method="POST" id="monthlyChart">
-                    @csrf
-                    <label for="chartDataType" class="mb-2 mt-3">Költségvetési diagram típusa</label>
-                    <select name="chartDataType" id="chartDataType" class="form-control rounded-pill" onchange="this.form.submit()">
-                        {{-- request: olyan mint az old value, megtartja az oldal frissítése után azt az inputot, amit a felhasználó választott --}}
-                        <option value="categoryChart" {{ request('chartDataType') == 'categoryChart' ? 'selected' : '' }}>
-                            Kategóriák szerinti bontás</option>
-                        <option value="monthlyChart" {{ request('chartDataType') == 'monthlyChart' ? 'selected' : '' }}>
-                            Havi kiadás diagram</option>
-                        <option value="spentIncomeChart"
-                            {{ request('chartDataType') == 'spentIncomeChart' ? 'selected' : '' }}>Költség - Bevétel
-                            differencia</option>
-                        <option value="budgetComparisonChart"
-                            {{ request('chartDataType') == 'budgetComparisonChart' ? 'selected' : '' }}>Összehasonlítás
-                        </option>
-                    </select>
-                    {{-- csak akkor bukkan fel az év választós mező, ha a felhasználó havi költségbontást választott --}}
-                    @if (request('chartDataType') == 'monthlyChart')
-                        <label for="year mb-2">Év kiválasztása</label>
-                        <select name="year" id="year" class="form-control rounded-pill" onchange="this.form.submit()">
-                            @foreach ($years as $y)
-                                <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
-                                    {{ $y }}
-                                </option>
-                            @endforeach
-                        </select>
-                    @endif
-                </form>
-
-
-                {{-- Oszlop kategória --}}
-                <select name="chartType" id="chartType" class="form-control mb-3 mt-3" onchange="this.form.submit()">
-                    <option value="bar" {{ request('chartType') == 'bar' ? 'selected' : '' }}>Oszlopdiagram
-                    </option>
-                    <option value="pie" {{ request('chartType') == 'pie' ? 'selected' : '' }}>Kördiagram</option>
-                    <option value="doughnut" {{ request('chartType') == 'doughnut' ? 'selected' : '' }}>Fánk diagram
-                    </option>
-                    <option value="line" {{ request('chartType') == 'line' ? 'selected' : '' }}>Vonal diagram</option>
-                </select>
-
-                {{-- Oszlop --}}
-                <div>
-                    <h4 class="text-center">{{ request('chartType') }}</h4>
-                    <canvas id="myChart" style="padding: 5px; width:100%; height:100%"></canvas>
-                </div>
-
-            </div>
-            {{-- Diagram vége --}}
-
-
-            {{-- Sor lezárás --}}
         </div>
-        <form id="filtersForm" method="GET" action="/main">
+
+        <form id="filtersForm" method="GET" action="/main" class="mt-3">
             @csrf
             <div class="row">
                 <div class="col-md-3">
@@ -179,7 +192,6 @@
             </div>
 
         </form>
-
         <div class="mt-3">
 
             <div class="card">

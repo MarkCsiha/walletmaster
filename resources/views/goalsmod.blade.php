@@ -41,14 +41,20 @@
                             <label class="form-label" for="statusz">Cél státusza:</label>
                             <select class="form-control rounded-pill" name="statusz" id="statusz">
                                 <option value="aktív">Aktív</option>
-                                <option value="kész">Teljesítve</option>
+                                <option value="teljesítve">Teljesítve</option>
                                 <option value="törölve">Törölve</option>
                             </select>
                             @error('hatarido')
                                 <p style="color: tomato" class="text-danger">{{ $message }}</p>
                             @enderror
+<<<<<<< HEAD
 
                             <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Módosítás</button>
+=======
+                            <div class="btn">
+                                <button class="btn btn-dark mt-4" type="submit">Módosítás</button>
+                            </div>
+>>>>>>> origin/Csiha
                         </form>
                     </div>
                 </div>

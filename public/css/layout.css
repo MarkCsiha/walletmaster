@@ -1,3 +1,19 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main.page-content {
+    flex: 1;
+}
+
 .side-nav {
     height: 100%;
     width: 250px;
