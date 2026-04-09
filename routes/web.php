@@ -117,3 +117,7 @@ Route::get('auth/google/callback', [GoogleController::class, "GoogleCallback"])-
 Route::delete('/user/{id}', [UserController::class, 'AccountDelete'])
     ->name('user.destroy')
     ->middleware(['auth']);
+
+Route::get('/limit', [WMController::class, 'MyData']);
+Route::post('/limit', [WMController::class, 'MyDataSet']);
+Route::get('/limitmore/{fix_id}', [WMController::class, 'LimitMore'])->middleware(['auth', 'verified']);

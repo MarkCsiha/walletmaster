@@ -660,5 +660,81 @@ class WMController extends Controller
         $data->Delete();
         return redirect("/goals");
     }
-}
 
+    public function MyData(){
+        $user = Auth::id();
+        $first_day_of_the_current_month = Carbon::now()->startOfMonth()->toDateString();
+        $last_day_of_the_current_month = Carbon::now()->endOfMonth()->toDateString();
+
+        if (Auth::check()) {
+            return view("limit", [
+                "result" => koltseglimit::where("user_id", $user)->first(),
+                "pays" => fix::join("szamla", "szamla.szamla_id", "=", "fix.szamla_id")
+                                ->where("fix.user_id", $user)
+                                ->where("szamla.tipus", 0)
+                                ->get(),
+                "incomes" => fix::join("szamla", "szamla.szamla_id", "=", "fix.szamla_id")
+                                ->where("fix.user_id", $user)
+                                ->where("szamla.tipus", 1)
+                                ->get(),
+                "has_limit" => koltseglimit::where("user_id", $user)->first(),
+                "sum_prices" => koltseglimit::join("users", "koltseg_limit.user_id", "users.id")
+                                        ->join("szamla", "szamla.user_id", "users.id")
+                                        ->whereDate("szamla.datum", ">=", $first_day_of_the_current_month)
+                                        ->whereDate("szamla.datum", "<=", $last_day_of_the_current_month)
+                                        ->where("szamla.user_id", $user)
+                                        ->where("szamla.tipus", 0)
+                                        ->sum("szamla.osszeg"),
+
+
+            //https://laracasts.com/discuss/channels/laravel/getting-the-first-and-last-date-of-the-current-month-and-past-2-months
+            ]);
+        }
+        else {
+            return redirect("login");
+        }
+    }
+
+    public function MyDataSet(Request $req){
+        $req->validate([
+            "paylimit" => "required|numeric",
+            // "start_date" => "required|date",
+            // "finish_date" => "required|date",
+        ], [
+            "*.required" => "Töltse ki a mezőt!",
+            // "*.date"    => "Dátumot adjon meg!",
+            "paylimit.numeric" => "Számot adjon meg!",
+        ]);
+        $data = new koltseglimit();
+        $data->user_id = Auth::user()->id;
+        $data->osszeg = $req->paylimit;
+        // $data->start_datum = $req->start_date;
+        // $data->vege_datum = $req->finish_date;
+        $data->Save();
+
+        if (Auth::check()) {
+            return redirect("limit");
+        }
+        else {
+            return redirect("login");
+        }
+    }
+
+    public function LimitMore($fix_id){
+        $result_fix = celok::find($fix_id);
+        $result_szamla = fix::join('szamla', 'fix.szamla_id', '=', 'szamla.szamla_id')
+                            ->where('fix.fix_id', $fix_id)
+                            ->select('szamla.*')
+                            ->first();
+
+        if(Auth::check()){
+            return view("limitmore", [
+                "result_fix" => $result_fix,
+                "result_szamla" => $result_szamla,
+            ]);
+        }
+        else{
+            return redirect("login");
+        }
+    }
+}
