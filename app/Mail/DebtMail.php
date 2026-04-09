@@ -44,7 +44,7 @@ class DebtMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.debt-mail',
+            markdown: 'mail.debts-mail',
             with: [
                 "tartozas"  => $this->tartozas
             ]
@@ -56,10 +56,10 @@ class DebtMail extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
-    {
-        return [
-            Attachment::fromPath(public_path('img/logo.png'))
-        ];
-    }
+    // public function attachments(): array
+    // {
+    //     return [
+    //         Attachment::fromPath(public_path('img/logo.png'))
+    //     ];
+    // }
 }

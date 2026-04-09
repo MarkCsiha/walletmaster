@@ -1,0 +1,52 @@
+body {
+    background: linear-gradient(135deg,
+            #2b1055 0%,
+            #4b1f7a 35%,
+            #6a2bbd 70%,
+            #a855f7 100%);
+    background-attachment: fixed;
+
+}
+
+
+
+h1 {
+    color: white;
+}
+
+.mb-4 {
+    color: white;
+}
+
+h3 {
+    color: white;
+}
+
+p {
+    color: white;
+}
+
+@media screen and (max-width: 767px) {
+    .btn {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.animationBtn {
+    background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
+    color: white;
+    background-size: 200%;
+    transition: 0.3s ease-out;
+    border: 2px solid rgb(53, 75, 240);
+    border-radius: 10px;
+}
+
+.animationBtn:hover {
+    background-position: right;
+    border: 2px solid rgb(165, 1, 187);
+}
+
+.a:hover {
+    color: rgb(100, 154, 255);
+}

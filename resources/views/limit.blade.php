@@ -63,21 +63,6 @@
                                 @error('paylimit')
                                     <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                 @enderror
-{{--
-                                <label class="form-label" for="start_date">Kezdő dátum:</label>
-                                <input type="date" class="form-control rounded-pill mb-3" id="start_date"
-                                    name="start_date">
-                                @error('start_date')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror
-
-                                <label class="form-label" for="finish_date">Végző dátum:</label>
-                                <input type="date" class="form-control rounded-pill mb-3" id="finish_date"
-                                    name="finish_date">
-                                @error('finish_date')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror --}}
-
                                 <button class="btn btn-success mt-3" type="submit">Mentés</button>
                             @else
                                 <label class="form-label" for="paylimit">Limit módosítása:</label>
@@ -85,21 +70,6 @@
                                 @error('paylimit')
                                     <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                 @enderror
-
-                                {{-- <label class="form-label" for="start_date">Kezdő dátum módosítása:</label>
-                                <input type="date" class="form-control rounded-pill mb-3" id="start_date"
-                                    name="start_date">
-                                @error('start_date')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror
-
-                                <label class="form-label" for="finish_date">Végző dátum módosítása:</label>
-                                <input type="date" class="form-control rounded-pill mb-3" id="finish_date"
-                                    name="finish_date">
-                                @error('finish_date')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror
- --}}
                                 <button class="btn btn-success mt-3" type="submit">Mentés</button>
                             @endif
                         </form>
@@ -123,7 +93,6 @@
                                     <th>Létrehozva</th>
                                     <th>Következő fizetés</th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
 
                                 {{-- Havi mentés egyszerűsíteni
@@ -135,9 +104,7 @@
                                         </td>
                                         <td>{{ date_format(date_create($p->letrehozas), 'Y. m. d') }}</td>
                                         <td>{{ date_format(date_create($p->fizetve), 'Y. m. d') }}</td>
-                                        <td class="text-center"> <a href="/limitmore/{{ $p->szamla_id }}"> <i
-                                                    class="bi bi-pencil-fill text-warning"></i> </a>
-                                        </td>
+
                                         <td class="text-center"> <a href="/limitexit/{{ $p->szamla_id }}"> <i
                                                 class="bi bi-trash-fill text-danger"></i> </a> </td>
                                     </tr>
@@ -153,7 +120,6 @@
                                     <th>Létrehozva</th>
                                     <th>Következő fizetés</th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
 
                                 @foreach ($incomes as $i)
@@ -163,9 +129,6 @@
                                         </td>
                                         <td>{{ date_format(date_create($i->letrehozas), 'Y. m. d') }}</td>
                                         <td>{{ date_format(date_create($i->fizetve), 'Y. m. d') }}</td>
-                                        <td class="text-center"> <a href="/limitmore/{{ $p->szamla_id }}"> <i
-                                                    class="bi bi-pencil-fill text-warning"></i> </a>
-                                        </td>
                                         <td class="text-center"> <a href="/limitexit/{{ $p->szamla_id }}"> <i
                                                 class="bi bi-trash-fill text-danger"></i> </a> </td>
                                     </tr>

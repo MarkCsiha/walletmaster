@@ -24,7 +24,7 @@ class GoogleController extends Controller
                         ->first();
 
         if ($findUser) {
-            if(empty($findUser->google_id)) {
+            if (empty($findUser->google_id)) {
                 $findUser->google_id = $user->getId();
                 $findUser->save();
             }

@@ -1,0 +1,39 @@
+body{
+    background: linear-gradient(135deg,
+    #2b1055 0%,
+    #4b1f7a 35%,
+    #6a2bbd 70%,
+    #a855f7 100%
+  );
+  background-attachment: fixed;
+
+}
+
+
+
+h1{
+    color: white;
+}
+
+.mb-4{
+    color: white;
+}
+
+h3{
+    color: white;
+}
+
+p{
+    color: white;
+}
+
+.a:hover {
+    color: rgb(100, 154, 255);
+}
+
+@media screen and (max-width: 767px) {
+  .btn {
+    display: flex;
+    justify-content: center;
+  }
+}

@@ -1,45 +1,36 @@
-body{
-    background: linear-gradient(135deg,
-    #2b1055 0%,
-    #4b1f7a 35%,
-    #6a2bbd 70%,
-    #a855f7 100%
-  );
-  background-attachment: fixed;
-
+body {
+    background: linear-gradient(
+        135deg,
+        #2b1055 0%,
+        #4b1f7a 35%,
+        #6a2bbd 70%,
+        #a855f7 100%
+    );
+    background-attachment: fixed;
 }
 
-main{
+main {
     color: white;
 }
 
-th, td{
+th,
+td {
+    color: white;
+    vertical-align: middle;
+}
 
+
+main {
     color: white;
 }
 
-.card{
-body{
-    background: linear-gradient(135deg,
-    #2b1055 0%,
-    #4b1f7a 35%,
-    #6a2bbd 70%,
-    #a855f7 100%
-  );
-  background-attachment: fixed;
-
-}
-
-main{
-    color: white;
-}
-
-th, td{
+th,
+td {
 
     color: white;
 }
 
-.card{
+.card {
     border-top: 1px solid rgba(255, 255, 255, 0.65);
     border-left: 1px solid rgba(255, 255, 255, 0.65);
     border-radius: 16px;
@@ -49,19 +40,59 @@ th, td{
     backdrop-filter: blur(5px);
 }
 
-#kartya{
+#kartya {
     background: rgba(255, 255, 255, 0.0015);
     box-shadow: 0 0 4px 2px #ffffff;
 }
 
-.card.card-body{
+.card .card-body {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
-#outerpanel{
+body {
+    background: linear-gradient(
+        135deg,
+        #2b1055 0%,
+        #4b1f7a 35%,
+        #6a2bbd 70%,
+        #a855f7 100%
+    );
+    background-attachment: fixed;
+}
+
+main {
+    color: white;
+}
+
+th,
+td {
+    color: white;
+    vertical-align: middle;
+}
+
+.card {
+    border-top: 1px solid rgba(255, 255, 255, 0.65);
+    border-left: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 16px;
+    padding: 50px 25px;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 30px rgba(255, 255, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+#kartya {
+    background: rgba(255, 255, 255, 0.0015);
+    box-shadow: 0 0 4px 2px #ffffff;
+}
+
+.card .card-body {
+    display: block;
+}
+
+#outerpanel {
     border-top: 1px solid rgba(255, 255, 255, 0.65);
     border-left: 1px solid rgba(255, 255, 255, 0.65);
     border-radius: 16px;
@@ -71,7 +102,19 @@ th, td{
     backdrop-filter: blur(5px);
 }
 
-#calendar{
+/* Táblázat */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#calendar {
     border-collapse: separate;
     text-align: center;
     width: 100%;
@@ -79,55 +122,90 @@ th, td{
     border-radius: 12px;
 }
 
-#calendar th{
-    white-space: nowrap;        /*Mi a fasz */
+#calendar th,
+#calendar td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px 6px;
 }
 
-h2{
+h2 {
     color: white;
 }
 
-.plus{
+.plus {
     color: greenyellow;
 }
 
-.minus{
+.minus {
     color: tomato;
 }
 
-#addbtn{
+#addbtn {
     margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#addbtn a{
+#addbtn a {
     width: 150px;
 }
 
+#chartFrame {
     border-top: 1px solid rgba(255, 255, 255, 0.65);
     border-left: 1px solid rgba(255, 255, 255, 0.65);
-    border-radius: 16px;
-    padding: 50px 25px;
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 30px rgba(255, 255, 0, 0.1);
-    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.35);
+    margin-top: 10px;
+}
+#chartFrame canvas {
+    width: 100% !important;
+    max-width: 100%;
 }
 
-#kartya{
-    background: rgba(255, 255, 255, 0.0015);
-    box-shadow: 0 0 4px 2px #ffffff;
+/* https://www.youtube.com/watch?v=m4NUID4kDyo */
+
+.animationBtn {
+    background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
+    color: white;
+    background-size: 200%;
+    transition: 0.3s ease-out;
+    border: 2px solid rgb(53, 75, 240);
+    border-radius: 10px;
 }
 
-.card.card-body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+.animationBtn:hover {
+    background-position: right;
+    border: 2px solid rgb(165, 1, 187);
 }
 
-#outerpanel{
+.animationA {
+    background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
+    color: white;
+    background-size: 200%;
+    transition: 0.3s ease-out;
+    border: none;
+}
+
+.animationA:hover {
+    background-position: right;
+}
+
+a:hover {
+    color: rgb(100, 154, 255);
+}
+
+.delBtn {
+    background: transparent;
+    border: none;
+}
+
+
+#outerpanel {
     border-top: 1px solid rgba(255, 255, 255, 0.65);
     border-left: 1px solid rgba(255, 255, 255, 0.65);
     border-radius: 16px;
@@ -137,7 +215,19 @@ h2{
     backdrop-filter: blur(5px);
 }
 
-#calendar{
+/* Táblázat */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#calendar {
     border-collapse: separate;
     text-align: center;
     width: 100%;
@@ -145,10 +235,97 @@ h2{
     border-radius: 12px;
 }
 
-#calendar th{
-    white-space: nowrap;        /*Mi a fasz */
+#calendar th,
+#calendar td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px 6px;
 }
 
-h2{
+h2 {
     color: white;
+}
+
+.plus {
+    color: greenyellow;
+}
+
+.minus {
+    color: tomato;
+}
+
+#addbtn {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#addbtn a {
+    width: 150px;
+}
+
+/* https://www.youtube.com/watch?v=m4NUID4kDyo */
+
+.animationBtn {
+    background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
+    color: white;
+    background-size: 200%;
+    transition: 0.3s ease-out;
+    border: 2px solid rgb(53, 75, 240);
+    border-radius: 10px;
+}
+
+.animationBtn:hover {
+    background-position: right;
+    border: 2px solid rgb(165, 1, 187);
+}
+
+.animationA {
+    background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
+    color: white;
+    background-size: 200%;
+    transition: 0.3s ease-out;
+    border: none;
+}
+
+.animationA:hover {
+    background-position: right;
+}
+
+.a:hover {
+    color: rgb(100, 154, 255);
+}
+
+.delBtn {
+    background: transparent;
+    border: none;
+}
+
+#kartya,
+.chart-card {
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.8);
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 0 6px rgba(255, 255, 255, 0.45),
+        0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+/* a chart saját belső kerete már ne világítson */
+#chartFrame {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: none;
+}
+
+#chartFrame canvas {
+    width: 100% !important;
+    max-width: 100%;
 }

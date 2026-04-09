@@ -1,56 +1,118 @@
-/* body {
-  font-family: "Lato", sans-serif;
-} */
-
-.side-nav {
-  height: 100%;
-  width: 250px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(32, 30, 30);
-  overflow-x: hidden;
-  padding: 20px 30px;
+html,
+body {
+    height: 100%;
+    margin: 0;
 }
 
-.logo{
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main.page-content {
+    flex: 1;
+}
+
+.side-nav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(32, 30, 30);
+    overflow-x: hidden;
+    padding: 20px 30px;
+}
+
+.logo {
     display: block;
     margin-bottom: 130px;
 }
 
-.logo img{
+.logo img {
     width: 150px;
 }
 
-ul{
+ul {
     justify-content: center;
 }
 
-/* a{
+a {
+    position: relative;
     text-decoration: none;
+    color: white;
 }
 
-.sidenav a {
-  padding: 6px 6px 6px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: white;
-  display: block;
+/* https://www.youtube.com/watch?v=G1uDmIaOnsc */
+
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 1px;
+    background: white;
+    border-radius: 40px;
+    transition: 0.3s;
 }
 
-.sidenav a:hover {
-  color: #f1f1f1;
+nav ul li a:hover::after {
+    width: 100%;
 }
 
-.main {
-  margin-left: 200px;
+.loginBtn {
+    background-color: #972ef9;
+    color: white;
+    border: none;
 }
 
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+.loginBtn:hover {
+    background: linear-gradient(135deg,
+            #481796 0%,
+            #4b1f7a 35%,
+            #6a2bbd 70%,
+            #a855f7 100%);
+    color: white;
+    border: none;
 }
 
+.registrationBtn {
+    background-color: #972ef9;
+    color: white;
+    border: none;
+}
 
- */
+.registrationBtn:hover {
+    background: linear-gradient(135deg,
+            #481796 0%,
+            #4b1f7a 35%,
+            #6a2bbd 70%,
+            #a855f7 100%);
+    color: white;
+    border: none;
+}
+
+nav ul li a:hover {
+    color: white;
+}
+
+footer a {
+    color: white;
+}
+
+footer a:hover {
+    color: rgb(100, 154, 255);
+}
+
+.footerReview {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 767px) {
+    #no-mobile {
+        display: none;
+    }
+}

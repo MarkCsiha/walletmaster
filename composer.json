@@ -9,10 +9,12 @@
         "php": "^8.2",
         "icehouse-ventures/laravel-chartjs": "^4.2",
         "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.24",
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^4.1",
         "maatwebsite/excel": ">=3.1 <3.2",
+        "phpoffice/phpspreadsheet": "^1.30",
         "realrashid/sweet-alert": "^7.3"
     },
     "require-dev": {

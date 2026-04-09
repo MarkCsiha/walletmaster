@@ -47,17 +47,26 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     @guest
-                        <li class="nav-item"><a href="/login" class="btn btn-secondary">Bejelentkezés</a></li>
-                        <li class="nav-item ms-4 me-4"><a href="/registration"
-                                class="btn btn-success bi bi-person">Regisztráció</a></li>
-                    @else
-                        <li class="nav-item ms-4 me-4"><a href="/" class="btn btn-dark">Rólunk</a></li>
-                        <li class="nav-item ms-4 me-4"><a href="/limit" class="btn btn-dark">Adataim</a></li>
-                        <li class="nav-item ms-4 me-4"><a href="/debt" class="btn btn-dark bi bi-coin">Tartozások</a></li>
-                        <li class="nav-item ms-4 me-4"><a href="/goals" class="btn btn-dark bi bi-bullseye"> Céljaim</a>
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center">
+                            <a href="/login" class="btn rounded-pill d-flex align-items-center gap-2 loginBtn">
+                                <span class="bi bi-person"></span>
+                                <span>Bejelentkezés</span>
+                            </a>
                         </li>
-                        <li class="nav-item ms-4 me-4"><a href="/main" class="btn btn-dark">Főoldal</a></li>
-                        <li class="nav-item ms-4 me-4"><a href="/account" class="btn btn-dark"><span
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center">
+                            <a href="/registration" class="btn rounded-pill d-flex align-items-center gap-2 registrationBtn">
+                                <span class="bi bi-person"></span>
+                                <span>Regisztráció</span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/">Rólunk</a></li>
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/limit">Adataim</a></li>
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/debt" class="bi bi-coin">Tartozások</a></li>
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/goals" class="bi bi-bullseye"> Céljaim</a>
+                        </li>
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/main">Főoldal</a></li>
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/account"><span
                                     class="bi bi-person"></span></a></li>
                     @endguest
                 </ul>
@@ -71,35 +80,32 @@
         <div class="container pt-3 text-white">
             <h5>Elérhetőségek: </h5>
             <hr>
-            <div class="row">
+            <div class="row justify-content-center col-sm">
                 <div class="col-sm">
                     <p>
                         Készítették: <br> Csiha Márk, Szabó Máté László
                         <br>
                     <p>Terebély Károly Sigmaképző Technikum</p>
-                    <p>2025-2026</p>
+                    <span>Észrevétele van?</span> <a href="/review" class="footerReview">Írjon nekünk!</a>
                     </p>
+                    <p>Minden jog fenntartva © {{ now()->year }} WalletMaster</p>
                 </div>
 
-                <div class="d-flex col-sm ">
-                    <div class="vr"></div>
+                <div class="d-flex col-sm">
+                    <div class="vr" id="no-mobile"></div>
                 </div>
                 <div class="row justify-content-center col-sm">
-                    <span class="bi bi-telephone"> <a class="link-light" href="tel:06700216634"> 06 70 021
-                            6634</a></span>
-                    <span class="bi bi-envelope"> <a class="link-light" href="mailto:walletmaster01@gmail.com">
+                    <span class="bi bi-telephone"> <a href="tel:06700216634"> 06 70 021 6634</a></span>
+                    <span class="bi bi-envelope"> <a href="mailto:sigmawallet01@gmail.com">
                             walletmaster01@gmail.com</a></span>
-                    <span class="bi bi-instagram"> <a class="link-light"
-                            href="https://www.instagram.com/walletmaster01/" target="_blank"> WalletMaster</a></span>
-                    <span class="bi bi-facebook"> <a class="link-light"
-                            href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU" target="_blank">
+                    <span class="bi bi-instagram"> <a href="https://www.instagram.com/walletmaster01/" target="_blank">
                             WalletMaster</a></span>
+                    <span class="bi bi-facebook"> <a href="https://www.facebook.com/mate.szabo.5074644?locale=hu_HU"
+                            target="_blank"> WalletMaster</a></span>
                 </div>
             </div>
         </div>
     </footer>
-    @livewireScripts
-    @livewireScriptConfig
     <script src="{{ asset('js/charts.js') }}"></script>
     <script src="{{ asset('js/charts-spentincome.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>

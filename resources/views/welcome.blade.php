@@ -48,8 +48,8 @@
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">
                             <i class="bi bi-cash"></i>
                         </div>
-                        <h2 class="fs-4 fw-bold">Valutaváltó</h2>
-                        <p class="mb-0">Nézze meg, aktuálisan mennyit ér a pénze más országok pénznemében és fordítva!</p> <br>
+                        <h2 class="fs-4 fw-bold">Tartozások</h2>
+                        <p class="mb-0">Tartsa számon könnyedén, hogy ki tartozik Önnek, illetve Ön kinek tartozik, így minden pénzügyi kötelezettség átlátható marad.</p>
                     </div>
                 </div>
             </div>
