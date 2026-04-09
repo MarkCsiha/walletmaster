@@ -106,9 +106,6 @@ a:hover {
     color: rgb(100, 154, 255);
 }
 
-.pending-cim {
-    color: white;
-}
 
 @media screen and (max-width: 767px) {
   #button {
@@ -123,4 +120,19 @@ a:hover {
 
 .minus {
     color: tomato;
+}
+
+.debt-page {
+    min-height: calc(100vh - 350px);
+}
+
+.cim {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-body h2{
+    margin: 0;
+    text-align: center;
 }

@@ -85,7 +85,7 @@
                     <p>
                         Készítették: <br> Csiha Márk, Szabó Máté László
                         <br>
-                    <p>Terebély Károly Sigmaképző Technikum</p>
+                    <p>Terebély Károly Technikum</p>
                     <span>Észrevétele van?</span> <a href="/review" class="footerReview">Írjon nekünk!</a>
                     </p>
                     <p>Minden jog fenntartva © {{ now()->year }} WalletMaster</p>
