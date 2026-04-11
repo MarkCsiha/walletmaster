@@ -129,7 +129,7 @@
 
                                     @if (request('chartDataType') == 'monthlyChart')
                                         <label for="year">Év kiválasztása</label>
-                                        <select name="year" id="year" class="form-control"
+                                        <select name="year" id="year" class="form-control rounded-pill"
                                             onchange="this.form.submit()">
                                             @foreach ($years as $y)
                                                 <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
@@ -256,9 +256,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
 
     <script>
-        //a ??-el lehet üres is, azaz ha más formot küldünk, akkor nem fog összeomlani hogy nem kapta meg
-        let labels = {!! json_encode($labels ?? []) !!};
-        let data = {!! json_encode($data ?? []) !!};
+        let labels = @json($labels ?? []);
+        let data = @json($data ?? []);
 
         let spent = [];
         let income = [];
@@ -283,11 +282,5 @@
         const isMonthly = @json(!empty($monthly));
         const isSpentIncome = @json(!empty($spent));
         const isComparison = @json(!empty($budgetComparison));
-        // $(document).on('click','.deleteSpending',function(){
-        //     var programID=$(this).attr('data-programid');
-        //     $('#app_id').val(programID);
-        //     $('#question').append(programID+' ?');
-        //     $('#applicantDeleteModal').modal('show');
-        // });
     </script>
 @endsection

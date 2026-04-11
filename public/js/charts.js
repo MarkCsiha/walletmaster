@@ -55,7 +55,6 @@ const config = (type) => {
         type: type,
         data: {
             labels: labels,
-            //ha az isComparison igaz (azaz ha az a select option van kiválasztva), akkor a címek 'Te' és 'Átlag'-ok lesznek, az adatok pedig a userData és a compData
             datasets: isComparison ? [
                 {
                     data: userData,

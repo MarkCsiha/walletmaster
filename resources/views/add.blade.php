@@ -18,7 +18,6 @@
                     <div class="card">
                         <div class="card-body">
 
-<<<<<<< HEAD
                             <form action="/import" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="file" name="file" class="form-control rounded-pill" accept=".csv,.xlsx" required>
@@ -33,20 +32,6 @@
                                 @error('osszeg')
                                     <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                 @enderror
-=======
-                    <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="file" class="form-control" accept=".csv,.xlsx" required>
-                        <button type="submit" class="btn btn-primary mt-2 animationBtn">Adatok importálása</button>
-                    </form>
-                        <form action="/add" method="post">
-                        @csrf
-                            <label class="form-label" for="osszeg">Összeg:</label>
-                            <input class="form-control" type="number" name="osszeg" id="osszeg" value="{{old('osszeg')}}">
-                            @error('osszeg')
-                                <p style="color: tomato" class="text-danger">{{$message}}</p>
-                            @enderror
->>>>>>> origin/Csiha
 
                                 <label class="form-label mt-4" for="honnan">Hely:</label>
                                 <input class="form-control rounded-pill" type="text" name="honnan" id="honnan"
@@ -103,14 +88,9 @@
                                     </select>
                                 </div>
 
-<<<<<<< HEAD
                                 <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Tranzakció hozzáadása</button>
                             </form>
                         </div>
-=======
-                            <button class="btn btn-dark mt-4 animationBtn" type="submit">Elküld</button>
-                        </form>
->>>>>>> origin/Csiha
                     </div>
                 </div>
             </div>

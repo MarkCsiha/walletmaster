@@ -261,7 +261,8 @@ class UserController extends Controller
         if (Hash::check($req->currentpassword, Auth::user()->password)) {
             if ($req->currentpassword == $req->newpassword) {
                 return redirect('/account')->with(['unsuccessful' => "Nem adhatja meg újra a korábbi jelszavát"]);
-            } else if ($req->newpassword != $req->newpassword_confirmation) {
+            }
+            else if ($req->newpassword != $req->newpassword_confirmation) {
                 return redirect('/account')->with(['unsuccessful' => "A két jelszó nem egyezik!"]);
             } else {
                 $data = User::find(Auth::user()->id);

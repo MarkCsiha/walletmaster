@@ -29,12 +29,17 @@ class DebtController extends Controller
     public function DebtAdd(Request $req)
     {
         $req->validate([
-                "debtDate"              => "required|date_format:Y-m-d|before_or_equal:today",
-                "debtAmount"            => "required|numeric"
-            ], [
-                'debtDate.before'       => "Nem adhat meg jövőbeli dátumot!",
-                "*.required"            => "Kötelező mező!",
-                "debtAmount.numeric"    => "Csak számot adhat meg!"
+            "debtDate"              => "required|date_format:Y-m-d|before_or_equal:today",
+            "debtAmount"            => "required|numeric",
+            "description"           => "max:50",
+            "name"                  => "required|max:100"
+        ], [
+            'debtDate.before'       => "Nem adhat meg jövőbeli dátumot!",
+            "*.required"            => "Kötelező mező!",
+            "debtAmount.numeric"    => "Csak számot adhat meg!",
+            "description.max"       => "A leírás maximum 50 karakter hosszú lehet!",
+            "name.max"       => "A név maximum 100 karakter hosszú lehet!"
+
         ]);
 
         $partnerId = null;
@@ -42,7 +47,7 @@ class DebtController extends Controller
             $partner = User::where('felhasznalonev', $req->username)->first();
 
             if (!$partner) {
-                return redirect('debt')->with(['unsuccessful' => 'Nem találtunk ilen felhasználónévvel rendelkező felhasználót!']);
+                return redirect('debt')->with(['unsuccessful' => 'Nem találtunk ilyen felhasználónévvel rendelkező felhasználót!']);
             }
 
             $partnerId = $partner->id;
@@ -66,7 +71,7 @@ class DebtController extends Controller
         if ($partnerId) {
             $mirror                  = new tartozasok;
             $mirror->user_id         = $partnerId;
-            $mirror->partner_nev     = trim(Auth::User()->vez_nev ?? '').' '.(Auth::User()->ker_nev ?? '');
+            $mirror->partner_nev     = trim(Auth::User()->vez_nev ?? '') . ' ' . (Auth::User()->ker_nev ?? '');
             $mirror->partner_user_id = Auth::id();
             $mirror->osszeg          = $req->debtAmount;
             $mirror->leiras          = $req->description;
@@ -85,27 +90,24 @@ class DebtController extends Controller
 
     public function ShowDebtDetails($id)
     {
-        $debt = tartozasok::where("tartozasok_id", $id)
-            ->where("user_id", Auth::id())
-            ->firstOrFail();
-        $userDebt = tartozasok::where('tartozasok.tartozasok_id', '=', $id)
-            ->where("user_id", Auth::id())
-            ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
-            ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
-            ->firstOrFail();
+         $debt = tartozasok::join('users', 'users.id', '=', 'tartozasok.partner_user_id')
+                            ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
+                            ->where('tartozasok.tartozasok_id', $id)
+                            ->where('tartozasok.partner_user_id', Auth::id())
+                            ->firstOrFail();
 
         return view('debt-accept', [
-            "id"        => $id,
-            "debt"      => $debt,
-            "userDebt"  => $userDebt
+            'id' => $id,
+            'debt' => $debt,
+            'userDebt' => $debt
         ]);
     }
 
     public function AcceptDebt($id)
     {
         $debt = tartozasok::where("tartozasok_id", $id)
-                            ->where("user_id", Auth::id())
-                            ->firstOrFail();
+            ->where("user_id", Auth::id())
+            ->firstOrFail();
         if ($debt->ki_irta == Auth::id()) {
             return redirect('/debt')->with(['unsuccessful' => 'Saját maga által rögzített tartozást nem fogadhat el.']);
         }

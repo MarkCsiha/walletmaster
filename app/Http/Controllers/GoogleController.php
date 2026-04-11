@@ -7,6 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Concerns\ToArray;
 
 class GoogleController extends Controller
 {
@@ -22,7 +23,6 @@ class GoogleController extends Controller
 
         $findUser = User::where('email', $user->getEmail())
                         ->first();
-
         if ($findUser) {
             if (empty($findUser->google_id)) {
                 $findUser->google_id = $user->getId();
@@ -31,6 +31,7 @@ class GoogleController extends Controller
             Auth::login($findUser);
             return redirect('main')->with(["success" => "Sikeres bejelentkezés!"]);
         }
+
         else {
             $data = new User;
             $data->vez_nev = null;
