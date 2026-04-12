@@ -103,7 +103,7 @@
             <div class="row gx-lg-5 mt-5 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="fs-4 fw-bold">Mentett fix kiadásai</h2>
+                        <h2 class="fs-4 fw-bold">Mentett fix bevételei és kiadásai</h2>
                         <p>Az alábbi listában a rögzített rendszeres kiadások és bevételek láthatók.</p>
                         <p>Ezek az összegek a megadott időpontban válnak ismét esedékessé.</p>
                         <p>Kérjük, hogy az adott napon lépjen be a rendszerbe a tételek rögzítéséhez. Amennyiben ez nem
@@ -116,7 +116,7 @@
                                     <th>Összeg</th>
                                     <th>Létrehozva</th>
                                     <th>Következő fizetés</th>
-                                    <th></th>
+                                    <th>Kiadás törlése</th>
                                 </tr>
 
                                 {{-- Havi mentés egyszerűsíteni
@@ -129,8 +129,8 @@
                                         <td>{{ date_format(date_create($p->letrehozas), 'Y. m. d') }}</td>
                                         <td>{{ date_format(date_create($p->fizetve), 'Y. m. d') }}</td>
 
-                                        <td class="text-center"> <button onclick="return confirm('Biztosan törli a költséglimitet?')" class="delBtn"><a href="/limitexit/{{ $p->szamla_id }}"> <i
-                                                    class="bi bi-trash-fill text-danger"></i> </a></button> </td>
+                                        <td> <button onclick="return confirm('Biztosan törli a költséglimitet?')" class="delBtn"><a href="/limitexit/{{ $p->szamla_id }}"> <i
+                                                    class="bi bi-trash-fill text-danger spentTrash"></i> </a></button> </td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -143,7 +143,7 @@
                                     <th>Összeg</th>
                                     <th>Létrehozva</th>
                                     <th>Következő fizetés</th>
-                                    <th></th>
+                                    <th>Bevétel törlése</th>
                                 </tr>
 
                                 @foreach ($incomes as $i)
@@ -153,8 +153,8 @@
                                         </td>
                                         <td>{{ date_format(date_create($i->letrehozas), 'Y. m. d') }}</td>
                                         <td>{{ date_format(date_create($i->fizetve), 'Y. m. d') }}</td>
-                                        <td class="text-center">  <button onclick="return confirm('Biztosan törli a költséglimitet?')" class="delBtn"><a href="/limitexit/{{ $i->szamla_id }}"> <i
-                                                    class="bi bi-trash-fill text-danger"></i> </a></button> </td>
+                                        <td>  <button onclick="return confirm('Biztosan törli a költséglimitet?')" class="delBtn"><a href="/limitexit/{{ $i->szamla_id }}"> <i
+                                                    class="bi bi-trash-fill text-danger incomeTrash"></i> </a></button> </td>
                                     </tr>
                                 @endforeach
                             </table>
