@@ -43,13 +43,22 @@
                                                 <p class="card-text text-white">Határidő: {{ $cel->hatarido }}</p>
                                             </div>
                                         </div>
-
-                                        <div class="progress" role="progressbar" aria-label="Basic example"
+                                        @if ($cel->statusz == "teljesítve")
+                                            <div class="progress" role="progressbar" aria-label="Basic example"
                                             aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
                                             <div class="progress-bar w-"
-                                                style="width:{{ ($cel->budzse / $cel->cel_osszeg) * 100 }}%; background: greenyellow;">
+                                                style="width:100%; background: greenyellow;">
                                             </div>
                                         </div>
+                                        @else
+                                            <div class="progress" role="progressbar" aria-label="Basic example"
+                                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar w-"
+                                                    style="width:{{ ($cel->budzse / $cel->cel_osszeg) * 100 }}%; background: greenyellow;">
+                                                </div>
+                                            </div>
+                                        @endif
+
 
                                         <div class="row">
                                             <div class="col">
