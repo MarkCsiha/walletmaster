@@ -90,7 +90,7 @@
                             @endif
                         </form>
                         @if ($has_limit != null)
-                            <form action="/limit" method="post">
+                            <form action="/limitdelete/{limit_id}" method="post">
                                 @csrf
                                 <button onclick="return confirm('Biztosan törli a költséglimitet?')"
                                     class="btn btn-danger mt-4 animationBtnDel rounded-pill" type="submit">Költséglimit

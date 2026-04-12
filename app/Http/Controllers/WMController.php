@@ -680,41 +680,30 @@ class WMController extends Controller
 
         if ($limiset) {
             $limiset->osszeg = $req->paylimit;
+            $limiset->aktiv = 1;
             $limiset->save();
-<<<<<<< HEAD
-        } else {
-=======
         }
         else {
->>>>>>> 888569de8f0d91cfc1d23b4c57c0b0f56cd3981a
             $data = new koltseglimit();
             $data->user_id = Auth::id();
             $data->osszeg = $req->paylimit;
+            $data->aktiv = 1;
             $data->save();
         }
 
 
         if (Auth::check()) {
-            return redirect("limit");
-<<<<<<< HEAD
-        } else {
-=======
+            return redirect("limit")->with(['success' => 'Sikeres költséglimit hozzáadás!']);
         }
         else {
->>>>>>> 888569de8f0d91cfc1d23b4c57c0b0f56cd3981a
             return redirect("login");
         }
     }
 
-<<<<<<< HEAD
     public function LimitDelete(Request $req)
     {
-=======
-
-    public function LimitDelete(Request $req) {
->>>>>>> 888569de8f0d91cfc1d23b4c57c0b0f56cd3981a
         $data = koltseglimit::where("user_id", Auth::id())
-            ->first();
+                            ->first();
         $data->aktiv = 0;
         $data->save();
 
