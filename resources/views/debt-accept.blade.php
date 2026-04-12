@@ -30,9 +30,9 @@
                     <tr>
                         <td>
                             @if ($userDebt->tipus == 0)
-                                <span class="text-danger">- {{ $userDebt->osszeg }} Ft</span>
+                                <span class="minus">- {{ $userDebt->osszeg }} Ft</span>
                             @else
-                                <span class="text-success">+ {{ $userDebt->osszeg }} Ft</span>
+                                <span class="text-plus">+ {{ $userDebt->osszeg }} Ft</span>
                             @endif
                         </td>
                         <td>{{ $userDebt->partner_nev }}</td>

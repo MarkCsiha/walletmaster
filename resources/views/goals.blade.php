@@ -5,131 +5,145 @@
 @endpush
 
 @section('content')
-<<<<<<< HEAD
-<main class="container pb-5">
-=======
-<main class="container py-5">
->>>>>>> origin/Csiha
-    <h1 class="bi bi-bullseye p-3"> Céljaim</h1>
+    <main class="container py-5">
+        <h1 class="bi bi-bullseye p-3"> Céljaim</h1>
 
-    <div class="container">
-        <div id="outerpanel">
+        <div class="container">
+            <div id="outerpanel">
 
-            <div class="row align-items-start justify-content-center">
-                <div class="col">
-                    <button type="button" class="goal-tab" onclick="change('goals')">
-                        Célok
-                    </button>
+                <div class="row align-items-start justify-content-center">
+                    @if (session('success'))
+                        <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
+                            <i class="bi bi-check-circle-fill">
+                                {{ session('success') }}
+                            </i>
+                        </div>
+                    @elseif (session('unsuccessful'))
+                        <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
+                            <i class="bi bi-exclamation-triangle-fill">
+                                {{ session('unsuccessful') }}
+                            </i>
+                        </div>
+                    @endif
+                    <div class="col">
+                        <button type="button" class="goal-tab animationBtn rounded-pill" onclick="change('goals')">
+                            Célok
+                        </button>
 
-                    <div id="goalsBody" class="d-none">
-                        @foreach ($result as $cel)
-                            <div class="card mb-3" id="goalcard">
-                                <div class="card-body">
+                        <div id="goalsBody" class="d-none">
+                            @foreach ($result as $cel)
+                                <div class="card mb-3" id="goalcard">
+                                    <div class="card-body">
 
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title">{{ $cel->cel_nev }}</h5>
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title">{{ $cel->cel_nev }}</h5>
+                                            </div>
+                                            <div class="col">
+                                                <p class="card-text">Határidő: {{ $cel->hatarido }}</p>
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            <p class="card-text">Határidő: {{ $cel->hatarido }}</p>
+
+                                        <div class="progress" role="progressbar" aria-label="Basic example"
+                                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar w-"
+                                                style="width:{{ ($cel->budzse / $cel->cel_osszeg) * 100 }}%; background: greenyellow;">
+                                            </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <a class="btn btn-primary mt-4 animationBtn rounded-pill"
+                                                    href="/goalsmod/{{ $cel->cel_id }}">Módosítás</a>
+                                            </div>
+                                            <div class="col mt-4">
+                                                <p>
+                                                    @if ($cel->cel_osszeg <= $cel->budzse)
+                                                        Teljesítve <span
+                                                            class="bi bi-check-square-fill text-success"></span>
+                                                    @elseif ($cel->statusz == 'aktív')
+                                                        Aktív <span class=""></span>
+                                                    @elseif ($cel->statusz == 'teljesítve')
+                                                        Teljesítve <span
+                                                            class="bi bi-check-square-fill text-success"></span>
+                                                    @else
+                                                        Törölve <span class="bi bi-x-circle-fill text-danger"></span>
+                                                    @endif
+                                                </p>
+                                            </div>
+                                        </div>
+
                                     </div>
-
-                                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar w-" style="width:{{ ($cel->budzse / $cel->cel_osszeg) * 100}}%; background: greenyellow;"></div>
-                                    </div>
-
-                                    {{-- https://getbootstrap.com/docs/5.3/components/progress/ --}}
-
-                                    <div class="row">
-                                        <div class="col">
-<<<<<<< HEAD
-                                            <a class="btn btn-primary mt-4 animationA rounded-pill" href="/goalsmod/{{$cel->cel_id}}">Módosítás</a>
-=======
-                                            <a class="btn btn-primary mt-4 animationA" href="/goalsmod/{{$cel->cel_id}}">Módosítás</a>
->>>>>>> origin/Csiha
-                                        </div>
-                                        <div class="col mt-4">
-                                            <p>
-                                                @if ($cel->cel_osszeg <= $cel->budzse)
-                                                    Teljesítve <span class="bi bi-check-square-fill text-success"></span>
-                                                @elseif ($cel->statusz == "aktív")
-                                                    Aktív <span class=""></span>
-                                                @elseif ($cel->statusz == "teljesítve")
-                                                    Teljesítve <span class="bi bi-check-square-fill text-success"></span>
-                                                @else
-                                                    Törölve <span class="bi bi-x-circle-fill text-danger"></span>
-                                                @endif
-                                            </p>
-                                        </div>
-                                    </div>
-
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
-                </div>
 
-                <div class="col text-end">
-                    <button type="button" class="goal-tab" onclick="change('add')">
-                        Hozzáadás
-                    </button>
+                    <div class="col text-end">
+                        <button type="button" class="goal-tab animationBtn rounded-pill" onclick="change('add')">
+                            Hozzáadás
+                        </button>
 
-                    <div id="addBody" class="d-none">
-                        <div class="card">
-                            <div class="card-body">
-                                <form action="/goals" method="post">
-                                    @csrf
+                        <div id="addBody" class="d-none">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="/goals" method="post">
+                                        @csrf
 
-                                    <label class="form-label" for="nev"><span style="color: tomato">*</span>Cél neve:</label>
-                                    <input class="form-control rounded-pill" type="text" name="nev" id="nev">
-                                    @error('nev')
-                                        <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                        <label class="form-label" for="nev"><span style="color: tomato">*</span>Cél
+                                            neve:</label>
+                                        <input class="form-control rounded-pill" type="text" name="nev"
+                                            id="nev">
+                                        @error('nev')
+                                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                        @enderror
 
-                                    <label class="form-label" for="cel_osszeg"><span style="color: tomato">*</span>Célösszeg:</label>
-                                    <input class="form-control rounded-pill" type="number" name="cel_osszeg" id="cel_osszeg">
-                                    @error('cel_osszeg')
-                                        <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                        <label class="form-label" for="cel_osszeg"><span
+                                                style="color: tomato">*</span>Célösszeg:</label>
+                                        <input class="form-control rounded-pill" type="number" name="cel_osszeg"
+                                            id="cel_osszeg">
+                                        @error('cel_osszeg')
+                                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                        @enderror
 
-                                    <label class="form-label" for="osszeg"><span style="color: tomato">*</span>Most mennyit tud rászánni:</label>
-                                    <input class="form-control rounded-pill" type="number" name="osszeg" id="osszeg">
-                                    @error('osszeg')
-                                        <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                        <label class="form-label" for="osszeg"><span style="color: tomato">*</span>Most
+                                            mennyit tud rászánni:</label>
+                                        <input class="form-control rounded-pill" type="number" name="osszeg"
+                                            id="osszeg">
+                                        @error('osszeg')
+                                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                        @enderror
 
-                                    <label class="form-label" for="hatarido"><span style="color: tomato">*</span>Határidő:</label>
-                                    <input class="form-control rounded-pill" type="date" name="hatarido" id="hatarido">
-                                    @error('hatarido')
-                                        <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    <div class="btn">
-<<<<<<< HEAD
-                                        <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Létrehozás</button>
-=======
-                                        <button class="btn btn-dark mt-4 animationBtn" type="submit">Létrehozás</button>
->>>>>>> origin/Csiha
-                                    </div>
-                                </form>
+                                        <label class="form-label" for="hatarido"><span
+                                                style="color: tomato">*</span>Határidő:</label>
+                                        <input class="form-control rounded-pill" type="date" name="hatarido"
+                                            id="hatarido">
+                                        @error('hatarido')
+                                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                        @enderror
+                                        <div class="btn">
+                                            <button class="btn btn-dark mt-4 animationBtn rounded-pill"
+                                                type="submit">Létrehozás</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row mt-4 justify-content-center">
-                <div class="col-12 col-md-10 col-lg-8">
-                    <div id="centerPanel" class="d-none">
-                        <div id="centerPanelInner">
-                            <div class="card-body" id="cont"></div>
+                <div class="row mt-4 justify-content-center">
+                    <div class="col-12 col-md-10 col-lg-8">
+                        <div id="centerPanel" class="d-none">
+                            <div id="centerPanelInner">
+                                <div class="card-body" id="cont"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<script src="{{asset('js/goals.js')}}"></script>
+    <script src="{{ asset('js/goals.js') }}"></script>
 @endsection

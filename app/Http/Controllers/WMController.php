@@ -24,8 +24,6 @@ class WMController extends Controller
     {
         $user = Auth::id();
 
-
-
         $havi = szamla::select('szamla.user_id', 'szamla.szamla_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
             ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
             ->where("fix.tipus", "havi")
@@ -48,7 +46,7 @@ class WMController extends Controller
             $data->osszeg       = $havi->osszeg;
             $data->honnan       = $havi->honnan;
             $data->leiras       = $havi->leiras;
-            $data->datum        = now()->format('Y-m-d');;
+            $data->datum        = now()->format('Y-m-d');
             $data->fix          = $havi->fix;
             $data->tipus        = $havi->tipus;
             $data->kategoria_nev = $havi->kategoria_nev;
@@ -84,7 +82,7 @@ class WMController extends Controller
             $data->osszeg       = $havi->osszeg;
             $data->honnan       = $havi->honnan;
             $data->leiras       = $havi->leiras;
-            $data->datum        = now()->format('Y-m-d');;
+            $data->datum        = now()->format('Y-m-d');
             $data->fix          = $havi->fix;
             $data->tipus        = $havi->tipus;
             $data->kategoria_nev = $havi->kategoria_nev;
@@ -96,7 +94,6 @@ class WMController extends Controller
                 $kfix->Save();
             }
         }
-        //SELECT szamla.user_id, szamla.osszeg, szamla.honnan, szamla.leiras, szamla.datum, szamla.fix, szamla.tipus, szamla.kategoria_nev FROM `fix` JOIN szamla on szamla.szamla_id = fix.szamla_id where date_add(fix.fizetve, interval + 1 month) = CURDATE();
 
         // --- NAPTÁR: hónap kiválasztás query param alapján ---
         $ym = $req->query('ym', now()->format('Y-m')); // pl. 2026-01
@@ -243,7 +240,7 @@ class WMController extends Controller
             ->pluck('year');
         $budgetComparison = null;
         $userExpenses = null;
-        //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
+
         if ($req->input('chartDataType') == "budgetComparisonChart") {
             $budgetComparison = szamla::selectRaw("ROUND(AVG(osszeg)) as average, kategoria_nev as category_name")
                                         ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
@@ -307,8 +304,8 @@ class WMController extends Controller
                 ->orderBy("datum", "desc")
                 ->paginate(10);
         }
-
         $result = szamla::where("user_id", $user)
+            ->where("aktiv", 1)
             ->whereYear('datum', $monthStart->year)
             ->whereMonth('datum', $monthStart->month)
             ->orderBy("datum", "desc")
@@ -332,8 +329,6 @@ class WMController extends Controller
                 "nextYm"            => $nextYm,
                 "budgetComparison"  => $budgetComparison,
                 "userExpenses"      => $userExpenses,
-                // 'compLabels'        => $budgetComparison->keys(),
-                // "compData"          => $budgetComparison->values(),
                 "dailySums"         => $dailySums,
                 "budgetGoal"        => $budgetGoal
             ]);
@@ -374,9 +369,7 @@ class WMController extends Controller
 
         if ($req->fix != "nem") {
             $kfix = fix::where("szamla_id", $data->szamla_id)->first();
-            //A first() azért kell hogy a a where-ből megkapott lekérdezés értékét megkapjam
-            //Ha van olyan visszakapom a sort tehát an érték
-            //Ha nincs olyan null-t kapok és az else ág fut le
+
             if ($kfix) {
                 $kfix->tipus = $req->fix;
                 $kfix->osszeg = $req->osszeg;
@@ -391,8 +384,6 @@ class WMController extends Controller
                 $kfix->Save();
             }
         }
-        #1 = bevétel
-        #0 = kiadás
         if ($req->tipus == "bevetel") {
             $data->tipus = 1;
         } else {
@@ -411,10 +402,13 @@ class WMController extends Controller
 
     public function MainDelete($szamla_id)
     {
-        $data = szamla::find($szamla_id);
-        $data->Delete();
+        $data = szamla::where("szamla_id", $szamla_id)->first();
+
+        $data->aktiv = 0;
+        $data->Save();
+
         if (Auth::check()) {
-            return redirect("/main")->with(["success" => "Sikeresen törölte a költséget!"]);
+            return redirect("/main")->with(["success" => "Sikeresen törölte a tranzakciót!"]);
         } else {
             return redirect("/login");
         }
@@ -454,8 +448,6 @@ class WMController extends Controller
         $data->leiras   = $req->leiras;
         $data->datum    = $req->datum;
         $data->fix      = $req->fix;
-        #1 = bevétel
-        #0 = kiadás
         if ($req->tipus == "bevetel") {
             $data->tipus = 1;
         } else {
@@ -463,6 +455,17 @@ class WMController extends Controller
         }
 
         $data->Save();
+
+        $fix_pay = new fix;
+        if($req->fix == "eves" || $req->fix == "feleves" || $req->fix == "havi"){
+            $fix_pay->user_id = Auth::user()->id;
+            $fix_pay->szamla_id = $data->szamla_id;
+            $fix_pay->tipus = $data->fix;
+            $fix_pay->osszeg = $data->osszeg;
+            $fix_pay->letrehozas = now()->format('Y-m-d');
+            $fix_pay->fizetve = now()->format('Y-m-d');
+            $fix_pay->Save();
+        }
 
         $first_day_of_the_current_month = Carbon::today()->startOfMonth()->toDateString();
         $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
@@ -512,68 +515,8 @@ class WMController extends Controller
         }
 
     }
-
-    public function Charts(Request $req)
-    {
-        //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
-        // $userSpending = szamla::where("user_id", Auth::id())
-        //                         ->when($req->from, function($query) use ($req) {
-        //                             return $query->whereDate('datum', '>=', $req->from);
-        //                         })
-        //                         ->when($req->to, function($query) use ($req) {
-        //                             return $query->whereDate('datum', '<=', $req->to);
-        //                         })
-        //                         ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
-        //                                 //biztosan a felhasználó adatait adja meg
-        //                                 ->where("tipus", 0)
-        //                                 ->groupBy('category_name')
-        //                                 ->orderBy('total')
-        //                                 //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
-        //                                 ->pluck('total', 'category_name');
-
-        // //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
-        // $categories = szamla::where("user_id", Auth::id())
-        //                     ->selectRaw("kategoria_nev as category_name");
-        // if (Auth::check()) {
-        //     return view('main', [
-        //     //a pluck-ból megkapja a kulcsot és értéket
-        //     'userSpending' => $userSpending,
-        //     'labels'    => $userSpending->keys(),
-        //     'data'      => $userSpending->values(),
-        //     ]);
-        // }
-        // else {
-        //     return redirect("login");
-        // }
-    }
-
-    public function SpendingChart()
-    {
-        // $spent = szamla::where('user_id', Auth::id())
-        //                 ->where('tipus', 0)
-        //                 ->sum("osszeg");
-        // $income = szamla::where('user_id', Auth::id())
-        //                 ->where('tipus', 1)
-        //                 ->sum("osszeg");
-        // $labels = ["Kiadás", "Bevétel"];
-        // $data = [$spent, $income];
-
-        //     //Csak akkor láthatja a felhasználó, ha be van jelentkezve, ha nem, akkor a bejelentkezés oldalra irányít automatikusan
-        //     if (Auth::check()) {
-        //         return view('main', [
-        //         //a pluck-ból megkapja a kulcsot és értéket
-        //         'labels'    => $labels,
-        //         'data'      => $data,
-        //         ]);
-        //     }
-        //     else {
-        //         return redirect("login");
-        //     }
-    }
-
     public function ExportExcel()
     {
-        //https://brainlet.medium.com/format-dates-with-carbon-in-laravel-583656a77940
         return Excel::download(new SpendingExport(), "koltsegvetesi_adat_".Carbon::today()->toDateString().".xlsx", null, [
             "include_charts" => true,
         ]);
@@ -620,8 +563,7 @@ class WMController extends Controller
             "hatarido"          =>  "required|date|date_format:Y-m-d",
         ], [
             "*.required"                =>  "Kötelező mező!",
-            // "*.min"                     =>  "A minimum megadható összeg: 5000!",
-            "nev.unique"                =>  "Már létezik ".$req->nev." nevű célja!", //"Már létezik ". nev ." nevű célja!",
+            "nev.unique"                =>  "Már létezik ".$req->nev." nevű célja!",
             "hatarido.date"             =>  "Valós dátumot adjon meg!",
             "hatarido.date_format"      =>  "A dátum helyes formátuma éééé-hh-nn!",
         ]);
@@ -668,8 +610,7 @@ class WMController extends Controller
             "statusz"           =>  "required|in:aktív,teljesítve,törölve"
         ], [
             "*.required"                =>  "Kérem töltse ki a mezőt!",
-            // "*.min"                     =>  "A minimum megadható összeg: 5000!",
-            "nev.unique"                =>  "Már létezik ".$req->nev." nevű célja!", //"Már létezik ". nev ." nevű célja!",
+            "nev.unique"                =>  "Már létezik ".$req->nev." nevű célja!",
             "hatarido.date"             =>  "Valós dátumot adjon meg!",
             "hatarido.date_format"      =>  "A dátum helyes formátuma éééé-hh-nn!",
             "statusz.in"                =>  "A cél státusza 'aktív', 'teljesítve', vagy 'törölve' lehet!"
@@ -683,12 +624,6 @@ class WMController extends Controller
         $data->hatarido = $req->hatarido;
         $data->modositas_datum = now()->format('Y-m-d');
         $data->statusz = $req->statusz;
-        // if($req->cel_osszeg <= $req->budzse){
-        //     $data->statusz = "aktív";
-        // }
-        // else{
-        //     $data->statusz = $req->statusz;
-        // }
         $data->Save();
         if(Auth::check()){
             return redirect("/goals")->with(["success" => "Sikeres célmódosítás!"]);
@@ -718,14 +653,17 @@ class WMController extends Controller
 
         if (Auth::check()) {
             return view("limit", [
-                "result" => koltseglimit::where("user_id", $user)->first(),
+                "result" => koltseglimit::where("user_id", $user)
+                                        ->first(),
                 "pays" => fix::join("szamla", "szamla.szamla_id", "=", "fix.szamla_id")
                                 ->where("fix.user_id", $user)
                                 ->where("szamla.tipus", 0)
+                                ->where("fix.aktiv", 1)
                                 ->get(),
                 "incomes" => fix::join("szamla", "szamla.szamla_id", "=", "fix.szamla_id")
                                 ->where("fix.user_id", $user)
                                 ->where("szamla.tipus", 1)
+                                ->where("fix.aktiv", 1)
                                 ->get(),
                 "has_limit" => koltseglimit::where("user_id", $user)->first(),
                 "sum_prices" => koltseglimit::join("users", "koltseg_limit.user_id", "users.id")
@@ -734,10 +672,8 @@ class WMController extends Controller
                                         ->whereDate("szamla.datum", "<=", $last_day_of_the_current_month)
                                         ->where("szamla.user_id", $user)
                                         ->where("szamla.tipus", 0)
+                                        ->where("szamla.aktiv", 1)
                                         ->sum("szamla.osszeg"),
-
-
-            //https://laracasts.com/discuss/channels/laravel/getting-the-first-and-last-date-of-the-current-month-and-past-2-months
             ]);
         }
         else {
@@ -748,43 +684,32 @@ class WMController extends Controller
     public function MyDataSet(Request $req){
         $req->validate([
             "paylimit" => "required|numeric",
-            // "start_date" => "required|date",
-            // "finish_date" => "required|date",
         ], [
             "*.required" => "Töltse ki a mezőt!",
-            // "*.date"    => "Dátumot adjon meg!",
             "paylimit.numeric" => "Számot adjon meg!",
         ]);
         $data = new koltseglimit();
         $data->user_id = Auth::user()->id;
         $data->osszeg = $req->paylimit;
-        // $data->start_datum = $req->start_date;
-        // $data->vege_datum = $req->finish_date;
         $data->Save();
 
         if (Auth::check()) {
-            return redirect("limit");
+            return redirect("limit")->with(['success' => 'Sikeres költséglimit hozzáadás!']);
         }
         else {
             return redirect("login");
         }
     }
 
-    public function LimitMore($fix_id){
-        $result_fix = celok::find($fix_id);
-        $result_szamla = fix::join('szamla', 'fix.szamla_id', '=', 'szamla.szamla_id')
-                            ->where('fix.fix_id', $fix_id)
-                            ->select('szamla.*')
-                            ->first();
+    public function LimitExit($szamla_id)
+    {
+        $fix = fix::where('szamla_id', $szamla_id)
+                    ->where('user_id', Auth::id())
+                    ->first();
 
-        if(Auth::check()){
-            return view("limitmore", [
-                "result_fix" => $result_fix,
-                "result_szamla" => $result_szamla,
-            ]);
-        }
-        else{
-            return redirect("login");
-        }
+        $fix->aktiv = 0;
+        $fix->Save();
+
+        return redirect('/limit')->with('success', 'A fix tétel törölve lett. Már nem fog frissülni a feltüntetett dátumokkor');
     }
 }

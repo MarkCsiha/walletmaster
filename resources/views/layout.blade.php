@@ -23,6 +23,7 @@
     @stack('forgot-css')
     @stack('reset-css')
     @stack('verify-css')
+    @stack('limit-css')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
     </script>
@@ -60,7 +61,7 @@
                         </li>
                     @else
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/">Rólunk</a></li>
-                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/">Adataim</a></li>
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/limit">Adataim</a></li>
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/debt" class="bi bi-coin">Tartozások</a></li>
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/goals" class="bi bi-bullseye"> Céljaim</a>
                         </li>
@@ -84,7 +85,7 @@
                     <p>
                         Készítették: <br> Csiha Márk, Szabó Máté László
                         <br>
-                    <p>Terebély Károly Sigmaképző Technikum</p>
+                    <p>Terebély Károly Technikum</p>
                     <span>Észrevétele van?</span> <a href="/review" class="footerReview">Írjon nekünk!</a>
                     </p>
                     <p>Minden jog fenntartva © {{ now()->year }} WalletMaster</p>

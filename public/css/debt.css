@@ -24,6 +24,10 @@ h1 {
     color: white;
 }
 
+table tr{
+    color: white;
+}
+
 label{
     margin-top: 5px;
     color: white;
@@ -47,6 +51,7 @@ th, td {
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 4px 30px rgba(255, 255, 0, 0.1);
     backdrop-filter: blur(5px);
+
 }
 
 .card.card-body{
@@ -54,6 +59,7 @@ th, td {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
 }
 
 .table-hover tbody tr:hover td,
@@ -100,13 +106,33 @@ a:hover {
     color: rgb(100, 154, 255);
 }
 
-.pending-cim {
-    color: white;
-}
 
 @media screen and (max-width: 767px) {
   #button {
     display: flex;
     justify-content: center;
   }
+}
+
+.plus {
+    color: greenyellow;
+}
+
+.minus {
+    color: tomato;
+}
+
+.debt-page {
+    min-height: calc(100vh - 350px);
+}
+
+.cim {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-body h2{
+    margin: 0;
+    text-align: center;
 }

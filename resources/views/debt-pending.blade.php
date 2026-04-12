@@ -4,26 +4,27 @@
 @endpush
 @section('content')
 
-    <main class="container pb-2">
-            @if (session('success'))
-                <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
-                    <i class="bi bi-check-circle-fill">
-                        {{ session('success') }}
-                    </i>
-                </div>
-            @elseif (session('unsuccessful'))
-                <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
-                    <i class="bi bi-exclamation-triangle-fill">
-                        {{ session('unsuccessful') }}
-                    </i>
-                </div>
-            @endif
+    <main class="container pt-4 pb-2 debt-page">
+        @if (session('success'))
+            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
+                <i class="bi bi-check-circle-fill">
+                    {{ session('success') }}
+                </i>
+            </div>
+        @elseif (session('unsuccessful'))
+            <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
+                <i class="bi bi-exclamation-triangle-fill">
+                    {{ session('unsuccessful') }}
+                </i>
+            </div>
+        @endif
         <div class="card">
-            <div class="col-md-9">
 
             <div class="card-body">
                 @if (count($userDebt) == 0)
-                    <h2 class="text-center" id="pending-cim">Még nincsenek függőben lévő tartozási kérelmei!</h2>
+                    <div class="cim">
+                        <h2 class="text-center">Még nincsenek függőben lévő tartozási kérelmei!</h2>
+                    </div>
                 @else
                     <table class="table table bordered">
                         <tr>
@@ -42,9 +43,9 @@
                             <tr>
                                 <td>
                                     @if ($debt->tipus == 1)
-                                        <span class="text-danger">- {{ $debt->osszeg }} Ft</span>
+                                        <span class="minus">- {{ $debt->osszeg }} Ft</span>
                                     @else
-                                        <span class="text-success">+ {{ $debt->osszeg }} Ft</span>
+                                        <span class="plus">+ {{ $debt->osszeg }} Ft</span>
                                     @endif
                                 </td>
 
@@ -62,23 +63,23 @@
                                 <td>{{ $debt->datum }}</td>
                                 <td>{{ $debt->statusz }}</td>
                                 <td>
-                                    <form class="card-body"
-                                        action="/debts/{{ $debt->tartozasok_id }}/accept"
+                                    <form class="card-body" action="/debts/{{ $debt->tartozasok_id }}/accept"
                                         method="post">
                                         @csrf
                                         <input type="hidden" name="action" value="elfogadva">
 
-                                        <button class="btn btn-success animationBtn rounded-pill" type="submit" name="accept">Elfogadom</button>
+                                        <button class="btn btn-success animationBtn rounded-pill" type="submit"
+                                            name="accept">Elfogadom</button>
                                     </form>
                                 </td>
                                 <td>
-                                    <form class="card-body"
-                                        action="/debts/{{ $debt->tartozasok_id }}/reject"
+                                    <form class="card-body" action="/debts/{{ $debt->tartozasok_id }}/reject"
                                         method="post">
                                         @csrf
                                         <input type="hidden" name="action" value="elutasítva">
 
-                                        <button class="btn btn-danger animationBtn rounded-pill" type="submit" name="reject">Visszautasítom</button>
+                                        <button class="btn btn-danger animationBtn rounded-pill" type="submit"
+                                            name="reject">Visszautasítom</button>
                                     </form>
                                 </td>
                             </tr>
@@ -86,6 +87,5 @@
                     </table>
                 @endif
             </div>
-        </div>
     </main>
 @endsection

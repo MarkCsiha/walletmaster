@@ -36,9 +36,9 @@
                         <tr>
                             <td>
                                 @if ($debt->tipus == 1)
-                                    <span class="text-danger">- {{ $debt->osszeg }} Ft</span>
+                                    <span class="minus">- {{ $debt->osszeg }} Ft</span>
                                 @else
-                                    <span class="text-success">+ {{ $debt->osszeg }} Ft</span>
+                                    <span class="plus">+ {{ $debt->osszeg }} Ft</span>
                                 @endif
                             </td>
 
@@ -49,9 +49,9 @@
                             <td>{{ $debt->leiras }}</td>
                             <td>
                                 @if ($debt->tipus == 1)
-                                    <span class="text-danger">Tartozás</span>
+                                    <span class="minus">Tartozás</span>
                                 @else
-                                    <span class="text-success">Másik fél</span>
+                                    <span class="plus">Másik fél</span>
                                 @endif
                             </td>
                             <td>{{ $debt->datum }}</td>

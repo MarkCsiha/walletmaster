@@ -12,6 +12,12 @@
                         {{ session('success') }}
                     </i>
                 </div>
+            @elseif (session('unsuccessful'))
+                <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
+                    <i class="bi bi-exclamation-triangle-fill">
+                        {{ session('unsuccessful') }}
+                    </i>
+                </div>
             @endif
             <div class="row">
                 <div class="col-md">
@@ -20,7 +26,8 @@
 
                             <form action="/import" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <input type="file" name="file" class="form-control rounded-pill" accept=".csv,.xlsx" required>
+                                <input type="file" name="file" class="form-control rounded-pill" accept=".csv,.xlsx"
+                                    required>
                                 <button type="submit" class="btn btn-primary mt-2 animationBtn rounded-pill">Adatok
                                     importálása</button>
                             </form>
@@ -88,7 +95,8 @@
                                     </select>
                                 </div>
 
-                                <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Tranzakció hozzáadása</button>
+                                <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Tranzakció
+                                    hozzáadása</button>
                             </form>
                         </div>
                     </div>

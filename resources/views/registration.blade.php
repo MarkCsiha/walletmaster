@@ -61,10 +61,9 @@
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
 
-                    <label class="form-label mt-3" for="password"><span style="color: tomato">*</span>Jelszó:</label>
-                    <input onkeyup="check()" class="form-control rounded-pill @error('password') is-invalid @enderror"
-                        type="password" name="password" id="password">
-                    <ul>
+                    <label class="form-label mt-3" for="password" {{--id="password"--}}>Jelszó:</label>
+                    <input onkeyup="check()" class="form-control rounded-pill @error('password') is-invalid @enderror" type="password" name="password" id="password">
+                    <ul >
                         <li id="length">A jelszónak legalább 8 karakternek kell lennie!</li>
                         <li id="alph">A jelszónak betűt kell tartalmaznia!</li>
                         <li id="num">A jelszónak legalább egy számot kell tartalmaznia!</li>

@@ -5,6 +5,19 @@
 @endpush
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
+            <i class="bi bi-check-circle-fill">
+                {{ session('success') }}
+            </i>
+        </div>
+    @elseif (session('unsuccessful'))
+        <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
+            <i class="bi bi-exclamation-triangle-fill">
+                {{ session('unsuccessful') }}
+            </i>
+        </div>
+    @endif
     <header class="py-5">
         <div class="container px-lg-5">
             <div class="row gx-lg-5">
@@ -15,24 +28,21 @@
                             <h1 class="display-5 fw-bold mb-4">Számla adataim</h1>
 
                             <div class="mt-3">
-                                <h3 class="fw-semibold mb-2">Költség limit:</h3>
+                                @if (!$has_limit == null)
+                                    <h3 class="fw-semibold mb-2">Költség limit:</h3>
 
-                                <p class="fs-4 fw-semibold mb-4">
-                                    {{$result->osszeg - $sum_prices }} Ft maradt a(z) {{ $result->osszeg }}-ből
-                                </p>
+                                    <p class="fs-4 fw-semibold mb-4">
+                                        {{ $result->osszeg - $sum_prices }} Ft maradt a(z) {{ $result->osszeg }}-ből
+                                    </p>
 
-                                <div class="progress my-4" role="progressbar" aria-label="Basic example" aria-valuenow="50"
-                                    aria-valuemin="0" aria-valuemax="100"
-                                    style="height: 32px; background-color: #f8f9fa; border-radius: 50px;">
-                                    <div class="progress-bar"
-                                        style="width:{{ ($sum_prices / $result->osszeg) * 100 }}%; background: greenyellow; border-radius: 50px;">
+                                    <div class="progress my-4" role="progressbar" aria-label="Basic example"
+                                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+                                        style="height: 32px; background-color: #f8f9fa; border-radius: 50px;">
+                                        <div class="progress-bar"
+                                            style="width:{{ ($sum_prices / $result->osszeg) * 100 }}%; background: greenyellow; border-radius: 50px;">
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="d-flex justify-content-between mt-2">
-                                    <h5 class="mb-0 fw-medium">{{ $result->start_date }}</h5>
-                                    <h5 class="mb-0 fw-medium">{{ $result->finish_date }}</h5>
-                                </div>
+                                @endif
                             </div>
 
                         </div>
@@ -63,44 +73,14 @@
                                 @error('paylimit')
                                     <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                 @enderror
-{{--
-                                <label class="form-label" for="start_date">Kezdő dátum:</label>
-                                <input type="date" class="form-control rounded-pill mb-3" id="start_date"
-                                    name="start_date">
-                                @error('start_date')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror
-
-                                <label class="form-label" for="finish_date">Végző dátum:</label>
-                                <input type="date" class="form-control rounded-pill mb-3" id="finish_date"
-                                    name="finish_date">
-                                @error('finish_date')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror --}}
-
-                                <button class="btn btn-success mt-3" type="submit">Mentés</button>
+                                <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Mentés</button>
                             @else
                                 <label class="form-label" for="paylimit">Limit módosítása:</label>
                                 <input type="number" class="form-control rounded-pill mb-3" id="paylimit" name="paylimit">
                                 @error('paylimit')
                                     <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                 @enderror
-
-                                {{-- <label class="form-label" for="start_date">Kezdő dátum módosítása:</label>
-                                <input type="date" class="form-control rounded-pill mb-3" id="start_date"
-                                    name="start_date">
-                                @error('start_date')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror
-
-                                <label class="form-label" for="finish_date">Végző dátum módosítása:</label>
-                                <input type="date" class="form-control rounded-pill mb-3" id="finish_date"
-                                    name="finish_date">
-                                @error('finish_date')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror
- --}}
-                                <button class="btn btn-success mt-3" type="submit">Mentés</button>
+                                <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Mentés</button>
                             @endif
                         </form>
                     </div>
@@ -123,7 +103,6 @@
                                     <th>Létrehozva</th>
                                     <th>Következő fizetés</th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
 
                                 {{-- Havi mentés egyszerűsíteni
@@ -135,11 +114,9 @@
                                         </td>
                                         <td>{{ date_format(date_create($p->letrehozas), 'Y. m. d') }}</td>
                                         <td>{{ date_format(date_create($p->fizetve), 'Y. m. d') }}</td>
-                                        <td class="text-center"> <a href="/limitmore/{{ $p->szamla_id }}"> <i
-                                                    class="bi bi-pencil-fill text-warning"></i> </a>
-                                        </td>
+
                                         <td class="text-center"> <a href="/limitexit/{{ $p->szamla_id }}"> <i
-                                                class="bi bi-trash-fill text-danger"></i> </a> </td>
+                                                    class="bi bi-trash-fill text-danger"></i> </a> </td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -153,7 +130,6 @@
                                     <th>Létrehozva</th>
                                     <th>Következő fizetés</th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
 
                                 @foreach ($incomes as $i)
@@ -163,11 +139,8 @@
                                         </td>
                                         <td>{{ date_format(date_create($i->letrehozas), 'Y. m. d') }}</td>
                                         <td>{{ date_format(date_create($i->fizetve), 'Y. m. d') }}</td>
-                                        <td class="text-center"> <a href="/limitmore/{{ $p->szamla_id }}"> <i
-                                                    class="bi bi-pencil-fill text-warning"></i> </a>
-                                        </td>
                                         <td class="text-center"> <a href="/limitexit/{{ $p->szamla_id }}"> <i
-                                                class="bi bi-trash-fill text-danger"></i> </a> </td>
+                                                    class="bi bi-trash-fill text-danger"></i> </a> </td>
                                     </tr>
                                 @endforeach
                             </table>

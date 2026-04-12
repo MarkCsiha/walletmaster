@@ -7,25 +7,20 @@
 @section('content')
 
     <main class="container pb-2">
-        @if (session('success'))
-            <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
-                <i class="bi bi-check-circle-fill">
-                    {{ session('success') }}
-                </i>
-            </div>
-        @elseif (session('unsuccessful'))
-            <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
-                <i class="bi bi-exclamation-triangle-fill">
-                    {{ session('unsuccessful') }}
-                </i>
-            </div>
-        @endif
-        <form action="main" method="POST" id="budgetLimit">
-            @csrf
-            <input type="number" name="budgetLimit" id="budgetLimit" onsubmit="this.form.submit()">
-        </form>
-
         <div class="row mt-3">
+             @if (session('success'))
+                <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
+                    <i class="bi bi-check-circle-fill">
+                        {{ session('success') }}
+                    </i>
+                </div>
+            @elseif (session('unsuccessful'))
+                <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
+                    <i class="bi bi-exclamation-triangle-fill">
+                        {{ session('unsuccessful') }}
+                    </i>
+                </div>
+            @endif
             <div class="col-12" id="outerpanel">
                 <div class="row g-4">
 
@@ -40,12 +35,12 @@
 
                                 {{-- HÓNAP VÁLTÁS --}}
                                 <div class="d-flex justify-content-between mb-2">
-                                    <a class="btn btn-outline-secondary btn-sm text-white animationBtn"
+                                    <a class="btn btn-outline-secondary btn-sm text-white animationBtn rounded-pill"
                                         href="{{ route('naptar', ['ym' => $prevYm]) }}">
                                         Előző
                                     </a>
 
-                                    <a class="btn btn-outline-secondary btn-sm text-white animationBtn"
+                                    <a class="btn btn-outline-secondary btn-sm text-white animationBtn rounded-pill"
                                         href="{{ route('naptar', ['ym' => $nextYm]) }}">
                                         Következő
                                     </a>
@@ -187,7 +182,7 @@
                 </div>
 
                 <div class="col-md-3 d-flex align-items-end pt-3">
-                    <button class="btn btn-primary w-100 animationBtn rounded-pill" type="submit">Szűrés</button>
+                    <button class="btn btn-primary  w-100 animationBtn rounded-pill" type="submit">Szűrés</button>
                 </div>
             </div>
 
@@ -196,12 +191,12 @@
 
             <div class="card">
                 <div class="card-body">
-                    <div class="table table-responsive table-hover">
+                    <div class="table-responsive">
                         <h2 class="text-center pb-3">{{ ucfirst($monthStart->translatedFormat('F')) }}</h2>
                         <table class="table table bordered">
                             <tr>
                                 <th>Összeg</th>
-                                <th>Honnan</th>
+                                <th>Hely</th>
                                 <th>Leírás</th>
                                 <th>Kategória</th>
                                 <th>Rendszeres</th>
@@ -226,8 +221,8 @@
                                     <td>{{ date_format(date_create($szamlak->datum), 'Y. m. d') }}</td>
                                     <td class="text-center"> <a href="/mainmod/{{ $szamlak->szamla_id }}"> <i
                                                 class="bi bi-pencil-fill text-warning"></i> </a> </td>
-                                    <td class="text-center"> <button class="delBtn" onclick="return confirm('Biztosan törli a költséget/bevételt?')"><a href="/mainexit/{{ $szamlak->szamla_id }}"> <i
-                                                class="bi bi-trash-fill text-danger"></i> </a></button> </td>
+                                    <td class="text-center"> <button onclick="return confirm('Biztosan törli a tranzakciót?')" id="delBtn"><a href="/mainexit/{{ $szamlak->szamla_id }}"> <i
+                                                class="bi bi-trash-fill text-danger"></i> </a> </button></td>
                                 </tr>
                             @endforeach
                         </table>
@@ -248,6 +243,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 

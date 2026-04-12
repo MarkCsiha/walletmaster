@@ -106,7 +106,6 @@
                             @error('newpassword_confirmation')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
-                            <i class="bi bi-eye" id="show-password"></i>
                         </div>
 
                         <button type="submit" class="btn btn-primary animationBtn rounded-pill" name="mentes" value="mentes">Jelszó változtatás mentése</button>
@@ -124,7 +123,6 @@
                         </button>
                     </form>
                 </div>
-                {{--  https://laracasts.com/discuss/channels/laravel/laravel-confirm-delete-in-an-alert-in-my-view --}}
                 <div class="col-mb-6">
                     <form action="{{ route('user.destroy', Auth::id()) }}" method="POST">
                         @csrf

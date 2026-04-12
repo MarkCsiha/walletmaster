@@ -25,6 +25,14 @@ Route::post('/twofactor', [TwoFactorController::class, 'TwoFactorVerify']);
 Route::get('/account', [UserController::class, 'Account'])->middleware(['auth', 'verified']);
 Route::post('/account', [UserController::class, 'SaveBtn'])->middleware(['auth', 'verified']);
 
+// Route::get("/main", [WMController::class, "Charts"]);
+// Route::post('/main', [WMController::class, "SpendingChart"]);
+Route::post('/main', [WMController::class, "Main"])->middleware(["auth", "verified"]);
+Route::get('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"]);
+Route::post('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"])->name('main.charts'); //name('naptar');
+Route::get("/main", [WMController::class, "Main"])->middleware(["auth", "verified"])->name('naptar');
+Route::post('/main', [WMController::class, 'Main'])->name('main.charts');
+Route::get("/main", [WMController::class, "Main"])->name('naptar');
 Route::get('/logout', [UserController::class, 'Logout']);
 
 Route::get('/main', [WMController::class, 'Main'])->middleware(['auth', 'verified'])->name('naptar');
@@ -104,8 +112,6 @@ Route::get('/debts/pending', [DebtController::class, 'ShowPendingDebts'])->middl
 Route::get('/export', [WMController::class, 'ExportExcel'])->middleware(['auth', 'verified']);
 Route::post('/import', [WMController::class, 'ImportExcel'])->middleware(['auth', 'verified'])->name('import');
 
-Route::post("/import", [WMController::class, "ImportExcel"])->middleware(["auth", "verified"]);
-
 Route::get('/auth/google', [GoogleController::class, "RedirectGoogle"]);
 
 Route::get('/auth/google/callback', [GoogleController::class, "GoogleCallback"])->name('callback.google');
@@ -121,4 +127,14 @@ Route::post('/review', [ReviewController::class, 'ReviewBtn'])->middleware(['aut
 
 Route::get('/limit', [WMController::class, 'MyData']);
 Route::post('/limit', [WMController::class, 'MyDataSet']);
-Route::get('/limitmore/{fix_id}', [WMController::class, 'LimitMore'])->middleware(['auth', 'verified']);
+Route::get('/limitexit/{szamla_id}', [WMController::class, 'LimitExit']);
+
+Route::get('/goals', [WMController::class, 'Goals'])->middleware(['auth', 'verified']);
+Route::post('/goals', [WMController::class, 'GoalsBtn'])->middleware(['auth', 'verified']);
+
+Route::get('/goalsmod/{cel_id}', [WMController::class, 'GoalsMod'])->middleware(['auth', 'verified']);
+Route::post('/goalsmod/{cel_id}', [WMController::class, 'GoalsModBtn'])->middleware(['auth', 'verified']);
+Route::get('/goalsexit/{cel_id}', [WMController::class, 'GoalsDelete'])->middleware(['auth', 'verified']);
+
+Route::get('/add', [WMController::class, 'Add'])->middleware(['auth', 'verified']);
+Route::post('/add', [WMController::class, 'AddBtn'])->middleware(['auth', 'verified']);
