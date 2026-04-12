@@ -123,6 +123,20 @@ a:hover {
   }
 }
 
+.animationBtnDel {
+    background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(179, 0, 0) 50%);
+    color: white;
+    background-size: 200%;
+    transition: 0.3s ease-out;
+    border: 2px solid rgb(53, 75, 240);
+    border-radius: 10px;
+}
+
+.animationBtnDel:hover {
+    background-position: right;
+    border: 2px solid rgb(179, 0, 0);
+}
+
 .plus {
     color: greenyellow;
 }

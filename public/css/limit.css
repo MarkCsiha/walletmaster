@@ -66,6 +66,11 @@ th, td{
     color: rgb(100, 154, 255);
 }
 
+.delBtn {
+    background: transparent;
+    border: none;
+}
+
 .animationBtnDel {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(179, 0, 0) 50%);
     color: white;

@@ -129,8 +129,8 @@
                                         <td>{{ date_format(date_create($p->letrehozas), 'Y. m. d') }}</td>
                                         <td>{{ date_format(date_create($p->fizetve), 'Y. m. d') }}</td>
 
-                                        <td class="text-center"> <a href="/limitexit/{{ $p->szamla_id }}"> <i
-                                                    class="bi bi-trash-fill text-danger"></i> </a> </td>
+                                        <td class="text-center"> <button onclick="return confirm('Biztosan törli a költséglimitet?')" class="delBtn"><a href="/limitexit/{{ $p->szamla_id }}"> <i
+                                                    class="bi bi-trash-fill text-danger"></i> </a></button> </td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -153,8 +153,8 @@
                                         </td>
                                         <td>{{ date_format(date_create($i->letrehozas), 'Y. m. d') }}</td>
                                         <td>{{ date_format(date_create($i->fizetve), 'Y. m. d') }}</td>
-                                        <td class="text-center"> <a href="/limitexit/{{ $i->szamla_id }}"> <i
-                                                    class="bi bi-trash-fill text-danger"></i> </a> </td>
+                                        <td class="text-center">  <button onclick="return confirm('Biztosan törli a költséglimitet?')" class="delBtn"><a href="/limitexit/{{ $i->szamla_id }}"> <i
+                                                    class="bi bi-trash-fill text-danger"></i> </a></button> </td>
                                     </tr>
                                 @endforeach
                             </table>

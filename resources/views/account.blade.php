@@ -49,7 +49,7 @@
                         <div class="mb-3">
                             <label for="email" class="form-label">Email cím: </label>
                             <input type="email" class="form-control rounded-pill" id="email" name="email"
-                                value="{{ old('email', Auth::user()->email) }}">
+                                value="{{ Auth::user()->email }}">
                             @error('email')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
