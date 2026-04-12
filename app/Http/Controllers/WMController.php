@@ -689,19 +689,28 @@ class WMController extends Controller
             "*.required" => "Töltse ki a mezőt!",
             "paylimit.numeric" => "Számot adjon meg!",
         ]);
-        $data = koltseglimit::where("user_id", Auth::id())
-                            ->first();
-        $data->user_id = Auth::user()->id;
-        $data->osszeg = $req->paylimit;
-        $data->Save();
+        $limiset = koltseglimit::where("user_id", Auth::id())->first();
+
+        if ($limiset) {
+            $limiset->osszeg = $req->paylimit;
+            $limiset->save();
+        }
+        else {
+            $data = new koltseglimit();
+            $data->user_id = Auth::id();
+            $data->osszeg = $req->paylimit;
+            $data->save();
+        }
+
 
         if (Auth::check()) {
-            return redirect("limit")->with(['success' => 'Sikeresen módosította a költséglimitet!']);
+            return redirect("limit");
         }
         else {
             return redirect("login");
         }
     }
+
 
     public function LimitDelete(Request $req) {
         $data = koltseglimit::where("user_id", Auth::id())
