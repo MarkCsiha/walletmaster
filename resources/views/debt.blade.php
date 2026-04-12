@@ -29,7 +29,7 @@
                         <th>Típus: </th>
                         <th>Dátum: </th>
                         <th>Státusz: </th>
-                        <th></th>
+                        <th>Teljesítve</th>
                     </tr>
 
                     @foreach ($allDebt as $debt)
@@ -61,7 +61,7 @@
                                 <td>
                                     @if ($debt->statusz != 'rendezve')
                                         <button type="submit" class="btn shadow-none"><i
-                                                class="bi bi-check-circle text-success"></i></button>
+                                                class="bi bi-check-circle ms-3 pipa"></i></button>
                                     @endif
                                 </td>
                             </form>

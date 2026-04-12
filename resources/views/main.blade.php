@@ -219,10 +219,10 @@
                                     <td>{{ $szamlak->kategoria_nev }}</td>
                                     <td>{{ $szamlak->fix }}</td>
                                     <td>{{ date_format(date_create($szamlak->datum), 'Y. m. d') }}</td>
-                                    <td class="text-center"> <a href="/mainmod/{{ $szamlak->szamla_id }}"> <i
-                                                class="bi bi-pencil-fill text-warning"></i> </a> </td>
-                                    <td class="text-center"> <button onclick="return confirm('Biztosan törli a tranzakciót?')" id="delBtn"><a href="/mainexit/{{ $szamlak->szamla_id }}"> <i
-                                                class="bi bi-trash-fill text-danger"></i> </a> </button></td>
+                                    <td> <a href="/mainmod/{{ $szamlak->szamla_id }}"> <i
+                                                class="bi bi-pencil-fill text-warning ms-4"></i> </a> </td>
+                                    <td> <button onclick="return confirm('Biztosan törli a tranzakciót?')" id="delBtn"><a href="/mainexit/{{ $szamlak->szamla_id }}"> <i
+                                                class="bi bi-trash-fill text-danger ms-4"></i> </a> </button></td>
                                 </tr>
                             @endforeach
                         </table>

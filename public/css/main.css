@@ -196,7 +196,7 @@ a:hover {
     color: rgb(100, 154, 255);
 }
 
-.delBtn {
+#delBtn {
     background: transparent;
     border: none;
 }

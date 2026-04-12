@@ -74,6 +74,15 @@ th, td {
 .minus{
     color: tomato;
 }
+
+.pipa {
+    color: lime;
+}
+
+.pipa:hover {
+    color: rgb(20, 135, 20);
+}
+
 /* https://www.youtube.com/watch?v=m4NUID4kDyo */
 
 .animationBtn {
