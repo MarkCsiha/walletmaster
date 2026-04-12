@@ -681,7 +681,12 @@ class WMController extends Controller
         if ($limiset) {
             $limiset->osszeg = $req->paylimit;
             $limiset->save();
+<<<<<<< HEAD
         } else {
+=======
+        }
+        else {
+>>>>>>> 888569de8f0d91cfc1d23b4c57c0b0f56cd3981a
             $data = new koltseglimit();
             $data->user_id = Auth::id();
             $data->osszeg = $req->paylimit;
@@ -691,13 +696,23 @@ class WMController extends Controller
 
         if (Auth::check()) {
             return redirect("limit");
+<<<<<<< HEAD
         } else {
+=======
+        }
+        else {
+>>>>>>> 888569de8f0d91cfc1d23b4c57c0b0f56cd3981a
             return redirect("login");
         }
     }
 
+<<<<<<< HEAD
     public function LimitDelete(Request $req)
     {
+=======
+
+    public function LimitDelete(Request $req) {
+>>>>>>> 888569de8f0d91cfc1d23b4c57c0b0f56cd3981a
         $data = koltseglimit::where("user_id", Auth::id())
             ->first();
         $data->aktiv = 0;
