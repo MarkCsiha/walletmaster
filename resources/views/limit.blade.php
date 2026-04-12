@@ -28,7 +28,7 @@
                             <h1 class="display-5 fw-bold mb-4">Számla adataim</h1>
 
                             <div class="mt-3">
-                                @if (!$has_limit == null)
+                                @if ($result)
                                     <h3 class="fw-semibold mb-2">Költség limit:</h3>
 
                                     <p class="fs-4 fw-semibold mb-4">
@@ -42,6 +42,12 @@
                                             style="width:{{ ($sum_prices / $result->osszeg) * 100 }}%; background: greenyellow; border-radius: 50px;">
                                         </div>
                                     </div>
+                                @else
+                                    <h3 class="fw-semibold mb-2">Költség limit:</h3>
+
+                                    <p class="fs-4 fw-semibold mb-4">
+                                        Még nincs megadva költséglimit.
+                                    </p>
                                 @endif
                             </div>
 
@@ -56,8 +62,6 @@
             <div class="row gx-lg-5">
                 <div class="card">
                     <div class="card-body">
-                        <form action="/limit" method="post">
-                            @csrf
                             <h2 class="fs-4 fw-bold">Havi költséglimit megadása</h2>
                             <p>A havi költségkeret minden hónap végén automatikusan megújul.</p>
                             <p>Ha a rögzített kiadások összege meghaladja a beállított havi limitet, a rendszer továbbra is
@@ -68,21 +72,37 @@
                                 észlelhesse a tervezett keret túllépését.</p>
 
                             @if ($has_limit == null)
-                                <label class="form-label" for="paylimit">Új limit megadása:</label>
-                                <input type="number" class="form-control rounded-pill mb-3" id="paylimit" name="paylimit">
-                                @error('paylimit')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror
-                                <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Mentés</button>
+                                <form action="/limit" method="post">
+                                    @csrf
+                                    <label class="form-label" for="paylimit">Új limit megadása:</label>
+                                    <input type="number" class="form-control rounded-pill mb-3" id="paylimit"
+                                        name="paylimit">
+                                    @error('paylimit')
+                                        <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                    <button class="btn btn-dark mt-4 animationBtn rounded-pill"
+                                        type="submit">Mentés</button>
+                                </form>
                             @else
-                                <label class="form-label" for="paylimit">Limit módosítása:</label>
-                                <input type="number" class="form-control rounded-pill mb-3" id="paylimit" name="paylimit">
-                                @error('paylimit')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                @enderror
-                                <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Mentés</button>
+                                <form action="/limitmod/{limit_id}" method="post">
+                                    @csrf
+                                    <label class="form-label" for="paylimit">Költséglimit módosítása:</label>
+                                    <input type="number" class="form-control rounded-pill mb-3" id="paylimit"
+                                        name="paylimit">
+                                    @error('paylimit')
+                                        <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                    <button class="btn btn-dark mt-4 animationBtn rounded-pill"
+                                        type="submit">Mentés</button>
+                                </form>
                             @endif
-                        </form>
+                        @if ($has_limit != null)
+                            <form action="/limitdelete" method="post">
+                                @csrf
+                                <button onclick="return confirm('Biztosan törli a költséglimitet?')" class="btn btn-danger mt-4 animationBtnDel rounded-pill" type="submit">Költséglimit
+                                    törlése</button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -139,7 +159,7 @@
                                         </td>
                                         <td>{{ date_format(date_create($i->letrehozas), 'Y. m. d') }}</td>
                                         <td>{{ date_format(date_create($i->fizetve), 'Y. m. d') }}</td>
-                                        <td class="text-center"> <a href="/limitexit/{{ $p->szamla_id }}"> <i
+                                        <td class="text-center"> <a href="/limitexit/{{ $i->szamla_id }}"> <i
                                                     class="bi bi-trash-fill text-danger"></i> </a> </td>
                                     </tr>
                                 @endforeach

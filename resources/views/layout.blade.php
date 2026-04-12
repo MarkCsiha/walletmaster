@@ -61,7 +61,7 @@
                         </li>
                     @else
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/">Rólunk</a></li>
-                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/limit">Adataim</a></li>
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/limit">Számla adataim</a></li>
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/debt" class="bi bi-coin">Tartozások</a></li>
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/goals" class="bi bi-bullseye"> Céljaim</a>
                         </li>

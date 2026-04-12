@@ -654,6 +654,7 @@ class WMController extends Controller
         if (Auth::check()) {
             return view("limit", [
                 "result" => koltseglimit::where("user_id", $user)
+                                        ->where("aktiv", 1)
                                         ->first(),
                 "pays" => fix::join("szamla", "szamla.szamla_id", "=", "fix.szamla_id")
                                 ->where("fix.user_id", $user)
@@ -665,7 +666,7 @@ class WMController extends Controller
                                 ->where("szamla.tipus", 1)
                                 ->where("fix.aktiv", 1)
                                 ->get(),
-                "has_limit" => koltseglimit::where("user_id", $user)->first(),
+                "has_limit" => koltseglimit::where("user_id", $user)->where("aktiv", 1)->first(),
                 "sum_prices" => koltseglimit::join("users", "koltseg_limit.user_id", "users.id")
                                         ->join("szamla", "szamla.user_id", "users.id")
                                         ->whereDate("szamla.datum", ">=", $first_day_of_the_current_month)
@@ -688,13 +689,28 @@ class WMController extends Controller
             "*.required" => "Töltse ki a mezőt!",
             "paylimit.numeric" => "Számot adjon meg!",
         ]);
-        $data = new koltseglimit();
+        $data = koltseglimit::where("user_id", Auth::id())
+                            ->first();
         $data->user_id = Auth::user()->id;
         $data->osszeg = $req->paylimit;
         $data->Save();
 
         if (Auth::check()) {
-            return redirect("limit")->with(['success' => 'Sikeres költséglimit hozzáadás!']);
+            return redirect("limit")->with(['success' => 'Sikeresen módosította a költséglimitet!']);
+        }
+        else {
+            return redirect("login");
+        }
+    }
+
+    public function LimitDelete(Request $req) {
+        $data = koltseglimit::where("user_id", Auth::id())
+                            ->first();
+        $data->aktiv = 0;
+        $data->save();
+
+        if (Auth::check()) {
+            return redirect("limit")->with(['success' => 'Sikeres költséglimit törlés!']);
         }
         else {
             return redirect("login");
