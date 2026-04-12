@@ -109,7 +109,7 @@ class DebtController extends Controller
             ->where("user_id", Auth::id())
             ->firstOrFail();
         if ($debt->ki_irta == Auth::id()) {
-            return redirect('/debt')->with(['unsuccessful' => 'Saját maga által rögzített tartozást nem fogadhat el.']);
+            return redirect('/debt')->with(['unsuccessful' => 'Más felhasználóknak saját maga által rögzített tartozást nem fogadhat el.']);
         }
 
         $debt->statusz = "elfogadva";
@@ -139,7 +139,7 @@ class DebtController extends Controller
             ->firstOrFail();
 
         if ($debt->ki_irta == Auth::id()) {
-            return redirect('/debt')->with(['unsuccessful' => 'Saját maga által rögzített tartozást nem fogadhat el.']);
+            return redirect('/debt')->with(['unsuccessful' => 'Más felhasználóknak saját maga által rögzített tartozást nem utasíthat el.']);
         }
 
         $debt->statusz = "elutasítva";
