@@ -113,3 +113,6 @@ a:hover {
     color: rgb(100, 154, 255);
 }
 
+.goalTick {
+    color: lime;
+}

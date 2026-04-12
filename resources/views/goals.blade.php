@@ -37,10 +37,10 @@
 
                                         <div class="row">
                                             <div class="col">
-                                                <h5 class="card-title">{{ $cel->cel_nev }}</h5>
+                                                <h5 class="card-title text-white">{{ $cel->cel_nev }}</h5>
                                             </div>
                                             <div class="col">
-                                                <p class="card-text">Határidő: {{ $cel->hatarido }}</p>
+                                                <p class="card-text text-white">Határidő: {{ $cel->hatarido }}</p>
                                             </div>
                                         </div>
 
@@ -57,7 +57,7 @@
                                                     href="/goalsmod/{{ $cel->cel_id }}">Módosítás</a>
                                             </div>
                                             <div class="col mt-4">
-                                                <p>
+                                                <p class="text-white">
                                                     @if ($cel->cel_osszeg <= $cel->budzse)
                                                         Teljesítve <span
                                                             class="bi bi-check-square-fill text-success"></span>
@@ -65,7 +65,7 @@
                                                         Aktív <span class=""></span>
                                                     @elseif ($cel->statusz == 'teljesítve')
                                                         Teljesítve <span
-                                                            class="bi bi-check-square-fill text-success"></span>
+                                                            class="bi bi-check-square-fill goalTick"></span>
                                                     @else
                                                         Törölve <span class="bi bi-x-circle-fill text-danger"></span>
                                                     @endif
