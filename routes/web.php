@@ -126,7 +126,7 @@ Route::get('/review', [ReviewController::class, 'ShowReview'])->middleware(['aut
 Route::post('/review', [ReviewController::class, 'ReviewBtn'])->middleware(['auth', 'verified']);
 
 Route::get('/limit', [WMController::class, 'MyData']);
-Route::post('/limitmod/{limit_id}', [WMController::class, 'MyDataSet']);
+Route::post('/limit', [WMController::class, 'MyDataSet']);
 Route::post("/limitdelete", [WMController::class, "LimitDelete"]);
 Route::get('/limitexit/{szamla_id}', [WMController::class, 'LimitExit']);
 

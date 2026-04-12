@@ -62,6 +62,8 @@
             <div class="row gx-lg-5">
                 <div class="card">
                     <div class="card-body">
+                        <form action="/limit" method="post">
+                            @csrf
                             <h2 class="fs-4 fw-bold">Havi költséglimit megadása</h2>
                             <p>A havi költségkeret minden hónap végén automatikusan megújul.</p>
                             <p>Ha a rögzített kiadások összege meghaladja a beállított havi limitet, a rendszer továbbra is
@@ -72,34 +74,26 @@
                                 észlelhesse a tervezett keret túllépését.</p>
 
                             @if ($has_limit == null)
-                                <form action="/limit" method="post">
-                                    @csrf
-                                    <label class="form-label" for="paylimit">Új limit megadása:</label>
-                                    <input type="number" class="form-control rounded-pill mb-3" id="paylimit"
-                                        name="paylimit">
-                                    @error('paylimit')
-                                        <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    <button class="btn btn-dark mt-4 animationBtn rounded-pill"
-                                        type="submit">Mentés</button>
-                                </form>
+                                <label class="form-label" for="paylimit">Új limit megadása:</label>
+                                <input type="number" class="form-control rounded-pill mb-3" id="paylimit" name="paylimit">
+                                @error('paylimit')
+                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                @enderror
+                                <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Mentés</button>
                             @else
-                                <form action="/limitmod/{limit_id}" method="post">
-                                    @csrf
-                                    <label class="form-label" for="paylimit">Költséglimit módosítása:</label>
-                                    <input type="number" class="form-control rounded-pill mb-3" id="paylimit"
-                                        name="paylimit">
-                                    @error('paylimit')
-                                        <p style="color: tomato" class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    <button class="btn btn-dark mt-4 animationBtn rounded-pill"
-                                        type="submit">Mentés</button>
-                                </form>
+                                <label class="form-label" for="paylimit">Limit módosítása:</label>
+                                <input type="number" class="form-control rounded-pill mb-3" id="paylimit" name="paylimit">
+                                @error('paylimit')
+                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                @enderror
+                                <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Mentés</button>
                             @endif
+                        </form>
                         @if ($has_limit != null)
-                            <form action="/limitdelete" method="post">
+                            <form action="/limit" method="post">
                                 @csrf
-                                <button onclick="return confirm('Biztosan törli a költséglimitet?')" class="btn btn-danger mt-4 animationBtnDel rounded-pill" type="submit">Költséglimit
+                                <button onclick="return confirm('Biztosan törli a költséglimitet?')"
+                                    class="btn btn-danger mt-4 animationBtnDel rounded-pill" type="submit">Költséglimit
                                     törlése</button>
                             </form>
                         @endif
