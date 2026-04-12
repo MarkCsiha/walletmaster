@@ -9,22 +9,22 @@
         <h1 class="bi bi-bullseye p-3"> Céljaim</h1>
 
         <div class="container">
+            @if (session('success'))
+                <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
+                    <i class="bi bi-check-circle-fill">
+                        {{ session('success') }}
+                    </i>
+                </div>
+            @elseif (session('unsuccessful'))
+                <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
+                    <i class="bi bi-exclamation-triangle-fill">
+                        {{ session('unsuccessful') }}
+                    </i>
+                </div>
+            @endif
             <div id="outerpanel">
 
                 <div class="row align-items-start justify-content-center">
-                    @if (session('success'))
-                        <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
-                            <i class="bi bi-check-circle-fill">
-                                {{ session('success') }}
-                            </i>
-                        </div>
-                    @elseif (session('unsuccessful'))
-                        <div class="alert alert-danger text-danger text-center w-50 py-1 mx-auto mt-3">
-                            <i class="bi bi-exclamation-triangle-fill">
-                                {{ session('unsuccessful') }}
-                            </i>
-                        </div>
-                    @endif
                     <div class="col">
                         <button type="button" class="goal-tab animationBtn rounded-pill" onclick="change('goals')">
                             Célok

@@ -78,6 +78,7 @@ th, td{
 .incomeTrash {
     margin-left: 45px;
 }
+
 .animationBtnDel {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(179, 0, 0) 50%);
     color: white;
