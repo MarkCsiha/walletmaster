@@ -64,7 +64,12 @@
                     <div class="card-body">
                         <form action="/limit" method="post">
                             @csrf
-                            <h2 class="fs-4 fw-bold">Havi költséglimit megadása</h2>
+                            @if ($has_limit == null)
+                                <h2 class="fs-4 fw-bold">Havi költséglimit megadása</h2>
+                            @else
+                                <h2 class="fs-4 fw-bold">Havi költséglimit módosítása</h2>
+                            @endif
+
                             <p>A havi költségkeret minden hónap végén automatikusan megújul.</p>
                             <p>Ha a rögzített kiadások összege meghaladja a beállított havi limitet, a rendszer továbbra is
                                 lehetővé teszi új tételek hozzáadását, azonban a rendelkezésre álló keret negatív egyenleget
