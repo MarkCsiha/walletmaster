@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\celok;
 
 class GoalsTest extends TestCase
 {
@@ -88,7 +90,7 @@ class GoalsTest extends TestCase
             'datum' => '2026-08-31',
         ]);
 
-        $goal = \App\Models\celok::where('user_id', 28)
+        $goal = celok::where('user_id', 28)
             ->where('cel_nev', 'Laptop')
             ->first();
 
@@ -117,7 +119,7 @@ class GoalsTest extends TestCase
             'datum' => '2026-08-31',
         ]);
 
-        $goal = \App\Models\celok::where('user_id', 28)
+        $goal = celok::where('user_id', 28)
             ->where('cel_nev', 'Új laptop')
             ->first();
 
