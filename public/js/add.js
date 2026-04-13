@@ -1,65 +1,54 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const tipus = document.getElementById("tipus");
+    const kategoria = document.getElementById("kategoria");
 
-const categories = {
-  kiadas: [
-    ["Élelmiszer", "Élelmiszer"],
-    ["Háztartas", "Háztartás"],
-    ["Elektronika", "Elektronika"],
-    ["Lakhatás", "Lakhatás"],
-    ["Hitel", "Hitel"],
-    ["Ruházat", "Ruházat"],
-    ["Gyógyszer", "Gyógyszer"],
-    ["Edzés", "Edzés"],
-    ["Autó", "Autó"],
-    ["Tanulmányok", "Tanulmányok"],
-    ["Utazás", "Utazás"],
-    ["Szórakozás", "Szórakozás"],
-    ["Egyéb", "Egyéb"],
-  ],
-  bevetel: [
-    ["Fizetés", "Fizetés"],
-    ["Befektetés", "Befektetés"],
-    ["Részvény", "Részvény"],
-    ["Járandóság", "Járandóság"],
-    ["Egyéb", "Egyéb"],
-  ],
-};
+    const kiadas = [
+        "Élelmiszer",
+        "Háztartás",
+        "Elektronika",
+        "Lakhatás",
+        "Hitel",
+        "Ruházat",
+        "Gyógyszer",
+        "Edzés",
+        "Autó",
+        "Tanulmányok",
+        "Utazás",
+        "Szórakozás",
+        "Egyéb"
+    ];
 
-function fillCategories(type, selectedValue = null) {
-  const kategoria = document.getElementById("kategoria");
-  kategoria.innerHTML = "";
+    const bevetel = [
+        "Fizetés",
+        "Befektetés",
+        "Részvény",
+        "Járandóság",
+        "Egyéb"
+    ];
 
-  if (!categories[type]) {
-    const opt = document.createElement("option");
-    opt.value = "0";
-    opt.textContent = "Válasszon típust először";
-    kategoria.appendChild(opt);
-    return;
-  }
+    function tipusValaszt(x) {
+        kategoria.innerHTML = "";
+        let lista = [];
 
-  for (const [val, text] of categories[type]) {
-    const opt = document.createElement("option");
-    opt.value = val;
-    opt.textContent = text;
-    if (selectedValue && selectedValue === val) opt.selected = true;
-    kategoria.appendChild(opt);
-  }
-}
+        if (x == "kiadas") {
+            lista = kiadas;
+        }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const tipus = document.getElementById("tipus");
-  const oldTipus = tipus.dataset.old;
+        if (x == "bevetel") {
+            lista = bevetel;
+        }
 
-  const kategoria = document.getElementById("kategoria");
-  const oldKat = kategoria.dataset.old;
-  const suggestedKat = kategoria.dataset.suggested;
+        if (lista.length === 0) {
+            kategoria.innerHTML = `<option value="">Válasszon típust először</option>`;
+            return;
+        }
 
-  // ha van old kategoria, az nyer, különben a suggested
-  const initialKat = (oldKat && oldKat !== "0") ? oldKat : (suggestedKat || null);
+        for (let i = 0; i < lista.length; i++) {
+            kategoria.innerHTML += `<option value="${lista[i]}">${lista[i]}</option>`;
+        }
+    }
 
-  fillCategories(oldTipus, initialKat);
-
-  tipus.addEventListener("change", (e) => {
-    fillCategories(e.target.value, null);
-  });
+    tipus.addEventListener("change", function () {
+        tipusValaszt(this.value);
+    });
 });
-

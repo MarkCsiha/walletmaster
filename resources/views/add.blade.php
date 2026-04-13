@@ -76,10 +76,9 @@
                                 </div>
 
                                 <div class="mt-4">
-                                    <label class="for-label mb-2" for="tipus">Bevétel vagy kiadás?</label>
-                                    <select class="form-select rounded-pill" name="tipus" id="tipus"
-                                        data-old="{{ old('tipus') }}">
-                                        <option value="0">---</option>
+                                    <label class="form-label mb-2" for="tipus">Bevétel vagy kiadás?</label>
+                                    <select class="form-select rounded-pill" name="tipus" id="tipus">
+                                        <option value="">---</option>
                                         <option value="kiadas" {{ old('tipus') == 'kiadas' ? 'selected' : '' }}>Kiadás
                                         </option>
                                         <option value="bevetel" {{ old('tipus') == 'bevetel' ? 'selected' : '' }}>Bevétel
@@ -89,9 +88,8 @@
 
                                 <div class="mt-2">
                                     <label class="form-label mb-2" for="kategoria">Kategória</label>
-                                    <select class="form-select rounded-pill" name="kategoria" id="kategoria"
-                                        data-old="{{ old('kategoria') }}">
-                                        <option value="0">Válasszon típust először</option>
+                                    <select class="form-select rounded-pill" name="kategoria" id="kategoria">
+                                        <option value="">Válasszon típust először</option>
                                     </select>
                                 </div>
 
