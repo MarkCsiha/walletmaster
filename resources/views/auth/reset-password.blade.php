@@ -28,7 +28,7 @@
         <input id="password_confirmation" type="password" name="password_confirmation" class="rounded-pill" required>
     </div>
     <div class="btn">
-        <button type="submit">Jelszó megváltoztatása</button>
+        <button type="submit" class="btn btn-primary animationBtn rounded-pill">Jelszó megváltoztatása</button>
     </div>
 
 </form>

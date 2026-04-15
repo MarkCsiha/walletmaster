@@ -17,55 +17,65 @@
                 </i>
             </div>
         @endif
-        <div class="card">
-            <div class="card-body">
-                <table class="table table bordered">
-                    <tr>
-                        <th>Összeg: </th>
-                        <th>Személy: </th>
-                        <th>Felhasználónév: </th>
-                        <th>Leírás: </th>
-                        <th>Típus: </th>
-                        <th>Dátum: </th>
-                        <th>Státusz: </th>
-                    </tr>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <tr>
+                    <th>Összeg</th>
+                    <th>Személy</th>
+                    <th>Felhasználónév</th>
+                    <th>Leírás</th>
+                    <th>Típus</th>
+                    <th>Dátum</th>
+                    <th>Státusz</th>
+                    <th>Elfogadás</th>
+                    <th>Elutasítás</th>
+                </tr>
 
                     <tr>
                         <td>
-                            @if ($userDebt->tipus == 0)
-                                <span class="minus">- {{ $userDebt->osszeg }} Ft</span>
+                            @if ($userDebt->tipus == 1)
+                                <span class="minus">- {{ $debt->osszeg }} Ft</span>
                             @else
-                                <span class="text-plus">+ {{ $userDebt->osszeg }} Ft</span>
+                                <span class="plus">+ {{ $debt->osszeg }} Ft</span>
                             @endif
                         </td>
+
                         <td>{{ $userDebt->partner_nev }}</td>
-                        <td>{{ $userDebt->partner_username }}</td>
+                        <td>{{ $userDebt->partner_username ?? '' }}</td>
                         <td>{{ $userDebt->leiras }}</td>
+
                         <td>
-                            @if ($userDebt->tipus == 0)
-                                <span class="text-danger">Tartozás</span>
+                            @if ($userDebt->tipus == 1)
+                                <span class="minus">Tartozás</span>
                             @else
-                                <span class="text-success">Másik fél</span>
+                                <span class="plus">Másik fél</span>
                             @endif
                         </td>
+
                         <td>{{ $userDebt->datum }}</td>
                         <td>{{ $userDebt->statusz }}</td>
+
+                        <td>
+                            <form action="/debts/{{ $userDebt->tartozasok_id }}/accept" method="post">
+                                @csrf
+                                <input type="hidden" name="action" value="elfogadva">
+                                <button class="btn btn-success animationBtn rounded-pill" type="submit">
+                                    Elfogadom
+                                </button>
+                            </form>
+                        </td>
+
+                        <td>
+                            <form action="/debts/{{ $userDebt->tartozasok_id }}/reject" method="post">
+                                @csrf
+                                <input type="hidden" name="action" value="elutasítva">
+                                <button class="btn btn-danger animationBtnDel rounded-pill" type="submit">
+                                    Visszautasítom
+                                </button>
+                            </form>
+                        </td>
                     </tr>
-
-                </table>
-            </div>
+            </table>
         </div>
-        <form class="card-body" action="/debts/{{ $userDebt->tartozasok_id }}/accept" method="post">
-            @csrf
-            <input type="hidden" name="action" value="elfogadva">
-
-            <button class="btn btn-success animationBtn rounded-pill" type="submit" name="accept">Elfogadom</button>
-        </form>
-        <form class="card-body" action="/debts/{{ $userDebt->tartozasok_id }}/reject" method="post">
-            @csrf
-            <input type="hidden" name="action" value="elutasítva">
-
-            <button class="btn btn-danger animationBtn rounded-pill" type="submit" name="reject">Visszautasítom</button>
-        </form>
     </main>
 @endsection

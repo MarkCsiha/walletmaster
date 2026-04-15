@@ -36,7 +36,7 @@
                         @enderror
                     </div>
                     <div class="btn">
-                        <button type="submit" class="btn btn-primary btn-lg animationBtn" name="mentes" id="mentes"
+                        <button type="submit" class="btn btn-primary animationBtn rounded-pill" name="mentes" id="mentes"
                             value="mentes">Új jelszó igénylése
                         </button>
                     </div>

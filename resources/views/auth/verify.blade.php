@@ -40,12 +40,12 @@
                                 @error('email')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
-                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Email cím változtatása</button>.
+                                <button type="submit" class="btn btn-primary animationBtn rounded-pill">Email cím változtatása</button>.
                             </form>
                         </div>
                     <form class="d-inline" method="POST" action="{{ route('verification.send') }}">
                         @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Kattintson ide az új link kéréséhez!</button>.
+                        <button type="submit" class="btn btn-primary animationBtn rounded-pill">Kattintson ide az új link kéréséhez!</button>.
                     </form>
                 </div>
             </div>

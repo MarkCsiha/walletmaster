@@ -49,7 +49,7 @@
 
                                 <div class="my-4">
                                     <p><label class="for-label mb-1" for="leiras">Leírás:</label></p>
-                                    <textarea class="form-control" name="leiras" id="lairas" cols="10" rows="10">{{ $result->leiras }}</textarea>
+                                    <textarea class="form-control border rounded-4" name="leiras" id="lairas" cols="10" rows="10">{{ $result->leiras }}</textarea>
                                 </div>
                                 @error('leiras')
                                     <p style="color: tomato" class="text-danger">{{ $message }}</p>
@@ -64,7 +64,6 @@
                                     <p style="color: tomato" class="text-danger">{{ $message }}</p>
                                 @enderror
 
-                                {{-- Megnézni hogyan lehet a kiválasztottat hozzáadni --}}
                                 <div class="my-2">
                                     <label class="form-check-label" for="fix">Ez egy fix kiadás?</label>
                                     <select class="form-select  rounded-pill" name="fix" id="fix">

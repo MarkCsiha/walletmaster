@@ -25,11 +25,10 @@ Route::post('/twofactor', [TwoFactorController::class, 'TwoFactorVerify']);
 Route::get('/account', [UserController::class, 'Account'])->middleware(['auth', 'verified']);
 Route::post('/account', [UserController::class, 'SaveBtn'])->middleware(['auth', 'verified']);
 
-// Route::get("/main", [WMController::class, "Charts"]);
-// Route::post('/main', [WMController::class, "SpendingChart"]);
+;
 Route::post('/main', [WMController::class, "Main"])->middleware(["auth", "verified"]);
 Route::get('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"]);
-Route::post('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"])->name('main.charts'); //name('naptar');
+Route::post('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"])->name('main.charts');
 Route::get("/main", [WMController::class, "Main"])->middleware(["auth", "verified"])->name('naptar');
 Route::post('/main', [WMController::class, 'Main'])->name('main.charts');
 Route::get("/main", [WMController::class, "Main"])->name('naptar');
@@ -78,22 +77,6 @@ Route::post('/reset-password', [ResetPasswordController::class, "PasswordReset"]
 
 Route::get('/debt', [DebtController::class, 'DebtShow'])->middleware(['auth', 'verified']);
 Route::post('/debt', [DebtController::class, 'DebtAdd'])->middleware(['auth', 'verified']);
-
-Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])
-    ->name('debts.decision')
-    ->middleware(['auth', 'verified', 'signed']);
-
-Route::post('/debts/{id}/accept', [DebtController::class, 'AcceptDebt'])
-    ->name('debts.accept')
-    ->middleware(['auth', 'verified']);
-
-Route::post('/debts/{id}/reject', [DebtController::class, 'RejectDebt'])
-    ->name('debts.reject')
-    ->middleware(['auth', 'verified']);
-
-Route::post('/debts/{id}/done', [DebtController::class, 'DebtDone'])
-    ->name('debts.done')
-    ->middleware(['auth', 'verified']);
 
 //Tartozások email kiküldése
 Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->name('debts.decision')->middleware(["auth", "verified", "signed"]);

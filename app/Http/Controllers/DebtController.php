@@ -15,11 +15,10 @@ class DebtController extends Controller
 {
     public function DebtShow()
     {
-        //javítsd
         $allDebt = tartozasok::where('tartozasok.user_id', Auth::id())
-            ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
-            ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
-            ->get();
+                            ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
+                            ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
+                            ->get();
 
         return view("debt", [
             "allDebt"   => $allDebt,
@@ -38,7 +37,7 @@ class DebtController extends Controller
             "*.required"            => "Kötelező mező!",
             "debtAmount.numeric"    => "Csak számot adhat meg!",
             "description.max"       => "A leírás maximum 50 karakter hosszú lehet!",
-            "name.max"       => "A név maximum 100 karakter hosszú lehet!"
+            "name.max"              => "A név maximum 100 karakter hosszú lehet!"
 
         ]);
 
@@ -90,26 +89,34 @@ class DebtController extends Controller
 
     public function ShowDebtDetails($id)
     {
-         $debt = tartozasok::join('users', 'users.id', '=', 'tartozasok.partner_user_id')
-                            ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
-                            ->where('tartozasok.tartozasok_id', $id)
-                            ->where('tartozasok.partner_user_id', Auth::id())
-                            ->firstOrFail();
+        if (Auth::check()) {
+            $debt = tartozasok::join('users', 'users.id', '=', 'tartozasok.partner_user_id')
+                                ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
+                                ->where('tartozasok.tartozasok_id', $id)
+                                ->where('tartozasok.partner_user_id', Auth::id())
+                                ->firstOrFail();
 
-        return view('debt-accept', [
-            'id' => $id,
-            'debt' => $debt,
-            'userDebt' => $debt
-        ]);
+            return view('debt-accept', [
+                'id' => $id,
+                'debt' => $debt,
+                'userDebt' => $debt
+            ]);
+        }
+        else {
+            return redirect("login");
+        }
     }
 
     public function AcceptDebt($id)
     {
         $debt = tartozasok::where("tartozasok_id", $id)
-            ->where("user_id", Auth::id())
-            ->firstOrFail();
+                            ->where("user_id", Auth::id())
+                            ->firstOrFail();
+
         if ($debt->ki_irta == Auth::id()) {
-            return redirect('/debt')->with(['unsuccessful' => 'Más felhasználóknak saját maga által rögzített tartozást nem fogadhat el.']);
+            return redirect('/debt')->with([
+                'unsuccessful' => 'Más felhasználóknak saját maga által rögzített tartozást nem fogadhat el.'
+            ]);
         }
 
         $debt->statusz = "elfogadva";
@@ -128,49 +135,52 @@ class DebtController extends Controller
                 $originalDebt->statusz = "elfogadva";
                 $originalDebt->save();
             }
-        }
+
         return redirect('/debt')->with(['success' => 'Sikeresen elfogadta a tartozást!']);
+        }
+
     }
 
     public function RejectDebt($id)
     {
-        $debt = tartozasok::where("tartozasok_id", $id)
-            ->where("user_id", Auth::id())
-            ->firstOrFail();
-
-        if ($debt->ki_irta == Auth::id()) {
-            return redirect('/debt')->with(['unsuccessful' => 'Más felhasználóknak saját maga által rögzített tartozást nem utasíthat el.']);
-        }
-
-        $debt->statusz = "elutasítva";
-        $debt->save();
-
-        if ($debt->partner_user_id) {
-            $originalDebt = tartozasok::where([
-                'user_id'         => $debt->partner_user_id,
-                'partner_user_id' => $debt->user_id,
-                'datum'           => $debt->datum,
-                'osszeg'          => $debt->osszeg,
-                'leiras'          => $debt->leiras
-            ])->first();
-
-            if ($originalDebt) {
-                $originalDebt->statusz = "elutasítva";
-                $originalDebt->save();
+            $debt = tartozasok::where("tartozasok_id", $id)
+                                ->where("user_id", Auth::id())
+                                ->firstOrFail();
+            if ($debt->ki_irta == Auth::id()) {
+                return redirect('/debt')->with([
+                    'unsuccessful' => 'Más felhasználóknak saját maga által rögzített tartozást nem utasíthat el.'
+                ]);
             }
-        }
 
-        return redirect('/debt')->with(['success' => 'Visszautasította a tartozást!']);
+            $debt->statusz = "elutasítva";
+            $debt->save();
+
+            if ($debt->partner_user_id) {
+                $originalDebt = tartozasok::where([
+                    'user_id'         => $debt->partner_user_id,
+                    'partner_user_id' => $debt->user_id,
+                    'datum'           => $debt->datum,
+                    'osszeg'          => $debt->osszeg,
+                    'leiras'          => $debt->leiras
+                ])->first();
+
+                if ($originalDebt) {
+                    $originalDebt->statusz = "elutasítva";
+                    $originalDebt->save();
+                }
+            }
+
+            return redirect('/debt')->with(['success' => 'Visszautasította a tartozást!']);
     }
 
     public function DebtDone($id)
     {
         $debt = tartozasok::where("tartozasok_id", $id)
-            ->where("user_id", Auth::id())
-            ->firstOrFail();
+                            ->where("user_id", Auth::id())
+                            ->firstOrFail();
 
         if ($debt->ki_irta == Auth::id()) {
-            return redirect('/debt')->with('unsuccessful', 'Saját maga által rögzített tartozást nem fogadhat el.');
+            return redirect('/debt')->with(['unsuccessful' => 'Saját maga által rögzített tartozást nem fogadhat el.']);
         }
         $debt->statusz = "rendezve";
         $debt->save();
@@ -181,11 +191,11 @@ class DebtController extends Controller
     public function ShowPendingDebts()
     {
         $userDebt = tartozasok::where('tartozasok.user_id', Auth::id())
-            ->where("tartozasok.ki_irta", "!=", Auth::id())
-            ->where("statusz", "függőben")
-            ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
-            ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
-            ->get();
+                                ->where("tartozasok.ki_irta", "!=", Auth::id())
+                                ->where("statusz", "függőben")
+                                ->leftJoin('users', 'users.id', '=', 'tartozasok.partner_user_id')
+                                ->select('tartozasok.*', 'users.felhasznalonev as partner_username')
+                                ->get();
 
         return view('debt-pending', [
             "userDebt"  => $userDebt
