@@ -56,12 +56,12 @@
 
                     <label class="form-label mt-3" for="phone">Telefonszám:</label>
                     <input class="form-control rounded-pill @error('phone') is-invalid @enderror" type="text"
-                        name="phone" id="phone" value="{{ old('phone') }}">
+                        name="phone" id="phone" value="{{ old('phone') }}" maxlength="11">
                     @error('phone')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
 
-                    <label class="form-label mt-3" for="password" {{--id="password"--}}>Jelszó:</label>
+                    <label class="form-label mt-3" for="password" >Jelszó:</label>
                     <input onkeyup="check()" class="form-control rounded-pill @error('password') is-invalid @enderror" type="password" name="password" id="password">
                     <ul >
                         <li id="length">A jelszónak legalább 8 karakternek kell lennie!</li>
