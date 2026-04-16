@@ -42,6 +42,10 @@ label {
     color: white;
 }
 
+th, td{
+    color: white;
+}
+
 .card {
     border-top: 1px solid rgba(255, 255, 255, 0.65);
     border-left: 1px solid rgba(255, 255, 255, 0.65);
@@ -69,6 +73,20 @@ label {
 .animationBtn:hover {
     background-position: right;
     border: 2px solid rgb(165, 1, 187);
+}
+
+.animationBtnDel {
+    background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(179, 0, 0) 50%);
+    color: white;
+    background-size: 200%;
+    transition: 0.3s ease-out;
+    border: 2px solid rgb(53, 75, 240);
+    border-radius: 10px;
+}
+
+.animationBtnDel:hover {
+    background-position: right;
+    border: 2px solid rgb(179, 0, 0);
 }
 
 @media screen and (max-width: 767px) {

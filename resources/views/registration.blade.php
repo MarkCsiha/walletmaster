@@ -49,14 +49,14 @@
 
                     <label class="form-label mt-3" for="email"><span style="color: tomato">*</span>Email cím:</label>
                     <input class="form-control rounded-pill @error('email') is-invalid @enderror" type="text"
-                        name="email" id="email" value="{{ old('email') }}">
+                        name="email" id="email" value="{{ old('email') }}" maxlength="190">
                     @error('email')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
 
                     <label class="form-label mt-3" for="phone">Telefonszám:</label>
                     <input class="form-control rounded-pill @error('phone') is-invalid @enderror" type="text"
-                        name="phone" id="phone" value="{{ old('phone') }}" maxlength="11">
+                        name="phone" id="phone" value="{{ old('phone') }}" maxlength="12">
                     @error('phone')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
