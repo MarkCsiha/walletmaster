@@ -91,7 +91,7 @@
                     <a href="/auth/google">Folytatás Google fiókkal</a>
                 </div>
             </div>
-        </div>
+        
         </div>
         <script src="{{ asset('js/registration.js') }}"></script>
     </main>

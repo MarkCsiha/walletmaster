@@ -56,7 +56,7 @@
                             </td>
                             <td>{{ $debt->datum }}</td>
                             <td>{{ $debt->statusz }}</td>
-                            <form action="/debts/{{ $debt->tartozasok_id }}/done" method="POST" id="debtDone">
+                            <form action="/debts/{{ $debt->tartozasok_id }}/done" method="POST">
                                 @csrf
                                 <td>
                                     @if ($debt->statusz != 'rendezve')
@@ -96,7 +96,7 @@
                         name="debtAmount" id="debtAmount">
 
                     <label for="description" class="form-label mt-3">Leírás, ha szükséges: </label>
-                    <input type="textbox" class="form-control @error('description') is-invalid @enderror rounded-pill"
+                    <input type="text" class="form-control @error('description') is-invalid @enderror rounded-pill"
                         type="text" name="description" id="description">
 
                     <label for="debtDate" class="form-label mt-3">Dátum: </label>

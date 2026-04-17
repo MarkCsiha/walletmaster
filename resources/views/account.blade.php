@@ -117,7 +117,7 @@
 
             <div class="row-mb-4">
                 <div class="col-mb-6">
-                    <form action="" method="post">
+                    <form action="logout" method="post">
                         <button type="button" class="btn btn-primary mb-2 animationBtn rounded-pill">
                             <a href="/logout" id="animationA">Kijelentkezés</a>
                         </button>
