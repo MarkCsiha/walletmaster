@@ -37,14 +37,14 @@
                                 <input class="form-control rounded-pill" type="number" name="osszeg" id="osszeg"
                                     value="{{ old('osszeg') }}">
                                 @error('osszeg')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7" class="text-danger">{{ $message }}</p>
                                 @enderror
 
                                 <label class="form-label mt-4" for="honnan">Hely:</label>
                                 <input class="form-control rounded-pill" type="text" name="honnan" id="honnan"
                                     value="{{ old('honnan') }}">
                                 @error('honnan')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7" class="text-danger">{{ $message }}</p>
                                 @enderror
 
                                 <div class="my-4">
@@ -52,7 +52,7 @@
                                     <textarea class="form-control border rounded-4" name="leiras" id="leiras" cols="10" rows="10"></textarea>
                                 </div>
                                 @error('leiras')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7" class="text-danger">{{ $message }}</p>
                                 @enderror
 
                                 <div class="my-4">
@@ -61,7 +61,7 @@
                                         placeholder="éééé.hh.nn">
                                 </div>
                                 @error('datum')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7" class="text-danger">{{ $message }}</p>
                                 @enderror
 
                                 <div class="my-2">

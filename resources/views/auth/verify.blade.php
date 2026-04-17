@@ -29,18 +29,17 @@
                             {{-- Kéri a felhasználót, hogy hagyja jóvá az email címet --}}
                             <p>Kérjük, hagyja jóvá a regisztrációt az e-mail címére kapott linkre kattintva!</p>
                             <p>Ha nem kapta meg a hitelesítő levelet: </p>
-                            {{-- Ha az újraküldés linkre kattint a felhasználó akkor új emailt kap --}}
                             <div class="col-md-3">
                                 <p>Rossz email címet adott meg?</p>
                                 <form class="d-inline" method="POST" action="/auth/verify">
                                     @csrf
-                                    <input type="hidden" name="action" value="update_email">
+                                    <input type="hidden" name="action" value="update_email" class="rounded-pill">
 
                                     <label class="form-label mt-3" for="email">Új email cím:</label>
-                                    <input class="form-control @error('email') is-invalid @enderror" type="text"
+                                    <input class="form-control rounded-pill @error('email') is-invalid @enderror" type="text"
                                         name="email" id="email" value="{{ old('email') }}">
                                     @error('email')
-                                        <p class="text-danger">{{ $message }}</p>
+                                        <p style="color: #FDEBE7">{{ $message }}</p>
                                     @enderror
                                     <button type="submit" class="btn btn-primary animationBtn rounded-pill mt-3">Email cím
                                         változtatása</button>.

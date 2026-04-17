@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>WalletMaster</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('img/wallet.svg') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/WMFavIcon.ico') }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}">

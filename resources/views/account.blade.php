@@ -35,7 +35,7 @@
                             <input type="text" class="form-control rounded-pill" id="firstName" name="firstName"
                                 value="{{ Auth::user()->vez_nev }}">
                             @error('firstName')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: #FDEBE7">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3">
@@ -43,7 +43,7 @@
                             <input type="text" class="form-control rounded-pill" id="lastName" name="lastName"
                                 value="{{ Auth::user()->ker_nev }}">
                             @error('lastName')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: #FDEBE7">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3">
@@ -51,7 +51,7 @@
                             <input type="email" class="form-control rounded-pill" id="email" name="email"
                                 value="{{ Auth::user()->email }}">
                             @error('email')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: #FDEBE7">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3">
@@ -59,7 +59,7 @@
                             <input type="text" class="form-control rounded-pill" id="username" name="username"
                                 value="{{ Auth::user()->felhasznalonev }}">
                             @error('username')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: #FDEBE7">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -86,7 +86,7 @@
                             <input type="password" class="form-control @error('currentpassword') is-invalid @enderror rounded-pill"
                                 id="currentpassword" name="currentpassword">
                             @error('currentpassword')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: #FDEBE7">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3">
@@ -94,7 +94,7 @@
                             <input type="password" class="form-control @error('newpassword') is-invalid @enderror rounded-pill"
                                 id="newpassword" name="newpassword">
                             @error('newpassword')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: #FDEBE7">{{ $message }}</p>
                             @enderror
                             <i class="fa-solid fa-eye" id="show-password"></i>
                         </div>
@@ -104,7 +104,7 @@
                                 class="form-control @error('newpassword_confirmation') is-invalid @enderror rounded-pill"
                                 name="newpassword_confirmation" id="newpassword_confirmation">
                             @error('newpassword_confirmation')
-                                <p class="text-danger">{{ $message }}</p>
+                                <p style="color: #FDEBE7">{{ $message }}</p>
                             @enderror
                         </div>
 

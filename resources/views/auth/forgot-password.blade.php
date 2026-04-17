@@ -32,7 +32,7 @@
                         <input type="text" class="form-control @error('email') is-invalid @enderror rounded-pill"
                             id="email" name="email">
                         @error('email')
-                            <p class="text-danger">{{ $message }}</p>
+                            <p style="color: #FDEBE7">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="btn">
