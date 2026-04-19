@@ -306,6 +306,11 @@ class WMController extends Controller
             ->orderBy("datum", "desc")
             ->paginate(10);
 
+        $yearSelect = [];
+
+        for ($i = 2024; $i < now()->year; $i++) {
+            $yearSelect[] = $i;
+        }
         if (Auth::check()) {
             return view('main', [
                 'userSpending'      => $userSpending,
@@ -325,7 +330,8 @@ class WMController extends Controller
                 "budgetComparison"  => $budgetComparison,
                 "userExpenses"      => $userExpenses,
                 "dailySums"         => $dailySums,
-                "budgetGoal"        => $budgetGoal
+                "budgetGoal"        => $budgetGoal,
+                "yearSelect"        => $yearSelect,
             ]);
         } else {
             return redirect("/login");
@@ -682,8 +688,7 @@ class WMController extends Controller
             $limiset->osszeg = $req->paylimit;
             $limiset->aktiv = 1;
             $limiset->save();
-        }
-        else {
+        } else {
             $data = new koltseglimit();
             $data->user_id = Auth::id();
             $data->osszeg = $req->paylimit;
@@ -694,8 +699,7 @@ class WMController extends Controller
 
         if (Auth::check()) {
             return redirect("limit")->with(['success' => 'Sikeres költséglimit hozzáadás!']);
-        }
-        else {
+        } else {
             return redirect("login");
         }
     }
@@ -703,7 +707,7 @@ class WMController extends Controller
     public function LimitDelete(Request $req)
     {
         $data = koltseglimit::where("user_id", Auth::id())
-                            ->first();
+            ->first();
         $data->aktiv = 0;
         $data->save();
 

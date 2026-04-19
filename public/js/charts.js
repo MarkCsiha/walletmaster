@@ -174,7 +174,6 @@ const config = (type) => {
                 }
             },
 
-            //megmondja hogy torta és kördiagram esetén nullán keződjön
             scales: (type === "pie" || type === "doughnut") ? {} : {
                 y: {
                     beginAtZero: true,
@@ -197,9 +196,7 @@ const config = (type) => {
     };
 }
 
-//az új chartot generálja le, és törli az előzőt, így van szabad hely a myChart változóban az új diagramnak
 function render(type) {
-    //kérdéses, ha nem működik írd át a nevet canvas-ra!
     const ctx = document.getElementById("myChart");
 
     if (chart) chart.destroy();
@@ -208,14 +205,11 @@ function render(type) {
     chart = new Chart(ctx, config(type));
 }
 
-//enélkül nem fog elindulni
 document.addEventListener("DOMContentLoaded", () => {
-    // induláskor a select aktuális értékével rajzol
     const select = document.getElementById("chartType");
     currentType = select.value;
     render(currentType);
 
-    // váltáskor újrarajzol
     select.addEventListener("change", (e) => {
         currentType = e.target.value;
         render(currentType);
