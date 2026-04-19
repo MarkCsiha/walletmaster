@@ -45,8 +45,6 @@ a {
     color: white;
 }
 
-/* https://www.youtube.com/watch?v=G1uDmIaOnsc */
-
 nav ul li a::after {
     content: "";
     position: absolute;

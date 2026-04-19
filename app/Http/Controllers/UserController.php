@@ -42,7 +42,6 @@ class UserController extends Controller
                 ->mixedCase()
                 ->symbols()
                 ->uncompromised()],
-            // Tesztjelszó: #Palmafa123
             'password_confirmation' => 'required'
         ], [
             '*.required'            => 'Kötelező kitölteni!',
@@ -57,8 +56,6 @@ class UserController extends Controller
             'email.email'           => "Érvényes email címet adjon meg, mely megfelel az email cím formátumnak, például: kissbela@walletmaster.hu.",
             '*.email'               => 'Érvényes e-mail címet adjon meg!',
             'phone.regex'           => 'A telefonszámnak meg kell felelnie a telefonszám formátumnak, például: +36701234567.',
-            // 'telszam.min'           => "A telefonszámnak legalább 11 karakter hosszúnak kell lennie!",
-            // 'telszam.max'           => "A telefonszám maximum 13 karakter hosszú lehet!",
             'phone.unique'          => "Ez a telefonszám foglalt.",
             '*.confirmed'           => 'A két jelszó nem egyezik meg!',
             'password.min'          => 'A jelszónak legalább 8 karakternek kell lennie!',
@@ -120,22 +117,7 @@ class UserController extends Controller
                 "unsuccessful" => "Felhasználói fiókja törlésre került!"
             ]);
         }
-        // if (Auth::attempt([$credentials => $req->loginData, 'password' => $req->password, 'torles_ido' => null, 'ketfaktor_hitelesites' => 1])) {
-        //     $code = random_int(100000, 999999);
 
-        //     $findEmail = User::select("email")
-        //         ->where("id", Auth::id())
-        //         ->first();
-
-        //     $data = new FelhasznaloiKodok;
-        //     $data->felhasznalo_id = Auth::id();
-        //     $data->kod = $code;
-        //     $data->save();
-        //     Mail::to($findEmail->email)->send(new SendCodeMail($code));
-        //     return redirect("/twofactor")->with([
-        //         "success" => "Sikeresen belépett! Kérem adja meg az emailben kapott 6 számjegyű kódot."
-        //     ]);
-        // }
         else {
             return redirect("/login")->with([
                 "unsuccessful"    => "Az email cím, jelszó páros nem egyezik, vagy a felhasználói fiók törlésre került, kérjük próbálja meg újra!"
@@ -173,19 +155,11 @@ class UserController extends Controller
 
     public function SaveBtn(Request $req)
     {
-        //dd($req->all());
-
-        //Validáció nem teljesen jó
-        //function név átírása
         $req->validate([
             'firstName' => "max:30",
             'lastName'  => "max:30",
-            //https://regex101.com/library/SxCdMO?orderBy=RELEVANCE&search=email+&filterFlavors=pcre2
-            //regex alkalmazását követően összeomlik a rendszer, nem frissül semmi!
             'email'      => [
                 "email:rfc,dns",
-                // "email:rfc,dns",
-                //Rule::unique('users', 'email')->ignore(Auth::id())/*,"email:rfc,dns"],*/
                 "unique:users,email,". Auth::user()->id
             ],
             'username'        => [
@@ -194,7 +168,6 @@ class UserController extends Controller
                 Rule::unique('users', 'felhasznalonev')->ignore(Auth::id()),
                 'regex:/^[a-zA-Z0-9._]+$/'
             ],
-            //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
             'phone'               => [Rule::unique('users', 'telszam')->ignore(Auth::id())],
             'currentpassword',
             "newpassword"         => ["confirmed", Password::min(8)
@@ -203,7 +176,6 @@ class UserController extends Controller
                                                             ->mixedCase()
                                                             ->symbols()
                                                             ->uncompromised()],
-            //Tesztjelszó: #Palmafa123
             "newpassword_confirmation"
         ], [
             'firstName.max'             => 'Maximum 30 karakter lehet!',
@@ -217,7 +189,6 @@ class UserController extends Controller
             'phone.regex'               => 'A telefonszámnak meg kell felelnie a telefonszám formátumnak, például: +36701234567.',
             'phone.unique'              => "Ez a telefonszám foglalt.",
             '*.required'                    => "Kötelező kitölteni!",
-            //https://laravel.com/docs/12.x/validation -> sometimes
             "*.confirmed"                   => "Nem egyezik a jelszó!",
             "newpassword.min"               => "A jelszónak legalább 8 karakter hosszúnak kell lennie!",
             "newpassword.letters"           => "A jelszónak kell betűt tartalmaznia!",
@@ -248,8 +219,6 @@ class UserController extends Controller
             $data->ketfaktor_hitelesites = 1;
         }
 
-        //https://laravel.com/docs/12.x/eloquent#examining-attribute-changes
-        //megnézi hogy történt-e változás a data változóban
         if (!$data->isDirty()) {
             return redirect('/account')->with(['unchanged' => 'Nem történt változás a fiók adataiban.']);
         }
@@ -257,7 +226,6 @@ class UserController extends Controller
         $data->save();
         return redirect('/account')->with('success', 'Sikeres adatmódosítás!');
 
-        //jelszó megegyezés nem megy, javítani kell, pipa
         if (Hash::check($req->currentpassword, Auth::user()->password)) {
             if ($req->currentpassword == $req->newpassword) {
                 return redirect('/account')->with(['unsuccessful' => "Nem adhatja meg újra a korábbi jelszavát"]);
@@ -280,7 +248,6 @@ class UserController extends Controller
         }
     }
 
-    //ez a függvény akkor lesz meghívva, ha regisztráció érvényesítésnél a felhasználó új email címet ír be.
     public function EmailChanged(Request $req)
     {
         $req->validate([
@@ -295,15 +262,12 @@ class UserController extends Controller
 
         $data = $req->user();
 
-        // Ha ugyanazt írta be, ne küldj új linket
         if ($req->email == $data->email) {
             return back()->with(['unsuccessful' => 'Ez az email már be van állítva.']);
         }
-        //megkeresi azt a felhasználót azonosító alapján, akinek egyezik az azonosítója a keresett azonosítóval
         $data->email = $req->email;
         $data->email_verified_at = null;
         $data->Save();
-        //kiküldi újra a regisztrációt megerősítő linket
         $data->sendEmailVerificationNotification();
 
         return redirect('/auth/verify')->with(['success' => 'Sikeres adatmódosítás!']);
@@ -331,7 +295,3 @@ class UserController extends Controller
         return redirect("/login")->with(["success" => "Sikeresen visszavonta fiókjának törlését!"]);
     }
 }
-
-
-#walletmaster@gmail.com
-#Palmafa123

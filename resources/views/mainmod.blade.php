@@ -37,14 +37,14 @@
                                 <input class="form-control rounded-pill" type="number" name="osszeg" id="osszeg"
                                     value="{{ $result->osszeg }}">
                                 @error('osszeg')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
                                 <label class="form-label mt-4" for="honnan">Hely:</label>
                                 <input class="form-control rounded-pill" type="text" name="honnan" id="honnan"
                                     value="{{ $result->honnan }}">
                                 @error('honnan')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
                                 <div class="my-4">
@@ -52,7 +52,7 @@
                                     <textarea class="form-control border rounded-4" name="leiras" id="lairas" cols="10" rows="10">{{ $result->leiras }}</textarea>
                                 </div>
                                 @error('leiras')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
                                 <div class="my-4">
@@ -61,7 +61,7 @@
                                         value="{{ substr($result->datum, 0, 10) }}">
                                 </div>
                                 @error('datum')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
                                 <div class="my-2">
@@ -97,11 +97,9 @@
                                     </select>
                                 </div>
 
-                                {{-- Itt is a régi option legyen --}}
                                 <div class="mt-4">
-                                    <label class="for-label mb-2" for="tipus">Bevétel vagy kiadás?</label>
-                                    <select class="form-select rounded-pill" name="tipus" id="tipus"
-                                        data-old="{{ old('tipus') }}">
+                                    <label class="form-label mb-2" for="tipus">Bevétel vagy kiadás?</label>
+                                    <select class="form-select rounded-pill" name="tipus" id="tipus">
                                         @if ($result->tipus == 0)
                                             <option value="kiadas" value="{{ old('tipus') == 'kiadas' ? 'selected' : '' }}">Kiadás
                                             </option>
@@ -113,36 +111,13 @@
                                             <option value="kiadas" value="{{ old('tipus') == 'kiadas' ? 'selected' : '' }}">Kiadás
                                             </option>
                                         @endif
-                                        {{-- <option value="0">---</option> --}}
                                     </select>
                                 </div>
 
                                 <div class="mt-2">
                                     <label class="form-label mb-2" for="kategoria">Kategória</label>
-                                    <select class="form-select rounded-pill" name="kategoria" id="kategoria"
-                                        value="{{ old('kategoria') }}">
-                                        <option value="{{ $result->kategoria }}">{{ $result->kategoria }}</option>
-                                        @if ($result->tipus == 0)
-                                            <option value="Élelmiszer">Élelmiszer</option>
-                                            <option value="Háztartás">Háztartás</option>
-                                            <option value="Elektronika">Elektronika</option>
-                                            <option value="Lakhatás">Lakhatás</option>
-                                            <option value="Hitel">Hitel</option>
-                                            <option value="Ruházat">Ruházat</option>
-                                            <option value="Gyógyszer">Gyógyszer</option>
-                                            <option value="Edzés">Edzés</option>
-                                            <option value="Autó">Autó</option>
-                                            <option value="Tanulmányok">Tanulmányo</option>
-                                            <option value="Utazás">Utazás</option>
-                                            <option value="Szórakozás">Szórakozás</option>
-                                            <option value="Egyéb">Egyéb</option>
-                                        @else
-                                            <option value="Fizetés">Fizetés</option>
-                                            <option value="Befektetés">Befektetés</option>
-                                            <option value="Részvény">Részvény</option>
-                                            <option value="Járandósság">Járandósság</option>
-                                            <option value="Egyéb">Egyéb</option>
-                                        @endif
+                                    <select class="form-select rounded-pill" name="kategoria" id="kategoria">
+                                        <option value="">Válasszon típust először</option>
                                     </select>
                                 </div>
 
@@ -155,4 +130,4 @@
         </section>
     </main>
 @endsection
-{{-- <script src="{{asset('js/add.js')}}"></script> --}}
+<script src="{{asset('js/add.js')}}"></script>

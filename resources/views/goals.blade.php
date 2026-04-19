@@ -99,36 +99,36 @@
                                     <form action="/goals" method="post">
                                         @csrf
 
-                                        <label class="form-label" for="nev"><span style="color: tomato">*</span>Cél
+                                        <label class="form-label" for="nev"><span style="color: #FDEBE7">*</span>Cél
                                             neve:</label>
                                         <input class="form-control rounded-pill" type="text" name="nev"
                                             id="nev">
                                         @error('nev')
-                                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                            <p style="color: #FDEBE7">{{ $message }}</p>
                                         @enderror
 
                                         <label class="form-label" for="cel_osszeg"><span
-                                                style="color: tomato">*</span>Célösszeg:</label>
+                                                style="color: #FDEBE7">*</span>Célösszeg:</label>
                                         <input class="form-control rounded-pill" type="number" name="cel_osszeg"
                                             id="cel_osszeg">
                                         @error('cel_osszeg')
-                                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                            <p style="color: #FDEBE7">{{ $message }}</p>
                                         @enderror
 
-                                        <label class="form-label" for="osszeg"><span style="color: tomato">*</span>Most
+                                        <label class="form-label" for="osszeg"><span style="color: #FDEBE7">*</span>Most
                                             mennyit tud rászánni:</label>
                                         <input class="form-control rounded-pill" type="number" name="osszeg"
                                             id="osszeg">
                                         @error('osszeg')
-                                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                            <p style="color: #FDEBE7">{{ $message }}</p>
                                         @enderror
 
                                         <label class="form-label" for="hatarido"><span
-                                                style="color: tomato">*</span>Határidő:</label>
+                                                style="color: #FDEBE7">*</span>Határidő:</label>
                                         <input class="form-control rounded-pill" type="date" name="hatarido"
                                             id="hatarido">
                                         @error('hatarido')
-                                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                            <p style="color: #FDEBE7">{{ $message }}</p>
                                         @enderror
                                         <div class="btn">
                                             <button class="btn btn-dark mt-4 animationBtn rounded-pill"

@@ -19,7 +19,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class WMController extends Controller
 {
-    //https://www.youtube.com/watch?v=2Zy7gHWl5-Y&t=180s
     public function Main(Request $req)
     {
         $user = Auth::id();
@@ -94,14 +93,11 @@ class WMController extends Controller
                 $kfix->Save();
             }
         }
-
-        // --- NAPTÁR: hónap kiválasztás query param alapján ---
         $ym = $req->query('ym', now()->format('Y-m')); // pl. 2026-01
 
         $monthStart = Carbon::createFromFormat('Y-m', $ym)->startOfMonth();
         $monthEnd   = $monthStart->copy()->endOfMonth();
 
-        // Naptár rács: hétfővel induljon, vasárnappal zárjon
         $gridStart = $monthStart->copy()->startOfWeek(Carbon::MONDAY);
         $gridEnd   = $monthEnd->copy()->endOfWeek(Carbon::SUNDAY);
 
@@ -263,7 +259,6 @@ class WMController extends Controller
             ->selectRaw("kategoria_nev as category_name");
 
         $budgetGoal = null;
-        //https://laracasts.com/discuss/channels/laravel/getting-the-first-and-last-date-of-the-current-month-and-past-2-months
 
         $currentBudget = koltseglimit::where('user_id', Auth::id())
             ->first();

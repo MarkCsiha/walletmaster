@@ -36,7 +36,7 @@
                                 <option value="egyeb">Egyéb</option>
                             </select>
                             @error('typeSelect')
-                                <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                <p style="color: #FDEBE7">{{ $message }}</p>
                             @enderror
                     </div>
                     <div class="my-4">
@@ -44,7 +44,7 @@
                         <textarea class="form-control @error('reviewText') is-invalid @enderror border rounded-4" name="reviewText" id="reviewText"
                             cols="10" rows="10"></textarea>
                         @error('reviewText')
-                            <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                            <p style="color: #FDEBE7">{{ $message }}</p>
                         @enderror
                     </div>
 

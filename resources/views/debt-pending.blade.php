@@ -1,7 +1,7 @@
 @extends('layout')
 
-@push('debt-css')
-    <link rel="stylesheet" href="{{ asset('css/debt.css') }}">
+@push('pending-css')
+    <link rel="stylesheet" href="{{ asset('css/pending.css') }}">
 @endpush
 
 @section('content')

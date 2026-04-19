@@ -81,8 +81,6 @@ button {
     }
 }
 
-/* https://www.youtube.com/watch?v=m4NUID4kDyo */
-
 .animationBtn {
     background-image: linear-gradient(to right, rgb(53, 75, 240) 50%, rgb(165, 1, 187) 50%);
     color: white;

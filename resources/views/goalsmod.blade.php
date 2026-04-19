@@ -31,28 +31,28 @@
                                 <input class="form-control rounded-pill" type="text" name="nev" id="nev"
                                     value="{{ $result->cel_nev }}">
                                 @error('nev')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
                                 <label class="form-label" for="cel_osszeg">Célösszeg:</label>
                                 <input class="form-control rounded-pill" type="number" name="cel_osszeg" id="cel_osszeg"
                                     value="{{ $result->cel_osszeg }}">
                                 @error('cel_osszeg')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
                                 <label class="form-label" for="osszeg">Most mennyit tud rászánni:</label>
                                 <input class="form-control rounded-pill" type="number" name="osszeg" id="osszeg"
                                     value="{{ $result->budzse }}">
                                 @error('osszeg')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
                                 <label class="form-label" for="hatarido">Határidő:</label>
                                 <input class="form-control rounded-pill" type="date" name="hatarido" id="hatarido"
                                     value="{{ $result->hatarido }}">
                                 @error('hatarido')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
                                 <label class="form-label" for="statusz">Cél státusza:</label>
@@ -62,7 +62,7 @@
                                     <option value="törölve">Törölve</option>
                                 </select>
                                 @error('hatarido')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
                                 <button class="btn btn-dark mt-4 animationBtn rounded-pill"

@@ -25,7 +25,6 @@ Route::post('/twofactor', [TwoFactorController::class, 'TwoFactorVerify']);
 Route::get('/account', [UserController::class, 'Account'])->middleware(['auth', 'verified']);
 Route::post('/account', [UserController::class, 'SaveBtn'])->middleware(['auth', 'verified']);
 
-;
 Route::post('/main', [WMController::class, "Main"])->middleware(["auth", "verified"]);
 Route::get('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"]);
 Route::post('/main', [WMController::class, 'Main'])->middleware(["auth", "verified"])->name('main.charts');
@@ -72,22 +71,17 @@ Route::get('/reset-password/{token}', function (string $token) {
     return view('auth.reset-password', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
 
-//frissíti a jelszót
 Route::post('/reset-password', [ResetPasswordController::class, "PasswordReset"])->middleware('guest');
 
 Route::get('/debt', [DebtController::class, 'DebtShow'])->middleware(['auth', 'verified']);
 Route::post('/debt', [DebtController::class, 'DebtAdd'])->middleware(['auth', 'verified']);
 
-//Tartozások email kiküldése
 Route::get('/debts/{id}/decision', [DebtController::class, 'ShowDebtDetails'])->name('debts.decision')->middleware(["auth", "verified", "signed"]);
 
-//tartozás elfogadása
 Route::post("/debts/{id}/accept", [DebtController::class, "AcceptDebt"])->middleware(["auth", "verified"]);
 
-//tartozás visszautasítása
 Route::post("/debts/{id}/reject", [DebtController::class, "RejectDebt"])->middleware(["auth", "verified"]);
 
-//rendezve gomb a tartozásoknál
 Route::post("/debts/{id}/done", [DebtController::class, "DebtDone"])->middleware(["auth", "verified"]);
 
 Route::get('/debts/pending', [DebtController::class, 'ShowPendingDebts'])->middleware(['auth', 'verified']);

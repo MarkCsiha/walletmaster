@@ -82,14 +82,14 @@
                                 <label class="form-label" for="paylimit">Új limit megadása:</label>
                                 <input type="number" class="form-control rounded-pill mb-3" id="paylimit" name="paylimit">
                                 @error('paylimit')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
                                 <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Mentés</button>
                             @else
                                 <label class="form-label" for="paylimit">Limit módosítása:</label>
                                 <input type="number" class="form-control rounded-pill mb-3" id="paylimit" name="paylimit">
                                 @error('paylimit')
-                                    <p style="color: tomato" class="text-danger">{{ $message }}</p>
+                                    <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
                                 <button class="btn btn-dark mt-4 animationBtn rounded-pill" type="submit">Mentés</button>
                             @endif
@@ -170,7 +170,6 @@
                 </div>
             </div>
 
-        </div>
         </div>
     </section>
 @endsection
