@@ -24,10 +24,6 @@
             <div class="card w-75 mx-auto">
                 <form class="card-body" action="/login" method="post">
                     @csrf
-                    {{-- <label class="form-label mt-3" for="email">E-mail:</label>
-                        <input class="form-control rounded-pill" @error('email') is-invalid @enderror type="text"
-                            name="email" id="email"> --}}
-
                     <label class="form-label mt-3" for="loginData">E-mail cím vagy felhasználónév:</label>
                     <input class="form-control rounded-pill @error('loginData') is-invalid @enderror" type="text"
                         name="loginData" id="loginData">

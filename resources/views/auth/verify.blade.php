@@ -5,13 +5,11 @@
 @endpush
 
 @section('content')
-    {{-- https://github.com/ERaufi/LaravelProjects/blob/main/routes/web.php --}}
     <main class="container pt-3 pb-5">
         <section>
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
-                        <div class="card-header"></div>
                         <div class="card-body">
                             @if (session('success'))
                                 <div class="alert alert-success text-success text-center w-50 py-1 mx-auto mt-3">
@@ -26,7 +24,6 @@
                                     </i>
                                 </div>
                             @endif
-                            {{-- Kéri a felhasználót, hogy hagyja jóvá az email címet --}}
                             <p>Kérjük, hagyja jóvá a regisztrációt az e-mail címére kapott linkre kattintva!</p>
                             <p>Ha nem kapta meg a hitelesítő levelet: </p>
                             <div class="col-md-3">
@@ -47,9 +44,7 @@
                             </div>
                             <form class="d-inline" method="POST" action="{{ route('verification.send') }}">
                                 @csrf
-                                <button type="submit" class="btn btn-primary animationBtn rounded-pill">Kattintson ide az
-                                    új
-                                    link kéréséhez!</button>.
+                                <button type="submit" class="btn btn-primary animationBtn rounded-pill mt-3">Kattintson ide az új link kéréséhez!</button>.
                             </form>
                         </div>
                     </div>

@@ -1,11 +1,9 @@
 body {
-    background: linear-gradient(
-        135deg,
-        #2b1055 0%,
-        #4b1f7a 35%,
-        #6a2bbd 70%,
-        #a855f7 100%
-    );
+    background: linear-gradient(135deg,
+            #2b1055 0%,
+            #4b1f7a 35%,
+            #6a2bbd 70%,
+            #a855f7 100%);
     background-attachment: fixed;
 }
 
@@ -27,7 +25,10 @@ td {
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 4px 30px rgba(255, 255, 0, 0.1);
     backdrop-filter: blur(5px);
+    transition: all 0.2s ease-in-out;
+
 }
+
 
 #kartya {
     background: rgba(255, 255, 255, 0.0015);
@@ -39,6 +40,10 @@ td {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.card:hover {
+    transform: scale(1.04);
 }
 
 #outerpanel {

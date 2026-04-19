@@ -13,7 +13,6 @@ class GoogleController extends Controller
 {
     public function RedirectGoogle(Request $req) {
         return Socialite::driver('google')->redirect();
-
     }
 
     public function GoogleCallback(Request $req) {

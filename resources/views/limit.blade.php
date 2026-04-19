@@ -124,8 +124,6 @@
                                     <th>Kiadás törlése</th>
                                 </tr>
 
-                                {{-- Havi mentés egyszerűsíteni
-                                     Összekötni a szamlaval és plusz adatokat a továbbiaknál kiírni --}}
                                 @foreach ($pays as $p)
                                     <tr>
                                         <td>

@@ -4,7 +4,6 @@ use App\Http\Controllers\DebtController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\TwoFactorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WMController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -19,9 +18,6 @@ Route::post('/registration', [UserController::class, 'RegistrationBtn']);
 Route::get('/login', [UserController::class, 'Login'])->name('login')->middleware('guest');
 Route::post('/login', [UserController::class, 'LoginBtn']);
 
-Route::get('/twofactor', [TwoFactorController::class, 'TwoFactorShow']);
-Route::post('/twofactor', [TwoFactorController::class, 'TwoFactorVerify']);
-
 Route::get('/account', [UserController::class, 'Account'])->middleware(['auth', 'verified']);
 Route::post('/account', [UserController::class, 'SaveBtn'])->middleware(['auth', 'verified']);
 
@@ -32,9 +28,6 @@ Route::get("/main", [WMController::class, "Main"])->middleware(["auth", "verifie
 Route::post('/main', [WMController::class, 'Main'])->name('main.charts');
 Route::get("/main", [WMController::class, "Main"])->name('naptar');
 Route::get('/logout', [UserController::class, 'Logout']);
-
-Route::get('/main', [WMController::class, 'Main'])->middleware(['auth', 'verified'])->name('naptar');
-Route::post('/main', [WMController::class, 'Main'])->middleware(['auth', 'verified'])->name('main.charts');
 
 Route::get('/mainmod/{szamla_id}', [WMController::class, 'MainMod'])->middleware(['auth', 'verified']);
 Route::post('/mainmod/{szamla_id}', [WMController::class, 'MainModBtn'])->middleware(['auth', 'verified']);
@@ -95,9 +88,7 @@ Route::get('/auth/google/callback', [GoogleController::class, "GoogleCallback"])
 
 Route::delete('/user/{id}', [UserController::class, 'AccountDelete'])->name('user.destroy')->middleware(['auth', 'verified']);
 
-Route::get('/user/{id}', [UserController::class, 'UserRemovalCancel'])
-    ->name('userremoval.cancel')
-    ->middleware(['auth', 'verified']);
+Route::get('/user/{id}', [UserController::class, 'UserRemovalCancel'])->name('userremoval.cancel')->middleware(['auth', 'verified']);
 
 Route::get('/review', [ReviewController::class, 'ShowReview'])->middleware(['auth', 'verified']);
 Route::post('/review', [ReviewController::class, 'ReviewBtn'])->middleware(['auth', 'verified']);

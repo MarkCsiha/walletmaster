@@ -43,7 +43,6 @@
                             </td>
 
                             <td>{{ $debt->partner_nev }}</td>
-                            {{-- kiírja a felhasználónevet, de csak ha nem üres, lehet kell majd bele más td is null esetén --}}
                             <td>{{ $debt->partner_username ?? '' }}</td>
 
                             <td>{{ $debt->leiras }}</td>

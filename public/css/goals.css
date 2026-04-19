@@ -1,10 +1,9 @@
 body {
     background: linear-gradient(135deg,
-        #2b1055 0%,
-        #4b1f7a 35%,
-        #6a2bbd 70%,
-        #a855f7 100%
-    );
+            #2b1055 0%,
+            #4b1f7a 35%,
+            #6a2bbd 70%,
+            #a855f7 100%);
     background-attachment: fixed;
 }
 
@@ -72,6 +71,11 @@ button {
 
 #goalcard {
     margin-bottom: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+#goalcard:hover {
+    transform: scale(1.04);
 }
 
 @media screen and (max-width: 767px) {

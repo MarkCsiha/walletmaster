@@ -1,6 +1,4 @@
-//https://forum.scriptcase.net/t/how-to-auto-logout-after-10-min-idle-time-help/12453/5
-//https://stackoverflow.com/questions/23023916/how-to-implement-auto-logout-in-javascript
-let idleMax = 15;
+let idleMax = 20;
 let idleTime = localStorage.getItem('idleTime') ? parseInt(localStorage.getItem('idleTime')) : 0;
 
 $(document).ready(function () {

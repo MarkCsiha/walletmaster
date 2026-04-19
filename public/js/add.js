@@ -7,22 +7,38 @@ document.addEventListener("DOMContentLoaded", function () {
         "Háztartás",
         "Elektronika",
         "Lakhatás",
+        "Rezsi",
         "Hitel",
+        "Biztosítás",
         "Ruházat",
         "Gyógyszer",
+        "Egészségügy",
         "Edzés",
         "Autó",
+        "Közlekedés",
         "Tanulmányok",
         "Utazás",
         "Szórakozás",
+        "Ajándék",
+        "Gyerek",
+        "Állat",
+        "Előfizetés",
+        "Telefon",
+        "Internet",
         "Egyéb"
     ];
 
     const bevetel = [
         "Fizetés",
+        "Prémium",
         "Befektetés",
         "Részvény",
+        "Visszatérítés",
+        "Ajándék",
+        "Másodállás",
+        "Eladás",
         "Járandóság",
+        "Ösztöndíj",
         "Egyéb"
     ];
 

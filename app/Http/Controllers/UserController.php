@@ -30,12 +30,11 @@ class UserController extends Controller
     public function RegistrationBtn(Request $req)
     {
         $req->validate([
-            'firstName'             => 'required|max:30',
-            'lastName'              => 'required|max:30',
+            'firstName'             => 'required|max:100',
+            'lastName'              => 'required|max:100',
             'username'              => 'required|min:3|max:30|unique:users,felhasznalonev|regex:/^[a-zA-Z0-9._]+$/',
-            'email' => ['required', 'email:rfc,dns', 'unique:users,email'],
-             //tömbben kell, különben összezavarodik néha a controller, összeolvad a regexszel minden
-            'phone'                 => ['required', 'unique:users,telszam', 'regex:/^(?:\+36|06)(20|30|50|70)\d{3}\d{4}$/'],
+            'email' => ['required', 'email:rfc,dns', 'unique:users,email', 'max:190'],
+            'phone'                 => ['required', 'unique:users,telszam', 'regex:/^(?:\+36|06)(1|20|30|50|70)\d{3}\d{4}$/', 'max:20'],
             'password'              => ['required', 'confirmed', Password::min(8)
                 ->letters()
                 ->numbers()
@@ -45,8 +44,8 @@ class UserController extends Controller
             'password_confirmation' => 'required'
         ], [
             '*.required'            => 'Kötelező kitölteni!',
-            'firstName.max'         => 'Maximum 30 karakter lehet!',
-            'lastName.max'          => 'Maximum 30 karakter lehet!',
+            'firstName.max'         => 'Maximum 100 karakter lehet!',
+            'lastName.max'          => 'Maximum 100 karakter lehet!',
             'username.min'          => "Minimum 3 karakternek kell lennie!",
             'username.max'          => "Maximum 30 karakter lehet!",
             'username.unique'       => "Ez a felhasználónév foglalt.",
@@ -63,24 +62,30 @@ class UserController extends Controller
             'password.numbers'      => 'A jelszónak legalább egy számot kell tartalmaznia!',
             'password.mixed'        => 'A jelszónak kis- és nagybetűt is kell tartalmaznia!',
             'password.symbols'      => 'A jelszónak legalább egy speciális karaktert kell tartalmaznia!',
-            'password.uncompromised' => 'Ez a jelszó már szerepelt adatvédelmi incidensben, ezért nem biztonságos!'
+            'password.uncompromised' => 'Ez a jelszó már szerepelt adatvédelmi incidensben, ezért nem biztonságos!',
+            'telszam.max'           => "Maximum 20 karakter lehet!",
+            "email.max"             => "Maximum 190 karakter lehet!"
         ]);
 
-        $data                   = new User;
-        $data->vez_nev          = $req->firstName;
-        $data->ker_nev          = $req->lastName;
-        $data->felhasznalonev   = $req->username;
-        $data->email            = $req->email;
-        $data->telszam          = $req->phone;
-        $data->password         = $req->password;
+        if ($req->password != $req->password_confirmation) {
+            return redirect("registration")->with(["unsuccessful" => "A két jelszónak egyeznie kell!"]);
+        } else {
+            $data                   = new User;
+            $data->vez_nev          = $req->firstName;
+            $data->ker_nev          = $req->lastName;
+            $data->felhasznalonev   = $req->username;
+            $data->email            = $req->email;
+            $data->telszam          = $req->phone;
+            $data->password         = $req->password;
 
-        $data->Save();
-        Auth::login($data);
-        event(new Registered($data));
+            $data->Save();
+            Auth::login($data);
+            event(new Registered($data));
 
-        return redirect('/auth/verify')->with([
-            'success' => 'Sikeresen regisztrált, üdvözöljük a WalletMaster oldalán '.$req->firstName.' '.$req->lastName.'!'
-        ]);
+            return redirect('/auth/verify')->with([
+                'success' => 'Sikeresen regisztrált, üdvözöljük a WalletMaster oldalán ' . $req->firstName . ' ' . $req->lastName . '!'
+            ]);
+        }
     }
 
     public function Login()
@@ -116,9 +121,7 @@ class UserController extends Controller
             return redirect("/login")->with([
                 "unsuccessful" => "Felhasználói fiókja törlésre került!"
             ]);
-        }
-
-        else {
+        } else {
             return redirect("/login")->with([
                 "unsuccessful"    => "Az email cím, jelszó páros nem egyezik, vagy a felhasználói fiók törlésre került, kérjük próbálja meg újra!"
             ]);
@@ -160,7 +163,7 @@ class UserController extends Controller
             'lastName'  => "max:30",
             'email'      => [
                 "email:rfc,dns",
-                "unique:users,email,". Auth::user()->id
+                "unique:users,email," . Auth::user()->id
             ],
             'username'        => [
                 'min:3',
@@ -171,11 +174,11 @@ class UserController extends Controller
             'phone'               => [Rule::unique('users', 'telszam')->ignore(Auth::id())],
             'currentpassword',
             "newpassword"         => ["confirmed", Password::min(8)
-                                                            ->letters()
-                                                            ->numbers()
-                                                            ->mixedCase()
-                                                            ->symbols()
-                                                            ->uncompromised()],
+                ->letters()
+                ->numbers()
+                ->mixedCase()
+                ->symbols()
+                ->uncompromised()],
             "newpassword_confirmation"
         ], [
             'firstName.max'             => 'Maximum 30 karakter lehet!',
@@ -229,8 +232,7 @@ class UserController extends Controller
         if (Hash::check($req->currentpassword, Auth::user()->password)) {
             if ($req->currentpassword == $req->newpassword) {
                 return redirect('/account')->with(['unsuccessful' => "Nem adhatja meg újra a korábbi jelszavát"]);
-            }
-            else if ($req->newpassword != $req->newpassword_confirmation) {
+            } else if ($req->newpassword != $req->newpassword_confirmation) {
                 return redirect('/account')->with(['unsuccessful' => "A két jelszó nem egyezik!"]);
             } else {
                 $data = User::find(Auth::user()->id);
@@ -239,11 +241,9 @@ class UserController extends Controller
                 Auth::logout();
                 return redirect(to: '/main')->with(['success' => "Sikeres jelszómódosítás!"]);
             }
-        }
-        else if (!$data->isDirty()) {
+        } else if (!$data->isDirty()) {
             return redirect('/account')->with('unchanged', 'Nem történt változás a fiók adataiban.');
-        }
-        else {
+        } else {
             return redirect('/account')->with(['unsuccessful' => "Sikertelen jelszómódosítás!"]);
         }
     }
@@ -253,7 +253,7 @@ class UserController extends Controller
         $req->validate([
             "email" =>  [
                 "email",
-                "unique:users,email,".Auth::user()->id
+                "unique:users,email,".Auth::user()->id,
             ],
         ], [
             "email.unique"              => "Ez az email cím foglalt.",

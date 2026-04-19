@@ -1,52 +1,3 @@
-// const { helpers } = Chart;
-
-// let width, height;
-// const cache = new Map();
-
-// function createRadialGradient3(context, c1, c2, c3) {
-//   const chartArea = context.chart.chartArea;
-//   if (!chartArea) return;
-
-//   const chartWidth = chartArea.right - chartArea.left;
-//   const chartHeight = chartArea.bottom - chartArea.top;
-//   if (width !== chartWidth || height !== chartHeight) cache.clear();
-
-//   let gradient = cache.get(c1 + c2 + c3);
-//   if (!gradient) {
-//     width = chartWidth;
-//     height = chartHeight;
-
-//     const centerX = (chartArea.left + chartArea.right) / 2;
-//     const centerY = (chartArea.top + chartArea.bottom) / 2;
-//     const r = Math.min(chartWidth / 2, chartHeight / 2);
-
-//     const ctx = context.chart.ctx;
-//     gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, r);
-//     gradient.addColorStop(0, c1);
-//     gradient.addColorStop(0.5, c2);
-//     gradient.addColorStop(1, c3);
-//     cache.set(c1 + c2 + c3, gradient);
-//   }
-//   return gradient;
-// }
-
-// const baseColors = [
-//   "#60A5FA", "#34D399", "#FBBF24", "#F87171",
-//   "#A78BFA", "#22D3EE", "#FB7185", "#93C5FD",
-//   "#4ADE80", "#FCA5A5"
-// ];
-// function gradientBg(ctx) {
-//   let c = baseColors[ctx.dataIndex] ?? '#999';
-//   if (ctx.active) c = helpers.getHoverColor(c);
-
-//   const mid   = helpers.color(c).desaturate(0.2).darken(0.2).rgbString();
-//   const start = helpers.color(c).lighten(0.2).rotate(270).rgbString();
-//   const end   = helpers.color(c).lighten(0.1).rgbString();
-
-//   return createRadialGradient3(ctx, start, mid, end);
-// }
-
-//nullá teszi az eddigi chartot -> szükséges az új chart rendereléséhez
 let chart = null;
 let delayed = false;
 let currentType = "bar";
@@ -78,32 +29,66 @@ const config = (type) => {
                 data: data,
                 backgroundColor:
                     [
-                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                        '#FF9F40', '#66BB6A', '#EF5350'
+                        '#6C63FF',
+                        '#4D96FF',
+                        '#00C2A8',
+                        '#FFD166',
+                        '#FF7B54',
+                        '#EF476F',
+                        '#7B2CBF',
+                        '#2EC4B6',
+                        '#90BE6D',
+                        '#577590',
+                        '#F94144',
+                        '#F3722C',
+                        '#43AA8B',
+                        '#277DA1',
+                        '#F9C74F',
+                        '#9D4EDD',
+                        '#F15BB5',
+                        '#00BBF9',
+                        '#00F5D4',
+                        '#B5179E',
+                        '#4895EF',
+                        '#560BAD',
+                        '#ADB5BD'
                     ],
             }] : [{
                 label: "Költségek",
                 data: data,
                 backgroundColor:
                     [
-                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                        '#FF9F40', '#66BB6A', '#EF5350'
+                        '#6C63FF',
+                        '#6C63FF',
+                        '#4D96FF',
+                        '#00C2A8',
+                        '#FFD166',
+                        '#FF7B54',
+                        '#EF476F',
+                        '#7B2CBF',
+                        '#2EC4B6',
+                        '#90BE6D',
+                        '#577590',
+                        '#F94144',
+                        '#F3722C',
+                        '#43AA8B',
+                        '#277DA1',
+                        '#F9C74F',
+                        '#9D4EDD',
+                        '#F15BB5',
+                        '#00BBF9',
+                        '#00F5D4',
+                        '#B5179E',
+                        '#4895EF',
+                        '#560BAD',
+                        '#ADB5BD'
                     ],
 
-                //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
-                //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
-                // hoverBorderColor: 'white',
-                // //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
-                // borderWidth: 2
             }]
         },
         options: {
-            //https://www.chartjs.org/docs/latest/api/interfaces/ArcHoverOptions.html
-            //ha az egeret ráviszi a user az oszlop/körszelet széle fehér lesz
             hoverBorderColor: 'white',
-            //https://www.chartjs.org/docs/latest/api/interfaces/BorderOptions.html
             borderWidth: 2,
-            //rakd majd egybe a kettő scales-t + színek változtatása
             scales: (type === "pie" || type === "doughnut") ? {} : {
                 x: {
                     stacked: isComparison || isSpentIncome,
@@ -119,15 +104,12 @@ const config = (type) => {
             },
             responsive: true,
             animation: {
-                //animáció forrás: https://www.chartjs.org/docs/latest/samples/animations/delay.html
                 onComplete: () => {
-                    //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
                     if (type == "bar") {
                         delayed = true;
                     }
                 },
                 delay: (context) => {
-                    //csak akkor történik animáció ha oszlop diagramról van szó, kördiagramnál nem
                     if (type == "bar") {
                         let delay = 0;
                         if (context.type === 'data' && context.mode === 'default' && !delayed) {
@@ -142,9 +124,6 @@ const config = (type) => {
                     display: false
                 },
                 legend: {
-                    //eltűnteti a címet
-                    //https://stackoverflow.com/questions/56846339/how-to-remove-title-color-box-in-chart-js
-                    // display: type !== "bar",
                     display: isComparison || isSpentIncome || type == "pie" || type == "doughnut" ? true : false,
                     labels: {
                         color: "white"
@@ -154,9 +133,6 @@ const config = (type) => {
                     callbacks: {
                         label: (context) => {
                             if (type === "doughnut" || type === "pie") {
-                                //https://www.geeksforgeeks.org/javascript/how-to-add-percentage-and-value-datalabels-in-pie-chart-in-chartjs/
-                                //százalékszámítás
-                                //frissített, verzióhoz helyes számítás
                                 const value = context.parsed;
                                 const total = context.chart._metasets?.[context.datasetIndex]?.total;
                                 //képlet
@@ -177,10 +153,6 @@ const config = (type) => {
             scales: (type === "pie" || type === "doughnut") ? {} : {
                 y: {
                     beginAtZero: true,
-                    //https://www.geeksforgeeks.org/javascript/how-to-change-grid-line-color-chartjs/
-                    // grid: {
-                    //     color: "rgba(192, 192, 192, 0.7)"
-                    // },
                     ticks: {
                         color: "#ffffff"
                     }

@@ -17,7 +17,6 @@ class DebtMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    //https://laravel.com/docs/12.x/mail
      public tartozasok $tartozas;
 
     /**
@@ -56,10 +55,4 @@ class DebtMail extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    // public function attachments(): array
-    // {
-    //     return [
-    //         Attachment::fromPath(public_path('img/logo.png'))
-    //     ];
-    // }
 }

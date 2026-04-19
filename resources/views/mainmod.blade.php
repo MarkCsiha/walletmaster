@@ -64,7 +64,7 @@
                                     <p style="color: #FDEBE7">{{ $message }}</p>
                                 @enderror
 
-                                <div class="my-2">
+                                <div class="my-4">
                                     <label class="form-check-label" for="fix">Ez egy fix kiadás?</label>
                                     <select class="form-select  rounded-pill" name="fix" id="fix">
                                         @if ($result->fix == 'nem')
@@ -114,7 +114,7 @@
                                     </select>
                                 </div>
 
-                                <div class="mt-2">
+                                <div class="mt-4">
                                     <label class="form-label mb-2" for="kategoria">Kategória</label>
                                     <select class="form-select rounded-pill" name="kategoria" id="kategoria">
                                         <option value="">Válasszon típust először</option>

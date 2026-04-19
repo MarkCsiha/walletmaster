@@ -24,20 +24,20 @@ class WMController extends Controller
         $user = Auth::id();
 
         $havi = szamla::select('szamla.user_id', 'szamla.szamla_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
-            ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
-            ->where("fix.tipus", "havi")
-            ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 MONTH) = CURDATE()')
-            ->first();
+                        ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+                        ->where("fix.tipus", "havi")
+                        ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 MONTH) = CURDATE()')
+                        ->first();
         $feleves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
-            ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
-            ->where("fix.tipus", "feleves")
-            ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 6 MONTH) = CURDATE()')
-            ->first();
+                        ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+                        ->where("fix.tipus", "feleves")
+                        ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 6 MONTH) = CURDATE()')
+                        ->first();
         $eves = szamla::select('szamla.user_id', 'szamla.osszeg', 'szamla.honnan', 'szamla.leiras', 'szamla.datum', 'szamla.fix', 'szamla.tipus', 'szamla.kategoria_nev')
-            ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
-            ->where("fix.tipus", "eves")
-            ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 YEAR) = CURDATE()')
-            ->first();
+                        ->join('fix', 'szamla.szamla_id', '=', 'fix.szamla_id')
+                        ->where("fix.tipus", "eves")
+                        ->whereRaw('DATE_ADD(fix.fizetve, INTERVAL 1 YEAR) = CURDATE()')
+                        ->first();
 
         if ($havi != null) {
             $data = new szamla;
@@ -93,7 +93,7 @@ class WMController extends Controller
                 $kfix->Save();
             }
         }
-        $ym = $req->query('ym', now()->format('Y-m')); // pl. 2026-01
+        $ym = $req->query('ym', now()->format('Y-m'));
 
         $monthStart = Carbon::createFromFormat('Y-m', $ym)->startOfMonth();
         $monthEnd   = $monthStart->copy()->endOfMonth();
@@ -124,40 +124,36 @@ class WMController extends Controller
             ->get()
             ->keyBy('nap');
 
-        //chart
+        //diagram
         $userSpending = szamla::where("user_id", Auth::id())
-            ->when($req->from, function ($query) use ($req) {
-                return $query->whereDate('datum', '>=', $req->from);
-            })
-            ->when($req->to, function ($query) use ($req) {
-                return $query->whereDate('datum', '<=', $req->to);
-            })
-            ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
-            //biztosan a felhasználó adatait adja meg
-            ->where("tipus", 0)
-            ->groupBy('category_name')
-            ->orderBy('total')
-            //megkapja a pluck az értéket és kulcsot, érték első, kulcs második
-            ->pluck('total', 'category_name');
+                                ->when($req->from, function ($query) use ($req) {
+                                    return $query->whereDate('datum', '>=', $req->from);
+                                })
+                                ->when($req->to, function ($query) use ($req) {
+                                    return $query->whereDate('datum', '<=', $req->to);
+                                })
+                                ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
+                                ->where("tipus", 0)
+                                ->groupBy('category_name')
+                                ->orderBy('total')
+                                ->pluck('total', 'category_name');
         $year = (int) $req->input('year', now()->year);
 
         if ($req->input('chartDataType') == 'categoryChart') {
             $userSpending = szamla::where("user_id", Auth::id())
-                ->when($req->from, function ($query) use ($req) {
-                    return $query->whereDate('datum', '>=', $req->from);
-                })
-                ->when($req->to, function ($query) use ($req) {
-                    return $query->whereDate('datum', '<=', $req->to);
-                })
-                ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
-                ->where("tipus", 0)
-                ->groupBy('category_name')
-                ->orderBy('total')
-                ->pluck('total', 'category_name');
+                                    ->when($req->from, function ($query) use ($req) {
+                                        return $query->whereDate('datum', '>=', $req->from);
+                                    })
+                                    ->when($req->to, function ($query) use ($req) {
+                                        return $query->whereDate('datum', '<=', $req->to);
+                                    })
+                                    ->selectRaw("kategoria_nev as category_name, SUM(osszeg) as total")
+                                    ->where("tipus", 0)
+                                    ->groupBy('category_name')
+                                    ->orderBy('total')
+                                    ->pluck('total', 'category_name');
         }
-        //ha a felhasználó havi költségbontást kér
         if ($req->input('chartDataType') == 'monthlyChart') {
-            //CASE: azért kell, hogy az oszlopok címei 1, 2, stb. helyett a hónapok nevei legyenek pl. Január
             $monthly = szamla::selectRaw("MONTH(datum) as month_number,CASE MONTH(datum)
                                             WHEN 1 THEN 'Január'
                                             WHEN 2 THEN 'Február'
@@ -173,12 +169,12 @@ class WMController extends Controller
                                             WHEN 12 THEN 'December'
                                             END as month_name,
                                             SUM(osszeg) as monthly_total")
-                ->where('user_id', Auth::id())
-                ->whereYear('datum', $year)
-                ->where("tipus", 0)
-                ->groupBy(['month_number', 'month_name'])
-                ->orderBy('month_number')
-                ->pluck('monthly_total', 'month_name');
+                            ->where('user_id', Auth::id())
+                            ->whereYear('datum', $year)
+                            ->where("tipus", 0)
+                            ->groupBy(['month_number', 'month_name'])
+                            ->orderBy('month_number')
+                            ->pluck('monthly_total', 'month_name');
         }
 
         $spent = null;
@@ -199,12 +195,12 @@ class WMController extends Controller
                                                 WHEN 12 THEN 'December'
                                                 END as month_name,
                                                 SUM(osszeg) as monthly_total")
-                ->where('user_id', Auth::id())
-                ->where("tipus", 0)
-                ->whereYear('datum', $year)
-                ->groupBy(['tipus', 'month_name', 'month_number'])
-                ->orderBy('month_number')
-                ->pluck('osszeg', 'month_name');
+                            ->where('user_id', Auth::id())
+                            ->where("tipus", 0)
+                            ->whereYear('datum', $year)
+                            ->groupBy(['tipus', 'month_name', 'month_number'])
+                            ->orderBy('month_number')
+                            ->pluck('osszeg', 'month_name');
             $income = szamla::selectRaw("SUM(osszeg) as osszeg, tipus, MONTH(datum) as month_number, CASE MONTH(datum)
                                                 WHEN 1 THEN 'Január'
                                                 WHEN 2 THEN 'Február'
@@ -228,32 +224,31 @@ class WMController extends Controller
                 ->pluck('osszeg', 'month_name');
         }
 
-        //kiválasztja az éveket az adatbázisból
         $years = szamla::where('user_id', Auth::id())
-            ->selectRaw('YEAR(datum) as year')
-            ->distinct()
-            ->orderBy('year', 'desc')
-            ->pluck('year');
+                        ->selectRaw('YEAR(datum) as year')
+                        ->distinct()
+                        ->orderBy('year', 'desc')
+                        ->pluck('year');
         $budgetComparison = null;
         $userExpenses = null;
 
         if ($req->input('chartDataType') == "budgetComparisonChart") {
             $budgetComparison = szamla::selectRaw("ROUND(AVG(osszeg)) as average, kategoria_nev as category_name")
-                ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
-                ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
-                ->where("tipus", 0)
-                ->where("user_id", "!=", Auth::id())
-                ->groupBy("kategoria_nev")
-                ->orderBy('kategoria_nev')
-                ->pluck("average", "category_name");
+                                        ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
+                                        ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
+                                        ->where("tipus", 0)
+                                        ->where("user_id", "!=", Auth::id())
+                                        ->groupBy("kategoria_nev")
+                                        ->orderBy('kategoria_nev')
+                                        ->pluck("average", "category_name");
             $userExpenses = szamla::selectRaw('kategoria_nev as category_name, ROUND(AVG(osszeg)) as average')
-                ->where("user_id", Auth::id())
-                ->where('tipus', 0)
-                ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
-                ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
-                ->groupBy('kategoria_nev')
-                ->orderBy('kategoria_nev')
-                ->pluck('average', 'category_name');
+                                    ->where("user_id", Auth::id())
+                                    ->where('tipus', 0)
+                                    ->when($req->from, fn($q) => $q->whereDate('datum', '>=', $req->from))
+                                    ->when($req->to, fn($q) => $q->whereDate('datum', '<=', $req->to))
+                                    ->groupBy('kategoria_nev')
+                                    ->orderBy('kategoria_nev')
+                                    ->pluck('average', 'category_name');
         }
         $categories = szamla::where("user_id", Auth::id())
             ->selectRaw("kategoria_nev as category_name");
@@ -278,34 +273,29 @@ class WMController extends Controller
         $category = request('category');
         if ($category == null) {
             $result = szamla::where("user_id", $user)
-                ->whereYear('datum', $monthStart->year)
-                ->whereMonth('datum', $monthStart->month)
-                ->whereDay('datum', '>=', (int) request('from', 1))
-                ->whereDay('datum', '<=', (int) request('to', 31))
-                ->orderBy("datum", "desc")
-                ->paginate(10);
+                            ->whereYear('datum', $monthStart->year)
+                            ->whereMonth('datum', $monthStart->month)
+                            ->whereDay('datum', '>=', (int) request('from', 1))
+                            ->whereDay('datum', '<=', (int) request('to', 31))
+                            ->orderBy("datum", "desc")
+                            ->paginate(10);
         } else {
             $result = szamla::where("user_id", $user)
-                ->whereYear('datum', $monthStart->year)
-                ->whereMonth('datum', $monthStart->month)
-                ->whereDay('datum', '>=', (int) request('from', 1))
-                ->whereDay('datum', '<=', (int) request('to', 31))
-                ->where('kategoria_nev', $category)
-                ->orderBy("datum", "desc")
-                ->paginate(10);
+                            ->whereYear('datum', $monthStart->year)
+                            ->whereMonth('datum', $monthStart->month)
+                            ->whereDay('datum', '>=', (int) request('from', 1))
+                            ->whereDay('datum', '<=', (int) request('to', 31))
+                            ->where('kategoria_nev', $category)
+                            ->orderBy("datum", "desc")
+                            ->paginate(10);
         }
         $result = szamla::where("user_id", $user)
-            ->where("aktiv", 1)
-            ->whereYear('datum', $monthStart->year)
-            ->whereMonth('datum', $monthStart->month)
-            ->orderBy("datum", "desc")
-            ->paginate(10);
+                        ->where("aktiv", 1)
+                        ->whereYear('datum', $monthStart->year)
+                        ->whereMonth('datum', $monthStart->month)
+                        ->orderBy("datum", "desc")
+                        ->paginate(10);
 
-        $yearSelect = [];
-
-        for ($i = 2024; $i < now()->year; $i++) {
-            $yearSelect[] = $i;
-        }
         if (Auth::check()) {
             return view('main', [
                 'userSpending'      => $userSpending,
@@ -326,7 +316,6 @@ class WMController extends Controller
                 "userExpenses"      => $userExpenses,
                 "dailySums"         => $dailySums,
                 "budgetGoal"        => $budgetGoal,
-                "yearSelect"        => $yearSelect,
             ]);
         } else {
             return redirect("/login");
@@ -467,11 +456,11 @@ class WMController extends Controller
         $last_day_of_the_current_month  = Carbon::today()->endOfMonth()->toDateString();
 
         $sumSpending = szamla::where("user_id", Auth::id())
-            ->where("tipus", 0)
-            ->whereBetween('datum', [$first_day_of_the_current_month, $last_day_of_the_current_month])
-            ->sum("osszeg");
+                            ->where("tipus", 0)
+                            ->whereBetween('datum', [$first_day_of_the_current_month, $last_day_of_the_current_month])
+                            ->sum("osszeg");
         $limitSelect = koltseglimit::where("user_id", Auth::id())
-            ->value("osszeg");
+                                    ->value("osszeg");
         $limitSelect = (int) ($limitSelect ?? 0);
         $limitMessage = null;
         $comparison = $sumSpending - $limitSelect;
@@ -716,8 +705,8 @@ class WMController extends Controller
     public function LimitExit($szamla_id)
     {
         $fix = fix::where('szamla_id', $szamla_id)
-            ->where('user_id', Auth::id())
-            ->first();
+                    ->where('user_id', Auth::id())
+                    ->first();
 
         $fix->aktiv = 0;
         $fix->Save();

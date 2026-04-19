@@ -29,9 +29,6 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
-    @livewireStyles
-    @include('sweetalert::alert')
-
 </head>
 
 <body>
@@ -66,6 +63,8 @@
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/debt" class="bi bi-coin">Tartozások</a></li>
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/goals" class="bi bi-bullseye"> Céljaim</a>
                         </li>
+                        <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/add">Tranzakció hozzáadás</a>
+                        </li>
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/main">Főoldal</a></li>
                         <li class="nav-item ms-4 me-4 pb-2 pt-2 d-flex align-items-center"><a href="/account"><span
                                     class="bi bi-person"></span></a></li>
@@ -89,7 +88,7 @@
                     </p>
                     <p>Terebély Károly Technikum</p>
                     <span>Észrevétele van?</span> <a href="/review" class="footerReview">Írjon nekünk!</a>
-                    
+
                     <p>Minden jog fenntartva © {{ now()->year }} WalletMaster</p>
                 </div>
 
