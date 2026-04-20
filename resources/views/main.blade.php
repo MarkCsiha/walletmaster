@@ -72,7 +72,7 @@
 
                                                 <td style="height:60px; vertical-align:top;">
                                                     @if (!$inMonth)
-                                                        <div style="font-weight:700; color:#d34121;">
+                                                        <div style="font-weight:700; color:tomato;">
                                                             {{ $day->day }}
                                                         </div>
                                                     @else
