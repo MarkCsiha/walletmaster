@@ -270,6 +270,13 @@ class WMController extends Controller
             }
         }
 
+        $result = szamla::where("user_id", $user)
+                        ->where("aktiv", 1)
+                        ->whereYear('datum', $monthStart->year)
+                        ->whereMonth('datum', $monthStart->month)
+                        ->orderBy("datum", "desc")
+                        ->paginate(10);
+
         $category = request('category');
         if ($category == null) {
             $result = szamla::where("user_id", $user)
@@ -289,12 +296,7 @@ class WMController extends Controller
                             ->orderBy("datum", "desc")
                             ->paginate(10);
         }
-        $result = szamla::where("user_id", $user)
-                        ->where("aktiv", 1)
-                        ->whereYear('datum', $monthStart->year)
-                        ->whereMonth('datum', $monthStart->month)
-                        ->orderBy("datum", "desc")
-                        ->paginate(10);
+
 
         if (Auth::check()) {
             return view('main', [
